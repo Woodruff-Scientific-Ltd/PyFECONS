@@ -1,0 +1,110 @@
+\subsubsection*{Cost Category 22.1.3: Coils}
+
+This cost category includes the costing for the plasma confinement coils, including  material, structural and manufacturing cost. As a primary cost driver for this device, careful consideration of a number of parameters is taken, including the number of coils, the B$\times$R value (8 in the case of the solenoid coils here), the conductor material, winding type, and quench mitigation in the case of superconducting cables.\\
+
+Consists of:
+
+\begin{itemize}
+    \item 22.1.3.1 solenoid coils
+    \item 22.1.3.2 mirror coils
+    \item 22.1.3.3 shim coils
+    \item 22.1.3.4 structural support
+\end{itemize}
+   
+
+The approach taken was to compare various geometries of HTS, LTS and copper coil sets using COMSOL, with the same central field and minimum inner radius requirements. These were down-selected to an HTS geometry with 9 solenoid coils, and 4 mirror coils.\\
+
+To determine the cost, the coil parameters were determined using a combination of COMSOL, calibration points from the literature including Menard 2016 \cite{Menard2016} and EU DEMO, and analytical electromagnetic modelling. The material cost then then be determined through the mass/length (in the case of REBCO tape) of each material used.\\
+
+It should be noted that a series of optimizations can be made to the design to reduce cost. The first of these is conductor grading. By reducing the number of strands of superconductor where the fields lower, up to 50\% of the superconducting material can be saved \cite{uglietti2018progressing}.\\
+
+For HTS, there has yet to be a commercially implemented CICC. To determine the manufacturing cost, then, the manufacturing process of the cable can be considered; then the cost of winding is comparable with that of LTS, which is widely avaialable. For now, a simple manufacturing multiplying factor of the mfr factor is applied to the material cost, although this is easily modified within this costing framework as more information becomes available.\\
+
+The total cost of the coils is C220103 M USD.
+
+
+\subsubsection*{22.1.3.1 Solenoid coils}
+
+This design consists of notfcoils divertor coils, which can be individually removed for maintenance. The total cost is C22010302 M USD.\\
+
+Both LTS and HTS cables can be considered here. For each, a wide variety of designs are available, including no-insulation, partial insulation, and an array of CICC geometries. For this concept, a simple CICC geometry is considered \cite{Menard2016}, comprising a layer of superconducting REBCO conductor, copper for quench mitigation and cooling, a central coolant channel, and a steel jacket to help resist the considerable forces experienced during operation. See \ref{fig:yuhu_cs} for the specific geometry.\\
+
+To cost the system, the magnet specifications are calibrated against \cite{Menard2016}, and extrapolated to the requirements of this concept. The total length of the conductor is then calculated and, assuming a cost of 12 \$/kAm, the total cost can be found. For the steel and copper, the volume is also found and multiplied by the cost per kilogram. This gives a total material cost for the coil, which is then multiplied by a manufacturing factor. The manufacturing factor comprises the cost of manufacturing the cables, then winding and installing the coils. \\
+
+The total cost of the solenoid coils is C22010301 M USD.
+
+
+\subsubsection*{22.1.3.2 Mirror Coils}
+
+This subsystem includes a large set of 20T HTS mirror coils at each end of the system. Again, both HTS and LTS coils can be considered here. In this case, HTS coils are used, owing to their significantly increased current density. HTS coils are preferable in this case, owing to the large required field to contain the plasma at each end of the solenoid.  \\
+
+The cost of the primary mirror coil is C22010302 M USD, and C22010303 M USD for the secondary mirror coil. \\
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width =0.5\linewidth]{StandardFigures/yuhu_cs.pdf}
+    \caption{HTS cable geometry.}
+    \label{fig:yuhu_cs}
+\end{figure}
+
+\subsubsection*{22.1.3.3 Shim Coils}
+
+These coils serve to apply fine adjustments to the field profile to maintain field uniformity, and control any plasma disturbances. These cost C22010303 M USD.\\
+
+\begin{table}[h]
+\centering
+\resizebox{0.7\linewidth}{!}{%
+\begin{tabular}{lccc}
+\hline
+\textbf{Parameter} & \textbf{Solenoid} & \textbf{Mirror 1} & \textbf{Mirror 2} \\
+\hline
+Radius (m)& r_centre_1 & r_centre_2 & r_centre_3 \\
+dr (m)& dr_1 & dr_2 & dr_3 \\
+dz (m)& dz_1 & dz_2 & dz_3 \\
+Current supply (kA) & current_supply_1 & current_supply_2 & current_supply_3 \\
+Cable current density (A/mm$^2$)& j_cable_1 & j_cable_2 & j_cable_3 \\
+Conductor current density (A/mm$^2$) & j_tape & j_tape & j_tape \\
+Cable width (m)& cable_w & cable_w & cable_w \\
+Cable height (m)& cable_h & cable_h & cable_h \\
+Total volume (m$^3$)& vol_coil_1 & vol_coil_2 & vol_coil_3 \\
+Cross-sectional area (m$^2$)& cs_area_1 & cs_area_2 & cs_area_3 \\
+\hline
+Cable turns & turns_c_1 & turns_c_2 & turns_c_3 \\
+Turns of conductor/cable & turns_sc_s_1 & turns_sc_s_2 & turns_sc_s_3 \\
+Total turns of conductor & turns_sc_tot_1 & turns_sc_tot_2 & turns_sc_tot_3  \\
+Length of conductor (km)& tape_length_1 & tape_length_2 & tape_length_3 \\
+Current per conductor (A)& tape_current_1 & tape_current_2 & tape_current_3 \\
+\hline
+Cost of SC (M USD)& cost_SC_1 & cost_SC_2 & cost_SC_3 \\
+Cost of copper (M USD)& cost_cu_1 & cost_cu_2 & cost_cu_3 \\
+Cost of SS (M USD)& cost_ss_1 & cost_ss_2 & cost_ss_3 \\
+Total material cost (M USD)&  tot_mat_cost_1 & tot_mat_cost_2 & tot_mat_cost_3 \\
+Manufacturing factor (M USD)& mfr_factor & mfr_factor & mfr_factor \\
+Structural cost (M USD) & sol_struct_cost & m1_struct_cost & m2_struct_cost \\
+Quantity & no_s_coils & no_m1_coils & no_m2_coils \\
+Magnet cost (single)(M USD) & sol_mag_cost & m1_mag_cost & m2_mag_cost \\
+Magnet $+$ structure cost (single) (M USD) & tot_sol_cost_i & tot_m1_cost_i & tot_m2_cost_i \\
+\hline
+Total cost (M USD) & tot_sol_cost & tot_m1_cost & tot_m2_cost \\
+\hline
+\end{tabular}
+} % end \resizebox
+\caption{Design parameters for an individual coil of each of the main coils in this concept. In the concept, there are 2 mirror coils at each end, and no_s_coils equally axially distributed, identical solenoid coils.}
+\label{your-table-label}
+\end{table}
+
+\subsubsection*{22.1.3.4 Structural cost}
+
+The structural cost for the coils is difficult to cost from first principles without detailed structural analysis with FEM. Here, the approach is a series of analytical estimations of the dominant stresses. These include:
+
+\begin{itemize}
+    \item Hoop stress within the coil generated by the cumulative effect of the induced force between concentric radial turns.
+    \item Axial force generated between cable turns within the coils. 
+    \item Axial force between adjacent coils.
+\end{itemize}
+
+
+By considering these primary contributions, an estimate of the structural material required (such as the hoop restraint requirements) can be calculated. From this preliminary estimate, a structural cost of 25\% of the coil cost is used as a conservative factor. This is in comparison to 50-100\% as the standard for Tokamaks. The structural cost is thus C22010304 M USD.
+
+
