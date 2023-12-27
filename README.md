@@ -1,6 +1,14 @@
 # PyCosting
 It's PyFecons, but with a different name. 
 
-This is a message from Alex
+git add
+git commit -m "Message"
+git push
+git pull
 
-This is a message from Aaron
+
+https://github.com/James-Yu/LaTeX-Workshop/wiki/Install
+
+ssh-keygen -t ed25519 -C "your_email@example.com"
+cat ~/.ssh/your_file.pub
+add to github keys
