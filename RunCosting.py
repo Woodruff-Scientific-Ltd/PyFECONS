@@ -2,6 +2,11 @@ import sys
 import os
 import json
 
+
+#################
+# GATHER INPUTS #
+#################
+
 # Check if the correct number of arguments is passed
 if len(sys.argv) != 2:
     print("Usage: python3 RunCosting.py 'CUSTOMER_NAME'")
@@ -52,19 +57,37 @@ with open(f"{customer_folder}/inputs.json", "w") as file:
     inputJSONstring = json.dumps(inputDict, indent=4)
     file.write(inputJSONstring)
 
-# Run the costing process
-    # MAIN DOES NOT EXIST YET
-import Main
-dataDict = Main.RunCosting(inputDict)
 
 
-# Write the data to a CSV file in the customer's folder
+
+
+
+#############################
+# RUN THE MAIN COSTING CODE #
+#############################
+# this is also where the frontend would come in with an inputDict and run the main costing code
+    
+    # DOES NOT EXIST YET
+dataDict = RunMainCosting(inputDict)
+# the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
+
+# Write the data to a JSON file in the customer's folder
 with open(f"{customer_folder}/data.json", "w") as file:
     dataJSONstring = json.dumps(dataDict, indent=4)(index=False)
     file.write(dataJSONstring)
 
-# Hydrate templates with the data and copy them to the customer_folder
-    # MAIN DOES NOT EXIST
-Main.HydrateTemplates(dataDict, customer_folder)
+
+
+
+
+
+
+
+#########################
+# HYDRATE THE TEMPLATES #
+#########################
+    
+    # DOES NOT EXIST YET
+HydrateTemplates(dataDict, customer_folder)
 
 print(f"Costing run completed for {customer_name}. Data saved to {customer_folder}")
