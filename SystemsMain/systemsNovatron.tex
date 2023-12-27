@@ -1,0 +1,162 @@
+\documentclass[english,aps]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{alltt}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{multirow}
+\makeatletter
+\usepackage{babel}
+\makeatother
+%\pagestyle{fancy}
+\title{Novatron\\ Proprietary Report} 
+\author{S. Woodruff, A. Higginbottom}
+\date{\today}
+\begin{document}
+\maketitle
+\maketitle
+\begin{figure}[t!] 
+\centering 
+\includegraphics[scale=0.5]{StandardFigures/WSLTD_logo.png} 
+\label{fig:logo} 
+\end{figure} 
+\begin{figure}[h!] 
+\centering 
+\includegraphics[scale=0.5]{{StandardFigures/novatronconcept.png}} 
+\caption{Novatron concept with direct energy conversion.} 
+\label{fig:render} 
+\end{figure} 
+\newpage 
+\textbf{Foreword} \\ 
+ 
+In the last several years, Woodruff Scientific has maintained an active interest in the costing analysis for fusion energy systems, collaborating with many in the field, and publishing a series of papers on this topic starting in 2011 with basic community consensus on the `Path to Market' for fusion energy systems, outlining the constraints placed on any energy technology as it moves towards commercialization in terms of timeline and available capital, and market demand for smaller, more modular units \cite{Woodruff2012}.  We followed up this analysis with a specific embodiment of a compact modular fusion power core that could be developed privately \cite{Woodruff2015}, working in the context of an IAEA Coordinated Research Project on compact fusion neutron sources and developing a costing model based on the ARIES methodology.  In 2017, we found support from ARPA-E to further develop our costing model in collaboration with Bechtel \cite{Bechtel2017}.  For that costing study, we considered 4 of the concepts that were supported by ARPA-E under the ALPHA program, and worked with PIs in each organization to develop basic radial builds of the 4 fusion power cores, based on prior art, and then performed cost analysis with the Balance of Plant and tritium systems analysis provided by Bechtel, but based predominantly on historical studies.  In 2018 Woodruff organized a workshop for the IAEA on private fusion enterprises \cite{IAEA2018}, and the commercialization path for fusion, with contributions from most major private fusion institutions and provided a summary of the cost modeling underway.\\ 
+ 
+In 2019 ARPA-E revisited the 2017 costing analysis in the light of new costing paradigms developed by Ingersoll and Foss at Lucid Catalyst \cite{MIT2018} \cite{EON2018}, addressing every assumption in the Cost Accounting Structure (CAS), calculating  an updated \$/kW for most CAS outside of the fusion power core (drawing in particular on the DOE NETL report \cite{JamesCorrespondingAuthor2019}). The 2019 ARPA-E study revisited the analysis using the code developed for the four concepts, touching on most of the recommendations of the prior study and obtaining review by leading experts in the field.  The costing was revisited in 2020 to extend to all ARPA-E supported fusion concepts, and the final version was started in 2023 to be released publicly.  This study captures the most recent thinking and brings together all our understanding of best costing methodologies uncovered in the couse of the ARPA-E work.\\ 
+
+\begin{figure}[h!] 
+\includegraphics[scale=0.55]{{StandardFigures/signature.jpg}} 
+\label{fig:signature} 
+\end{figure}
+
+
+Simon Woodruff \\
+
+President \\
+
+Woodruff Scientific LTD
+\newpage
+\tableofcontents
+\newpage 
+%\input{MIF_mirror_introtex}
+\input{MIF_lit_review}
+\newpage 
+
+\input{Originals/method.tex}
+% \input{powerBalanceMFE.tex}
+% \input{Originals/powerTableMFEDTM.tex}
+% \newpage
+% \input{Originals/CAS100000_MIF_DT.tex}
+% \input{Originals/CAS200000_MIF_DT.tex}
+% \input{Originals/CAS210000_MIF_DT.tex}
+% \input{Originals/CAS220000_MIF_DT.tex}
+% \input{Originals/CAS220101_MIF_DT.tex}
+% \input{Originals/CAS220102_MIF_DT.tex}
+% %\input{Originals/CAS220103_MCF_DT.tex}
+% \input{Originals/CAS220104_MIF_DT.tex}
+% \input{Originals/CAS220105_MIF.tex}
+% \input{Originals/CAS220106_MIF.tex}
+% \input{Originals/CAS220107_MIF.tex}
+% \input{Originals/CAS220108_MIF.tex}
+% \input{Originals/CAS220109_MIF.tex}
+% \input{Originals/CAS220111_MIF.tex}
+% \input{Originals/CAS220200_MCF_DT.tex}
+% \input{Originals/CAS220300_MCF_DT.tex}
+% \input{Originals/CAS220400_MIF_DT.tex}
+% \input{Originals/CAS220500_MIF_DT.tex}
+% \input{Originals/CAS220600_MCF_DT.tex}
+% \input{Originals/CAS220700_MCF_DT.tex}
+% %\subsection{Cost Category 21: Buildings and Structures} 
+% % \input{Originals/CAS210000}
+% \input{Originals/CAS230000_MIF_DT.tex}
+% \input{Originals/CAS240000_MIF_DT.tex}
+% \input{Originals/CAS250000_MIF_DT.tex}
+% \input{Originals/CAS260000_MIF_DT.tex}
+% \input{Originals/CAS270000_MIF_DT.tex}
+% \input{Originals/CAS280000_MIF_DT.tex}
+% \input{Originals/CAS290000_MIF_DT.tex}
+% %\input{CAS900000_MIF_DT.tex}
+% %\input{CAS990000.tex}
+% \input{Originals/CAS300000.tex}
+% \input{Originals/CAS400000.tex}
+% \input{Originals/CAS500000.tex}
+% \input{Originals/CAS600000.tex}
+% \input{Originals/CASstructure.tex}
+% \input{Originals/LCOE.tex}
+
+
+%\input{NovatronModified/method.tex}
+\input{powerBalanceMFE.tex}
+\input{NovatronModified/powerTableMFEDTM.tex}
+\newpage
+
+
+
+\newpage
+\input{NovatronModified/CAS100000_MIF_DT.tex}
+\input{NovatronModified/CAS200000_MIF_DT.tex}
+\input{NovatronModified/CAS210000_MIF_DT.tex}
+\input{NovatronModified/CAS220000_MIF_DT.tex}
+\input{NovatronModified/CAS220101_MIF_DT.tex}
+\input{NovatronModified/CAS220102_MIF_DT.tex}
+\input{NovatronModified/CAS220103_MCF_DT.tex}
+\input{NovatronModified/CAS220104_MIF_DT.tex}
+\input{NovatronModified/CAS220105_MIF.tex}
+\input{NovatronModified/CAS220106_MIF.tex}
+\input{NovatronModified/CAS220107_MIF.tex}
+\input{NovatronModified/CAS220108_MIF.tex}
+\input{NovatronModified/CAS220109_MIF.tex}
+\input{NovatronModified/CAS220111_MIF.tex}
+\input{NovatronModified/CAS220200_MCF_DT.tex}
+\input{NovatronModified/CAS220300_MCF_DT.tex}
+\input{NovatronModified/CAS220400_MIF_DT.tex}
+\input{NovatronModified/CAS220500_MIF_DT.tex}
+\input{NovatronModified/CAS220600_MCF_DT.tex}
+\input{NovatronModified/CAS220700_MCF_DT.tex}
+%\subsection{Cost Category 21: Buildings and Structures} 
+% \input{NovatronModified/CAS210000}
+\input{NovatronModified/CAS230000_MIF_DT.tex}
+\input{NovatronModified/CAS240000_MIF_DT.tex}
+\input{NovatronModified/CAS250000_MIF_DT.tex}
+\input{NovatronModified/CAS260000_MIF_DT.tex}
+\input{NovatronModified/CAS270000_MIF_DT.tex}
+\input{NovatronModified/CAS280000_MIF_DT.tex}
+\input{NovatronModified/CAS290000_MIF_DT.tex}
+
+
+%\input{CAS900000_MIF_DT.tex}
+%\input{CAS990000.tex}
+\input{NovatronModified/CAS300000_MIF_DT}
+\input{NovatronModified/CAS400000_MIF_DT}
+\input{NovatronModified/CAS500000_MIF_DT}
+\input{NovatronModified/CAS600000_MIF_DT}
+\input{NovatronModified/CASstructure.tex}
+\input{NovatronModified/LCOE.tex}
+
+
+%\input{summary.tex}
+%\input{MIF_environmental}
+%\input{DT_DHe3_Policy}
+%\input{MIF_riskassessment}
+
+\newpage 
+  \appendix
+  \newpage 
+\input{glossary.tex}
+  \newpage 
+\section{Bibliography} 
+\bibliographystyle{IEEEtran.bst} 
+\bibliography{ST-SC.bib,additions.bib}
+\end{document} 
