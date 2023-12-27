@@ -1,0 +1,18 @@
+{
+    "basic": {
+        "timeToReplace": 10,
+        "downTime": 10,
+        "reactorType": 2,
+        "N_mod": 1,
+        "AM": 1,
+        "constructionTime": 3
+    },
+    "blanket": {
+        "firstWall": 1,
+        "blanketType": 0,
+        "primaryCoolant": 0,
+        "secondaryCoolant": 7,
+        "neutronMultiplier": 3,
+        "structure": 1
+    }
+}
