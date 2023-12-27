@@ -1,2 +1,2 @@
 # PyCosting
-It's PyFecons, but with a different name. TBD
+It's PyFecons, but with a different name. 
