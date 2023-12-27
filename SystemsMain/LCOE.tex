@@ -1,0 +1,33 @@
+\newpage 
+
+\section{Cost of Electricity} 
+
+ Contributors to LCOE projections are given by: 
+ \begin{equation} 
+ LCOE = \frac{(C_{AC} + (C_{OM} + C_{F})(1+y)^Y)}{(8760.P_E.p_a)} 
+ \label{eq:coe}
+\end{equation} 
+where C$_{AC}$ [USD/year] is the annual capital cost charge (entailing the total capital cost of the plant (TCC (USD) multiplied by the Fixed Charge Rate (FCR (/year)), C$_{OM}$ [USD/year] is the annual operations and maintenance cost, C$_{SCR}$ [USD/year] is the annual scheduled component replacement costs, C$_{F}$ [USD/year] is the annual fuel costs, $y$ is the annual fractional increase in fuel costs over the expected lifetime of the plant $Y$ [years], P$_{E}$ [MWe] is the electric power of the plant, p$_{a}$ is the plant availability (typically 0.6-0.9).  A small charge used to be imposed to build up a fund to cover end-of-life Decontamination and Decommissioning, f$_{DD}$ (USD/kWh).  Over the life of the plant, {f} is accumulated to yield a fund, {F} (USD), which can be applied to cover the costs of interim storage of radwaste and final DD expenses.  For a 1-Gwe-class plant, {f} at the level of a few 10$^{-4}$ USD/kWh is thought to be sufficient; this value should be revisited for plants in the 100-MWe class. However, the Decommissioning costs are now included in the direct costs COst Categy 58, so are omitted here.\\
+
+\input{NovatronModified/CAS700000.tex}
+\input{NovatronModified/CAS800000.tex}
+\input{NovatronModified/CAS900000.tex}
+
+\subsection{Levelized Cost of Electricity} \\ 
+
+\begin{table}[h!] 
+\begin{tabular}{l c c } 
+Capital cost, $C_{AC}$ &     M\$/annum    &    C900000      \\ 
+Scheduled Replacement Costs, $C_{SCR}$  &     M\$/annum    &  C750000   \\ 
+Operations and Maintenance Costs, $C_{OM}$ & M\$/annum  &      C700000 \\ 
+Fuel Costs, $C_{F}$ & M\$/annum  &       C800000 \\ 
+    \end{tabular} 
+    \caption{Cost components in the LCOE calcualtion.}
+    \label{tab:lcoe} 
+\end{table} 
+
+Following equation \ref{eq:coe}, the LCOE for 10th of a kind (TOAK) is C1000000 c/kWh. 
+
+\subsection{Levelized Cost of Electricity Nth of a Kind (NOAK)} \\ 
+
+It is possible to distinguish between the First of a Kind (FOAK) power plant, which might function as a Demo, and more mature 10th of a Kind (TOAK), the latter incorporating learning credits in the COE estimate, consistent with U.S. fusion-reactor design-community practice. The ARIES study, like STARFIRE \cite{BAK80} and most other U.S. fusion-reactor designs reported in the last decade, assumes FPC unit costs consistent with these learning-curve \cite{Hir64,Arg90} credits, rather than first-of-a-kind unit costs (including R\&D) appropriate for ITER \cite{Ite89} or some other reported designs \cite{Coo89b}. An 80 \% learning curve ({\it {\it i.e.},} 0.80 progress ratio, $p$), as used for ARIES, represents the expectation that each doubling of production represents a \hbox{$p\simeq$ 0.8} reduction in unit costs. A tenth-of-a-kind reactor represents, nominally, $\simeq$3.3 doubling of production or $p^{(ln 10/ln 2)}\simeq$ 50 \% cost reduction relative to first-of-a-kind FPC costs.  Of course, the actual production experience varies \cite{Arg90}.  Learning credits are not applied to BOP items, consistent with mature industrial production in which the learning credits have already been wrung out.  For similar reasons, a 94 \% learning curve is recommended for advanced fission cost estimates \cite{Del93}.   
