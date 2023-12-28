@@ -3,6 +3,8 @@ from Inputs import Inputs
 def Generate():
     inputs = Inputs()
     
+    inputs.customerinfo.name = "Clean Air Task Force"
+    
     inputs.basic.timeToReplace = 10
     inputs.basic.downTime = 10
     inputs.basic.reactorType = 2

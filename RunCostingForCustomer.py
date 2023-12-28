@@ -1,7 +1,7 @@
 import sys
 import os
 import json
-
+import shutil
 
 #################
 # GATHER INPUTS #
@@ -14,27 +14,27 @@ if len(sys.argv) != 2:
 customer_name = sys.argv[1]
 
 # Check if the customer folder exists
-customer_folder = f"Customers/{customer_name}"
-if not os.path.isdir(customer_folder):
+customerFolder = f"Customers/{customer_name}"
+if not os.path.isdir(customerFolder):
     print(f"ERROR: Customer folder for {customer_name} does not exist.")
     print("ERROR: Please ensure the customer's folder is created under 'Customers/'.")
     sys.exit(1)
 
 # Check if DefineInputs.py exists within the customer folder
-define_inputs_path = os.path.join(customer_folder, 'DefineInputs.py')
+define_inputs_path = os.path.join(customerFolder, 'DefineInputs.py')
 if not os.path.isfile(define_inputs_path):
-    print(f"ERROR: DefineInputs.py is missing in the {customer_folder}.")
+    print(f"ERROR: DefineInputs.py is missing in the {customerFolder}.")
     print("ERROR: Please ensure DefineInputs.py is present in the customer's folder.")
     sys.exit(1)
 
 # Attempt to import DefineInputs and its Generate function
 try:
-    sys.path.append(customer_folder)
+    sys.path.append(customerFolder)
     import DefineInputs as CustomerInputs
     if 'Generate' not in dir(CustomerInputs):
         raise AttributeError("ERROR: Generate function is missing in DefineInputs.py.")
 except ImportError:
-    print(f"ERROR: Could not import DefineInputs from {customer_folder}.")
+    print(f"ERROR: Could not import DefineInputs from {customerFolder}.")
     sys.exit(1)
 except AttributeError as e:
     print(e)
@@ -46,14 +46,14 @@ try:
     from Inputs import Inputs  # Adjust this path if Input.py is located elsewhere
     inputs = CustomerInputs.Generate()
     if not isinstance(inputs, Inputs):
-        raise TypeError(f"Generate function in {customer_folder} must return an instance of Input class.")
+        raise TypeError(f"Generate function in {customerFolder} must return an instance of Input class.")
 except TypeError as e:
-    print(f"ERROR: Ensure the Generate function in {customer_folder}/DefineInputs.py returns an object of type Inputs.")
+    print(f"ERROR: Ensure the Generate function in {customerFolder}/DefineInputs.py returns an object of type Inputs.")
     sys.exit(1)
 
 inputDict = inputs.toDict()
 # Write the inputs to a json file in the customer's folder
-with open(f"{customer_folder}/inputs.json", "w") as file:
+with open(f"{customerFolder}/inputs.json", "w") as file:
     inputJSONstring = json.dumps(inputDict, indent=4)
     file.write(inputJSONstring)
 
@@ -67,14 +67,16 @@ with open(f"{customer_folder}/inputs.json", "w") as file:
 #############################
 # this is also where the frontend would come in with an inputDict and run the main costing code
     
+# Run the initial costing code
     # DOES NOT EXIST YET
-    # Run the initial costing code
-dataDict = RunCostingWithInput(inputDict)
-# the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
+#data = RunCostingWithInput(inputs)
+#dataDict = data.toDict()
+dataDict = {"key": "value"} # PLACEHOLDER
 
+# the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
-with open(f"{customer_folder}/data.json", "w") as file:
-    dataJSONstring = json.dumps(dataDict, indent=4)(index=False)
+with open(f"{customerFolder}/data.json", "w") as file:
+    dataJSONstring = json.dumps(dataDict, indent=4)
     file.write(dataJSONstring)
 
 
@@ -87,9 +89,32 @@ with open(f"{customer_folder}/data.json", "w") as file:
 #########################
 # HYDRATE THE TEMPLATES #
 #########################
-    
-    # DOES NOT EXIST YET
-    # fill in the templates and copy them to the customer's folder
-HydrateTemplates(inputDict, dataDict, customer_folder)
 
-print(f"Costing run completed for {customer_name}. Data saved to {customer_folder}")
+# fill in the templates and copy them to the customer's folder
+    # DOES NOT EXIST YET
+    #hydratedTemplates:object = HydrateTemplates(inputs, data, customerFolder)
+hydratedTemplates = {"testoutput.tex": "This is the contents of the file"} # PLACEHOLDER
+
+# delete the existing contents of the output folder
+# Loop through all the items in the directory
+outputDir = f"{customerFolder}/output"
+for item_name in os.listdir(outputDir):
+    # Create the full path to the item
+    item_path = os.path.join(outputDir, item_name)
+    
+    # Check if this is a file or directory
+    if os.path.isfile(item_path):
+        # If it's a file, delete it
+        os.remove(item_path)
+    elif os.path.isdir(item_path):
+        # If it's a directory, delete it and all its contents
+        shutil.rmtree(item_path)
+print(f"Existing contents of {outputDir} have been deleted.")
+
+# a dictionary with keys = name of file, value = contents
+# Write the data to files in the customer's folder
+for hydratedTemplateFileName, hydratedTemplateContents in hydratedTemplates.items():
+    with open(f"{customerFolder}/output/{hydratedTemplateFileName}", "w") as file:
+        file.write(hydratedTemplateContents)
+
+print(f"Costing run completed for {customer_name}. Data saved to {customerFolder}")

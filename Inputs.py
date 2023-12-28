@@ -11,9 +11,13 @@
 class Inputs:
     def __init__(self):
         # Don't forget to add an instance of new subclasses here
+        self.customerinfo = self.CustomerInfo()
         self.basic = self.Basic()
         self.blanket = self.Blanket()
 
+    class CustomerInfo:
+        def __init__(self):
+            self.name:str = None
 
     class Basic:
         def __init__(self):
@@ -41,7 +45,27 @@ class Inputs:
             if not isinstance(attr_value, (int, float, str, list, dict, tuple, set)):
                 inputsDict[attr_name] = self._attributesToDict(attr_value)
         return inputsDict
-
+    
     @staticmethod
     def _attributesToDict(obj):
         return {attr: getattr(obj, attr) for attr in vars(obj) if not attr.startswith('_')}
+    
+    @staticmethod
+    def fromDict(inputsDict):
+        instance = Inputs()
+        for attr_name, attr_value in inputsDict.items():
+            # Check if the attribute is meant for a custom class
+            if hasattr(instance, attr_name) and isinstance(attr_value, dict):
+                # Recursively create an instance of the custom class
+                setattr(instance, attr_name, Inputs._dictToAttributes(getattr(instance, attr_name).__class__, attr_value))
+            else:
+                setattr(instance, attr_name, attr_value)
+        return instance
+
+    @staticmethod
+    def _dictToAttributes(cls, attr_dict):
+        obj = cls()
+        for attr, value in attr_dict.items():
+            setattr(obj, attr, value)
+        return obj
+

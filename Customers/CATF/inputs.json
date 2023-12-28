@@ -1,4 +1,7 @@
 {
+    "customerinfo": {
+        "name": "Clean Air Task Force"
+    },
     "basic": {
         "timeToReplace": 10,
         "downTime": 10,
