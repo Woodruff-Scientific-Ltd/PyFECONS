@@ -68,7 +68,8 @@ with open(f"{customer_folder}/inputs.json", "w") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
     
     # DOES NOT EXIST YET
-dataDict = RunMainCosting(inputDict)
+    # Run the initial costing code
+dataDict = RunCostingWithInput(inputDict)
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 
 # Write the data to a JSON file in the customer's folder
@@ -88,6 +89,7 @@ with open(f"{customer_folder}/data.json", "w") as file:
 #########################
     
     # DOES NOT EXIST YET
-HydrateTemplates(dataDict, customer_folder)
+    # fill in the templates and copy them to the customer's folder
+HydrateTemplates(inputDict, dataDict, customer_folder)
 
 print(f"Costing run completed for {customer_name}. Data saved to {customer_folder}")

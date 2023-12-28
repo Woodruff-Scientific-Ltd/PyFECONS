@@ -15,3 +15,6 @@ add to github keys
 
 
 python3 RunCosting.py "CATF"
+
+
+Heres an update

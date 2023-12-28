@@ -2,13 +2,14 @@
 from Inputs import Inputs
 def Generate():
     inputs = Inputs()
+    inputs.customer.name = "Novatron"
+    
     inputs.basic.timeToReplace = 10
     inputs.basic.downTime = 10
     inputs.basic.reactorType = 2
     inputs.basic.N_mod = 1
     inputs.basic.AM = 1
-    inputs.basic.constructionTime=3
-
+    inputs.basic.constructionTime = 3
 
     inputs.blanket.firstWall = 1
     inputs.blanket.blanketType = 0
