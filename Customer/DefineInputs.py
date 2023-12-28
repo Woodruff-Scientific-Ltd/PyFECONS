@@ -2,6 +2,8 @@
 from Inputs import Inputs
 def Generate():
     inputs = Inputs()
+    inputs.customer.name = "Novatron"
+    
     inputs.basic.timeToReplace = 10
     inputs.basic.downTime = 10
     inputs.basic.reactorType = 2
