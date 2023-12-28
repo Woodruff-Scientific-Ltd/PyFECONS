@@ -14,6 +14,7 @@ class Inputs:
         self.basic = self.Basic()
         self.blanket = self.Blanket()
 
+
     class Basic:
         def __init__(self):
             self.timeToReplace:float = None #years
