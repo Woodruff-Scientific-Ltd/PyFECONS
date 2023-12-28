@@ -1,8 +1,9 @@
 # This class will contain every possible input
-# It will not determine which inputs are used by the costing code and which ones aren't
+# It will not contain information about which inputs will actually used by the costing code and which ones won't
 # The DefineInputs.py script in each customer folder is in charge of making sure all of the appropriate inputs are set
 # The costing code itself should throw appropriate errors when necessary inputs are not set
-# The logical flow of inputs & inputs dependencies will be documented here https://docs.google.com/spreadsheets/d/115j-R-XZX9JI_VGt4AR7T3fZ91Qdmtc-WfEg_CpSlKE/edit?usp=sharing
+# The logical flow of inputs & inputs dependencies will be documented here
+# https://docs.google.com/spreadsheets/d/115j-R-XZX9JI_VGt4AR7T3fZ91Qdmtc-WfEg_CpSlKE/edit?usp=sharing
 # The units, descriptions, and expected values will also be documented on the spreadsheet
 
 # The classes within Inputs must maintain their own toDict function
