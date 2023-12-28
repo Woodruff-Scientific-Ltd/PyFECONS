@@ -24,17 +24,6 @@ class Inputs:
             self.AM:int = None # dunno
             self.constructionTime:float #years
 
-        def toDict(self):
-            # Don't forget to expand this when new fields are added
-            return {
-                'timeToReplace': self.timeToReplace,
-                'downTime': self.downTime,
-                'reactorType': self.reactorType,
-                'N_mod': self.N_mod,
-                'AM': self.AM,
-                'constructionTime': self.constructionTime
-            }
-
     class Blanket:
         def __init__(self):
             self.firstWall:int = None
@@ -44,22 +33,15 @@ class Inputs:
             self.neutronMultiplier:int = None
             self.structure:int = None
 
-        def toDict(self):
-            # Don't forget to expand this when new fields are added
-            return {
-                'firstWall': self.firstWall,
-                'blanketType': self.blanketType,
-                'primaryCoolant': self.primaryCoolant,
-                'secondaryCoolant': self.secondaryCoolant,
-                'neutronMultiplier': self.neutronMultiplier,
-                'structure': self.structure
-            }
-
 
     def toDict(self):
-        # Don't forget to expand this when new subclasses are added
-        inputsDict = {
-            'basic': self.basic.toDict(),
-            'blanket': self.blanket.toDict()
-        }
+        inputsDict = {}
+        for attr_name, attr_value in self.__dict__.items():
+            # Check if the attribute is an instance of a custom class (not a built-in type)
+            if not isinstance(attr_value, (int, float, str, list, dict, tuple, set)):
+                inputsDict[attr_name] = self._attributesToDict(attr_value)
         return inputsDict
+
+    @staticmethod
+    def _attributesToDict(obj):
+        return {attr: getattr(obj, attr) for attr in vars(obj) if not attr.startswith('_')}
