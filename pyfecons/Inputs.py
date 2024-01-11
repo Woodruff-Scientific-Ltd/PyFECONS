@@ -24,8 +24,8 @@ class Inputs:
             self.timeToReplace = time_to_replace
             self.downTime = down_time
             self.reactorType = reactor_type
-            self.N_mod = n_mod
-            self.AM = am
+            self.n_mod = n_mod
+            self.am = am
             self.constructionTime = construction_time
 
     class Blanket:
