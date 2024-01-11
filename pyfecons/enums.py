@@ -2,10 +2,9 @@ from enum import Enum
 
 
 class ReactorType(Enum):
-    LASER = 'LASER'
-    MIRROR = 'MIRROR'
-    STELLARATOR = 'STELLARATOR'
-    TOKAMAK = 'TOKAMAK'
+    IFE = 'IFE'
+    MFE = 'MFE'
+    MIF = 'MIF'
 
 
 class EnergyConversion(Enum):
@@ -14,6 +13,6 @@ class EnergyConversion(Enum):
 
 
 class FuelType(Enum):
-    DT = 'DT'
-    DHE3 = 'DHE3'
-    PB11 = 'PB11'
+    DT = 'DT' # for now only one type of fuel
+    # DHE3 = 'DHE3'
+    # PB11 = 'PB11'
