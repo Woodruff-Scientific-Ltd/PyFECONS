@@ -9,33 +9,47 @@
 # The classes within Inputs must maintain their own toDict function
 # In addition, the Inputs class itself maintains its own toDict function that calls upon the sublcasses
 class Inputs:
-    def __init__(self):
-        # Don't forget to add an instance of new subclasses here
-        self.customerinfo = self.CustomerInfo()
-        self.basic = self.Basic()
-        self.blanket = self.Blanket()
-
     class CustomerInfo:
-        def __init__(self):
-            self.name:str = None
+        def __init__(self, name: str = ''):
+            self.name = name
 
     class Basic:
-        def __init__(self):
-            self.timeToReplace:float = None #years
-            self.downTime:float = None # years
-            self.reactorType:int = None #2 is IFE, 1 is MFE, 3 is MIF
-            self.N_mod:int = None # number of modules
-            self.AM:int = None # dunno
-            self.constructionTime:float #years
+        def __init__(self,
+                     time_to_replace: float = 0.0,
+                     down_time: float = 0.0,
+                     reactor_type: int = 1,
+                     n_mod: int = 1,
+                     am: int = 0,
+                     construction_time: float = 0.0):
+            self.timeToReplace = time_to_replace
+            self.downTime = down_time
+            self.reactorType = reactor_type
+            self.N_mod = n_mod
+            self.AM = am
+            self.constructionTime = construction_time
 
     class Blanket:
-        def __init__(self):
-            self.firstWall:int = None
-            self.blanketType:int = None
-            self.primaryCoolant:int = None
-            self.secondaryCoolant:int = None
-            self.neutronMultiplier:int = None
-            self.structure:int = None
+        def __init__(self,
+                     first_wall: int = 0,
+                     blanket_type: int = 0,
+                     primary_coolant: int = 0,
+                     secondary_coolant: int = 0,
+                     neutron_multiplier: int = 0,
+                     structure: int = 0):
+            self.first_wall: int = first_wall
+            self.blanket_ype: int = blanket_type
+            self.primary_coolant: int = primary_coolant
+            self.secondary_coolant: int = secondary_coolant
+            self.neutron_multiplier: int = neutron_multiplier
+            self.structure: int = structure
+
+    def __init__(self,
+                 customer_info: CustomerInfo = CustomerInfo(),
+                 basic: Basic = Basic(),
+                 blanket: Blanket = Blanket()):
+        self.customer_info = customer_info
+        self.basic = basic
+        self.blanket = blanket
 
     def toDict(self):
         inputsDict = {}
@@ -44,11 +58,11 @@ class Inputs:
             if not isinstance(attr_value, (int, float, str, list, dict, tuple, set)):
                 inputsDict[attr_name] = self._attributesToDict(attr_value)
         return inputsDict
-    
+
     @staticmethod
     def _attributesToDict(obj):
         return {attr: getattr(obj, attr) for attr in vars(obj) if not attr.startswith('_')}
-    
+
     @staticmethod
     def fromDict(inputsDict):
         instance = Inputs()
@@ -56,7 +70,8 @@ class Inputs:
             # Check if the attribute is meant for a custom class
             if hasattr(instance, attr_name) and isinstance(attr_value, dict):
                 # Recursively create an instance of the custom class
-                setattr(instance, attr_name, Inputs._dictToAttributes(getattr(instance, attr_name).__class__, attr_value))
+                setattr(instance, attr_name,
+                        Inputs._dictToAttributes(getattr(instance, attr_name).__class__, attr_value))
             else:
                 setattr(instance, attr_name, attr_value)
         return instance
@@ -67,4 +82,3 @@ class Inputs:
         for attr, value in attr_dict.items():
             setattr(obj, attr, value)
         return obj
-
