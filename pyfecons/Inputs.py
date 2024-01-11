@@ -37,7 +37,6 @@ class Inputs:
             self.neutronMultiplier:int = None
             self.structure:int = None
 
-
     def toDict(self):
         inputsDict = {}
         for attr_name, attr_value in self.__dict__.items():

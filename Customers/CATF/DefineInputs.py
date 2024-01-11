@@ -1,5 +1,6 @@
 # You must define an inputs object
-from Inputs import Inputs
+from pyfecons.Inputs import Inputs
+
 def Generate():
     inputs = Inputs()
     
