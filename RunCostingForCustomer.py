@@ -43,7 +43,7 @@ except AttributeError as e:
 
 # Ensure Generate returns an instance of Input class
 try:
-    from Inputs import Inputs  # Adjust this path if Input.py is located elsewhere
+    from pyfecons.Inputs import Inputs  # Adjust this path if Input.py is located elsewhere
     inputs = CustomerInputs.Generate()
     if not isinstance(inputs, Inputs):
         raise TypeError(f"Generate function in {customerFolder} must return an instance of Input class.")

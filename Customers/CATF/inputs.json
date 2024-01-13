@@ -1,5 +1,5 @@
 {
-    "customerinfo": {
+    "customer_info": {
         "name": "Clean Air Task Force"
     },
     "basic": {
@@ -11,11 +11,11 @@
         "constructionTime": 3
     },
     "blanket": {
-        "firstWall": 1,
-        "blanketType": 0,
-        "primaryCoolant": 0,
-        "secondaryCoolant": 7,
-        "neutronMultiplier": 3,
+        "first_wall": 1,
+        "blanket_ype": 0,
+        "primary_coolant": 0,
+        "secondary_coolant": 7,
+        "neutron_multiplier": 3,
         "structure": 1
     }
 }
