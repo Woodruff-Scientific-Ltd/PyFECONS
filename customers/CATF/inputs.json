@@ -1,0 +1,35 @@
+{
+    "customer_info": {
+        "name": "Clean Air Task Force"
+    },
+    "basic": {
+        "reactor_type": "MFE",
+        "energy_conversion": "DIRECT",
+        "fuel_type": "DT",
+        "p_nrl": 2600.0,
+        "n_mod": 1,
+        "am": 0.99,
+        "constructionTime": 6.0,
+        "plant_lifetime": 30.0,
+        "plant_availability": 0.85
+    },
+    "power_table": {
+        "f_sub": 0.03,
+        "p_cryo": 0.5,
+        "mn": 1.1,
+        "eta_p": 0.5,
+        "eta_th": 0.46,
+        "fpcppf": 0.06,
+        "p_trit": 10,
+        "p_house": 4,
+        "p_tfcool": 12.7,
+        "p_pfcool": 1,
+        "p_tf": 1,
+        "p_pf": 1,
+        "eta_pin": 0.5,
+        "eta_pin1": 0.18,
+        "eta_pin2": 0.82,
+        "eta_de": 0.85,
+        "p_input": 50
+    }
+}
