@@ -13,6 +13,6 @@ class EnergyConversion(Enum):
 
 
 class FuelType(Enum):
-    DT = 'DT' # for now only one type of fuel
+    DT = 'DT'  # for now only one type of fuel
     # DHE3 = 'DHE3'
     # PB11 = 'PB11'

@@ -1,4 +1,7 @@
+from dataclasses import is_dataclass, asdict
 from enum import Enum
+
+
 class SerializableToJSON():
 
     def toDict(self):
@@ -11,41 +14,39 @@ class SerializableToJSON():
 
     @staticmethod
     def _attributesToDict(obj):
-        attributes = {}
-        for attr in vars(obj):
-            if not attr.startswith('_'):
-                attr_value = getattr(obj, attr)
-                if isinstance(attr_value, Enum):
-                    attributes[attr] = attr_value.value
-                else:
-                    attributes[attr] = attr_value
-        return attributes
+        if is_dataclass(obj):
+            return {key: SerializableToJSON._attributesToDict(value) for key, value in asdict(obj).items()}
+        elif isinstance(obj, Enum):
+            return obj.value
+        elif hasattr(obj, '__dict__'):
+            return {key: SerializableToJSON._attributesToDict(value)
+                    for key, value in obj.__dict__.items() if not key.startswith('_')}
+        else:
+            return obj
 
     @classmethod
     def fromDict(cls, inputsDict):
         instance = cls()  # Creates an instance of the subclass
         for attr_name, attr_value in inputsDict.items():
-            # Check if the attribute is meant for a custom class
-            if hasattr(instance, attr_name) and isinstance(attr_value, dict):
-                # Recursively create an instance of the custom class
-                setattr(instance, attr_name,
-                        cls._dictToAttributes(getattr(instance, attr_name).__class__, attr_value))
-            else:
-                setattr(instance, attr_name, attr_value)
+            if hasattr(instance, attr_name):
+                attr = getattr(instance, attr_name)
+                if isinstance(attr_value, dict):
+                    if is_dataclass(attr.__class__):
+                        setattr(instance, attr_name, attr.__class__(**attr_value))
+                    else:
+                        setattr(instance, attr_name, cls._dictToAttributes(attr.__class__, attr_value))
+                else:
+                    setattr(instance, attr_name, attr_value)
         return instance
 
     @staticmethod
     def _dictToAttributes(cls, attr_dict):
         obj = cls()
         for attr, value in attr_dict.items():
-            # Get the attribute type from the class
             attr_type = getattr(cls, attr).__class__
-
-            # Check if the attribute type is a subclass of Enum
             if issubclass(attr_type, Enum):
                 enum_value = attr_type(value)  # Convert string back to enum
                 setattr(obj, attr, enum_value)
             else:
                 setattr(obj, attr, value)
-
         return obj

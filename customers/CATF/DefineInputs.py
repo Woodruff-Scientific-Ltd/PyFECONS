@@ -1,16 +1,17 @@
 # You must define an inputs object
-from pyfecons.inputs import Inputs
+from pyfecons.inputs import *
 from pyfecons.enums import *
 from pyfecons.units import *
 
+
 def Generate():
     return Inputs(
-        Inputs.CustomerInfo(name="Clean Air Task Force"),
-        Inputs.Basic(
+        CustomerInfo(name="Clean Air Task Force"),
+        Basic(
             reactor_type=ReactorType.MFE,
             energy_conversion=EnergyConversion.DIRECT,
             fuel_type=FuelType.DT,
-            am=0.99
+            am=Percent(0.99)
             # p_n
             # time_to_replace=10,
             # down_time=10,
