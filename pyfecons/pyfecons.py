@@ -5,7 +5,7 @@ from pyfecons.costing.mfe.mfe import GenerateData as GenerateMFEData
 from pyfecons.costing.mfe.mfe import HydrateTemplates as GenerateMFETemplates
 
 
-def RunCostingWithInput(inputs: Inputs):
+def RunCostingWithInput(inputs: Inputs) -> Data:
     if inputs.basic.reactor_type == ReactorType.MFE:
         return GenerateMFEData(inputs)
     elif inputs.basic.reactor_type == ReactorType.MIF:

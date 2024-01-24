@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pyfecons.enums import *
 from pyfecons.units import *
 from pyfecons.materials import Materials
@@ -78,10 +78,10 @@ class RadialBuild:
 class Inputs(SerializableToJSON):
 
     # User inputs
-    customer_info: CustomerInfo = CustomerInfo()
-    basic: Basic = Basic()
-    power_table: PowerTable = PowerTable()
-    radial_build: RadialBuild = RadialBuild()
+    customer_info: CustomerInfo = field(default_factory=CustomerInfo)
+    basic: Basic = field(default_factory=Basic)
+    power_table: PowerTable = field(default_factory=PowerTable)
+    radial_build: RadialBuild = field(default_factory=RadialBuild)
 
     # Library inputs
-    materials: Materials = Materials()
+    materials: Materials = field(default_factory=Materials)

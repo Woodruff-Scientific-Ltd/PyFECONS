@@ -117,7 +117,7 @@ class CAS22:
 
 @dataclass
 class Data(SerializableToJSON):
-    power_table = PowerTable()
-    cas10 = CAS10()
-    cas21 = CAS21()
-    cas22 = CAS22()
+    power_table: PowerTable = field(default_factory=PowerTable)
+    cas10: CAS10 = field(default_factory=CAS10)
+    cas21: CAS21 = field(default_factory=CAS21)
+    cas22: CAS22 = field(default_factory=CAS22)

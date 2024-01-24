@@ -8,8 +8,7 @@ class SerializableToJSON():
         inputsDict = {}
         for attr_name, attr_value in self.__dict__.items():
             # Check if the attribute is an instance of a custom class (not a built-in type)
-            if not isinstance(attr_value, (int, float, str, list, dict, tuple, set)):
-                inputsDict[attr_name] = self._attributesToDict(attr_value)
+            inputsDict[attr_name] = self._attributesToDict(attr_value)
         return inputsDict
 
     @staticmethod
@@ -18,6 +17,12 @@ class SerializableToJSON():
             return {key: SerializableToJSON._attributesToDict(value) for key, value in asdict(obj).items()}
         elif isinstance(obj, Enum):
             return obj.value
+        elif type(obj) in [int, float, str, list, dict, tuple, set]:
+            return obj
+        # handle Unit classes which only inherit from one primitive
+        elif (len(obj.__class__.__bases__) > 0
+              and obj.__class__.__bases__[0] in [int, float, str, list, dict, tuple, set]):
+            return obj
         elif hasattr(obj, '__dict__'):
             return {key: SerializableToJSON._attributesToDict(value)
                     for key, value in obj.__dict__.items() if not key.startswith('_')}

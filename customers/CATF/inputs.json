@@ -9,7 +9,7 @@
         "p_nrl": 2600.0,
         "n_mod": 1,
         "am": 0.99,
-        "constructionTime": 6.0,
+        "construction_time": 6.0,
         "plant_lifetime": 30.0,
         "plant_availability": 0.85
     },
@@ -31,5 +31,164 @@
         "eta_pin2": 0.82,
         "eta_de": 0.85,
         "p_input": 50
+    },
+    "radial_build": {
+        "chamber_length": 40,
+        "axis_t": 0,
+        "plasma_t": 4,
+        "vacuum_t": 0.1,
+        "firstwall_t": 0.1,
+        "blanket1_t": 1,
+        "reflector_t": 0.1,
+        "ht_shield_t": 0.5,
+        "structure_t": 0.2,
+        "gap1_t": 0.5,
+        "vessel_t": 0.2,
+        "coil_t": 1.76,
+        "gap2_t": 1,
+        "lt_shield_t": 0.3,
+        "bioshield_t": 1
+    },
+    "materials": {
+        "FS": {
+            "rho": 7470,
+            "c": null,
+            "c_raw": 10,
+            "m": 3,
+            "sigma": 450
+        },
+        "Pb": {
+            "rho": 9400,
+            "c": null,
+            "c_raw": 2.4,
+            "m": 1.5,
+            "sigma": null
+        },
+        "Li4SiO4": {
+            "rho": 2390,
+            "c": null,
+            "c_raw": 1,
+            "m": 2,
+            "sigma": null
+        },
+        "Flibe": {
+            "rho": 1900,
+            "c": 40,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "W": {
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "Li": {
+            "rho": 534,
+            "c": null,
+            "c_raw": 70,
+            "m": 1.5,
+            "sigma": null
+        },
+        "BFS": {
+            "rho": 7800,
+            "c": null,
+            "c_raw": 30,
+            "m": 2,
+            "sigma": null
+        },
+        "SiC": {
+            "rho": 3200,
+            "c": null,
+            "c_raw": 14.49,
+            "m": 3,
+            "sigma": null
+        },
+        "Inconel": {
+            "rho": 8440,
+            "c": null,
+            "c_raw": 46,
+            "m": 3,
+            "sigma": null
+        },
+        "Cu": {
+            "rho": 7300,
+            "c": null,
+            "c_raw": 10.2,
+            "m": 3,
+            "sigma": null
+        },
+        "Polyimide": {
+            "rho": 1430,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "YBCO": {
+            "rho": 6200,
+            "c": 55,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Concrete": {
+            "rho": 2300,
+            "c": null,
+            "c_raw": 0.52,
+            "m": 2,
+            "sigma": null
+        },
+        "SS316": {
+            "rho": 7860,
+            "c": null,
+            "c_raw": 2,
+            "m": 2,
+            "sigma": 900
+        },
+        "Nb3Sn": {
+            "rho": null,
+            "c": 5,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Incoloy": {
+            "rho": 8170,
+            "c": null,
+            "c_raw": 4,
+            "m": 2,
+            "sigma": null
+        },
+        "GdBCO": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "He": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "NbTi": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "PbLi": {
+            "rho": 8594.0,
+            "c": 12.818181818181818,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        }
     }
 }
