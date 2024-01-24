@@ -3,13 +3,13 @@ from pyfecons.data import Data
 import math
 import matplotlib.pyplot as plt
 
-def GenerateData(inputs: Inputs, data:Data, figures:dict):
 
+def GenerateData(inputs: Inputs, data: Data, figures: dict):
     basic = inputs.basic
     IN = inputs.radial_build
     OUT = data.cas22
-    
-    #Cost Category 22.1.1: Reactor Equipment
+
+    # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     OUT.axis_ir = IN.axis_t
     OUT.plasma_ir = IN.plasma_t
@@ -43,7 +43,7 @@ def GenerateData(inputs: Inputs, data:Data, figures:dict):
     OUT.bioshield_or = OUT.bioshield_ir + IN.bioshield_t  # Updated bioshield outer radius
 
     def calc_volume(inner, outer):
-        return IN.chamber_length * math.pi * (outer**2 - inner**2)
+        return IN.chamber_length * math.pi * (outer ** 2 - inner ** 2)
 
     # Volumes for cylinder
     OUT.axis_vol = calc_volume(OUT.axis_ir, OUT.axis_or)
@@ -57,12 +57,11 @@ def GenerateData(inputs: Inputs, data:Data, figures:dict):
     OUT.gap1_vol = calc_volume(OUT.gap1_ir, OUT.gap1_or)
     OUT.vessel_vol = calc_volume(OUT.vessel_ir, OUT.vessel_or)
     OUT.lt_shield_vol = calc_volume(OUT.lt_shield_ir, OUT.lt_shield_or)  # Moved lt_shield volume here
-    OUT.coil_vol = calc_volume(OUT.coil_ir, OUT.coil_or)*(9*0.779)/40  # Updated coil volume calculation
+    OUT.coil_vol = calc_volume(OUT.coil_ir, OUT.coil_or) * (9 * 0.779) / 40  # Updated coil volume calculation
     OUT.gap2_vol = calc_volume(OUT.gap2_ir, OUT.gap2_or)
     OUT.bioshield_vol = calc_volume(OUT.bioshield_ir, OUT.bioshield_or)  # Updated bioshield volume
 
-
-    #Cost calc 1
+    # Cost calc 1
 
     # Define the values
     f_W = 1
@@ -77,53 +76,9 @@ def GenerateData(inputs: Inputs, data:Data, figures:dict):
     # Total heat capacity of OBI
     C_OBI = C_OBI_FS + C_OBI_PbLi
     # Calculate C_22_1_1
-    C220101 = basic.am * basic.n_mod * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
+    C220101 = basic.am * float(basic.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
 
-
-    
-
-    """
-    PLOTTING RADIAL BUILD
-    """
-
-    ## The names of the sections
-    # Updated order of the sections
-    sections = ['Plasma', 'Vacuum', 'First Wall', 'Blanket', 'Reflector', 'HT Shield', 'Structure', 'Gap', 'Vessel', 'LT Shield', 'Coil', 'Gap', 'Bioshield']
-
-    # The thickness of each section (for stacked bar plot)
-    thickness = [IN.plasma_t, IN.vacuum_t, IN.firstwall_t, IN.blanket1_t, IN.reflector_t, IN.ht_shield_t, IN.structure_t, IN.gap1_t, IN.vessel_t, IN.lt_shield_t, IN.coil_t, IN.gap2_t, IN.bioshield_t]
-
-    # Updated colors for each section
-    colors = ['purple', 'black', 'lightblue', 'darkblue', 'blue', 'cornflowerblue', 'coral', 'lightgray', 'orange', 'slateblue', 'green', 'lightgray', 'darkorange']
-
-    # Plotting the stacked bar graph
-    fig, ax = plt.subplots(figsize=(18, 3.5)) # Adjust the figsize to get the desired aspect ratio
-
-    # Adding each section to the bar plot
-    left = 0  # Initialize left at 0
-    for i, (section, thk) in enumerate(zip(sections, thickness)):
-        ax.barh('Thickness', thk, left=left, color=colors[i], edgecolor='white', label=section)
-        left += thk  # Increment left by the thickness of the current section
-
-    # Setting labels and title
-    ax.set_xlabel('Radius (m)')
-
-    # Creating the legend
-    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
-
-    # Show grid for the x-axis
-    ax.xaxis.grid(True)
-
-    # Show the plot
-    plt.tight_layout()
-    plt.show()
-
-    figures["radial_build.pdf"] = fig
-
-    # Export as pdf
-    #fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='tight')
-
-
+    # plot_radial_build(IN, figures)
 
     # copy_file('CAS220101_MFE_DT.tex')
     # overwrite_variable('CAS220101_MFE_DT.tex', 'C220101', round(C220101))
@@ -184,3 +139,49 @@ def GenerateData(inputs: Inputs, data:Data, figures:dict):
     # overwrite_variable('CAS220101_MFE_DT.tex', 'neutronM', neutronM)
     # overwrite_variable('CAS220101_MFE_DT.tex', 'structure1', structure1)
     # overwrite_variable('CAS220101_MFE_DT.tex', 'firstW', firstW)
+
+
+def plot_radial_build(IN, figures):
+    """
+    PLOTTING RADIAL BUILD
+    """
+
+    ## The names of the sections
+
+    # Updated order of the sections
+    sections = ['Plasma', 'Vacuum', 'First Wall', 'Blanket', 'Reflector', 'HT Shield', 'Structure', 'Gap', 'Vessel',
+                'LT Shield', 'Coil', 'Gap', 'Bioshield']
+
+    # The thickness of each section (for stacked bar plot)
+    thickness = [IN.plasma_t, IN.vacuum_t, IN.firstwall_t, IN.blanket1_t, IN.reflector_t, IN.ht_shield_t,
+                 IN.structure_t, IN.gap1_t, IN.vessel_t, IN.lt_shield_t, IN.coil_t, IN.gap2_t, IN.bioshield_t]
+
+    # Updated colors for each section
+    colors = ['purple', 'black', 'lightblue', 'darkblue', 'blue', 'cornflowerblue', 'coral', 'lightgray', 'orange',
+              'slateblue', 'green', 'lightgray', 'darkorange']
+
+    # Plotting the stacked bar graph
+    fig, ax = plt.subplots(figsize=(18, 3.5))  # Adjust the figsize to get the desired aspect ratio
+
+    # Adding each section to the bar plot
+    left = 0  # Initialize left at 0
+    for i, (section, thk) in enumerate(zip(sections, thickness)):
+        ax.barh('Thickness', thk, left=left, color=colors[i], edgecolor='white', label=section)
+        left += thk  # Increment left by the thickness of the current section
+
+    # Setting labels and title
+    ax.set_xlabel('Radius (m)')
+
+    # Creating the legend
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+
+    # Show grid for the x-axis
+    ax.xaxis.grid(True)
+
+    # Show the plot
+    plt.tight_layout()
+    plt.show()
+    figures["radial_build.pdf"] = fig
+
+    # Export as pdf
+    # fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='tight')
