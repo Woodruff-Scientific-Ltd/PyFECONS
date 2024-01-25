@@ -1,3 +1,5 @@
+from typing import Dict
+
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.enums import *
@@ -15,7 +17,7 @@ def RunCostingWithInput(inputs: Inputs) -> Data:
     raise ValueError('Invalid basic reactor type')
 
 
-def HydrateTemplates(inputs: Inputs, data: Data):
+def HydrateTemplates(inputs: Inputs, data: Data) -> Dict:
     if inputs.basic.reactor_type == ReactorType.MFE:
         return GenerateMFETemplates(inputs, data)
     elif inputs.basic.reactor_type == ReactorType.MIF:

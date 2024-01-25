@@ -2,7 +2,7 @@ from typing import Dict
 
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
-from pyfecons.costing.mfe.power import GenerateData as PowerBalanceData
+from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
