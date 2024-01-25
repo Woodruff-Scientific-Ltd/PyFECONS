@@ -1,5 +1,3 @@
-from typing import Dict
-
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
@@ -8,6 +6,13 @@ from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
 
 import os
+
+
+POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
+
+TEMPLATE_FILES = [
+    POWER_TABLE_MFE_DT_TEX
+]
 
 
 def GenerateData(inputs: Inputs) -> Data:
@@ -20,9 +25,25 @@ def GenerateData(inputs: Inputs) -> Data:
     return data
 
 
-# Substitutions for powerTableMFEDT.tex
-def get_power_table_mfe_dt_replacements(inputs: Inputs, data: Data) -> Dict:
-    return {
+def HydrateTemplates(inputs: Inputs, data: Data) -> dict[str, str]:
+    hydrated_templates = {}
+    for template in TEMPLATE_FILES:
+        template_content = read_template(template)
+        replacements = get_template_replacements(template, inputs, data)
+        hydrated_templates[template] = replace_values(template_content, replacements)
+    return hydrated_templates
+
+
+def read_template(template_file: str) -> str:
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    template_path = os.path.join(dir_path, 'templates', template_file)
+    with open(template_path, 'r') as file:
+        template_content = file.read()
+    return template_content
+
+
+def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
+    if template == POWER_TABLE_MFE_DT_TEX: return {
         # Ordered by occurrence in template
         # 1. Output power
         'PNRL': inputs.basic.p_nrl,  # Fusion Power
@@ -56,31 +77,16 @@ def get_power_table_mfe_dt_replacements(inputs: Inputs, data: Data) -> Dict:
         'QENG': data.power_table.qeng,  # Engineering Q
         'RECFRAC': data.power_table.recfrac,  # Recirculating power fraction
         'PNET': data.power_table.p_net,  # Output Power (Net Electric Power)
-
         # Included in powerTableMFEDTM.tex but missing in powerTableMFEDT.tex
         # 'PTHE': PTHE,
         # 'ETADE': ETADE,
         # 'PDEE': PDEE,
     }
+    else:
+        raise ValueError(f'Unrecognized template {template}')
 
 
-def HydrateTemplates(inputs: Inputs, data: Data) -> Dict:
-    POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
-    template_content = read_template(POWER_TABLE_MFE_DT_TEX)
-    replacements = get_power_table_mfe_dt_replacements(inputs, data)
-    hydrated_template = replace_values(replacements, template_content)
-    return {POWER_TABLE_MFE_DT_TEX: hydrated_template}
-
-
-def replace_values(replacements, template_content):
+def replace_values(template_content: str, replacements: dict[str, str]) -> str:
     for key, value in replacements.items():
         template_content = template_content.replace(key, str(value))
-    return template_content
-
-
-def read_template(template_file: str) -> str:
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    template_path = os.path.join(dir_path, 'templates', template_file)
-    with open(template_path, 'r') as file:
-        template_content = file.read()
     return template_content
