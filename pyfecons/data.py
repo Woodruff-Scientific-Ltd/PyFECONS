@@ -21,7 +21,7 @@ class PowerTable:
     p_sub: MW = None
     qsci: Unknown = None
     qeng: Unknown = None
-    refrac: Unknown = None
+    recfrac: Unknown = None
     p_net: MW = None
 
 

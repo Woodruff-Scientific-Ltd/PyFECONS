@@ -91,7 +91,6 @@ with open(f"{customerFolder}/data.json", "w") as file:
 
 # fill in the templates and copy them to the customer's folder
 hydratedTemplates:object = HydrateTemplates(inputs, data)
-hydratedTemplates = {"testoutput.tex": "This is the contents of the file"} # PLACEHOLDER
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory

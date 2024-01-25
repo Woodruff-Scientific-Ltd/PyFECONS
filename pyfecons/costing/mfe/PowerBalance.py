@@ -23,5 +23,5 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.qsci = basic.p_nrl / IN.p_input
     OUT.qeng = (IN.eta_th * (IN.mn * OUT.p_neutron + OUT.p_pump + IN.p_input) + IN.eta_de * OUT.p_alpha) \
                / (OUT.p_coils + OUT.p_pump + OUT.p_sub + OUT.p_aux + OUT.p_cool + IN.p_cryo + IN.p_input / IN.eta_pin)
-    OUT.refrac = 1 / OUT.qeng
+    OUT.recfrac = 1 / OUT.qeng
     OUT.p_net = (1 - 1 / OUT.qeng) * OUT.p_et
