@@ -10,10 +10,12 @@ import os
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
+CAS_210000_TEX = 'CAS210000.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
     CAS_100000_TEX,
+    CAS_210000_TEX,
 ]
 
 
@@ -97,6 +99,29 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C160000': currency_str(data.cas10.C160000),
             'C170000': currency_str(data.cas10.C170000),
             'C190000': currency_str(data.cas10.C190000),
+        }
+    elif template == CAS_210000_TEX:
+        return {
+            'C210000': currency_str(data.cas21.C210000),
+            'C210100': currency_str(data.cas21.C210100),
+            'C210200': currency_str(data.cas21.C210200),
+            'C210300': currency_str(data.cas21.C210300),
+            'C210400': currency_str(data.cas21.C210400),
+            'C210500': currency_str(data.cas21.C210500),
+            'C210600': currency_str(data.cas21.C210600),
+            'C210700': currency_str(data.cas21.C210700),
+            'C210800': currency_str(data.cas21.C210800),
+            'C210900': currency_str(data.cas21.C210900),
+            'C211000': currency_str(data.cas21.C211000),
+            'C211100': currency_str(data.cas21.C211100),
+            'C211200': currency_str(data.cas21.C211200),
+            'C211300': currency_str(data.cas21.C211300),
+            'C211400': currency_str(data.cas21.C211400),
+            'C211500': currency_str(data.cas21.C211500),
+            'C211600': currency_str(data.cas21.C211600),
+            'C211700': currency_str(data.cas21.C211700),
+            # not in template file or data
+            # 'C211900': currency_str(data.cas21.C211900),
         }
     else:
         raise ValueError(f'Unrecognized template {template}')
