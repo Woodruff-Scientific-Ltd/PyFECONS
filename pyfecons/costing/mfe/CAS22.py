@@ -76,7 +76,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     # Total heat capacity of OBI
     C_OBI = C_OBI_FS + C_OBI_PbLi
     # Calculate C_22_1_1
-    C220101 = basic.am * float(basic.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
+    OUT.C220101 = basic.am * float(basic.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
 
     # plot_radial_build(IN, figures)
 

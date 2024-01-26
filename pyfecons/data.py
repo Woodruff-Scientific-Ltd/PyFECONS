@@ -114,6 +114,9 @@ class CAS22:
     gap2_vol: Meters3 = None
     bioshield_vol: Meters3 = None  # Updated bioshield volume
 
+    # Costs
+    C220101: Currency = None
+
 
 @dataclass
 class Data(SerializableToJSON):
