@@ -49,6 +49,14 @@
         "lt_shield_t": 0.3,
         "bioshield_t": 1
     },
+    "blanket": {
+        "first_wall": "beryllium",
+        "blanket_type": "Solid first wall with a solid breeder (Li2TiO3)",
+        "primary_coolant": "Lithium (Li)",
+        "secondary_coolant": "Other eutectic salt",
+        "neutron_multiplier": "Be12Ti",
+        "structure": "Ferritic Martensitic Steel (FMS)"
+    },
     "materials": {
         "FS": {
             "rho": 7470,

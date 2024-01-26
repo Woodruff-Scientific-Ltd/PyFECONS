@@ -75,13 +75,23 @@ class RadialBuild:
 
 
 @dataclass
-class Inputs(SerializableToJSON):
+class Blanket:
+    first_wall: BlanketFirstWall = None
+    blanket_type: BlanketType = None
+    primary_coolant: BlanketPrimaryCoolant = None
+    secondary_coolant: BlanketSecondaryCoolant = None
+    neutron_multiplier: BlanketNeutronMultiplier = None
+    structure: BlanketStructure = None
 
+
+@dataclass
+class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
     basic: Basic = field(default_factory=Basic)
     power_table: PowerTable = field(default_factory=PowerTable)
     radial_build: RadialBuild = field(default_factory=RadialBuild)
+    blanket: Blanket = field(default_factory=Blanket)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

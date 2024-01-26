@@ -19,5 +19,13 @@ def Generate():
             # n_mod=1,
             # am=1,
             # construction_time=3
+        ),
+        blanket=Blanket(
+            BlanketFirstWall.BERYLLIUM,
+            BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3,
+            BlanketPrimaryCoolant.LITHIUM_LI,
+            BlanketSecondaryCoolant.OTHER_EUTECTIC_SALT,
+            BlanketNeutronMultiplier.BE12TI,
+            BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         )
     )
