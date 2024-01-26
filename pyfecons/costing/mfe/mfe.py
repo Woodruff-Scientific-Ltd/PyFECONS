@@ -10,12 +10,14 @@ import os
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
-CAS_210000_TEX = 'CAS210000.tex'
+CAS_210000_TEX = 'CAS210000.tex' #
+CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
     CAS_100000_TEX,
     CAS_210000_TEX,
+    CAS_220101_TEX,
 ]
 
 
@@ -122,6 +124,67 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C211700': currency_str(data.cas21.C211700),
             # not in template file or data
             # 'C211900': currency_str(data.cas21.C211900),
+        }
+    elif template == CAS_220101_TEX:
+        return {
+            'C220101': currency_str(data.cas22.C220101), # TODO - verify this is correct in template
+            'RAD12I': round(data.cas22.coil_ir),
+            'RAD13I': round(data.cas22.bioshield_ir),
+            'RAD10I': round(data.cas22.gap2_or, 1),
+            'RAD11I': round(data.cas22.lt_shield_or, 1),
+            'RAD1I': round(data.cas22.plasma_or, 1),
+            'RAD2I': round(data.cas22.vacuum_or, 1),
+            'RAD3I': round(data.cas22.firstwall_or, 1),
+            'RAD4I': round(data.cas22.blanket1_or, 1),
+            'RAD5I': round(data.cas22.structure_or, 1),
+            'RAD6I': round(data.cas22.reflector_or, 1),
+            'RAD7I': round(data.cas22.gap1_or, 1),
+            'RAD8I': round(data.cas22.vessel_or, 1),
+            'RAD9I': round(data.cas22.ht_shield_or, 1),
+            'RAD12O': round(data.cas22.coil_or),
+            'RAD13O': round(data.cas22.bioshield_or),
+            'RAD10O': round(data.cas22.gap2_or, 1),
+            'RAD11O': round(data.cas22.lt_shield_or, 1),
+            'RAD1O': round(data.cas22.plasma_or, 1),
+            'RAD2O': round(data.cas22.vacuum_or, 1),
+            'RAD3O': round(data.cas22.firstwall_or, 1),
+            'RAD4O': round(data.cas22.blanket1_or, 1),
+            'RAD5O': round(data.cas22.structure_or, 1),
+            'RAD6O': round(data.cas22.reflector_or, 1),
+            'RAD7O': round(data.cas22.gap1_or, 1),
+            'RAD8O': round(data.cas22.vessel_or, 1),
+            'RAD9O': round(data.cas22.ht_shield_or, 1),
+            'TH10': round(data.cas22.gap2_vol),
+            'TH11': round(inputs.radial_build.lt_shield_t),
+            'TH12': round(inputs.radial_build.coil_t),
+            'TH13': round(inputs.radial_build.bioshield_t),
+            'TH01': round(inputs.radial_build.plasma_t, 1),
+            'TH02': round(inputs.radial_build.vacuum_t, 1),
+            'TH03': round(inputs.radial_build.firstwall_t, 1),
+            'TH04': round(inputs.radial_build.blanket1_t, 1),
+            'TH05': round(inputs.radial_build.structure_t, 1),
+            'TH06': round(inputs.radial_build.reflector_t, 1),
+            'TH07': round(inputs.radial_build.gap1_t, 1),
+            'TH08': round(inputs.radial_build.vessel_t, 1),
+            'TH09': round(inputs.radial_build.ht_shield_t, 1),
+            'VOL10': round(data.cas22.gap2_vol),
+            'VOL11': round(data.cas22.lt_shield_vol),
+            'VOL12': round(data.cas22.coil_vol),
+            'VOL13': round(data.cas22.bioshield_vol),
+            'VOL01': round(data.cas22.plasma_vol),
+            'VOL02': round(data.cas22.vacuum_vol),
+            'VOL03': round(data.cas22.firstwall_vol),
+            'VOL04': round(data.cas22.blanket1_vol),
+            'VOL05': round(data.cas22.structure_vol),
+            'VOL06': round(data.cas22.reflector_vol),
+            'VOL07': round(data.cas22.gap1_vol),
+            'VOL08': round(data.cas22.vessel_vol),
+            'VOL09': round(data.cas22.ht_shield_vol),
+            'primaryC': inputs.blanket.primary_coolant,
+            'secondaryC': inputs.blanket.secondary_coolant,
+            'neutronM': inputs.blanket.neutron_multiplier,
+            'structure1': inputs.blanket.structure,
+            'firstW': inputs.blanket.first_wall,
         }
     else:
         raise ValueError(f'Unrecognized template {template}')
