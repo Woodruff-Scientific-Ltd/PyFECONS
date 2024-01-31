@@ -8,7 +8,9 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     basic = inputs.basic
     IN = inputs.radial_build
     OUT = data.cas22
+    MATERIALS = inputs.materials
 
+    # TODO - refactor Cost Category 22.1.1 to a function
     # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     OUT.axis_ir = IN.axis_t
@@ -80,66 +82,40 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
 
     # plot_radial_build(IN, figures)
 
-    # copy_file('CAS220101_MFE_DT.tex')
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'C220101', round(C220101))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD12I', round(coil_ir))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD13I', round(bioshield_ir))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD10I', round(gap2_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD11I', round(lt_shield_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD1I', round(plasma_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD2I', round(vacuum_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD3I', round(firstwall_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD4I', round(blanket1_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD5I', round(structure_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD6I', round(reflector_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD7I', round(gap1_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD8I', round(vessel_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD9I', round(ht_shield_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD12O', round(coil_or))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD13O', round(bioshield_or))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD10O', round(gap2_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD11O', round(lt_shield_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD1O', round(plasma_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD2O', round(vacuum_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD3O', round(firstwall_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD4O', round(blanket1_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD5O', round(structure_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD6O', round(reflector_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD7O', round(gap1_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD8O', round(vessel_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'RAD9O', round(ht_shield_or,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH10', round(gap2_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH11', round(lt_shield_t))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH12', round(coil_t))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH13', round(bioshield_t))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH1', round(plasma_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH2', round(vacuum_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH3', round(firstwall_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH4', round(blanket1_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH5', round(structure_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH6', round(reflector_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH7', round(gap1_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH8', round(vessel_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'TH9', round(ht_shield_t,1))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL10', round(gap2_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL11', round(lt_shield_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL12', round(coil_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL13', round(bioshield_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL1', round(plasma_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL2', round(vacuum_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL3', round(firstwall_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL4', round(blanket1_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL5', round(structure_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL6', round(reflector_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL7', round(gap1_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL8', round(vessel_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'VOL9', round(ht_shield_vol))
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'primaryC', primaryC)
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'secondaryC', secondaryC)
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'neutronM', neutronM)
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'structure1', structure1)
-    # overwrite_variable('CAS220101_MFE_DT.tex', 'firstW', firstW)
 
+
+    # TODO - refactor Cost Category 22.1.2 to a function
+    # Cost Category 22.1.2: Shield
+
+    # Define the fractions
+    f_SiC = 0.00  #TODO - why is this 0? It invalidates the SiC material contribution
+    FPCPPFbLi = 0.1
+    f_W = 0.00  #TODO - why is this 0? It invalidates the W material contribution
+    f_BFS = 0.9
+
+    # TODO - what is this line?
+    reactor = 'CATF'
+
+    # Retrieve the volume of HTS from the reactor_volumes dictionary
+    # V_HTS = volumes["V_HTS"]
+    OUT.V_HTS = round(OUT.ht_shield_vol,1)
+
+    # Calculate the cost for HTS
+    C_HTS = round(OUT.V_HTS * (
+            MATERIALS.SiC.rho * MATERIALS.SiC.c_raw * MATERIALS.SiC.m * f_SiC +
+            MATERIALS.PbLi.rho * MATERIALS.PbLi.c * FPCPPFbLi +
+            MATERIALS.W.rho * MATERIALS.W.c_raw * MATERIALS.W.m * f_W +
+            MATERIALS.BFS.rho * MATERIALS.BFS.c_raw * MATERIALS.BFS.m * f_BFS
+    ) / 1e6,1)
+
+    # Volume of HTShield that is BFS
+    V_HTS_BFS = OUT.V_HTS * f_BFS
+    # The cost C_22_1_2 is the same as C_HTS
+    OUT.C22010201 = round(C_HTS, 1)
+    OUT.C22010202 = OUT.lt_shield_vol * MATERIALS.SS316.c_raw * MATERIALS.SS316.m / 1e3
+    OUT.C22010203 = OUT.bioshield_vol * MATERIALS.SS316.c_raw * MATERIALS.SS316.m / 1e3
+    OUT.C22010204 = OUT.C22010203 * 0.1
+    OUT.C220102 = OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204
 
 def plot_radial_build(IN, figures):
     """
@@ -179,8 +155,8 @@ def plot_radial_build(IN, figures):
     ax.xaxis.grid(True)
 
     # Show the plot
-    plt.tight_layout()
-    plt.show()
+    plt.tight_layout()  # TODO comment or delete
+    plt.show()  # TODO comment or delete
     figures["radial_build.pdf"] = fig
 
     # Export as pdf

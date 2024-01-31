@@ -66,6 +66,7 @@ class CAS21:
 # TODO give sensible defaults are force initialization
 @dataclass
 class CAS22:
+    # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     axis_ir: Meters = None
     plasma_ir: Meters = None
@@ -116,6 +117,15 @@ class CAS22:
 
     # Costs
     C220101: Currency = None
+
+    # Cost Category 22.1.2: Shield
+    C22010201 = None
+    C22010202 = None
+    C22010203 = None
+    C22010204 = None
+    C220102 = None
+    V_HTS = None
+
 
 
 @dataclass

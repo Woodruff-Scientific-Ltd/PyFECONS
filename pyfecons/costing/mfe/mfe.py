@@ -10,14 +10,16 @@ import os
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
-CAS_210000_TEX = 'CAS210000.tex' #
+CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
+CAS_220102_TEX = 'CAS220102.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
     CAS_100000_TEX,
     CAS_210000_TEX,
     CAS_220101_TEX,
+    CAS_220102_TEX,
 ]
 
 
@@ -180,11 +182,23 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'VOL07': round(data.cas22.gap1_vol),
             'VOL08': round(data.cas22.vessel_vol),
             'VOL09': round(data.cas22.ht_shield_vol),
-            'primaryC': inputs.blanket.primary_coolant,
-            'secondaryC': inputs.blanket.secondary_coolant,
-            'neutronM': inputs.blanket.neutron_multiplier,
-            'structure1': inputs.blanket.structure,
-            'firstW': inputs.blanket.first_wall,
+            'primaryC': inputs.blanket.primary_coolant.value,
+            'secondaryC': inputs.blanket.secondary_coolant.value,
+            'neutronM': inputs.blanket.neutron_multiplier.value,
+            'structure1': inputs.blanket.structure.value,
+            'firstW': inputs.blanket.first_wall.value,
+        }
+    elif template == CAS_220102_TEX:
+        return {
+            'C22010201': round(data.cas22.C22010201),
+            'C22010202': round(data.cas22.C22010202),
+            'C22010203': round(data.cas22.C22010203),
+            'C22010204': round(data.cas22.C22010204),
+            'C22010200': round(data.cas22.C220102),
+            'V220102': round(data.cas22.V_HTS),  # Missing from CAS220102.tex
+            'primaryC': inputs.blanket.primary_coolant.value,
+            'VOL9': round(data.cas22.ht_shield_vol),
+            'VOL11': round(data.cas22.lt_shield_vol),  # Missing from CAS220102.tex
         }
     else:
         raise ValueError(f'Unrecognized template {template}')
