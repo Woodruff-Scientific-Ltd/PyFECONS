@@ -1,51 +1,53 @@
-from pyfecons.inputs import Inputs
-from pyfecons.data import Data
 import math
 import matplotlib.pyplot as plt
 
+from pyfecons.inputs import Inputs, Basic, RadialBuild
+from pyfecons.data import Data, CAS22
+from pyfecons.materials import Materials
+
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
-    basic = inputs.basic
-    IN = inputs.radial_build
     OUT = data.cas22
-    MATERIALS = inputs.materials
+    compute_220101_reactor_equipment(inputs.basic, inputs.radial_build, inputs.materials, OUT)
+    compute_220102_shield(inputs.materials, OUT)
 
-    # TODO - refactor Cost Category 22.1.1 to a function
+
+def compute_220101_reactor_equipment(BASIC: Basic, RADIAL_BUILD: RadialBuild, MATERIALS: Materials, OUT: CAS22):
     # Cost Category 22.1.1: Reactor Equipment
-    # Inner radii
-    OUT.axis_ir = IN.axis_t
-    OUT.plasma_ir = IN.plasma_t
-    OUT.vacuum_ir = IN.vacuum_t + IN.plasma_t
-    OUT.firstwall_ir = IN.vacuum_t + OUT.vacuum_ir
-    OUT.blanket1_ir = OUT.firstwall_ir + IN.firstwall_t
-    OUT.reflector_ir = OUT.blanket1_ir + IN.blanket1_t
-    OUT.ht_shield_ir = OUT.reflector_ir + IN.reflector_t
-    OUT.structure_ir = OUT.ht_shield_ir + IN.ht_shield_t
-    OUT.gap1_ir = OUT.structure_ir + IN.structure_t
-    OUT.vessel_ir = OUT.gap1_ir + IN.gap1_t
-    OUT.lt_shield_ir = OUT.vessel_ir + IN.vessel_t  # Moved lt_shield here
-    OUT.coil_ir = OUT.lt_shield_ir + IN.lt_shield_t  # Updated coil_ir calculation
-    OUT.gap2_ir = OUT.coil_ir + IN.coil_t
-    OUT.bioshield_ir = OUT.gap2_ir + IN.gap2_t  # Updated bioshield inner radius
 
+    # Inner radii
+    OUT.axis_ir = RADIAL_BUILD.axis_t
+    OUT.plasma_ir = RADIAL_BUILD.plasma_t
+    OUT.vacuum_ir = RADIAL_BUILD.vacuum_t + RADIAL_BUILD.plasma_t
+    OUT.firstwall_ir = RADIAL_BUILD.vacuum_t + OUT.vacuum_ir
+    OUT.blanket1_ir = OUT.firstwall_ir + RADIAL_BUILD.firstwall_t
+    OUT.reflector_ir = OUT.blanket1_ir + RADIAL_BUILD.blanket1_t
+    OUT.ht_shield_ir = OUT.reflector_ir + RADIAL_BUILD.reflector_t
+    OUT.structure_ir = OUT.ht_shield_ir + RADIAL_BUILD.ht_shield_t
+    OUT.gap1_ir = OUT.structure_ir + RADIAL_BUILD.structure_t
+    OUT.vessel_ir = OUT.gap1_ir + RADIAL_BUILD.gap1_t
+    OUT.lt_shield_ir = OUT.vessel_ir + RADIAL_BUILD.vessel_t  # Moved lt_shield here
+    OUT.coil_ir = OUT.lt_shield_ir + RADIAL_BUILD.lt_shield_t  # Updated coil_ir calculation
+    OUT.gap2_ir = OUT.coil_ir + RADIAL_BUILD.coil_t
+    OUT.bioshield_ir = OUT.gap2_ir + RADIAL_BUILD.gap2_t  # Updated bioshield inner radius
     # Outer radii
-    OUT.axis_or = OUT.axis_ir + IN.axis_t
-    OUT.plasma_or = OUT.plasma_ir + IN.plasma_t
-    OUT.vacuum_or = OUT.vacuum_ir + IN.vacuum_t
-    OUT.firstwall_or = OUT.firstwall_ir + IN.firstwall_t
-    OUT.blanket1_or = OUT.blanket1_ir + IN.blanket1_t
-    OUT.reflector_or = OUT.reflector_ir + IN.reflector_t
-    OUT.ht_shield_or = OUT.ht_shield_ir + IN.ht_shield_t
-    OUT.structure_or = OUT.structure_ir + IN.structure_t
-    OUT.gap1_or = OUT.gap1_ir + IN.gap1_t
-    OUT.vessel_or = OUT.vessel_ir + IN.vessel_t
-    OUT.lt_shield_or = OUT.lt_shield_ir + IN.lt_shield_t  # Moved lt_shield here
-    OUT.coil_or = OUT.coil_ir + IN.coil_t  # Updated coil_or calculation
-    OUT.gap2_or = OUT.gap2_ir + IN.gap2_t
-    OUT.bioshield_or = OUT.bioshield_ir + IN.bioshield_t  # Updated bioshield outer radius
+    OUT.axis_or = OUT.axis_ir + RADIAL_BUILD.axis_t
+    OUT.plasma_or = OUT.plasma_ir + RADIAL_BUILD.plasma_t
+    OUT.vacuum_or = OUT.vacuum_ir + RADIAL_BUILD.vacuum_t
+    OUT.firstwall_or = OUT.firstwall_ir + RADIAL_BUILD.firstwall_t
+    OUT.blanket1_or = OUT.blanket1_ir + RADIAL_BUILD.blanket1_t
+    OUT.reflector_or = OUT.reflector_ir + RADIAL_BUILD.reflector_t
+    OUT.ht_shield_or = OUT.ht_shield_ir + RADIAL_BUILD.ht_shield_t
+    OUT.structure_or = OUT.structure_ir + RADIAL_BUILD.structure_t
+    OUT.gap1_or = OUT.gap1_ir + RADIAL_BUILD.gap1_t
+    OUT.vessel_or = OUT.vessel_ir + RADIAL_BUILD.vessel_t
+    OUT.lt_shield_or = OUT.lt_shield_ir + RADIAL_BUILD.lt_shield_t  # Moved lt_shield here
+    OUT.coil_or = OUT.coil_ir + RADIAL_BUILD.coil_t  # Updated coil_or calculation
+    OUT.gap2_or = OUT.gap2_ir + RADIAL_BUILD.gap2_t
+    OUT.bioshield_or = OUT.bioshield_ir + RADIAL_BUILD.bioshield_t  # Updated bioshield outer radius
 
     def calc_volume(inner, outer):
-        return IN.chamber_length * math.pi * (outer ** 2 - inner ** 2)
+        return RADIAL_BUILD.chamber_length * math.pi * (outer ** 2 - inner ** 2)
 
     # Volumes for cylinder
     OUT.axis_vol = calc_volume(OUT.axis_ir, OUT.axis_or)
@@ -64,50 +66,47 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.bioshield_vol = calc_volume(OUT.bioshield_ir, OUT.bioshield_or)  # Updated bioshield volume
 
     # Cost calc 1
-
     # Define the values
     f_W = 1
     C_OFW = 0
     M_OFW = 0
+
     # Blanket is rotating vortex of PbLi
     FPCPPFbLi = 0.9
     f_FS = 0.1
+
     # Cost of blanket
-    C_OBI_PbLi = OUT.blanket1_vol * (inputs.materials.PbLi.rho * inputs.materials.PbLi.c * FPCPPFbLi)
-    C_OBI_FS = OUT.blanket1_vol * (inputs.materials.FS.rho * inputs.materials.FS.c_raw * f_FS)
+    C_OBI_PbLi = OUT.blanket1_vol * (MATERIALS.PbLi.rho * MATERIALS.PbLi.c * FPCPPFbLi)
+    C_OBI_FS = OUT.blanket1_vol * (MATERIALS.FS.rho * MATERIALS.FS.c_raw * f_FS)
+
     # Total heat capacity of OBI
     C_OBI = C_OBI_FS + C_OBI_PbLi
+
     # Calculate C_22_1_1
-    OUT.C220101 = basic.am * float(basic.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
+    OUT.C220101 = BASIC.am * float(BASIC.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
 
-    # plot_radial_build(IN, figures)
+    # plot_radial_build(RADIAL_BUILD, figures)
 
 
-
-    # TODO - refactor Cost Category 22.1.2 to a function
+def compute_220102_shield(MATERIALS: Materials, OUT: CAS22):
     # Cost Category 22.1.2: Shield
-
     # Define the fractions
-    f_SiC = 0.00  #TODO - why is this 0? It invalidates the SiC material contribution
+    f_SiC = 0.00  # TODO - why is this 0? It invalidates the SiC material contribution
     FPCPPFbLi = 0.1
-    f_W = 0.00  #TODO - why is this 0? It invalidates the W material contribution
+    f_W = 0.00  # TODO - why is this 0? It invalidates the W material contribution
     f_BFS = 0.9
-
     # TODO - what is this line?
     reactor = 'CATF'
-
     # Retrieve the volume of HTS from the reactor_volumes dictionary
     # V_HTS = volumes["V_HTS"]
-    OUT.V_HTS = round(OUT.ht_shield_vol,1)
-
+    OUT.V_HTS = round(OUT.ht_shield_vol, 1)
     # Calculate the cost for HTS
     C_HTS = round(OUT.V_HTS * (
             MATERIALS.SiC.rho * MATERIALS.SiC.c_raw * MATERIALS.SiC.m * f_SiC +
             MATERIALS.PbLi.rho * MATERIALS.PbLi.c * FPCPPFbLi +
             MATERIALS.W.rho * MATERIALS.W.c_raw * MATERIALS.W.m * f_W +
             MATERIALS.BFS.rho * MATERIALS.BFS.c_raw * MATERIALS.BFS.m * f_BFS
-    ) / 1e6,1)
-
+    ) / 1e6, 1)
     # Volume of HTShield that is BFS
     V_HTS_BFS = OUT.V_HTS * f_BFS
     # The cost C_22_1_2 is the same as C_HTS
@@ -116,6 +115,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.C22010203 = OUT.bioshield_vol * MATERIALS.SS316.c_raw * MATERIALS.SS316.m / 1e3
     OUT.C22010204 = OUT.C22010203 * 0.1
     OUT.C220102 = OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204
+
 
 def plot_radial_build(IN, figures):
     """
