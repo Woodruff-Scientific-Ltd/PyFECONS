@@ -41,5 +41,5 @@ pip install -r requirements.txt
 
 ### Running the costing code
 ```bash
-python3 RunCosting.py "CATF"
+python3 RunCostingForCustomer.py "CATF"
 ```

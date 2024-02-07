@@ -14,10 +14,10 @@ if len(sys.argv) != 2:
 customer_name = sys.argv[1]
 
 # Check if the customer folder exists
-customerFolder = f"Customers/{customer_name}"
+customerFolder = f"customers/{customer_name}"
 if not os.path.isdir(customerFolder):
     print(f"ERROR: Customer folder for {customer_name} does not exist.")
-    print("ERROR: Please ensure the customer's folder is created under 'Customers/'.")
+    print("ERROR: Please ensure the customer's folder is created under 'customers/'.")
     sys.exit(1)
 
 # Check if DefineInputs.py exists within the customer folder
@@ -43,7 +43,7 @@ except AttributeError as e:
 
 # Ensure Generate returns an instance of Input class
 try:
-    from pyfecons.Inputs import Inputs  # Adjust this path if Input.py is located elsewhere
+    from pyfecons.inputs import Inputs  # Adjust this path if Input.py is located elsewhere
     inputs = CustomerInputs.Generate()
     if not isinstance(inputs, Inputs):
         raise TypeError(f"Generate function in {customerFolder} must return an instance of Input class.")
@@ -68,10 +68,9 @@ with open(f"{customerFolder}/inputs.json", "w") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
     
 # Run the initial costing code
-    # DOES NOT EXIST YET
-#data = RunCostingWithInput(inputs)
-#dataDict = data.toDict()
-dataDict = {"key": "value"} # PLACEHOLDER
+from pyfecons.pyfecons import RunCostingWithInput, HydrateTemplates
+data = RunCostingWithInput(inputs)
+dataDict = data.toDict()
 
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
@@ -91,9 +90,7 @@ with open(f"{customerFolder}/data.json", "w") as file:
 #########################
 
 # fill in the templates and copy them to the customer's folder
-    # DOES NOT EXIST YET
-    #hydratedTemplates:object = HydrateTemplates(inputs, data, customerFolder)
-hydratedTemplates = {"testoutput.tex": "This is the contents of the file"} # PLACEHOLDER
+hydratedTemplates:object = HydrateTemplates(inputs, data)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory

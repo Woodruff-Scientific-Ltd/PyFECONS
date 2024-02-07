@@ -1,0 +1,249 @@
+{
+    "customer_info": {
+        "name": "Clean Air Task Force"
+    },
+    "basic": {
+        "reactor_type": "MFE",
+        "energy_conversion": "DIRECT",
+        "fuel_type": "DT",
+        "p_nrl": 2600.0,
+        "n_mod": 1,
+        "am": 0.99,
+        "construction_time": 6.0,
+        "plant_lifetime": 30.0,
+        "plant_availability": 0.85
+    },
+    "power_table": {
+        "f_sub": 0.03,
+        "p_cryo": 0.5,
+        "mn": 1.1,
+        "eta_p": 0.5,
+        "eta_th": 0.46,
+        "fpcppf": 0.06,
+        "p_trit": 10,
+        "p_house": 4,
+        "p_tfcool": 12.7,
+        "p_pfcool": 1,
+        "p_tf": 1,
+        "p_pf": 1,
+        "eta_pin": 0.5,
+        "eta_pin1": 0.18,
+        "eta_pin2": 0.82,
+        "eta_de": 0.85,
+        "p_input": 50
+    },
+    "radial_build": {
+        "chamber_length": 40,
+        "axis_t": 0,
+        "plasma_t": 4,
+        "vacuum_t": 0.1,
+        "firstwall_t": 0.1,
+        "blanket1_t": 1,
+        "reflector_t": 0.1,
+        "ht_shield_t": 0.5,
+        "structure_t": 0.2,
+        "gap1_t": 0.5,
+        "vessel_t": 0.2,
+        "coil_t": 1.76,
+        "gap2_t": 1,
+        "lt_shield_t": 0.3,
+        "bioshield_t": 1
+    },
+    "blanket": {
+        "first_wall": "beryllium",
+        "blanket_type": "Solid first wall with a solid breeder (Li2TiO3)",
+        "primary_coolant": "Lithium (Li)",
+        "secondary_coolant": "Other eutectic salt",
+        "neutron_multiplier": "Be12Ti",
+        "structure": "Ferritic Martensitic Steel (FMS)"
+    },
+    "coils": {
+        "magnets": [
+            {
+                "name": "Coil 1",
+                "coil_count": 1,
+                "j_cable": 21.4,
+                "r_centre": 1.75,
+                "z_centre": 0,
+                "dr": 1,
+                "dz": 1
+            },
+            {
+                "name": "Coil 2",
+                "coil_count": 2,
+                "j_cable": 22.4,
+                "r_centre": 2.75,
+                "z_centre": 1,
+                "dr": 2,
+                "dz": 2
+            },
+            {
+                "name": "Coil 3",
+                "coil_count": 3,
+                "j_cable": 23.4,
+                "r_centre": 3.75,
+                "z_centre": 2,
+                "dr": 3,
+                "dz": 3
+            }
+        ],
+        "struct_factor": 0.5,
+        "cable_w": 0.014,
+        "cable_h": 0.017,
+        "tape_w": 0.004,
+        "tape_t": 0.00013,
+        "j_tape": 1000,
+        "m_cost_ybco": 10,
+        "m_cost_ss": 5,
+        "m_cost_cu": 10.3,
+        "cu_density": 7900,
+        "ss_density": 7900,
+        "mfr_factor": 3,
+        "frac_cs_cu_yuhu": 0.307,
+        "frac_cs_ss_yuhu": 0.257,
+        "frac_cs_sc_yuhu": 0.257,
+        "tot_cs_area_yuhu": 0.000238
+    },
+    "materials": {
+        "FS": {
+            "rho": 7470,
+            "c": null,
+            "c_raw": 10,
+            "m": 3,
+            "sigma": 450
+        },
+        "Pb": {
+            "rho": 9400,
+            "c": null,
+            "c_raw": 2.4,
+            "m": 1.5,
+            "sigma": null
+        },
+        "Li4SiO4": {
+            "rho": 2390,
+            "c": null,
+            "c_raw": 1,
+            "m": 2,
+            "sigma": null
+        },
+        "Flibe": {
+            "rho": 1900,
+            "c": 40,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "W": {
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "Li": {
+            "rho": 534,
+            "c": null,
+            "c_raw": 70,
+            "m": 1.5,
+            "sigma": null
+        },
+        "BFS": {
+            "rho": 7800,
+            "c": null,
+            "c_raw": 30,
+            "m": 2,
+            "sigma": null
+        },
+        "SiC": {
+            "rho": 3200,
+            "c": null,
+            "c_raw": 14.49,
+            "m": 3,
+            "sigma": null
+        },
+        "Inconel": {
+            "rho": 8440,
+            "c": null,
+            "c_raw": 46,
+            "m": 3,
+            "sigma": null
+        },
+        "Cu": {
+            "rho": 7300,
+            "c": null,
+            "c_raw": 10.2,
+            "m": 3,
+            "sigma": null
+        },
+        "Polyimide": {
+            "rho": 1430,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "YBCO": {
+            "rho": 6200,
+            "c": 55,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Concrete": {
+            "rho": 2300,
+            "c": null,
+            "c_raw": 0.52,
+            "m": 2,
+            "sigma": null
+        },
+        "SS316": {
+            "rho": 7860,
+            "c": null,
+            "c_raw": 2,
+            "m": 2,
+            "sigma": 900
+        },
+        "Nb3Sn": {
+            "rho": null,
+            "c": 5,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Incoloy": {
+            "rho": 8170,
+            "c": null,
+            "c_raw": 4,
+            "m": 2,
+            "sigma": null
+        },
+        "GdBCO": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "He": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "NbTi": {
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "PbLi": {
+            "rho": 8594.0,
+            "c": 12.818181818181818,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        }
+    }
+}
