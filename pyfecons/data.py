@@ -63,6 +63,30 @@ class CAS21:
     C210000: Currency = None
 
 
+@dataclass
+class MagnetProperties:
+    # input
+    magnet: Magnet = None
+
+    # computed
+    vol_coil: float = None
+    cs_area: float = None
+    turns_c: float = None
+    cable_current: float = None
+    current_supply: float = None
+    turns_sc_tot: float = None
+    tape_length: float = None
+    tape_current: float = None
+    cost_sc: float = None
+    cost_cu: float = None
+    cost_ss: float = None
+    tot_mat_cost: float = None
+    magnet_cost: float = None
+    magnet_struct_cost: float = None
+    magnet_total_cost_individual: float = None
+    magnet_total_cost: float = None
+
+
 # TODO give sensible defaults are force initialization
 @dataclass
 class CAS22:
@@ -126,6 +150,17 @@ class CAS22:
     C220102 = None
     V_HTS = None
 
+    # Cost Category 22.1.3: Coils
+    magnet_properties: list[MagnetProperties]
+    total_struct_cost: float = None
+    C22010301: float = None  # Assuming mag cost is for the first type of coils
+    C22010302: float = None  # Sum of costs for other types of coils
+    C22010303: float = None  # Additional costs
+    C22010304: float = None  # Structural cost
+    C220103: float = None  # Total cost
+
+    def __post_init__(self):
+        self.magnet_properties = []
 
 
 @dataclass

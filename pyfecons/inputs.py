@@ -85,6 +85,46 @@ class Blanket:
 
 
 @dataclass
+class Magnet:
+    name: str
+    coil_count: int
+    j_cable: float   # [MA] current
+    r_centre: float
+    z_centre: float
+    dr: int
+    dz: int
+
+
+@dataclass
+class Coils:
+    magnets: list[Magnet]
+
+    struct_factor: float  # Structural multiplication factor
+
+    # Constants
+    cable_w: float = 0.014  # Cable width in meters
+    cable_h: float = 0.017  # Cable height in meters
+    tape_w: float = 0.004  # Tape width in meters
+    tape_t: float = 0.00013  # Tape thickness in meters
+    j_tape: float = 1000  # Current density of the tape in A/mm^2
+
+    m_cost_ybco: float = 10  # Material cost of YBCO tape in $/kAm
+    m_cost_ss: float = 5  # Material cost of stainless steel in $/kg
+    m_cost_cu: float = 10.3  # Material cost of copper in $/kg
+    cu_density: float = 7900  # Density of copper in kg/m^3
+    ss_density: float = 7900  # Density of stainless steel in kg/m^3
+    mfr_factor: int = 3  # Manufacturing factor
+
+    frac_cs_cu_yuhu: float = 0.307  # Fractional cross-sectional area of copper in Yuhu Zhai's cable design
+    frac_cs_ss_yuhu: float = 0.257  # Fractional cross-sectional area of stainless steel in Yuhu Zhai's cable design
+    frac_cs_sc_yuhu: float = 0.257  # Fractional cross-sectional area of REBCO in Yuhu Zhai's cable design
+    tot_cs_area_yuhu: float = 0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
+
+    def __post_init__(self):
+        self.magnets = []
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -92,6 +132,7 @@ class Inputs(SerializableToJSON):
     power_table: PowerTable = field(default_factory=PowerTable)
     radial_build: RadialBuild = field(default_factory=RadialBuild)
     blanket: Blanket = field(default_factory=Blanket)
+    coils: Coils = field(default_factory=Coils)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

@@ -1,8 +1,9 @@
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 
-from pyfecons.inputs import Inputs, Basic, RadialBuild
-from pyfecons.data import Data, CAS22
+from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet
+from pyfecons.data import Data, CAS22, MagnetProperties
 from pyfecons.materials import Materials
 
 
@@ -10,6 +11,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT = data.cas22
     compute_220101_reactor_equipment(inputs.basic, inputs.radial_build, inputs.materials, OUT)
     compute_220102_shield(inputs.materials, OUT)
+    compute_220103_coils(inputs.coils, OUT)
 
 
 def compute_220101_reactor_equipment(BASIC: Basic, RADIAL_BUILD: RadialBuild, MATERIALS: Materials, OUT: CAS22):
@@ -161,3 +163,50 @@ def plot_radial_build(IN, figures):
 
     # Export as pdf
     # fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='tight')
+
+
+def compute_magnet_properties(COILS: Coils, MAGNET: Magnet):
+    OUT = MagnetProperties()
+
+    # Calculate maximum current based on tape dimensions and current density
+    max_tape_current = COILS.j_tape * COILS.tape_w * 1e3 * COILS.tape_t * 1e3  # Current in A
+    OUT.tape_current = max_tape_current
+    turns_scs = (COILS.cable_w * COILS.cable_h * COILS.frac_cs_sc_yuhu) / (COILS.tape_w * COILS.tape_t)
+    OUT.cable_current = max_tape_current * turns_scs
+
+    OUT.cs_area = MAGNET.dr * MAGNET.dz
+    OUT.turns_c = OUT.cs_area / (COILS.cable_w * COILS.cable_h)
+    OUT.current_supply = OUT.cable_current * OUT.turns_c
+    OUT.vol_coil = OUT.cs_area * 2 * np.pi * MAGNET.r_centre
+
+    OUT.turns_sc_tot = turns_scs * OUT.turns_c
+    OUT.tape_length = OUT.turns_sc_tot * MAGNET.r_centre * 2 * math.pi / 1e3
+
+    OUT.cost_sc = max_tape_current / 1e3 * OUT.tape_length * 1e3 * COILS.m_cost_ybco / 1e6
+    OUT.cost_cu = COILS.frac_cs_cu_yuhu * COILS.m_cost_cu * OUT.vol_coil * COILS.cu_density / 1e6
+    OUT.cost_ss = COILS.frac_cs_ss_yuhu * COILS.m_cost_ss * OUT.vol_coil * COILS.ss_density / 1e6
+    OUT.tot_mat_cost = OUT.cost_sc + OUT.cost_cu + OUT.cost_ss
+
+    OUT.magnet_cost = OUT.tot_mat_cost * COILS.mfr_factor
+    OUT.magnet_struct_cost = COILS.struct_factor * OUT.magnet_cost
+    OUT.magnet_total_cost_individual = OUT.magnet_cost + OUT.magnet_struct_cost
+    OUT.magnet_total_cost = OUT.magnet_total_cost_individual * MAGNET.coil_count
+
+    return OUT
+
+
+def compute_220103_coils(COILS: Coils, OUT: CAS22):
+    # Cost Category 22.1.3: Coils
+    OUT.magnet_properties = [compute_magnet_properties(COILS, magnet) for magnet in COILS.magnets]
+
+    # Assuming magCosts[0] is for the first type of coils
+    OUT.C22010301 = OUT.magnet_properties[0].magnet_total_cost
+
+    # Sum of costs for other types of coils
+    OUT.C22010302 = sum([mag.magnet_total_cost for mag in OUT.magnet_properties[1:]])
+    OUT.C22010303 = 0.05 * (OUT.C22010301 + OUT.C22010302)
+    OUT.C22010304 = sum([mag.magnet_struct_cost for mag in OUT.magnet_properties])
+    OUT.C220103 = OUT.C22010301 + OUT.C22010302 + OUT.C22010303
+
+    return OUT
+
