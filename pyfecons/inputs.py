@@ -88,7 +88,7 @@ class Blanket:
 class Magnet:
     name: str
     coil_count: int
-    j_cable: float   # [MA] current
+    j_cable: MA   # [MA] current
     r_centre: float
     z_centre: float
     dr: int
@@ -97,16 +97,16 @@ class Magnet:
 
 @dataclass
 class Coils:
-    magnets: list[Magnet]
+    magnets: list[Magnet] = None
 
-    struct_factor: float  # Structural multiplication factor
+    struct_factor: float = 0.5  # Structural multiplication factor
 
     # Constants
-    cable_w: float = 0.014  # Cable width in meters
-    cable_h: float = 0.017  # Cable height in meters
-    tape_w: float = 0.004  # Tape width in meters
-    tape_t: float = 0.00013  # Tape thickness in meters
-    j_tape: float = 1000  # Current density of the tape in A/mm^2
+    cable_w: Meters = 0.014  # Cable width in meters
+    cable_h: Meters = 0.017  # Cable height in meters
+    tape_w: Meters = 0.004  # Tape width in meters
+    tape_t: Meters = 0.00013  # Tape thickness in meters
+    j_tape: AmperesMillimeters2 = 1000  # Current density of the tape in A/mm^2
 
     m_cost_ybco: float = 10  # Material cost of YBCO tape in $/kAm
     m_cost_ss: float = 5  # Material cost of stainless steel in $/kg
@@ -118,10 +118,11 @@ class Coils:
     frac_cs_cu_yuhu: float = 0.307  # Fractional cross-sectional area of copper in Yuhu Zhai's cable design
     frac_cs_ss_yuhu: float = 0.257  # Fractional cross-sectional area of stainless steel in Yuhu Zhai's cable design
     frac_cs_sc_yuhu: float = 0.257  # Fractional cross-sectional area of REBCO in Yuhu Zhai's cable design
-    tot_cs_area_yuhu: float = 0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
+    tot_cs_area_yuhu: Meters2 = 0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
 
     def __post_init__(self):
-        self.magnets = []
+        if self.magnets is None:
+            self.magnets = []
 
 
 @dataclass

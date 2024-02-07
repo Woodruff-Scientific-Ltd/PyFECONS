@@ -1,6 +1,6 @@
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs
-from pyfecons.data import Data
+from pyfecons.inputs import Inputs, Coils
+from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
@@ -13,6 +13,7 @@ CAS_100000_TEX = 'CAS100000.tex'
 CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
+CAS_220103_TEX = 'CAS220103.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -20,6 +21,7 @@ TEMPLATE_FILES = [
     CAS_210000_TEX,
     CAS_220101_TEX,
     CAS_220102_TEX,
+    CAS_220103_TEX,
 ]
 
 
@@ -48,6 +50,45 @@ def read_template(template_file: str) -> str:
     with open(template_path, 'r') as file:
         template_content = file.read()
     return template_content
+
+
+def compute_cas_220103_replacements(coils: Coils, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C22010300': str(cas22.C220103),
+        'C22010301': str(cas22.C22010301),
+        'C22010302': str(cas22.C22010302),
+        'C22010303': str(cas22.C22010303),
+        'C22010304': str(cas22.C22010304),
+        # 'C22010305': str(cas22.C22010305), # TODO - this was reference in template, but I just used C22010304
+        'TABLE_STRUCTURE': ('l' + 'c' * len(cas22.magnet_properties)),
+        'TABLE_HEADER_LIST': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in cas22.magnet_properties])),
+        'MAGNET_RADIUS_LIST': (" & ".join([f"{props.magnet.r_centre}" for props in cas22.magnet_properties])),
+        'MAGNET_DR_LIST': (" & ".join([f"{props.magnet.dr}" for props in cas22.magnet_properties])),
+        'MAGNET_DZ_LIST': (" & ".join([f"{props.magnet.dz}" for props in cas22.magnet_properties])),
+        'CURRENT_SUPPLY_LIST': (" & ".join([f"{props.current_supply}" for props in cas22.magnet_properties])),
+        'CABLE_CURRENT_DENSITY_LIST': (" & ".join([f"{props.magnet.j_cable}" for props in cas22.magnet_properties])),
+        'CONDUCTOR_CURRENT_DENSITY_LIST': (" & ".join([f"{coils.j_tape}" for _ in cas22.magnet_properties])),
+        'CABLE_WIDTH_LIST': (" & ".join([f"{coils.cable_w}" for _ in cas22.magnet_properties])),
+        'CABLE_HEIGHT_LIST': (" & ".join([f"{coils.cable_h}" for _ in cas22.magnet_properties])),
+        'TOTAL_VOLUME_LIST': (" & ".join([f"{props.vol_coil}" for props in cas22.magnet_properties])),
+        'CROSS_SECTIONAL_AREA_LIST': (" & ".join([f"{props.cs_area}" for props in cas22.magnet_properties])),
+        'CABLE_TURNS_LIST': (" & ".join([f"{props.turns_c}" for props in cas22.magnet_properties])),
+        'TOTAL_TURNS_OF_CONDUCTOR_LIST': (" & ".join([f"{props.turns_sc_tot}" for props in cas22.magnet_properties])),
+        'LENGTH_OF_CONDUCTOR_LIST': (" & ".join([f"{props.tape_length}" for props in cas22.magnet_properties])),
+        'CURRENT_PER_CONDUCTOR_LIST': (" & ".join([f"{props.tape_current}" for props in cas22.magnet_properties])),
+        'COST_OF_SC_LIST': (" & ".join([f"{props.cost_sc}" for props in cas22.magnet_properties])),
+        'COST_OF_COPPER_LIST': (" & ".join([f"{props.cost_cu}" for props in cas22.magnet_properties])),
+        'COST_OF_SS_LIST': (" & ".join([f"{props.cost_ss}" for props in cas22.magnet_properties])),
+        'TOTAL_MATERIAL_COST_LIST': (" & ".join([f"{props.tot_mat_cost}" for props in cas22.magnet_properties])),
+        'MANUFACTURING_FACTOR_LIST': (" & ".join([f"{coils.mfr_factor}" for _ in cas22.magnet_properties])),
+        'STRUCTURAL_COST_LIST': (" & ".join([f"{props.magnet_struct_cost}" for props in cas22.magnet_properties])),
+        'QUANTITY_LIST': (" & ".join([f"{props.magnet.coil_count}" for props in cas22.magnet_properties])),
+        'MAGNET_COST_LIST': (" & ".join([f"{props.magnet_cost}" for props in cas22.magnet_properties])),
+        'MAGNET_TOTAL_COST_INDIVIDUAL_LIST': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in cas22.magnet_properties])),
+        'MAGNET_TOTAL_COST_LIST': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in cas22.magnet_properties])),
+    }
 
 
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
@@ -200,6 +241,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'VOL9': round(data.cas22.ht_shield_vol),
             'VOL11': round(data.cas22.lt_shield_vol),  # Missing from CAS220102.tex
         }
+    elif template == CAS_220103_TEX:
+        return compute_cas_220103_replacements(inputs.coils, data.cas22)
     else:
         raise ValueError(f'Unrecognized template {template}')
 

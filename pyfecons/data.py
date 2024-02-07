@@ -69,22 +69,22 @@ class MagnetProperties:
     magnet: Magnet = None
 
     # computed
-    vol_coil: float = None
-    cs_area: float = None
-    turns_c: float = None
-    cable_current: float = None
-    current_supply: float = None
-    turns_sc_tot: float = None
-    tape_length: float = None
-    tape_current: float = None
-    cost_sc: float = None
-    cost_cu: float = None
-    cost_ss: float = None
-    tot_mat_cost: float = None
-    magnet_cost: float = None
-    magnet_struct_cost: float = None
-    magnet_total_cost_individual: float = None
-    magnet_total_cost: float = None
+    vol_coil: Meters3 = None
+    cs_area: Meters2 = None
+    turns_c: Turns = None
+    cable_current: Amperes = None  # TODO - currently not used in template, should it be?
+    current_supply: MA = None
+    turns_sc_tot: Turns = None
+    tape_length: Kilometers = None
+    tape_current: Amperes = None
+    cost_sc: Currency = None
+    cost_cu: Currency = None
+    cost_ss: Currency = None
+    tot_mat_cost: Currency = None
+    magnet_cost: Currency = None
+    magnet_struct_cost: Currency = None
+    magnet_total_cost_individual: Currency = None
+    magnet_total_cost: Currency = None
 
 
 # TODO give sensible defaults are force initialization
@@ -143,24 +143,25 @@ class CAS22:
     C220101: Currency = None
 
     # Cost Category 22.1.2: Shield
-    C22010201 = None
-    C22010202 = None
-    C22010203 = None
-    C22010204 = None
-    C220102 = None
-    V_HTS = None
+    C22010201: Currency = None
+    C22010202: Currency = None
+    C22010203: Currency = None
+    C22010204: Currency = None
+    C220102: Currency = None
+    V_HTS: Meters3 = None
 
     # Cost Category 22.1.3: Coils
-    magnet_properties: list[MagnetProperties]
-    total_struct_cost: float = None
-    C22010301: float = None  # Assuming mag cost is for the first type of coils
-    C22010302: float = None  # Sum of costs for other types of coils
-    C22010303: float = None  # Additional costs
-    C22010304: float = None  # Structural cost
-    C220103: float = None  # Total cost
+    magnet_properties: list[MagnetProperties] = None
+    total_struct_cost: Currency = None
+    C22010301: Currency = None  # Assuming mag cost is for the first type of coils
+    C22010302: Currency = None  # Sum of costs for other types of coils
+    C22010303: Currency = None  # Additional costs
+    C22010304: Currency = None  # Structural cost
+    C220103: Currency = None  # Total cost
 
     def __post_init__(self):
-        self.magnet_properties = []
+        if self.magnet_properties is None:
+            self.magnet_properties = []
 
 
 @dataclass

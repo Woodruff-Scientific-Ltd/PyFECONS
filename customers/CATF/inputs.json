@@ -57,6 +57,53 @@
         "neutron_multiplier": "Be12Ti",
         "structure": "Ferritic Martensitic Steel (FMS)"
     },
+    "coils": {
+        "magnets": [
+            {
+                "name": "Coil 1",
+                "coil_count": 1,
+                "j_cable": 21.4,
+                "r_centre": 1.75,
+                "z_centre": 0,
+                "dr": 1,
+                "dz": 1
+            },
+            {
+                "name": "Coil 2",
+                "coil_count": 2,
+                "j_cable": 22.4,
+                "r_centre": 2.75,
+                "z_centre": 1,
+                "dr": 2,
+                "dz": 2
+            },
+            {
+                "name": "Coil 3",
+                "coil_count": 3,
+                "j_cable": 23.4,
+                "r_centre": 3.75,
+                "z_centre": 2,
+                "dr": 3,
+                "dz": 3
+            }
+        ],
+        "struct_factor": 0.5,
+        "cable_w": 0.014,
+        "cable_h": 0.017,
+        "tape_w": 0.004,
+        "tape_t": 0.00013,
+        "j_tape": 1000,
+        "m_cost_ybco": 10,
+        "m_cost_ss": 5,
+        "m_cost_cu": 10.3,
+        "cu_density": 7900,
+        "ss_density": 7900,
+        "mfr_factor": 3,
+        "frac_cs_cu_yuhu": 0.307,
+        "frac_cs_ss_yuhu": 0.257,
+        "frac_cs_sc_yuhu": 0.257,
+        "tot_cs_area_yuhu": 0.000238
+    },
     "materials": {
         "FS": {
             "rho": 7470,

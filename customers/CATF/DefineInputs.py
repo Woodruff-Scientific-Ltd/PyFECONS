@@ -27,5 +27,10 @@ def Generate():
             BlanketSecondaryCoolant.OTHER_EUTECTIC_SALT,
             BlanketNeutronMultiplier.BE12TI,
             BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
-        )
+        ),
+        coils=Coils(magnets=[
+            Magnet(name="Coil 1", coil_count=1, j_cable=MA(21.4), r_centre=1.75, z_centre=0, dr=1, dz=1),
+            Magnet(name="Coil 2", coil_count=2, j_cable=MA(22.4), r_centre=2.75, z_centre=1, dr=2, dz=2),
+            Magnet(name="Coil 3", coil_count=3, j_cable=MA(23.4), r_centre=3.75, z_centre=2, dr=3, dz=3),
+        ])
     )
