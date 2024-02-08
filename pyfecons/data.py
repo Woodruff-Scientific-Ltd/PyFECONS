@@ -159,25 +159,38 @@ class CAS22:
     C22010304: M_USD = None  # Structural cost
     C220103: M_USD = None  # Total cost
 
+    # 22.1.4 Supplementary heating
+    C22010401: Currency = None
+    C22010402: Currency = None
+    C220104: Currency = None
+
+    # Final output
+    C220000: Currency = None
+
     def __post_init__(self):
         if self.magnet_properties is None:
             self.magnet_properties = []
+
 
 @dataclass
 class CAS23:
     C230000: M_USD = None
 
+
 @dataclass
 class CAS24:
     C240000: M_USD = None
+
 
 @dataclass
 class CAS25:
     C250000: M_USD = None
 
+
 @dataclass
 class CAS26:
     C260000: M_USD = None
+
 
 @dataclass
 class CAS27:
@@ -186,13 +199,16 @@ class CAS27:
     C275000: M_USD = None
     C270000: M_USD = None
 
+
 @dataclass
 class CAS28:
     C280000: M_USD = None
 
+
 @dataclass
 class CAS29:
     C290000: M_USD = None
+
 
 @dataclass
 class CAS20:

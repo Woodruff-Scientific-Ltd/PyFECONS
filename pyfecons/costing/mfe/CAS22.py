@@ -2,7 +2,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet
+from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating
 from pyfecons.data import Data, CAS22, MagnetProperties
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3
@@ -13,6 +13,9 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220101_reactor_equipment(inputs.basic, inputs.radial_build, inputs.materials, OUT)
     compute_220102_shield(inputs.materials, OUT)
     compute_220103_coils(inputs.coils, OUT)
+    compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
+
+    OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
 
 def compute_220101_reactor_equipment(BASIC: Basic, RADIAL_BUILD: RadialBuild, MATERIALS: Materials, OUT: CAS22):
@@ -209,5 +212,12 @@ def compute_220103_coils(COILS: Coils, OUT: CAS22):
     OUT.C22010304 = M_USD(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))
     OUT.C220103 = M_USD(OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
 
+    return OUT
+
+
+def compute_220104_supplementary_heating(supplementary_heating: SupplementaryHeating, OUT: CAS22):
+    OUT.C22010401 = supplementary_heating.average_nbi.cost_2023 * supplementary_heating.nbi_power
+    OUT.C22010402 = supplementary_heating.average_icrf.cost_2023 * supplementary_heating.icrf_power
+    OUT.C220104 = OUT.C22010401 + OUT.C22010402
     return OUT
 

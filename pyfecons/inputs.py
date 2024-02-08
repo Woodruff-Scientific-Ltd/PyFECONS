@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from typing import Optional
+
 from pyfecons.enums import *
 from pyfecons.units import *
 from pyfecons.materials import Materials
@@ -126,6 +128,48 @@ class Coils:
 
 
 @dataclass
+class HeatingRef:
+    name: str
+    type: Optional[str]
+    power: MW
+    cost_2009: Optional[float]
+    cost_2023: float
+
+
+@dataclass
+class SupplementaryHeating:
+    nbi_power: MW = MW(25)
+    icrf_power: MW = MW(25)
+    aries_at: HeatingRef = field(default=HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881))
+    aries_i_a: HeatingRef = field(default=HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741))
+    aries_i_b: HeatingRef = field(default=HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028))
+    aries_rs: HeatingRef = field(default=HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187))
+    aries_iv: HeatingRef = field(default=HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205))
+    aries_ii: HeatingRef = field(default=HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921))
+    aries_iii_a: HeatingRef = field(default=HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499))
+    aries_iii_b: HeatingRef = field(default=HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785))
+    iter: HeatingRef = field(default=HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865))
+    average: HeatingRef = field(default=HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667))
+    average_icrf: HeatingRef = field(default=HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333))
+    average_nbi: HeatingRef = field(default=HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642))
+
+    def heating_refs(self):
+        return [
+            self.aries_at,
+            self.aries_i_a,
+            self.aries_i_b,
+            self.aries_rs,
+            self.aries_iv,
+            self.aries_ii,
+            self.aries_iii_a,
+            self.aries_iii_b,
+            self.iter,
+            self.average,
+            self.average_icrf,
+            self.average_nbi,
+        ]
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -134,6 +178,7 @@ class Inputs(SerializableToJSON):
     radial_build: RadialBuild = field(default_factory=RadialBuild)
     blanket: Blanket = field(default_factory=Blanket)
     coils: Coils = field(default_factory=Coils)
+    supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

@@ -1,5 +1,5 @@
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -22,6 +22,7 @@ CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
+CAS_220104_TEX = 'CAS220104.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -38,6 +39,7 @@ TEMPLATE_FILES = [
     CAS_220101_TEX,
     CAS_220102_TEX,
     CAS_220103_TEX,
+    CAS_220104_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -119,6 +121,21 @@ def compute_cas_220103_replacements(coils: Coils, cas22: CAS22) -> dict[str, str
             " & ".join([f"{props.magnet_total_cost_individual}" for props in cas22.magnet_properties])),
         'MAGNET_TOTAL_COST_LIST': (
             " & ".join([f"{props.magnet_total_cost_individual}" for props in cas22.magnet_properties])),
+    }
+
+
+def compute_cas_220104_replacements(supplementary_heating: SupplementaryHeating, cas22: CAS22) -> dict[str, str]:
+    heating_table_rows = "\n".join([
+        f"        {ref.name} & {ref.type} & {ref.power} & {ref.cost_2023} & {ref.cost_2009} \\\\"
+        for ref in supplementary_heating.heating_refs()
+    ])
+    return {
+        'C22010401': str(round(cas22.C22010401, 3)),
+        'C22010402': str(round(cas22.C22010402, 3)),
+        'C22010400': str(round(cas22.C220104, 3)),
+        'NBIpower': str(round(supplementary_heating.nbi_power, 3)),
+        'ICRFpower': str(round(supplementary_heating.icrf_power, 3)),
+        'HEATING_TABLE_ROWS': heating_table_rows,
     }
 
 
@@ -274,6 +291,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         }
     elif template == CAS_220103_TEX:
         return compute_cas_220103_replacements(inputs.coils, data.cas22)
+    elif template == CAS_220104_TEX:
+        return compute_cas_220104_replacements(inputs.supplementary_heating, data.cas22)
     elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, \
                       CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX, \
                       CAS_290000_TEX]:

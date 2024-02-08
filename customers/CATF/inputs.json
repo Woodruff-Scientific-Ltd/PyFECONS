@@ -104,6 +104,94 @@
         "frac_cs_sc_yuhu": 0.257,
         "tot_cs_area_yuhu": 0.000238
     },
+    "supplementary_heating": {
+        "nbi_power": 25.0,
+        "icrf_power": 25.0,
+        "aries_at": {
+            "name": "ARIES-AT",
+            "type": "ICRF/LH",
+            "power": 37.441,
+            "cost_2009": 1.67,
+            "cost_2023": 2.3881
+        },
+        "aries_i_a": {
+            "name": "ARIES-I",
+            "type": "ICRF/LH",
+            "power": 96.707,
+            "cost_2009": 1.87,
+            "cost_2023": 2.6741
+        },
+        "aries_i_b": {
+            "name": "ARIES-I'",
+            "type": "ICRF/LH",
+            "power": 202.5,
+            "cost_2009": 1.96,
+            "cost_2023": 2.8028
+        },
+        "aries_rs": {
+            "name": "ARIES-RS",
+            "type": "LH/HFFW",
+            "power": 80.773,
+            "cost_2009": 3.09,
+            "cost_2023": 4.4187
+        },
+        "aries_iv": {
+            "name": "ARIES-IV",
+            "type": "ICRF/LH",
+            "power": 68.0,
+            "cost_2009": 4.35,
+            "cost_2023": 6.2205
+        },
+        "aries_ii": {
+            "name": "ARIES-II",
+            "type": "ICRF/LH",
+            "power": 66.1,
+            "cost_2009": 4.47,
+            "cost_2023": 6.3921
+        },
+        "aries_iii_a": {
+            "name": "ARIES-III'",
+            "type": "NBI",
+            "power": 163.2,
+            "cost_2009": 4.93,
+            "cost_2023": 7.0499
+        },
+        "aries_iii_b": {
+            "name": "ARIES-III",
+            "type": "NBI",
+            "power": 172.0,
+            "cost_2009": 4.95,
+            "cost_2023": 7.0785
+        },
+        "iter": {
+            "name": "ITER",
+            "type": "ICRF",
+            "power": 5.5,
+            "cost_2009": null,
+            "cost_2023": 7.865
+        },
+        "average": {
+            "name": "Average",
+            "type": null,
+            "power": 110.840125,
+            "cost_2009": 3.643333333,
+            "cost_2023": 5.209966667
+        },
+        "average_icrf": {
+            "name": "Average (ICRF)",
+            "type": null,
+            "power": 91.92016667,
+            "cost_2009": 2.901666667,
+            "cost_2023": 4.149383333
+        },
+        "average_nbi": {
+            "name": "Average (NBI)",
+            "type": null,
+            "power": 167.6,
+            "cost_2009": 4.94,
+            "cost_2023": 7.0642
+        }
+    },
     "materials": {
         "FS": {
             "rho": 7470,
