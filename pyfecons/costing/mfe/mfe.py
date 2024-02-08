@@ -5,6 +5,14 @@ from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
+from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
+from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
+from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
+from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
+from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
+from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
+from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
+from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
 
 import os
 
@@ -32,6 +40,14 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS10Data(inputs, data, figures)
     CAS21Data(inputs, data, figures)
     CAS22Data(inputs, data, figures)
+    CAS23Data(inputs, data, figures)
+    CAS24Data(inputs, data, figures)
+    CAS25Data(inputs, data, figures)
+    CAS26Data(inputs, data, figures)
+    CAS27Data(inputs, data, figures)
+    CAS28Data(inputs, data, figures)
+    CAS29Data(inputs, data, figures)
+    CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
     return data
 
 

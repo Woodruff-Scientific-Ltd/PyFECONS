@@ -163,6 +163,41 @@ class CAS22:
         if self.magnet_properties is None:
             self.magnet_properties = []
 
+@dataclass
+class CAS23:
+    C230000: Currency = None
+
+@dataclass
+class CAS24:
+    C240000: Currency = None
+
+@dataclass
+class CAS25:
+    C250000: Currency = None
+
+@dataclass
+class CAS26:
+    C260000: Currency = None
+
+@dataclass
+class CAS27:
+    C271000: Currency = None
+    C274000: Currency = None
+    C275000: Currency = None
+    C270000: Currency = None
+
+@dataclass
+class CAS28:
+    C280000: Currency = None
+
+@dataclass
+class CAS29:
+    C290000: Currency = None
+
+@dataclass
+class CAS20:
+    C200000: Currency = None
+
 
 @dataclass
 class Data(SerializableToJSON):
@@ -170,3 +205,11 @@ class Data(SerializableToJSON):
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
+    cas23: CAS23 = field(default_factory=CAS23)
+    cas24: CAS24 = field(default_factory=CAS24)
+    cas25: CAS25 = field(default_factory=CAS25)
+    cas26: CAS26 = field(default_factory=CAS26)
+    cas27: CAS27 = field(default_factory=CAS27)
+    cas28: CAS28 = field(default_factory=CAS28)
+    cas29: CAS29 = field(default_factory=CAS29)
+    cas20: CAS20 = field(default_factory=CAS20)
