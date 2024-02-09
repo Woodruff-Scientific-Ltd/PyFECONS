@@ -164,6 +164,11 @@ class CAS22:
     C22010402: Currency = None
     C220104: Currency = None
 
+    # 22.1.5 primary structure
+    C22010501: Currency = None
+    C22010502: Currency = None
+    C220105: Currency = None
+
     # Final output
     C220000: Currency = None
 

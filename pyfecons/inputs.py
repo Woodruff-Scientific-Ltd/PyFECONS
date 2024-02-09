@@ -90,7 +90,7 @@ class Blanket:
 class Magnet:
     name: str
     coil_count: int
-    j_cable: MA   # [MA] current
+    j_cable: MA  # [MA] current
     r_centre: float
     z_centre: float
     dr: int
@@ -150,7 +150,8 @@ class SupplementaryHeating:
     aries_iii_b: HeatingRef = field(default=HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785))
     iter: HeatingRef = field(default=HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865))
     average: HeatingRef = field(default=HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667))
-    average_icrf: HeatingRef = field(default=HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333))
+    average_icrf: HeatingRef = field(
+        default=HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333))
     average_nbi: HeatingRef = field(default=HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642))
 
     def heating_refs(self):
@@ -169,6 +170,40 @@ class SupplementaryHeating:
             self.average_nbi,
         ]
 
+
+# 22.1.5 primary structure
+@dataclass
+class PgaCosts():
+    eng_costs: Currency
+    fab_costs: Currency
+
+
+@dataclass
+class PrimaryStructure():
+    # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
+    syst_pga: StructurePga = None
+    learning_credit: float = None
+
+    analyze_costs: Currency = 30
+    unit1_seismic_costs: Currency = 25
+    reg_rev_costs: Currency = 30
+    unit1_fab_costs: Currency = 100
+    unit10_fabcosts: Currency = 70
+    pga_costs_mapping: dict[str, PgaCosts] = None
+
+    def __post_init__(self):
+        if self.pga_costs_mapping is None:
+            self.pga_costs_mapping = {
+                StructurePga.PGA_01.name: PgaCosts(eng_costs=Currency(115), fab_costs=Currency(115)),
+                StructurePga.PGA_02.name: PgaCosts(eng_costs=Currency(125), fab_costs=Currency(130)),
+                StructurePga.PGA_03.name: PgaCosts(eng_costs=Currency(140), fab_costs=Currency(165)),
+                StructurePga.PGA_05.name: PgaCosts(eng_costs=Currency(160), fab_costs=Currency(235)),
+            }
+
+    def get_pga_costs(self) -> PgaCosts:
+        return self.pga_costs_mapping[self.syst_pga.name]
+
+
 @dataclass
 class Inputs(SerializableToJSON):
     # User inputs
@@ -179,6 +214,7 @@ class Inputs(SerializableToJSON):
     blanket: Blanket = field(default_factory=Blanket)
     coils: Coils = field(default_factory=Coils)
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
+    primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

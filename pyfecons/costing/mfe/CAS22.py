@@ -2,8 +2,8 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating
-from pyfecons.data import Data, CAS22, MagnetProperties
+from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure
+from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3
 
@@ -14,6 +14,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220102_shield(inputs.materials, OUT)
     compute_220103_coils(inputs.coils, OUT)
     compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
+    compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -221,3 +222,24 @@ def compute_220104_supplementary_heating(supplementary_heating: SupplementaryHea
     OUT.C220104 = OUT.C22010401 + OUT.C22010402
     return OUT
 
+
+def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_table: PowerTable, OUT: CAS22):
+    # lambda function to compute scaled costs in these calculations
+    scaled_cost = lambda cost: cost * power_table.p_et / 1000 * primary_structure.learning_credit
+
+    # standard engineering costs
+    OUT.C22010501 = Currency(scaled_cost(primary_structure.analyze_costs)
+                             + scaled_cost(primary_structure.unit1_seismic_costs)
+                             + scaled_cost(primary_structure.reg_rev_costs))
+
+    # standard fabrication costs
+    OUT.C22010502 = Currency(scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
+
+    # add system PGA costs
+    pga_costs = primary_structure.get_pga_costs()
+    OUT.C22010501 = Currency(OUT.C22010501 + pga_costs.eng_costs)
+    OUT.C22010502 = Currency(OUT.C22010502 + pga_costs.fab_costs)
+
+    # total cost calculation
+    OUT.C220105 = Currency(OUT.C22010501 + OUT.C22010502)
+    return OUT

@@ -67,3 +67,11 @@ class BlanketStructure(Enum):
     FERRITIC_MARTENSITIC_STEEL_FMS = 'Ferritic Martensitic Steel (FMS)'
     OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = 'Oxide Dispersion Strengthened (ODS) Steel'
     VANADIUM = 'Vanadium'
+
+
+# PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
+class StructurePga(Enum):
+    PGA_01 = 0.1
+    PGA_02 = 0.2
+    PGA_03 = 0.3
+    PGA_05 = 0.5

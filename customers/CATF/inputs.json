@@ -192,6 +192,33 @@
             "cost_2023": 7.0642
         }
     },
+    "primary_structure": {
+        "syst_pga": 0.3,
+        "learning_credit": 0.5,
+        "analyze_costs": 30,
+        "unit1_seismic_costs": 25,
+        "reg_rev_costs": 30,
+        "unit1_fab_costs": 100,
+        "unit10_fabcosts": 70,
+        "pga_costs_mapping": {
+            "PGA_01": {
+                "eng_costs": 115.0,
+                "fab_costs": 115.0
+            },
+            "PGA_02": {
+                "eng_costs": 125.0,
+                "fab_costs": 130.0
+            },
+            "PGA_03": {
+                "eng_costs": 140.0,
+                "fab_costs": 165.0
+            },
+            "PGA_05": {
+                "eng_costs": 160.0,
+                "fab_costs": 235.0
+            }
+        }
+    },
     "materials": {
         "FS": {
             "rho": 7470,
