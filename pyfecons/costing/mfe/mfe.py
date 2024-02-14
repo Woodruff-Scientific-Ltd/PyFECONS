@@ -22,6 +22,14 @@ CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
+CAS_230000_TEX = 'CAS230000.tex'
+CAS_240000_TEX = 'CAS240000.tex'
+CAS_250000_TEX = 'CAS250000.tex'
+CAS_260000_TEX = 'CAS260000.tex'
+CAS_270000_TEX = 'CAS270000.tex'
+CAS_280000_TEX = 'CAS280000.tex'
+CAS_290000_TEX = 'CAS290000.tex'
+
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -30,6 +38,13 @@ TEMPLATE_FILES = [
     CAS_220101_TEX,
     CAS_220102_TEX,
     CAS_220103_TEX,
+    CAS_230000_TEX,
+    CAS_240000_TEX,
+    CAS_250000_TEX,
+    CAS_260000_TEX,
+    CAS_270000_TEX,
+    CAS_280000_TEX,
+    #CAS_290000_TEX, - references CAS220000
 ]
 
 
@@ -46,8 +61,8 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS26Data(inputs, data, figures)
     CAS27Data(inputs, data, figures)
     CAS28Data(inputs, data, figures)
-    CAS29Data(inputs, data, figures)
-    CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
+    #CAS29Data(inputs, data, figures) # References CAS220000
+    #CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
     return data
 
 
@@ -259,6 +274,18 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         }
     elif template == CAS_220103_TEX:
         return compute_cas_220103_replacements(inputs.coils, data.cas22)
+    elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, \
+                      CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX, \
+                      CAS_290000_TEX]:
+        return {
+            'C230000': data.cas23.C230000,
+            'C240000': data.cas24.C240000,
+            'C250000': data.cas25.C250000,
+            'C260000': data.cas26.C260000,
+            'C270000': data.cas27.C270000,
+            'C280000': data.cas28.C280000,
+            'C290000': data.cas29.C290000,
+        }
     else:
         raise ValueError(f'Unrecognized template {template}')
 
