@@ -140,19 +140,18 @@ class HeatingRef:
 class SupplementaryHeating:
     nbi_power: MW = MW(25)
     icrf_power: MW = MW(25)
-    aries_at: HeatingRef = field(default=HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881))
-    aries_i_a: HeatingRef = field(default=HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741))
-    aries_i_b: HeatingRef = field(default=HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028))
-    aries_rs: HeatingRef = field(default=HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187))
-    aries_iv: HeatingRef = field(default=HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205))
-    aries_ii: HeatingRef = field(default=HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921))
-    aries_iii_a: HeatingRef = field(default=HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499))
-    aries_iii_b: HeatingRef = field(default=HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785))
-    iter: HeatingRef = field(default=HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865))
-    average: HeatingRef = field(default=HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667))
-    average_icrf: HeatingRef = field(
-        default=HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333))
-    average_nbi: HeatingRef = field(default=HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642))
+    aries_at: HeatingRef = None
+    aries_i_a: HeatingRef = None
+    aries_i_b: HeatingRef = None
+    aries_rs: HeatingRef = None
+    aries_iv: HeatingRef = None
+    aries_ii: HeatingRef = None
+    aries_iii_a: HeatingRef = None
+    aries_iii_b: HeatingRef = None
+    iter: HeatingRef = None
+    average: HeatingRef = None
+    average_icrf: HeatingRef = None
+    average_nbi: HeatingRef = None
 
     def heating_refs(self):
         return [
@@ -170,6 +169,31 @@ class SupplementaryHeating:
             self.average_nbi,
         ]
 
+    def __post_init__(self):
+        if self.aries_at is None:
+            self.aries_at = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
+        if self.aries_i_a is None:
+            self.aries_i_a = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
+        if self.aries_i_b is None:
+            self.aries_i_b = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
+        if self.aries_rs is None:
+            self.aries_rs = HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187)
+        if self.aries_iv is None:
+            self.aries_iv = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
+        if self.aries_ii is None:
+            self.aries_ii = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
+        if self.aries_iii_a is None:
+            self.aries_iii_a = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
+        if self.aries_iii_b is None:
+            self.aries_iii_b = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
+        if self.iter is None:
+            self.iter = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
+        if self.average is None:
+            self.average = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
+        if self.average_icrf is None:
+            self.average_icrf = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
+        if self.average_nbi is None:
+            self.average_nbi = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
 
 # 22.1.5 primary structure
 @dataclass
@@ -204,6 +228,34 @@ class PrimaryStructure():
         return self.pga_costs_mapping[self.syst_pga.name]
 
 
+# 22.1.6 Vacuum system
+@dataclass
+class VacuumSystem:
+    # 22.1.6.1 Vacuum Vessel
+    end_length: Meters = 8 # End parts length in meters (each)
+    thickness: Meters = 0.02
+    # Material properties (density and cost)
+    ss_density: float = 6700  # kg/m^3
+    ss_cost: float = 5  # $/kg
+    vesmfr: float = 10
+
+    # COOLING 22.1.6.2
+    k_steel: float = 10
+    t_mag: float = 20
+    t_env: float = 300
+    c_frac: float = 0.1 # cooling from power in/half carnot COP
+    cop_starfire: float = 4.2 / (300 - 4.2) * 0.15 # Starfire COP
+    qsci_starfire: float = 20e3 # 20 kW - STARFIRE cooling at 4.2 K
+    cost_starfire: float = 17.65 * 1.43 # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
+
+    #VACUUM PUMPING 22.1.6.3
+    #assume 1 second vac rate
+    #cost of 1 vacuum pump, scaled from 1985 dollars
+    cost_pump: float = 40000
+    #48 pumps needed for 200^3 system
+    vpump_cap: float = 200/48 #m^3 capable of beign pumped by 1 pump
+
+
 @dataclass
 class Inputs(SerializableToJSON):
     # User inputs
@@ -215,6 +267,7 @@ class Inputs(SerializableToJSON):
     coils: Coils = field(default_factory=Coils)
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
     primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
+    vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

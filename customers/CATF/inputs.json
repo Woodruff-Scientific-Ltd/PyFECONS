@@ -219,6 +219,22 @@
             }
         }
     },
+    "vacuum_system": {
+        "end_length": 8,
+        "thickness": 0.02,
+        "ss_density": 6700,
+        "ss_cost": 5,
+        "vesmfr": 10,
+        "k_steel": 10,
+        "t_mag": 20,
+        "t_env": 300,
+        "c_frac": 0.1,
+        "cop_starfire": 0.002129817444219067,
+        "qsci_starfire": 20000.0,
+        "cost_starfire": 25.239499999999996,
+        "cost_pump": 40000,
+        "vpump_cap": 4.166666666666667
+    },
     "materials": {
         "FS": {
             "rho": 7470,

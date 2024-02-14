@@ -1,5 +1,5 @@
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -24,6 +24,7 @@ CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
 CAS_220104_TEX = 'CAS220104.tex'
 CAS_220105_TEX = 'CAS220105.tex'
+CAS_220106_TEX = 'CAS220106.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -42,6 +43,7 @@ TEMPLATE_FILES = [
     CAS_220103_TEX,
     CAS_220104_TEX,
     CAS_220105_TEX,
+    CAS_220106_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -149,6 +151,22 @@ def compute_cas_220105_replacements(primary_structure: PrimaryStructure, cas22: 
         'C22010501': str(cas22.C22010501),
         'C22010502': str(cas22.C22010502),
         'C22010500': str(cas22.C220105),
+    }
+
+
+def compute_cas_220106_replacements(vacuum_system: VacuumSystem, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C22010601': round(cas22.C22010601),
+        'C22010602': round(cas22.C22010601),
+        'C22010603': round(cas22.C22010603),
+        'C22010604': round(cas22.C22010604),
+        'C22010600': round(cas22.C220106),
+        'vesvol': round(cas22.vesvol),
+        'materialvolume': round(cas22.materialvolume),
+        'massstruct': round(cas22.massstruct),
+        'vesmatcost': round(cas22.vesmatcost/1e6,1),
+        'vesmfr': round(vacuum_system.vesmfr),
+        'Qin': round(cas22.q_in,2),
     }
 
 
@@ -308,6 +326,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220104_replacements(inputs.supplementary_heating, data.cas22)
     elif template == CAS_220105_TEX:
         return compute_cas_220105_replacements(inputs.primary_structure, data.cas22)
+    elif template == CAS_220106_TEX:
+        return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
     elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, \
                       CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX, \
                       CAS_290000_TEX]:

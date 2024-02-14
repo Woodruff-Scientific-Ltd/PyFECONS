@@ -88,6 +88,7 @@ class MagnetProperties:
 
 
 # TODO give sensible defaults are force initialization
+# TODO group inputs by section into classes
 @dataclass
 class CAS22:
     # Cost Category 22.1.1: Reactor Equipment
@@ -168,6 +169,18 @@ class CAS22:
     C22010501: Currency = None
     C22010502: Currency = None
     C220105: Currency = None
+
+    # 22.1.6 Vacuum system
+    C22010601: Currency = None
+    C22010602: Currency = None
+    C22010603: Currency = None
+    C22010604: Currency = None
+    C220106: Currency = None
+    vesvol: float = None
+    materialvolume: float = None
+    massstruct: float = None
+    vesmatcost: float = None
+    q_in: float = None
 
     # Final output
     C220000: Currency = None
