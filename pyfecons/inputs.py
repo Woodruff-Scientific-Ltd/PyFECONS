@@ -262,6 +262,30 @@ class PowerSupplies:
 
 
 @dataclass
+class DirectEnergyConverter:
+    system_power: Unknown = 1
+    flux_limit: Unknown = 2
+    costs: dict[str, M_USD] = None
+
+    def __post_init__(self):
+        if self.costs is None:
+            self.costs = {
+                "EXPANDER_TANK": 16,
+                "EXPANDER_COIL_AND_NEUTRON_TRAP_COIL": 33,
+                "CONVERTOR_GATE_VALVE": 0.1,
+                "NEUTRON_TRAP_SHIELDING": 1,
+                "VACUUM_SYSTEM": 16,
+                "GRID_SYSTEM": 27,
+                "HEAT_COLLECTION_SYSTEM": 6,
+                "ELECTRICAL_EQUIPMENT": 13,
+                "COST_PER_UNIT": 112,
+                "TOTAL_DEUNIT_COST": 447,
+                "ENGINEERING_15_PERCENT": 67,
+                "CONTINGENCY_15_PERCENT": 77,
+            }
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -274,6 +298,7 @@ class Inputs(SerializableToJSON):
     primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
     vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
     power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
+    direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

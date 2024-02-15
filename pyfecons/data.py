@@ -198,6 +198,10 @@ class CAS22:
     divertor_mat_cost: M_USD = None
     divertor_cost: M_USD = None
 
+    # 22.1.9 Direct Energy Converter
+    C220109: M_USD = None
+    scaled_direct_energy_costs: dict[str, M_USD] = None
+
     # Final output
     C220000: M_USD = None
 

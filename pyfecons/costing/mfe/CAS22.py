@@ -4,7 +4,7 @@ import numpy as np
 import cadquery as cq
 
 from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure, \
-    VacuumSystem, PowerSupplies
+    VacuumSystem, PowerSupplies, DirectEnergyConverter
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
@@ -20,6 +20,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220106_vacuum_system(inputs.vacuum_system, data.power_table, OUT)
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
     compute_220108_divertor(inputs.materials, OUT)
+    compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -421,3 +422,13 @@ def compute_220108_divertor(materials: Materials, OUT: CAS22):
     OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m)
     OUT.C220108 = M_USD(OUT.divertor_cost / 1e6)
     return OUT
+
+
+def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergyConverter, OUT: CAS22):
+    # 22.1.9 Direct Energy Converter
+    # lambda function to compute scaled costs in these calculations
+    scaled_cost = lambda cost: (cost * direct_energy_converter.system_power
+                                * (1 / math.sqrt(direct_energy_converter.flux_limit)) ** 3)
+    OUT.scaled_direct_energy_costs = {key: M_USD(scaled_cost(value)) for key, value in direct_energy_converter.costs.items()}
+    OUT.C220109 = M_USD(sum(OUT.scaled_direct_energy_costs.values()))
+    pass

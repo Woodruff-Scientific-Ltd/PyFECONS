@@ -27,6 +27,7 @@ CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
 CAS_220108_TEX = 'CAS220108.tex'
+CAS_220109_TEX = 'CAS220109.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -47,6 +48,7 @@ TEMPLATE_FILES = [
     CAS_220106_TEX,
     CAS_220107_TEX,
     CAS_220108_TEX,
+    CAS_220109_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -191,6 +193,11 @@ def compute_cas_220108_replacements(cas22: CAS22) -> dict[str, str]:
         'DIVERTOR_MASS': cas22.divertor_mass,
     }
 
+
+def compute_cas_220109_replacements(cas22: CAS22) -> dict[str, str]:
+    replacements = {key: str(value) for key, value in cas22.scaled_direct_energy_costs.items()}
+    replacements['C220109'] = cas22.C220109
+    return replacements
 
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
@@ -354,6 +361,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220107_replacements(inputs.basic, data.cas22)
     elif template == CAS_220108_TEX:
         return compute_cas_220108_replacements(data.cas22)
+    elif template == CAS_220109_TEX:
+        return compute_cas_220109_replacements(data.cas22)
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:
