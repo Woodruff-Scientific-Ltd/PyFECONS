@@ -198,8 +198,8 @@ class SupplementaryHeating:
 # 22.1.5 primary structure
 @dataclass
 class PgaCosts():
-    eng_costs: Currency
-    fab_costs: Currency
+    eng_costs: M_USD
+    fab_costs: M_USD
 
 
 @dataclass
@@ -208,20 +208,20 @@ class PrimaryStructure():
     syst_pga: StructurePga = None
     learning_credit: float = None
 
-    analyze_costs: Currency = 30
-    unit1_seismic_costs: Currency = 25
-    reg_rev_costs: Currency = 30
-    unit1_fab_costs: Currency = 100
-    unit10_fabcosts: Currency = 70
+    analyze_costs: M_USD = 30
+    unit1_seismic_costs: M_USD = 25
+    reg_rev_costs: M_USD = 30
+    unit1_fab_costs: M_USD = 100
+    unit10_fabcosts: M_USD = 70
     pga_costs_mapping: dict[str, PgaCosts] = None
 
     def __post_init__(self):
         if self.pga_costs_mapping is None:
             self.pga_costs_mapping = {
-                StructurePga.PGA_01.name: PgaCosts(eng_costs=Currency(115), fab_costs=Currency(115)),
-                StructurePga.PGA_02.name: PgaCosts(eng_costs=Currency(125), fab_costs=Currency(130)),
-                StructurePga.PGA_03.name: PgaCosts(eng_costs=Currency(140), fab_costs=Currency(165)),
-                StructurePga.PGA_05.name: PgaCosts(eng_costs=Currency(160), fab_costs=Currency(235)),
+                StructurePga.PGA_01.name: PgaCosts(eng_costs=M_USD(115), fab_costs=M_USD(115)),
+                StructurePga.PGA_02.name: PgaCosts(eng_costs=M_USD(125), fab_costs=M_USD(130)),
+                StructurePga.PGA_03.name: PgaCosts(eng_costs=M_USD(140), fab_costs=M_USD(165)),
+                StructurePga.PGA_05.name: PgaCosts(eng_costs=M_USD(160), fab_costs=M_USD(235)),
             }
 
     def get_pga_costs(self) -> PgaCosts:

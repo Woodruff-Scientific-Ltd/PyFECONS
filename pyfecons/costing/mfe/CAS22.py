@@ -231,20 +231,20 @@ def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_
     scaled_cost = lambda cost: cost * power_table.p_et / 1000 * primary_structure.learning_credit
 
     # standard engineering costs
-    OUT.C22010501 = Currency(scaled_cost(primary_structure.analyze_costs)
+    OUT.C22010501 = M_USD(scaled_cost(primary_structure.analyze_costs)
                              + scaled_cost(primary_structure.unit1_seismic_costs)
                              + scaled_cost(primary_structure.reg_rev_costs))
 
     # standard fabrication costs
-    OUT.C22010502 = Currency(scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
+    OUT.C22010502 = M_USD(scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
 
     # add system PGA costs
     pga_costs = primary_structure.get_pga_costs()
-    OUT.C22010501 = Currency(OUT.C22010501 + pga_costs.eng_costs)
-    OUT.C22010502 = Currency(OUT.C22010502 + pga_costs.fab_costs)
+    OUT.C22010501 = M_USD(OUT.C22010501 + pga_costs.eng_costs)
+    OUT.C22010502 = M_USD(OUT.C22010502 + pga_costs.fab_costs)
 
     # total cost calculation
-    OUT.C220105 = Currency(OUT.C22010501 + OUT.C22010502)
+    OUT.C220105 = M_USD(OUT.C22010501 + OUT.C22010502)
     return OUT
 
 

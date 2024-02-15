@@ -52,6 +52,14 @@ You'll only need to do this once or every time after deleting the environment.
 conda env create -f environment.yml
 ```
 
+### Listing Conda environments
+
+```bash
+conda env list
+```
+
+You should see the `pyfecons` environment when created successfully.
+
 ### Activating the Conda environment
 
 You'll need to do this fer every new shell.

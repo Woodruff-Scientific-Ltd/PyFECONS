@@ -66,7 +66,7 @@ class CAS21:
 @dataclass
 class MagnetProperties:
     # input
-    magnet: Magnet = None
+    magnet: Magnet
 
     # computed
     vol_coil: Meters3 = None
@@ -161,21 +161,21 @@ class CAS22:
     C220103: M_USD = None  # Total cost
 
     # 22.1.4 Supplementary heating
-    C22010401: Currency = None
-    C22010402: Currency = None
-    C220104: Currency = None
+    C22010401: M_USD = None
+    C22010402: M_USD = None
+    C220104: M_USD = None
 
     # 22.1.5 primary structure
-    C22010501: Currency = None
-    C22010502: Currency = None
-    C220105: Currency = None
+    C22010501: M_USD = None
+    C22010502: M_USD = None
+    C220105: M_USD = None
 
     # 22.1.6 Vacuum system
-    C22010601: Currency = None
-    C22010602: Currency = None
-    C22010603: Currency = None
-    C22010604: Currency = None
-    C220106: Currency = None
+    C22010601: M_USD = None
+    C22010602: M_USD = None
+    C22010603: M_USD = None
+    C22010604: M_USD = None
+    C220106: M_USD = None
     vesvol: float = None
     materialvolume: float = None
     massstruct: float = None
@@ -183,7 +183,7 @@ class CAS22:
     q_in: float = None
 
     # Final output
-    C220000: Currency = None
+    C220000: M_USD = None
 
     def __post_init__(self):
         if self.magnet_properties is None:
