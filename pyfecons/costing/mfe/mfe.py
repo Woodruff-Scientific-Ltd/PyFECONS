@@ -1,5 +1,5 @@
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -11,8 +11,8 @@ from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
 from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
-from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
-from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
+# from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
+# from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
 
 import os
 
@@ -25,6 +25,7 @@ CAS_220103_TEX = 'CAS220103.tex'
 CAS_220104_TEX = 'CAS220104.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_TEX = 'CAS220106.tex'
+CAS_220107_TEX = 'CAS220107.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -32,7 +33,6 @@ CAS_260000_TEX = 'CAS260000.tex'
 CAS_270000_TEX = 'CAS270000.tex'
 CAS_280000_TEX = 'CAS280000.tex'
 CAS_290000_TEX = 'CAS290000.tex'
-
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -44,13 +44,14 @@ TEMPLATE_FILES = [
     CAS_220104_TEX,
     CAS_220105_TEX,
     CAS_220106_TEX,
+    CAS_220107_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
     CAS_260000_TEX,
     CAS_270000_TEX,
     CAS_280000_TEX,
-    #CAS_290000_TEX, - references CAS220000
+    # CAS_290000_TEX, - references CAS220000
 ]
 
 
@@ -67,8 +68,8 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS26Data(inputs, data, figures)
     CAS27Data(inputs, data, figures)
     CAS28Data(inputs, data, figures)
-    #CAS29Data(inputs, data, figures) # References CAS220000
-    #CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
+    # CAS29Data(inputs, data, figures) # References CAS220000
+    # CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
     return data
 
 
@@ -164,9 +165,16 @@ def compute_cas_220106_replacements(vacuum_system: VacuumSystem, cas22: CAS22) -
         'vesvol': round(cas22.vesvol),
         'materialvolume': round(cas22.materialvolume),
         'massstruct': round(cas22.massstruct),
-        'vesmatcost': round(cas22.vesmatcost/1e6,1),
+        'vesmatcost': round(cas22.vesmatcost / 1e6, 1),
         'vesmfr': round(vacuum_system.vesmfr),
-        'Qin': round(cas22.q_in,2),
+        'Qin': round(cas22.q_in, 2),
+    }
+
+
+def compute_cas_220107_replacements(basic: Basic, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C220107': str(cas22.C220107),
+        'PNRL': str(basic.p_nrl),
     }
 
 
@@ -249,7 +257,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         }
     elif template == CAS_220101_TEX:
         return {
-            'C220101': currency_str(data.cas22.C220101), # TODO - verify this is correct in template
+            'C220101': currency_str(data.cas22.C220101),  # TODO - verify this is correct in template
             'RAD12I': round(data.cas22.coil_ir),
             'RAD13I': round(data.cas22.bioshield_ir),
             'RAD10I': round(data.cas22.gap2_or, 1),
@@ -328,8 +336,9 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220105_replacements(inputs.primary_structure, data.cas22)
     elif template == CAS_220106_TEX:
         return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
-    elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, \
-                      CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX, \
+    elif template == CAS_220107_TEX:
+        return compute_cas_220107_replacements(inputs.basic, data.cas22)
+    elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX,
                       CAS_290000_TEX]:
         return {
             'C230000': data.cas23.C230000,

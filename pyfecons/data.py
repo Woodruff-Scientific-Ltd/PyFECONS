@@ -182,6 +182,9 @@ class CAS22:
     vesmatcost: float = None
     q_in: float = None
 
+    # Cost Category 22.1.7 Power supplies
+    C220107: M_USD = None
+
     # Final output
     C220000: M_USD = None
 

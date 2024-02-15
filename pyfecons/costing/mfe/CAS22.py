@@ -4,7 +4,7 @@ import numpy as np
 import cadquery as cq
 
 from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure, \
-    VacuumSystem
+    VacuumSystem, PowerSupplies
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3
@@ -18,6 +18,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
     compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
     compute_220106_vacuum_system(inputs.vacuum_system, data.power_table, OUT)
+    compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -385,4 +386,12 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
 
     OUT.C220106 = OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604
 
+    return OUT
+
+
+def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, OUT: CAS22):
+    # Cost Category 22.1.7 Power supplies
+    # Scaled relative to ITER for a 500MW fusion power system
+    cost_in_kiua = 269.6 * basic.p_nrl / 500 * power_supplies.learning_credit
+    OUT.C220107 = M_USD(cost_in_kiua * 2)  # assuming 1kIUA equals $2 M
     return OUT

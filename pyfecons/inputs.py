@@ -257,6 +257,11 @@ class VacuumSystem:
 
 
 @dataclass
+class PowerSupplies:
+    learning_credit: Unknown = 0.5
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -268,6 +273,7 @@ class Inputs(SerializableToJSON):
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
     primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
     vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
+    power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

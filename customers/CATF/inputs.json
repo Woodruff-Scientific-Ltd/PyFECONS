@@ -235,6 +235,9 @@
         "cost_pump": 40000,
         "vpump_cap": 4.166666666666667
     },
+    "power_supplies": {
+        "learning_credit": 0.5
+    },
     "materials": {
         "FS": {
             "rho": 7470,
