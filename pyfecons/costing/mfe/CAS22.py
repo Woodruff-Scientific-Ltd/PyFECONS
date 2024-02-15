@@ -7,7 +7,7 @@ from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, Supplemen
     VacuumSystem, PowerSupplies
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
-from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3
+from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -19,6 +19,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
     compute_220106_vacuum_system(inputs.vacuum_system, data.power_table, OUT)
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
+    compute_220108_divertor(inputs.materials, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -233,11 +234,12 @@ def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_
 
     # standard engineering costs
     OUT.C22010501 = M_USD(scaled_cost(primary_structure.analyze_costs)
-                             + scaled_cost(primary_structure.unit1_seismic_costs)
-                             + scaled_cost(primary_structure.reg_rev_costs))
+                          + scaled_cost(primary_structure.unit1_seismic_costs)
+                          + scaled_cost(primary_structure.reg_rev_costs))
 
     # standard fabrication costs
-    OUT.C22010502 = M_USD(scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
+    OUT.C22010502 = M_USD(
+        scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
 
     # add system PGA costs
     pga_costs = primary_structure.get_pga_costs()
@@ -265,8 +267,10 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
     middle_cylinder = cq.Workplane("XY").cylinder(middle_length, middle_diameter / 2)
 
     # Create the end cylinders and translate them into position
-    end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate((0, 0, middle_length / 2 + end_length / 2))
-    end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate((0, 0, -(middle_length / 2 + end_length / 2)))
+    end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate(
+        (0, 0, middle_length / 2 + end_length / 2))
+    end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate(
+        (0, 0, -(middle_length / 2 + end_length / 2)))
 
     # Combine the middle cylinder with the end cylinders for outer shape
     combined_outer_shape = middle_cylinder.union(end_cylinder1).union(end_cylinder2)
@@ -275,13 +279,14 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
     inner_middle_cylinder = cq.Workplane("XY").cylinder(middle_length, middle_diameter / 2 - thickness)
 
     # Create inner end cylinders with the reduced diameter and translate them into position
-    inner_end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate((0, 0, middle_length / 2 + end_length / 2))
-    inner_end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate((0, 0, -(middle_length / 2 + end_length / 2)))
+    inner_end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate(
+        (0, 0, middle_length / 2 + end_length / 2))
+    inner_end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate(
+        (0, 0, -(middle_length / 2 + end_length / 2)))
 
     # Combine the inner middle cylinder with the inner end cylinders for inner shape
     combined_inner_shape = inner_middle_cylinder.union(inner_end_cylinder1).union(inner_end_cylinder2)
     OUT.vesvol = combined_inner_shape.val().Volume()
-
 
     # Subtract the combined inner shape from the outer shape for material volume calculation
     material_shape = combined_outer_shape.cut(combined_inner_shape)
@@ -300,7 +305,7 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
     vesmfr = 10
     OUT.massstruct = OUT.materialvolume * ss_density
     OUT.vesmatcost = ss_cost * OUT.massstruct
-    OUT.C22010601 = OUT.vesmatcost * vesmfr/1e6
+    OUT.C22010601 = OUT.vesmatcost * vesmfr / 1e6
 
     # Display the final shape
     # display(final_shape_with_fillets)
@@ -314,7 +319,7 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
 
     # Power in from thermal conduction through support
     def qin_struct(no_beams, beam_cs_area, beam_length, k):
-        return k*beam_cs_area*no_beams/beam_length *(t_env-t_mag)/1e6
+        return k * beam_cs_area * no_beams / beam_length * (t_env - t_mag) / 1e6
 
     # power in from neutron flux, assume 95% is abosrbed in the blanket
     def qin_n():
@@ -322,13 +327,13 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
 
     # cooling from power in/half carnot COP
     c_frac = vacuum_system.c_frac
-    def q_cooling(Qin,C_frac):
-        COP = t_mag / (t_env - t_mag ) * C_frac # Assume 10% of carnot efficiency
+
+    def q_cooling(Qin, C_frac):
+        COP = t_mag / (t_env - t_mag) * C_frac  # Assume 10% of carnot efficiency
         return Qin / COP, COP
 
-
-    #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-    OUT.q_in = qin_struct(20, 1, 5, k_steel((t_env + t_mag)/2)) + qin_n()
+    # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+    OUT.q_in = qin_struct(20, 1, 5, k_steel((t_env + t_mag) / 2)) + qin_n()
 
     def qin_tot(qin, no_coils):
         return qin * no_coils
@@ -338,7 +343,7 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
     t_mag_range = np.linspace(4, 200, 100)  # Target temperatures
 
     # Calculating cooling power requirement for different target temperatures
-    cooling_power_requirements = qin_tot(OUT.q_in,13) / (t_mag_range / (t_env - t_mag_range) * c_frac)
+    cooling_power_requirements = qin_tot(OUT.q_in, 13) / (t_mag_range / (t_env - t_mag_range) * c_frac)
 
     # TODO - finish figure
     # fig, ax = plt.subplots(figsize=(10, 6))
@@ -360,9 +365,9 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
     # Starfire COP
     cop_starfire = 4.2 / (300 - 4.2) * 0.15
     # STARFIRE cooling at 4.2 K
-    qsc_itarfire = 20e3 # 20 kW
+    qsc_itarfire = 20e3  # 20 kW
     # Calculating starfire cooling at system operating temp in MW
-    q_cooling_temp = qsc_itarfire * (q_cooling(OUT.q_in, c_frac)[1] / cop_starfire) /1e6
+    q_cooling_temp = qsc_itarfire * (q_cooling(OUT.q_in, c_frac)[1] / cop_starfire) / 1e6
 
     # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
     cost_starfire = 17.65 * 1.43
@@ -394,4 +399,25 @@ def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, O
     # Scaled relative to ITER for a 500MW fusion power system
     cost_in_kiua = 269.6 * basic.p_nrl / 500 * power_supplies.learning_credit
     OUT.C220107 = M_USD(cost_in_kiua * 2)  # assuming 1kIUA equals $2 M
+    return OUT
+
+
+def compute_220108_divertor(materials: Materials, OUT: CAS22):
+    # 22.1.8 Divertor
+    # Simple volumetric calculation based on reactor geometry, user input, and tungsten material
+    # properties (see "materials" dictionary)
+    OUT.divertor_maj_rad = Meters(OUT.coil_ir - OUT.axis_ir)
+    OUT.divertor_min_rad = Meters(OUT.firstwall_ir - OUT.axis_ir)
+    OUT.divertor_thickness_z = Meters(0.2)
+    OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
+    OUT.divertor_material = materials.W  # Tungsten
+
+    # volume of the divertor based on TF coil radius
+    OUT.divertor_vol = Meters3(((OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
+                                - (OUT.divertor_maj_rad - OUT.divertor_thickness_r) ** 2)
+                               * np.pi * OUT.divertor_thickness_z)
+    OUT.divertor_mass = Kilograms(OUT.divertor_vol * OUT.divertor_material.rho)
+    OUT.divertor_mat_cost = M_USD(OUT.divertor_mass * OUT.divertor_material.c_raw)
+    OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m)
+    OUT.C220108 = M_USD(OUT.divertor_cost / 1e6)
     return OUT

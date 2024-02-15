@@ -26,6 +26,7 @@ CAS_220104_TEX = 'CAS220104.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
+CAS_220108_TEX = 'CAS220108.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -45,6 +46,7 @@ TEMPLATE_FILES = [
     CAS_220105_TEX,
     CAS_220106_TEX,
     CAS_220107_TEX,
+    CAS_220108_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -175,6 +177,18 @@ def compute_cas_220107_replacements(basic: Basic, cas22: CAS22) -> dict[str, str
     return {
         'C220107': str(cas22.C220107),
         'PNRL': str(basic.p_nrl),
+    }
+
+
+def compute_cas_220108_replacements(cas22: CAS22) -> dict[str, str]:
+    return {
+        'C220108': round(cas22.C220108),
+        'DIVERTOR_MAJ_RAD': cas22.divertor_maj_rad,
+        'DIVERTOR_MIN_RAD': cas22.divertor_min_rad,
+        'DIVERTOR_THICKNESS_Z': cas22.divertor_thickness_z,
+        'DIVERTOR_MATERIAL_NAME': cas22.divertor_material.name,
+        'DIVERTOR_VOL': cas22.divertor_vol,
+        'DIVERTOR_MASS': cas22.divertor_mass,
     }
 
 
@@ -338,6 +352,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
     elif template == CAS_220107_TEX:
         return compute_cas_220107_replacements(inputs.basic, data.cas22)
+    elif template == CAS_220108_TEX:
+        return compute_cas_220108_replacements(data.cas22)
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

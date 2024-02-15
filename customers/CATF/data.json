@@ -205,6 +205,21 @@
         "vesmatcost": 779891.1399712819,
         "q_in": 0.011303970420932879,
         "C220107": 1401.9200000000003,
+        "C220108": 867.8727617039607,
+        "divertor_maj_rad": 7.099999999999999,
+        "divertor_min_rad": 4.199999999999999,
+        "divertor_thickness_z": 0.2,
+        "divertor_thickness_r": 8.399999999999999,
+        "divertor_material": {
+            "name": "Tungsten",
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "divertor_vol": 149.89166868807612,
+        "divertor_mass": 2892909.2056798693,
         "C220000": 10395.783170707586
     },
     "cas23": {

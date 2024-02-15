@@ -1,4 +1,5 @@
 from pyfecons.inputs import *
+from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
 
 
@@ -184,6 +185,18 @@ class CAS22:
 
     # Cost Category 22.1.7 Power supplies
     C220107: M_USD = None
+
+    # 22.1.8 Divertor
+    C220108: M_USD = None
+    divertor_maj_rad: Meters = None
+    divertor_min_rad: Meters = None
+    divertor_thickness_z: Meters = None
+    divertor_thickness_r: Meters = None
+    divertor_material: Material = None
+    divertor_vol: Meters3 = None
+    divertor_mass: Kilograms = None
+    divertor_mat_cost: M_USD = None
+    divertor_cost: M_USD = None
 
     # Final output
     C220000: M_USD = None
