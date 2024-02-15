@@ -5,7 +5,7 @@ import numpy as np
 from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet
 from pyfecons.data import Data, CAS22, MagnetProperties
 from pyfecons.materials import Materials
-from pyfecons.units import Currency, Kilometers, Turns, Amperes, Meters2, MA, Meters3
+from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -183,15 +183,15 @@ def compute_magnet_properties(COILS: Coils, MAGNET: Magnet):
     OUT.turns_sc_tot = Turns(turns_scs * OUT.turns_c)
     OUT.tape_length = Kilometers(OUT.turns_sc_tot * MAGNET.r_centre * 2 * math.pi / 1e3)
 
-    OUT.cost_sc = Currency(max_tape_current / 1e3 * OUT.tape_length * 1e3 * COILS.m_cost_ybco / 1e6)
-    OUT.cost_cu = Currency(COILS.frac_cs_cu_yuhu * COILS.m_cost_cu * OUT.vol_coil * COILS.cu_density / 1e6)
-    OUT.cost_ss = Currency(COILS.frac_cs_ss_yuhu * COILS.m_cost_ss * OUT.vol_coil * COILS.ss_density / 1e6)
-    OUT.tot_mat_cost = Currency(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
+    OUT.cost_sc = M_USD(max_tape_current / 1e3 * OUT.tape_length * 1e3 * COILS.m_cost_ybco / 1e6)
+    OUT.cost_cu = M_USD(COILS.frac_cs_cu_yuhu * COILS.m_cost_cu * OUT.vol_coil * COILS.cu_density / 1e6)
+    OUT.cost_ss = M_USD(COILS.frac_cs_ss_yuhu * COILS.m_cost_ss * OUT.vol_coil * COILS.ss_density / 1e6)
+    OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
 
-    OUT.magnet_cost = Currency(OUT.tot_mat_cost * COILS.mfr_factor)
-    OUT.magnet_struct_cost = Currency(COILS.struct_factor * OUT.magnet_cost)
-    OUT.magnet_total_cost_individual = Currency(OUT.magnet_cost + OUT.magnet_struct_cost)
-    OUT.magnet_total_cost = Currency(OUT.magnet_total_cost_individual * MAGNET.coil_count)
+    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * COILS.mfr_factor)
+    OUT.magnet_struct_cost = M_USD(COILS.struct_factor * OUT.magnet_cost)
+    OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
+    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * MAGNET.coil_count)
 
     return OUT
 
@@ -201,13 +201,13 @@ def compute_220103_coils(COILS: Coils, OUT: CAS22):
     OUT.magnet_properties = [compute_magnet_properties(COILS, magnet) for magnet in COILS.magnets]
 
     # Assuming magCosts[0] is for the first type of coils
-    OUT.C22010301 = Currency(OUT.magnet_properties[0].magnet_total_cost)
+    OUT.C22010301 = M_USD(OUT.magnet_properties[0].magnet_total_cost)
 
     # Sum of costs for other types of coils
-    OUT.C22010302 = Currency(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[1:]]))
-    OUT.C22010303 = Currency(0.05 * (OUT.C22010301 + OUT.C22010302))
-    OUT.C22010304 = Currency(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))
-    OUT.C220103 = Currency(OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
+    OUT.C22010302 = M_USD(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[1:]]))
+    OUT.C22010303 = M_USD(0.05 * (OUT.C22010301 + OUT.C22010302))
+    OUT.C22010304 = M_USD(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))
+    OUT.C220103 = M_USD(OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
 
     return OUT
 

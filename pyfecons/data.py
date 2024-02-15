@@ -28,39 +28,39 @@ class PowerTable:
 # TODO give sensible defaults are force initialization
 @dataclass
 class CAS10:
-    C110000: Currency = None
-    C120000: Currency = None
-    C130000: Currency = None
-    C140000: Currency = None
-    C150000: Currency = None
-    C160000: Currency = None
-    C170000: Currency = None
-    C190000: Currency = None
-    C100000: Currency = None
+    C110000: M_USD = None
+    C120000: M_USD = None
+    C130000: M_USD = None
+    C140000: M_USD = None
+    C150000: M_USD = None
+    C160000: M_USD = None
+    C170000: M_USD = None
+    C190000: M_USD = None
+    C100000: M_USD = None
 
 
 # TODO give sensible defaults are force initialization
 @dataclass
 class CAS21:
-    C210100: Currency = None
-    C210200: Currency = None
-    C210300: Currency = None
-    C210400: Currency = None
-    C210500: Currency = None
-    C210600: Currency = None
-    C210700: Currency = None
-    C210800: Currency = None
-    C210900: Currency = None
-    C211000: Currency = None
-    C211100: Currency = None
-    C211200: Currency = None
-    C211300: Currency = None
-    C211400: Currency = None
-    C211500: Currency = None
-    C211600: Currency = None
-    C211700: Currency = None
-    C211800: Currency = None
-    C210000: Currency = None
+    C210100: M_USD = None
+    C210200: M_USD = None
+    C210300: M_USD = None
+    C210400: M_USD = None
+    C210500: M_USD = None
+    C210600: M_USD = None
+    C210700: M_USD = None
+    C210800: M_USD = None
+    C210900: M_USD = None
+    C211000: M_USD = None
+    C211100: M_USD = None
+    C211200: M_USD = None
+    C211300: M_USD = None
+    C211400: M_USD = None
+    C211500: M_USD = None
+    C211600: M_USD = None
+    C211700: M_USD = None
+    C211800: M_USD = None
+    C210000: M_USD = None
 
 
 @dataclass
@@ -77,14 +77,14 @@ class MagnetProperties:
     turns_sc_tot: Turns = None
     tape_length: Kilometers = None
     tape_current: Amperes = None
-    cost_sc: Currency = None
-    cost_cu: Currency = None
-    cost_ss: Currency = None
-    tot_mat_cost: Currency = None
-    magnet_cost: Currency = None
-    magnet_struct_cost: Currency = None
-    magnet_total_cost_individual: Currency = None
-    magnet_total_cost: Currency = None
+    cost_sc: M_USD = None
+    cost_cu: M_USD = None
+    cost_ss: M_USD = None
+    tot_mat_cost: M_USD = None
+    magnet_cost: M_USD = None
+    magnet_struct_cost: M_USD = None
+    magnet_total_cost_individual: M_USD = None
+    magnet_total_cost: M_USD = None
 
 
 # TODO give sensible defaults are force initialization
@@ -140,24 +140,24 @@ class CAS22:
     bioshield_vol: Meters3 = None  # Updated bioshield volume
 
     # Costs
-    C220101: Currency = None
+    C220101: M_USD = None
 
     # Cost Category 22.1.2: Shield
-    C22010201: Currency = None
-    C22010202: Currency = None
-    C22010203: Currency = None
-    C22010204: Currency = None
-    C220102: Currency = None
+    C22010201: M_USD = None
+    C22010202: M_USD = None
+    C22010203: M_USD = None
+    C22010204: M_USD = None
+    C220102: M_USD = None
     V_HTS: Meters3 = None
 
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
-    total_struct_cost: Currency = None
-    C22010301: Currency = None  # Assuming mag cost is for the first type of coils
-    C22010302: Currency = None  # Sum of costs for other types of coils
-    C22010303: Currency = None  # Additional costs
-    C22010304: Currency = None  # Structural cost
-    C220103: Currency = None  # Total cost
+    total_struct_cost: M_USD = None
+    C22010301: M_USD = None  # Assuming mag cost is for the first type of coils
+    C22010302: M_USD = None  # Sum of costs for other types of coils
+    C22010303: M_USD = None  # Additional costs
+    C22010304: M_USD = None  # Structural cost
+    C220103: M_USD = None  # Total cost
 
     def __post_init__(self):
         if self.magnet_properties is None:
@@ -165,38 +165,38 @@ class CAS22:
 
 @dataclass
 class CAS23:
-    C230000: Currency = None
+    C230000: M_USD = None
 
 @dataclass
 class CAS24:
-    C240000: Currency = None
+    C240000: M_USD = None
 
 @dataclass
 class CAS25:
-    C250000: Currency = None
+    C250000: M_USD = None
 
 @dataclass
 class CAS26:
-    C260000: Currency = None
+    C260000: M_USD = None
 
 @dataclass
 class CAS27:
-    C271000: Currency = None
-    C274000: Currency = None
-    C275000: Currency = None
-    C270000: Currency = None
+    C271000: M_USD = None
+    C274000: M_USD = None
+    C275000: M_USD = None
+    C270000: M_USD = None
 
 @dataclass
 class CAS28:
-    C280000: Currency = None
+    C280000: M_USD = None
 
 @dataclass
 class CAS29:
-    C290000: Currency = None
+    C290000: M_USD = None
 
 @dataclass
 class CAS20:
-    C200000: Currency = None
+    C200000: M_USD = None
 
 
 @dataclass
