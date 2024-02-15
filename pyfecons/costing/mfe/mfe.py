@@ -338,17 +338,20 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
     elif template == CAS_220107_TEX:
         return compute_cas_220107_replacements(inputs.basic, data.cas22)
-    elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX,
-                      CAS_290000_TEX]:
-        return {
-            'C230000': data.cas23.C230000,
-            'C240000': data.cas24.C240000,
-            'C250000': data.cas25.C250000,
-            'C260000': data.cas26.C260000,
-            'C270000': data.cas27.C270000,
-            'C280000': data.cas28.C280000,
-            'C290000': data.cas29.C290000,
-        }
+    elif template == CAS_230000_TEX:
+        return {'C230000': str(data.cas23.C230000)}
+    elif template == CAS_240000_TEX:
+        return {'C240000': str(data.cas24.C240000)}
+    elif template == CAS_250000_TEX:
+        return {'C250000': str(data.cas25.C250000)}
+    elif template == CAS_260000_TEX:
+        return {'C260000': str(data.cas26.C260000)}
+    elif template == CAS_270000_TEX:
+        return {'C270000': str(data.cas27.C270000)}
+    elif template == CAS_280000_TEX:
+        return {'C280000': str(data.cas28.C280000)}
+    elif template == CAS_290000_TEX:
+        return {'C290000': str(data.cas29.C290000)}
     else:
         raise ValueError(f'Unrecognized template {template}')
 
