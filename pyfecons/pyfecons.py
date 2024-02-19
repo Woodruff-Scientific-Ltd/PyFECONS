@@ -1,4 +1,5 @@
 import os
+import glob
 import tempfile
 from dataclasses import dataclass
 from pyfecons.inputs import Inputs
@@ -67,8 +68,11 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
     # Uncomment the following line of code to output the pylatex working directory path for debugging
     # print(f"temp filepath: {temp_file_path}")
     doc.generate_pdf(temp_file_path, clean_tex=False)
-    with open(temp_file_path, 'rb') as pdf_file:
+    with open(temp_file_path + '.pdf', 'rb') as pdf_file:
         pdf_content = pdf_file.read()
-    os.remove(temp_file_path)
+    # Remove temporary files
+    pattern = os.path.join(temp_file_path + "*")
+    for filename in glob.glob(pattern):
+        os.remove(filename)
 
     return FinalReport(report_tex=latex_content, report_pdf=pdf_content)
