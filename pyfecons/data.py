@@ -1,4 +1,5 @@
 from pyfecons.inputs import *
+from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
 
 
@@ -66,7 +67,7 @@ class CAS21:
 @dataclass
 class MagnetProperties:
     # input
-    magnet: Magnet = None
+    magnet: Magnet
 
     # computed
     vol_coil: Meters3 = None
@@ -88,6 +89,7 @@ class MagnetProperties:
 
 
 # TODO give sensible defaults are force initialization
+# TODO group inputs by section into classes
 @dataclass
 class CAS22:
     # Cost Category 22.1.1: Reactor Equipment
@@ -159,25 +161,74 @@ class CAS22:
     C22010304: M_USD = None  # Structural cost
     C220103: M_USD = None  # Total cost
 
+    # 22.1.4 Supplementary heating
+    C22010401: M_USD = None
+    C22010402: M_USD = None
+    C220104: M_USD = None
+
+    # 22.1.5 primary structure
+    C22010501: M_USD = None
+    C22010502: M_USD = None
+    C220105: M_USD = None
+
+    # 22.1.6 Vacuum system
+    C22010601: M_USD = None
+    C22010602: M_USD = None
+    C22010603: M_USD = None
+    C22010604: M_USD = None
+    C220106: M_USD = None
+    vesvol: float = None
+    materialvolume: float = None
+    massstruct: float = None
+    vesmatcost: float = None
+    q_in: float = None
+
+    # Cost Category 22.1.7 Power supplies
+    C220107: M_USD = None
+
+    # 22.1.8 Divertor
+    C220108: M_USD = None
+    divertor_maj_rad: Meters = None
+    divertor_min_rad: Meters = None
+    divertor_thickness_z: Meters = None
+    divertor_thickness_r: Meters = None
+    divertor_material: Material = None
+    divertor_vol: Meters3 = None
+    divertor_mass: Kilograms = None
+    divertor_mat_cost: M_USD = None
+    divertor_cost: M_USD = None
+
+    # 22.1.9 Direct Energy Converter
+    C220109: M_USD = None
+    scaled_direct_energy_costs: dict[str, M_USD] = None
+
+    # Final output
+    C220000: M_USD = None
+
     def __post_init__(self):
         if self.magnet_properties is None:
             self.magnet_properties = []
+
 
 @dataclass
 class CAS23:
     C230000: M_USD = None
 
+
 @dataclass
 class CAS24:
     C240000: M_USD = None
+
 
 @dataclass
 class CAS25:
     C250000: M_USD = None
 
+
 @dataclass
 class CAS26:
     C260000: M_USD = None
+
 
 @dataclass
 class CAS27:
@@ -186,13 +237,16 @@ class CAS27:
     C275000: M_USD = None
     C270000: M_USD = None
 
+
 @dataclass
 class CAS28:
     C280000: M_USD = None
 
+
 @dataclass
 class CAS29:
     C290000: M_USD = None
+
 
 @dataclass
 class CAS20:

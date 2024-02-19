@@ -1,5 +1,5 @@
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -11,8 +11,8 @@ from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
 from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
-from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
-from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
+# from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
+# from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
 
 import os
 
@@ -22,6 +22,12 @@ CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
+CAS_220104_TEX = 'CAS220104.tex'
+CAS_220105_TEX = 'CAS220105.tex'
+CAS_220106_TEX = 'CAS220106.tex'
+CAS_220107_TEX = 'CAS220107.tex'
+CAS_220108_TEX = 'CAS220108.tex'
+CAS_220109_TEX = 'CAS220109.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -30,7 +36,6 @@ CAS_270000_TEX = 'CAS270000.tex'
 CAS_280000_TEX = 'CAS280000.tex'
 CAS_290000_TEX = 'CAS290000.tex'
 
-
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
     CAS_100000_TEX,
@@ -38,13 +43,19 @@ TEMPLATE_FILES = [
     CAS_220101_TEX,
     CAS_220102_TEX,
     CAS_220103_TEX,
+    CAS_220104_TEX,
+    CAS_220105_TEX,
+    CAS_220106_TEX,
+    CAS_220107_TEX,
+    CAS_220108_TEX,
+    CAS_220109_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
     CAS_260000_TEX,
     CAS_270000_TEX,
     CAS_280000_TEX,
-    #CAS_290000_TEX, - references CAS220000
+    # CAS_290000_TEX, - references CAS220000
 ]
 
 
@@ -61,8 +72,8 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS26Data(inputs, data, figures)
     CAS27Data(inputs, data, figures)
     CAS28Data(inputs, data, figures)
-    #CAS29Data(inputs, data, figures) # References CAS220000
-    #CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
+    # CAS29Data(inputs, data, figures) # References CAS220000
+    # CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
     return data
 
 
@@ -121,6 +132,72 @@ def compute_cas_220103_replacements(coils: Coils, cas22: CAS22) -> dict[str, str
             " & ".join([f"{props.magnet_total_cost_individual}" for props in cas22.magnet_properties])),
     }
 
+
+def compute_cas_220104_replacements(supplementary_heating: SupplementaryHeating, cas22: CAS22) -> dict[str, str]:
+    heating_table_rows = "\n".join([
+        f"        {ref.name} & {ref.type} & {ref.power} & {ref.cost_2023} & {ref.cost_2009} \\\\"
+        for ref in supplementary_heating.heating_refs()
+    ])
+    return {
+        'C22010401': str(round(cas22.C22010401, 3)),
+        'C22010402': str(round(cas22.C22010402, 3)),
+        'C22010400': str(round(cas22.C220104, 3)),
+        'NBIpower': str(round(supplementary_heating.nbi_power, 3)),
+        'ICRFpower': str(round(supplementary_heating.icrf_power, 3)),
+        'HEATING_TABLE_ROWS': heating_table_rows,
+    }
+
+
+def compute_cas_220105_replacements(primary_structure: PrimaryStructure, cas22: CAS22) -> dict[str, str]:
+    return {
+        # TODO - next two fields are currently missing from the template
+        'pgaengcosts': str(primary_structure.get_pga_costs().eng_costs),
+        'pgafabcosts': str(primary_structure.get_pga_costs().fab_costs),
+        'C22010501': str(cas22.C22010501),
+        'C22010502': str(cas22.C22010502),
+        'C22010500': str(cas22.C220105),
+    }
+
+
+def compute_cas_220106_replacements(vacuum_system: VacuumSystem, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C22010601': round(cas22.C22010601),
+        'C22010602': round(cas22.C22010601),
+        'C22010603': round(cas22.C22010603),
+        'C22010604': round(cas22.C22010604),
+        'C22010600': round(cas22.C220106),
+        'vesvol': round(cas22.vesvol),
+        'materialvolume': round(cas22.materialvolume),
+        'massstruct': round(cas22.massstruct),
+        'vesmatcost': round(cas22.vesmatcost / 1e6, 1),
+        'vesmfr': round(vacuum_system.vesmfr),
+        'Qin': round(cas22.q_in, 2),
+    }
+
+
+def compute_cas_220107_replacements(basic: Basic, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C220107': str(cas22.C220107),
+        'PNRL': str(basic.p_nrl),
+    }
+
+
+def compute_cas_220108_replacements(cas22: CAS22) -> dict[str, str]:
+    return {
+        'C220108': round(cas22.C220108),
+        'DIVERTOR_MAJ_RAD': cas22.divertor_maj_rad,
+        'DIVERTOR_MIN_RAD': cas22.divertor_min_rad,
+        'DIVERTOR_THICKNESS_Z': cas22.divertor_thickness_z,
+        'DIVERTOR_MATERIAL_NAME': cas22.divertor_material.name,
+        'DIVERTOR_VOL': cas22.divertor_vol,
+        'DIVERTOR_MASS': cas22.divertor_mass,
+    }
+
+
+def compute_cas_220109_replacements(cas22: CAS22) -> dict[str, str]:
+    replacements = {key: str(value) for key, value in cas22.scaled_direct_energy_costs.items()}
+    replacements['C220109'] = cas22.C220109
+    return replacements
 
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
@@ -201,7 +278,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         }
     elif template == CAS_220101_TEX:
         return {
-            'C220101': currency_str(data.cas22.C220101), # TODO - verify this is correct in template
+            'C220101': currency_str(data.cas22.C220101),  # TODO - verify this is correct in template
             'RAD12I': round(data.cas22.coil_ir),
             'RAD13I': round(data.cas22.bioshield_ir),
             'RAD10I': round(data.cas22.gap2_or, 1),
@@ -274,18 +351,32 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         }
     elif template == CAS_220103_TEX:
         return compute_cas_220103_replacements(inputs.coils, data.cas22)
-    elif template in [CAS_230000_TEX, CAS_240000_TEX, CAS_250000_TEX, \
-                      CAS_260000_TEX, CAS_270000_TEX, CAS_280000_TEX, \
-                      CAS_290000_TEX]:
-        return {
-            'C230000': data.cas23.C230000,
-            'C240000': data.cas24.C240000,
-            'C250000': data.cas25.C250000,
-            'C260000': data.cas26.C260000,
-            'C270000': data.cas27.C270000,
-            'C280000': data.cas28.C280000,
-            'C290000': data.cas29.C290000,
-        }
+    elif template == CAS_220104_TEX:
+        return compute_cas_220104_replacements(inputs.supplementary_heating, data.cas22)
+    elif template == CAS_220105_TEX:
+        return compute_cas_220105_replacements(inputs.primary_structure, data.cas22)
+    elif template == CAS_220106_TEX:
+        return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
+    elif template == CAS_220107_TEX:
+        return compute_cas_220107_replacements(inputs.basic, data.cas22)
+    elif template == CAS_220108_TEX:
+        return compute_cas_220108_replacements(data.cas22)
+    elif template == CAS_220109_TEX:
+        return compute_cas_220109_replacements(data.cas22)
+    elif template == CAS_230000_TEX:
+        return {'C230000': str(data.cas23.C230000)}
+    elif template == CAS_240000_TEX:
+        return {'C240000': str(data.cas24.C240000)}
+    elif template == CAS_250000_TEX:
+        return {'C250000': str(data.cas25.C250000)}
+    elif template == CAS_260000_TEX:
+        return {'C260000': str(data.cas26.C260000)}
+    elif template == CAS_270000_TEX:
+        return {'C270000': str(data.cas27.C270000)}
+    elif template == CAS_280000_TEX:
+        return {'C280000': str(data.cas28.C280000)}
+    elif template == CAS_290000_TEX:
+        return {'C290000': str(data.cas29.C290000)}
     else:
         raise ValueError(f'Unrecognized template {template}')
 

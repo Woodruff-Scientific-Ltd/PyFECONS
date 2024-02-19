@@ -23,6 +23,11 @@ class AmperesMillimeters2(float):
         return f"{self:.2f}"
 
 
+class Kilograms(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
 class Meters(float):
     def __str__(self):
         return f"{self:.2f}"

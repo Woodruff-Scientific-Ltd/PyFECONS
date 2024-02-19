@@ -104,8 +104,161 @@
         "frac_cs_sc_yuhu": 0.257,
         "tot_cs_area_yuhu": 0.000238
     },
+    "supplementary_heating": {
+        "nbi_power": 25.0,
+        "icrf_power": 25.0,
+        "aries_at": {
+            "name": "ARIES-AT",
+            "type": "ICRF/LH",
+            "power": 37.441,
+            "cost_2009": 1.67,
+            "cost_2023": 2.3881
+        },
+        "aries_i_a": {
+            "name": "ARIES-I",
+            "type": "ICRF/LH",
+            "power": 96.707,
+            "cost_2009": 1.87,
+            "cost_2023": 2.6741
+        },
+        "aries_i_b": {
+            "name": "ARIES-I'",
+            "type": "ICRF/LH",
+            "power": 202.5,
+            "cost_2009": 1.96,
+            "cost_2023": 2.8028
+        },
+        "aries_rs": {
+            "name": "ARIES-RS",
+            "type": "LH/HFFW",
+            "power": 80.773,
+            "cost_2009": 3.09,
+            "cost_2023": 4.4187
+        },
+        "aries_iv": {
+            "name": "ARIES-IV",
+            "type": "ICRF/LH",
+            "power": 68.0,
+            "cost_2009": 4.35,
+            "cost_2023": 6.2205
+        },
+        "aries_ii": {
+            "name": "ARIES-II",
+            "type": "ICRF/LH",
+            "power": 66.1,
+            "cost_2009": 4.47,
+            "cost_2023": 6.3921
+        },
+        "aries_iii_a": {
+            "name": "ARIES-III'",
+            "type": "NBI",
+            "power": 163.2,
+            "cost_2009": 4.93,
+            "cost_2023": 7.0499
+        },
+        "aries_iii_b": {
+            "name": "ARIES-III",
+            "type": "NBI",
+            "power": 172.0,
+            "cost_2009": 4.95,
+            "cost_2023": 7.0785
+        },
+        "iter": {
+            "name": "ITER",
+            "type": "ICRF",
+            "power": 5.5,
+            "cost_2009": null,
+            "cost_2023": 7.865
+        },
+        "average": {
+            "name": "Average",
+            "type": null,
+            "power": 110.840125,
+            "cost_2009": 3.643333333,
+            "cost_2023": 5.209966667
+        },
+        "average_icrf": {
+            "name": "Average (ICRF)",
+            "type": null,
+            "power": 91.92016667,
+            "cost_2009": 2.901666667,
+            "cost_2023": 4.149383333
+        },
+        "average_nbi": {
+            "name": "Average (NBI)",
+            "type": null,
+            "power": 167.6,
+            "cost_2009": 4.94,
+            "cost_2023": 7.0642
+        }
+    },
+    "primary_structure": {
+        "syst_pga": 0.3,
+        "learning_credit": 0.5,
+        "analyze_costs": 30,
+        "unit1_seismic_costs": 25,
+        "reg_rev_costs": 30,
+        "unit1_fab_costs": 100,
+        "unit10_fabcosts": 70,
+        "pga_costs_mapping": {
+            "PGA_01": {
+                "eng_costs": 115.0,
+                "fab_costs": 115.0
+            },
+            "PGA_02": {
+                "eng_costs": 125.0,
+                "fab_costs": 130.0
+            },
+            "PGA_03": {
+                "eng_costs": 140.0,
+                "fab_costs": 165.0
+            },
+            "PGA_05": {
+                "eng_costs": 160.0,
+                "fab_costs": 235.0
+            }
+        }
+    },
+    "vacuum_system": {
+        "end_length": 8,
+        "thickness": 0.02,
+        "ss_density": 6700,
+        "ss_cost": 5,
+        "vesmfr": 10,
+        "k_steel": 10,
+        "t_mag": 20,
+        "t_env": 300,
+        "c_frac": 0.1,
+        "cop_starfire": 0.002129817444219067,
+        "qsci_starfire": 20000.0,
+        "cost_starfire": 25.239499999999996,
+        "cost_pump": 40000,
+        "vpump_cap": 4.166666666666667
+    },
+    "power_supplies": {
+        "learning_credit": 0.5
+    },
+    "direct_energy_converter": {
+        "system_power": 1,
+        "flux_limit": 2,
+        "costs": {
+            "EXPANDER_TANK": 16,
+            "EXPANDER_COIL_AND_NEUTRON_TRAP_COIL": 33,
+            "CONVERTOR_GATE_VALVE": 0.1,
+            "NEUTRON_TRAP_SHIELDING": 1,
+            "VACUUM_SYSTEM": 16,
+            "GRID_SYSTEM": 27,
+            "HEAT_COLLECTION_SYSTEM": 6,
+            "ELECTRICAL_EQUIPMENT": 13,
+            "COST_PER_UNIT": 112,
+            "TOTAL_DEUNIT_COST": 447,
+            "ENGINEERING_15_PERCENT": 67,
+            "CONTINGENCY_15_PERCENT": 77
+        }
+    },
     "materials": {
         "FS": {
+            "name": "Ferritic Steel",
             "rho": 7470,
             "c": null,
             "c_raw": 10,
@@ -113,6 +266,7 @@
             "sigma": 450
         },
         "Pb": {
+            "name": "Lead",
             "rho": 9400,
             "c": null,
             "c_raw": 2.4,
@@ -120,6 +274,7 @@
             "sigma": null
         },
         "Li4SiO4": {
+            "name": "Lithium Silicate",
             "rho": 2390,
             "c": null,
             "c_raw": 1,
@@ -127,6 +282,7 @@
             "sigma": null
         },
         "Flibe": {
+            "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
             "rho": 1900,
             "c": 40,
             "c_raw": null,
@@ -134,6 +290,7 @@
             "sigma": null
         },
         "W": {
+            "name": "Tungsten",
             "rho": 19300,
             "c": null,
             "c_raw": 100,
@@ -141,6 +298,7 @@
             "sigma": null
         },
         "Li": {
+            "name": "Lithium",
             "rho": 534,
             "c": null,
             "c_raw": 70,
@@ -148,6 +306,7 @@
             "sigma": null
         },
         "BFS": {
+            "name": "BFS",
             "rho": 7800,
             "c": null,
             "c_raw": 30,
@@ -155,6 +314,7 @@
             "sigma": null
         },
         "SiC": {
+            "name": "Silicon Carbide",
             "rho": 3200,
             "c": null,
             "c_raw": 14.49,
@@ -162,6 +322,7 @@
             "sigma": null
         },
         "Inconel": {
+            "name": "Inconel",
             "rho": 8440,
             "c": null,
             "c_raw": 46,
@@ -169,6 +330,7 @@
             "sigma": null
         },
         "Cu": {
+            "name": "Copper",
             "rho": 7300,
             "c": null,
             "c_raw": 10.2,
@@ -176,6 +338,7 @@
             "sigma": null
         },
         "Polyimide": {
+            "name": "Polyimide",
             "rho": 1430,
             "c": null,
             "c_raw": 100,
@@ -183,6 +346,7 @@
             "sigma": null
         },
         "YBCO": {
+            "name": "Yttrium Barium Copper Oxide (YBa2Cu3O7)",
             "rho": 6200,
             "c": 55,
             "c_raw": null,
@@ -190,6 +354,7 @@
             "sigma": null
         },
         "Concrete": {
+            "name": "Concrete",
             "rho": 2300,
             "c": null,
             "c_raw": 0.52,
@@ -197,6 +362,7 @@
             "sigma": null
         },
         "SS316": {
+            "name": "Stainless Steel 316",
             "rho": 7860,
             "c": null,
             "c_raw": 2,
@@ -204,6 +370,7 @@
             "sigma": 900
         },
         "Nb3Sn": {
+            "name": "Niobium-Tin (Nb3Sn)",
             "rho": null,
             "c": 5,
             "c_raw": null,
@@ -211,6 +378,7 @@
             "sigma": null
         },
         "Incoloy": {
+            "name": "Incoloy",
             "rho": 8170,
             "c": null,
             "c_raw": 4,
@@ -218,6 +386,7 @@
             "sigma": null
         },
         "GdBCO": {
+            "name": "Gadolinium Barium Copper Oxide",
             "rho": null,
             "c": null,
             "c_raw": null,
@@ -225,6 +394,7 @@
             "sigma": null
         },
         "He": {
+            "name": "Helium",
             "rho": null,
             "c": null,
             "c_raw": null,
@@ -232,6 +402,7 @@
             "sigma": null
         },
         "NbTi": {
+            "name": "Niobium-Titanium",
             "rho": null,
             "c": null,
             "c_raw": null,
@@ -239,6 +410,7 @@
             "sigma": null
         },
         "PbLi": {
+            "name": "Lead (Pb) and Lithium (Li) Eutectic Alloy",
             "rho": 8594.0,
             "c": 12.818181818181818,
             "c_raw": null,

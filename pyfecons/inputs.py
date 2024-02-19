@@ -1,4 +1,6 @@
 from dataclasses import dataclass, field
+from typing import Optional
+
 from pyfecons.enums import *
 from pyfecons.units import *
 from pyfecons.materials import Materials
@@ -88,7 +90,7 @@ class Blanket:
 class Magnet:
     name: str
     coil_count: int
-    j_cable: MA   # [MA] current
+    j_cable: MA  # [MA] current
     r_centre: float
     z_centre: float
     dr: int
@@ -126,6 +128,164 @@ class Coils:
 
 
 @dataclass
+class HeatingRef:
+    name: str
+    type: Optional[str]
+    power: MW
+    cost_2009: Optional[float]
+    cost_2023: float
+
+
+@dataclass
+class SupplementaryHeating:
+    nbi_power: MW = MW(25)
+    icrf_power: MW = MW(25)
+    aries_at: HeatingRef = None
+    aries_i_a: HeatingRef = None
+    aries_i_b: HeatingRef = None
+    aries_rs: HeatingRef = None
+    aries_iv: HeatingRef = None
+    aries_ii: HeatingRef = None
+    aries_iii_a: HeatingRef = None
+    aries_iii_b: HeatingRef = None
+    iter: HeatingRef = None
+    average: HeatingRef = None
+    average_icrf: HeatingRef = None
+    average_nbi: HeatingRef = None
+
+    def heating_refs(self):
+        return [
+            self.aries_at,
+            self.aries_i_a,
+            self.aries_i_b,
+            self.aries_rs,
+            self.aries_iv,
+            self.aries_ii,
+            self.aries_iii_a,
+            self.aries_iii_b,
+            self.iter,
+            self.average,
+            self.average_icrf,
+            self.average_nbi,
+        ]
+
+    def __post_init__(self):
+        if self.aries_at is None:
+            self.aries_at = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
+        if self.aries_i_a is None:
+            self.aries_i_a = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
+        if self.aries_i_b is None:
+            self.aries_i_b = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
+        if self.aries_rs is None:
+            self.aries_rs = HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187)
+        if self.aries_iv is None:
+            self.aries_iv = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
+        if self.aries_ii is None:
+            self.aries_ii = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
+        if self.aries_iii_a is None:
+            self.aries_iii_a = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
+        if self.aries_iii_b is None:
+            self.aries_iii_b = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
+        if self.iter is None:
+            self.iter = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
+        if self.average is None:
+            self.average = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
+        if self.average_icrf is None:
+            self.average_icrf = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
+        if self.average_nbi is None:
+            self.average_nbi = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
+
+# 22.1.5 primary structure
+@dataclass
+class PgaCosts():
+    eng_costs: M_USD
+    fab_costs: M_USD
+
+
+@dataclass
+class PrimaryStructure():
+    # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
+    syst_pga: StructurePga = None
+    learning_credit: float = None
+
+    analyze_costs: M_USD = 30
+    unit1_seismic_costs: M_USD = 25
+    reg_rev_costs: M_USD = 30
+    unit1_fab_costs: M_USD = 100
+    unit10_fabcosts: M_USD = 70
+    pga_costs_mapping: dict[str, PgaCosts] = None
+
+    def __post_init__(self):
+        if self.pga_costs_mapping is None:
+            self.pga_costs_mapping = {
+                StructurePga.PGA_01.name: PgaCosts(eng_costs=M_USD(115), fab_costs=M_USD(115)),
+                StructurePga.PGA_02.name: PgaCosts(eng_costs=M_USD(125), fab_costs=M_USD(130)),
+                StructurePga.PGA_03.name: PgaCosts(eng_costs=M_USD(140), fab_costs=M_USD(165)),
+                StructurePga.PGA_05.name: PgaCosts(eng_costs=M_USD(160), fab_costs=M_USD(235)),
+            }
+
+    def get_pga_costs(self) -> PgaCosts:
+        return self.pga_costs_mapping[self.syst_pga.name]
+
+
+# 22.1.6 Vacuum system
+@dataclass
+class VacuumSystem:
+    # 22.1.6.1 Vacuum Vessel
+    end_length: Meters = 8 # End parts length in meters (each)
+    thickness: Meters = 0.02
+    # Material properties (density and cost)
+    ss_density: float = 6700  # kg/m^3
+    ss_cost: float = 5  # $/kg
+    vesmfr: float = 10
+
+    # COOLING 22.1.6.2
+    k_steel: float = 10
+    t_mag: float = 20
+    t_env: float = 300
+    c_frac: float = 0.1 # cooling from power in/half carnot COP
+    cop_starfire: float = 4.2 / (300 - 4.2) * 0.15 # Starfire COP
+    qsci_starfire: float = 20e3 # 20 kW - STARFIRE cooling at 4.2 K
+    cost_starfire: float = 17.65 * 1.43 # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
+
+    #VACUUM PUMPING 22.1.6.3
+    #assume 1 second vac rate
+    #cost of 1 vacuum pump, scaled from 1985 dollars
+    cost_pump: float = 40000
+    #48 pumps needed for 200^3 system
+    vpump_cap: float = 200/48 #m^3 capable of beign pumped by 1 pump
+
+
+@dataclass
+class PowerSupplies:
+    learning_credit: Unknown = 0.5
+
+
+@dataclass
+class DirectEnergyConverter:
+    system_power: Unknown = 1
+    flux_limit: Unknown = 2
+    costs: dict[str, M_USD] = None
+
+    def __post_init__(self):
+        if self.costs is None:
+            self.costs = {
+                "EXPANDER_TANK": 16,
+                "EXPANDER_COIL_AND_NEUTRON_TRAP_COIL": 33,
+                "CONVERTOR_GATE_VALVE": 0.1,
+                "NEUTRON_TRAP_SHIELDING": 1,
+                "VACUUM_SYSTEM": 16,
+                "GRID_SYSTEM": 27,
+                "HEAT_COLLECTION_SYSTEM": 6,
+                "ELECTRICAL_EQUIPMENT": 13,
+                "COST_PER_UNIT": 112,
+                "TOTAL_DEUNIT_COST": 447,
+                "ENGINEERING_15_PERCENT": 67,
+                "CONTINGENCY_15_PERCENT": 77,
+            }
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -134,6 +294,11 @@ class Inputs(SerializableToJSON):
     radial_build: RadialBuild = field(default_factory=RadialBuild)
     blanket: Blanket = field(default_factory=Blanket)
     coils: Coils = field(default_factory=Coils)
+    supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
+    primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
+    vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
+    power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
+    direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)
