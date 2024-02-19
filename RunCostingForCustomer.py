@@ -68,7 +68,8 @@ with open(f"{customerFolder}/inputs.json", "w") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
     
 # Run the initial costing code
-from pyfecons.pyfecons import RunCostingWithInput, HydrateTemplates
+from pyfecons.pyfecons import RunCostingWithInput, HydrateTemplates, CreateFinalReport
+
 data = RunCostingWithInput(inputs)
 dataDict = data.toDict()
 
@@ -90,7 +91,7 @@ with open(f"{customerFolder}/data.json", "w") as file:
 #########################
 
 # fill in the templates and copy them to the customer's folder
-hydratedTemplates:object = HydrateTemplates(inputs, data)
+hydratedTemplates = HydrateTemplates(inputs, data)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory
@@ -115,3 +116,11 @@ for hydratedTemplateFileName, hydratedTemplateContents in hydratedTemplates.item
         file.write(hydratedTemplateContents)
 
 print(f"Costing run completed for {customer_name}. Data saved to {customerFolder}")
+
+
+# create final pdf output
+final_report = CreateFinalReport(hydratedTemplates)
+with open(f"{customerFolder}/output/report.tex", "w") as file:
+    file.write(final_report.report_tex)
+with open(f"{customerFolder}/output/report.pdf", "wb") as file:
+    file.write(final_report.report_pdf)
