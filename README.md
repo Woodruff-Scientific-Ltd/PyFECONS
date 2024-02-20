@@ -12,7 +12,7 @@ Then you will need to add all the dependencies in the [environment.yml](https://
 Finally, you can import a version of the library by adding to the environment.yml file in your project:
 ```
 - pip:
-  - --upgrade git+https://github.com/nTtau/PyFECONS.git@vX.Y.Z
+  - --upgrade git+https://github.com/nTtau/PyFECONS.git@X.Y.Z
 ```
 
 Unfortunately, due to the OS specific dependencies of [cadquery](https://github.com/CadQuery/cadquery), it's impossible to support an independent library that works pip virtual environments.
