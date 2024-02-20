@@ -1,8 +1,5 @@
 from setuptools import setup, find_packages
 
-with open('requirements.txt') as f:
-    required = f.read().splitlines()
-
 setup(
     name='pyfecons',
     version='0.0.1',
@@ -13,7 +10,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/nTtau/PyFECONS',
     packages=find_packages(),
-    install_requires=required,
+    install_requires=[],
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
