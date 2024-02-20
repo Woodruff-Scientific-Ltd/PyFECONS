@@ -1,6 +1,7 @@
 % This file is referenced as CAS220101_MFE_DT.tex in the Jupyter workbook
 
 \subsubsection*{Cost Category 22.1.1 First Wall and Blanket}
+\label{section:22.1.1}
 
 The first wall in a fusion heat island serves as a direct interface with the plasma, tasked with withstanding extreme heat and particle flux while also resisting radiation damage and managing tritium retention. The blanket surrounding the first wall plays a dual role in absorbing neutrons to generate heat and breed tritium for fuel, in addition to providing crucial radiation shielding for the reactor's structural integrity and safety.  This Cost Category therefore consists of the following subcategories:
 
@@ -11,10 +12,11 @@ The first wall in a fusion heat island serves as a direct interface with the pla
     \item Cost Category 21.01.02 Blanket: a crucial component that surrounds the plasma, serving multiple roles. It absorbs neutrons generated during fusion reactions, converting their kinetic energy into heat, and acts as a breeding ground for tritium, an essential fuel in deuterium-tritium fusion reactions, through interactions with materials like lithium. The blanket also provides critical radiation shielding, protecting reactor components and personnel from intense neutron radiation. Additionally, it plays a role in thermal management, as the heat generated within the blanket is often harnessed to produce steam for driving turbines and generating electricity. This makes the design and material choice for the blanket vital for reactor efficiency and safety, which requires advanced materials and engineering to withstand extreme temperatures and radiation levels.
 \end{itemize}
 
-The blanket under consideration has a firstW first wall with a primary coolant consisting of primaryC and secondaryC as the secondary coolant, with neutronM as the neutron multiplier, and a structure primarily consisting of structure1. The radial build dimensions are shown in Table \ref{tab:volumes}, which allow us to determine the volumes of components for costing.  The radial build is shown in \ref{fig:radial}.  \\
+The blanket under consideration has a firstW first wall with a primary coolant consisting of primaryC and secondaryC as the secondary coolant, with neutronM as the neutron multiplier, and a structure primarily consisting of structure1. The radial build dimensions are shown in Table \ref{tab:volumes}, which allow us to determine the volumes of components for costing.  The radial build is shown in TODO. \\
+% \ref{fig:radial}. \\  % TODO implement reference to figure.
 
 
-\begin{table}[h!]
+\begin{table}[ht!]
     \centering
     \begin{tabular}{l c  c c c}
     \hline
@@ -40,16 +42,19 @@ Bioshield	&	TH13	&	RAD13I	&	RAD13O	&	VOL13	m$^{3}$	\\
     \label{tab:volumes}
 \end{table}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\linewidth]{Figures/radial_build.pdf}
-    \caption{Radial build according to Table \ref{tab:volumes}.}
-    \label{fig:radial}
-\end{figure}
+% TODO - implement this graphic
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.9\linewidth]{Figures/radial_build.pdf}
+%    \caption{Radial build according to Table \ref{tab:volumes}.}
+%    \label{fig:radial}
+%\end{figure}
 
 
 
-The costs of the first wall and blanket are determined by the volume of the material and multiplied by a manufacturing factor per Table \ref{tab:materials}.   Cost of the first wall is \$ C220101 M.
+The costs of the first wall and blanket are determined by the volume of the material and multiplied by a manufacturing factor per Table TODO.
+% \ref{tab:materials}. % TODO implement materials table and reference
+Cost of the first wall is \$ C220101 M.
 
 %TODO - I can't find blanket cost in the calculations, we'll need to add it later
 %Cost of the blanket is \$ C22010102 M.

@@ -80,4 +80,5 @@ class Turns(float):
         return f"{self:.2f}"
 
 class Unknown(float):
-    pass
+    def __str__(self):
+        return f"{self:.2f}"

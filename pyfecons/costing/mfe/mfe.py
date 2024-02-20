@@ -208,15 +208,15 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'PALPHA': data.power_table.p_alpha,  # Alpha Power
             'PNEUTRON': data.power_table.p_neutron,  # Neutron Power
             'MN': inputs.power_table.mn,  # Neutron Energy Multiplier
-            'ETAP': inputs.power_table.eta_p,  # Pumping power capture efficiency
+            '00ETAP': inputs.power_table.eta_p,  # Pumping power capture efficiency
             'PTH': data.power_table.p_th,  # Thermal Power
             'ETATH': inputs.power_table.eta_th,  # Thermal conversion efficiency
             'PET': data.power_table.p_et,  # Total (Gross) Electric Power
             # 2. Recirculating power
             'PLOSS': data.power_table.p_loss,  # Lost Power
             'PCOILS': data.power_table.p_coils,  # Power into coils
-            'PTF': inputs.power_table.p_tf,  # Power into TF coils
-            'PPF': inputs.power_table.p_pf,  # Power into PF (equilibrium) coils
+            '000PTF': inputs.power_table.p_tf,  # Power into TF coils
+            '000PPF': inputs.power_table.p_pf,  # Power into PF (equilibrium) coils
             'FPCPPF': inputs.power_table.fpcppf,  # Primary Coolant Pumping Power Fraction
             'PPUMP': data.power_table.p_pump,  # Primary Coolant Pumping Power
             'FSUB': inputs.power_table.f_sub,  # Subsystem and Control Fraction
@@ -233,7 +233,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             # 3. Outputs
             'QSCI': data.power_table.qsci,  # Scientific Q
             'QENG': data.power_table.qeng,  # Engineering Q
-            'RECFRAC': data.power_table.recfrac,  # Recirculating power fraction
+            'RECFRAC': round(data.power_table.recfrac, 3),  # Recirculating power fraction
             'PNET': data.power_table.p_net,  # Output Power (Net Electric Power)
             # Included in powerTableMFEDTM.tex but missing in powerTableMFEDT.tex
             # 'PTHE': PTHE,
