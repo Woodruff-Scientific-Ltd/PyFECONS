@@ -1,13 +1,22 @@
 # PyCosting
 It's PyFecons, but with a different name. 
 
-## Committing code
-```bash
-git add
-git commit -m "Message"
-git push
-git pull
-```
+## Making changes
+
+Please use [git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) and create pull requests for approval when making changes.
+
+## Updating the library version
+
+We need to update the library version number in `setup.py` when making changes. We are using `MAJOR.MINOR.PATCH` version number system.
+* `MAJOR` - increment when significant structure of the library has changed or new feature is introduced.
+* `MINOR` - increment when library has changed enough that UI changes are required (i.e. introduce new inputs or outputs).
+* `PATCH` - increment when changes are pushed, but UI would not need to be updated (i.e. changes to calculations, templates, but not to inputs or outputs)
+
+## Creating a Github release
+
+After code is updated and merged to main, if the version has changed you'll need to create a new release.
+Please follow the [Github Instructions](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
+to create a release matching the merged version number. This is important for the webapp to manage updates and changes.
 
 ## Installing LaTex
 https://github.com/James-Yu/LaTeX-Workshop/wiki/Install
