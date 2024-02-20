@@ -1,5 +1,21 @@
 # PyCosting
-It's PyFecons, but with a different name. 
+It's PyFecons, but with a different name.
+
+# Using this library
+
+## Conda Dependency Management
+
+Because of OS specific dependencies, in order to use PyFECONs you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
+
+Then you will need to add all the dependencies in the [environment.yml](https://github.com/nTtau/PyFECONS/blob/main/environment.yml) to your project.
+
+Finally, you can import a version of the library by adding to the environment.yml file in your project:
+```
+- pip:
+  - --upgrade git+https://github.com/nTtau/PyFECONS.git@vX.Y.Z
+```
+
+Unfortunately, due to the OS specific dependencies of [cadquery](https://github.com/CadQuery/cadquery), it's impossible to support an independent library that works pip virtual environments.
 
 ## Making changes
 
