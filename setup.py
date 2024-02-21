@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyfecons',
-    version='0.0.1',
+    version='0.0.2',
     author='nTtau Digital LTD',
     author_email='info@nttaudigital.com',
     description='Library for nTtau PyFECONS costing calculations.',
@@ -18,4 +18,8 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     python_requires='>=3.9',
+    package_data={
+        '': ['*.tex'],
+    },
+    include_package_data=True,
 )
