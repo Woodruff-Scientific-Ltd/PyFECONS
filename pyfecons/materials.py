@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Material():
+class Material:
     name: str = None
     rho: float = None
     c: float = None
@@ -11,7 +11,7 @@ class Material():
     sigma: int = None
 
 
-class Materials():
+class Materials:
     def __init__(self):
         self.FS = Material(name="Ferritic Steel", rho=7470, c_raw=10, m=3, sigma=450)
         self.Pb = Material(name="Lead", rho=9400, c_raw=2.4, m=1.5)
