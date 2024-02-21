@@ -1,3 +1,4 @@
+from importlib import resources
 from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic
 from pyfecons.data import Data, CAS22
@@ -13,8 +14,6 @@ from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
 # from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
 # from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
-
-import os
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
@@ -87,10 +86,9 @@ def HydrateTemplates(inputs: Inputs, data: Data) -> dict[str, str]:
 
 
 def read_template(template_file: str) -> str:
-    dir_path = os.path.dirname(os.path.realpath(__file__))
-    template_path = os.path.join(dir_path, 'templates', template_file)
-    with open(template_path, 'r') as file:
-        template_content = file.read()
+    with resources.path('pyfecons.costing.mfe.templates', template_file) as template_path:
+        with open(template_path, 'r') as file:
+            template_content = file.read()
     return template_content
 
 
