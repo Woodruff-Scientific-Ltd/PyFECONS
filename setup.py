@@ -18,4 +18,8 @@ setup(
         'Programming Language :: Python :: 3.9',
     ],
     python_requires='>=3.9',
+    package_data={
+        '': ['*.tex'],
+    },
+    include_package_data=True,
 )
