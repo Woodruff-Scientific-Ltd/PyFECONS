@@ -19,54 +19,46 @@ class FuelType(Enum):
 
 
 class BlanketFirstWall(Enum):
-    TUNGSTEN = 'tungsten'
-    LIQUID_METAL = 'liquid metal'
-    BERYLLIUM = 'beryllium'
-    MOLTEN_SALT = 'molten salt'
+    TUNGSTEN = 'TUNGSTEN'
+    LIQUID_METAL = 'LIQUID_METAL'
+    BERYLLIUM = 'BERYLLIUM'
+    MOLTEN_SALT = 'MOLTEN_SALT'
 
 
 class BlanketType(Enum):
-    FLOWING_LIQUID_FIRST_WALL = 'Flowing liquid first wall'
-    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER = 'Solid first wall with a liquid breeder'
-    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4 = 'Solid first wall with a solid breeder (Li4SiO4)'
-    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3 = 'Solid first wall with a solid breeder (Li2TiO3)'
-    SOLID_FIRST_WALL_NO_BREEDER_ANUETRONIC_FUEL = 'Solid first wall, no breeder (anuetronic fuel)'
+    FLOWING_LIQUID_FIRST_WALL = 'FLOWING_LIQUID_FIRST_WALL'
+    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4 = 'SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4'
+    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3 = 'SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3'
+    SOLID_FIRST_WALL = 'SOLID_FIRST_WALL'
+    NO_BREEDER_ANEUTRONIC_FUEL = 'NO_BREEDER_ANEUTRONIC_FUEL'
 
 
 class BlanketPrimaryCoolant(Enum):
-    LEAD_LITHIUM_PBLI = 'Lead Lithium (PbLi)'
-    LITHIUM_LI = 'Lithium (Li)'
-    FLIBE = 'FLiBe'
-    OTHER_EUTECTIC_SALT = 'Other eutectic salt'
-    HELIUM = 'Helium'
-    DUAL_COOLANT_PBLI_AND_HE = 'Dual coolant: PbLi and He'
-    WATER = 'Water'
+    LEAD_LITHIUM_PBLI = 'LEAD_LITHIUM_PBLI'
+    LITHIUM_LI = 'LITHIUM_LI'
+    FLIBE = 'FLIBE'
 
 
 class BlanketSecondaryCoolant(Enum):
-    NONE = 'None'
-    LEAD_LITHIUM_PBLI = 'Lead Lithium (PbLi)'
-    LITHIUM_LI = 'Lithium (Li)'
-    FLIBE = 'FLiBe'
-    OTHER_EUTECTIC_SALT = 'Other eutectic salt'
-    HELIUM = 'Helium'
-    DUAL_COOLANT_PBLI_AND_HE = 'Dual coolant: PbLi and He'
-    WATER = 'Water'
+    NONE = 'NONE'
+    LEAD_LITHIUM_PBLI = 'LEAD_LITHIUM_PBLI'
+    LITHIUM_LI = 'LITHIUM_LI'
+    FLIBE = 'FLIBE'
 
 
 class BlanketNeutronMultiplier(Enum):
-    NONE = 'None'
-    BE = 'Be'
-    PB = 'Pb'
-    PB_AS_PART_OF_PBLI = 'Pb as part of PbLi'
-    BE12TI = 'Be12Ti'
+    NONE = 'NONE'
+    BE = 'BE'
+    PB = 'PB'
+    PB_AS_PART_OF_PBLI = 'PB_AS_PART_OF_PBLI'
+    BE12TI = 'BE12TI'
 
 
 class BlanketStructure(Enum):
-    STAINLESS_STEEL_SS = 'Stainless Steel (SS)'
-    FERRITIC_MARTENSITIC_STEEL_FMS = 'Ferritic Martensitic Steel (FMS)'
-    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = 'Oxide Dispersion Strengthened (ODS) Steel'
-    VANADIUM = 'Vanadium'
+    STAINLESS_STEEL_SS = 'STAINLESS_STEEL_SS'
+    FERRITIC_MARTENSITIC_STEEL_FMS = 'FERRITIC_MARTENSITIC_STEEL_FMS'
+    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = 'OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL'
+    VANADIUM = 'VANADIUM'
 
 
 # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
