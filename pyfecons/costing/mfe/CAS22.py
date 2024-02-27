@@ -25,6 +25,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220119_scheduled_replacement_cost(OUT)
     compute_2201_total(OUT)
     compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
+    compute_2203_auxilary_cooling(inputs.basic, data.power_table, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -498,4 +499,12 @@ def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTabl
 
     # Main heat-transfer system (NSSS)
     OUT.C220200 =  M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
+    return OUT
+
+
+def compute_2203_auxilary_cooling(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:
+    # Cost Category 22.3  Auxiliary cooling
+    # the CPI scaling of 2.02 comes from: https://www.bls.gov/data/inflation_calculator.htm
+    # scaled relative to 1992 dollars (despite 2003 publication date)
+    OUT.C220300 = M_USD(1.10 * 1e-3 * float(basic.n_mod) * power_table.p_th * 2.02)
     return OUT

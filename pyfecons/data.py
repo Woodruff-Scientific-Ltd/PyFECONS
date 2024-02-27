@@ -217,6 +217,9 @@ class CAS22:
     C220203: M_USD = None
     C220200: M_USD = None
 
+    # Cost Category 22.3  Auxiliary cooling
+    C220300: M_USD = None
+
     # Final output
     C220000: M_USD = None
 
