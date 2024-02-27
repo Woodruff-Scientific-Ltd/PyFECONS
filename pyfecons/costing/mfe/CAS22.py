@@ -23,6 +23,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
     compute_220119_scheduled_replacement_cost(OUT)
+    compute_2201_total(OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -460,4 +461,11 @@ def compute_220111_installation_costs(basic: Basic, installation: Installation, 
 def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
     # Cost category 22.1.19 Scheduled Replacement Cost
     OUT.C220119 = M_USD(0)
+    return OUT
+
+
+def compute_2201_total(OUT: CAS22) -> CAS22:
+    # Cost category 22.1 total
+    OUT.C220100 = M_USD(OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
+                        + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
     return OUT

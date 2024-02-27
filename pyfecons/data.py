@@ -208,6 +208,9 @@ class CAS22:
     # Cost category 22.1.19 Scheduled Replacement Cost
     C220119: M_USD = None
 
+    # Cost category 22.1 total
+    C220100: M_USD = None
+
     # Final output
     C220000: M_USD = None
 
