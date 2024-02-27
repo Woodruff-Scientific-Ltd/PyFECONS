@@ -35,6 +35,7 @@ CAS_220300_TEX = 'CAS220300.tex' # TODO replace with updated file from Google Dr
 CAS_220400_TEX = 'CAS220400.tex' # TODO replace with updated file from Google Drive
 CAS_220500_TEX = 'CAS220500.tex' # TODO replace with updated file from Google Drive
 CAS_220600_TEX = 'CAS220600.tex' # TODO replace with updated file from Google Drive
+CAS_220700_TEX = 'CAS220700.tex' # TODO replace with updated file from Google Drive
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -63,6 +64,7 @@ TEMPLATE_FILES = [
     CAS_220400_TEX,
     CAS_220500_TEX,
     CAS_220600_TEX,
+    CAS_220700_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -423,6 +425,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_220500_replacements(inputs.fuel_handling, data.cas22)
     elif template == CAS_220600_TEX:
         return {'C220600': str(data.cas22.C220600)}
+    elif template == CAS_220700_TEX:
+        return {'C220700': str(data.cas22.C220700)}
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

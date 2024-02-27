@@ -29,6 +29,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2204_radwaste(data.power_table, OUT)
     compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
     compute_2206_other_reactor_plant_equipment(data.power_table, OUT)
+    compute_2207_instrumentation_and_control(OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -555,4 +556,10 @@ def compute_2206_other_reactor_plant_equipment(power_table: PowerTable, OUT: CAS
     # Cost Category 22.6 Other Reactor Plant Equipment
     # From Waganer
     OUT.C220600 = M_USD(11.5 * (power_table.p_net / 1000) ** (0.8))
+    return OUT
+
+
+def compute_2207_instrumentation_and_control(OUT: CAS22) -> CAS22:
+    # Cost Category 22.7 Instrumentation and Control
+    OUT.C220700 = M_USD(85)
     return OUT

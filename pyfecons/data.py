@@ -242,6 +242,9 @@ class CAS22:
     # Cost Category 22.6 Other Reactor Plant Equipment
     C220600: M_USD = None
 
+    # Cost Category 22.7 Instrumentation and Control
+    C220700: M_USD = 85
+
     # Final output
     C220000: M_USD = None
 
