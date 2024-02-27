@@ -205,6 +205,9 @@ class CAS22:
     # Cost Category 22.1.11 Installation costs
     C220111: M_USD = None
 
+    # Cost category 22.1.19 Scheduled Replacement Cost
+    C220119: M_USD = None
+
     # Final output
     C220000: M_USD = None
 

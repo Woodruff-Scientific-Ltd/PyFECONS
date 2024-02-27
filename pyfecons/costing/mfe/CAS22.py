@@ -22,6 +22,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220108_divertor(inputs.materials, OUT)
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
+    compute_220119_scheduled_replacement_cost(OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -451,6 +452,12 @@ def compute_220111_installation_costs(basic: Basic, installation: Installation, 
     C_22_1_11_10_in = 0  # ECRH
 
     # Total cost calculations
-    OUT.C220111 = (C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
+    OUT.C220111 = M_USD(C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
                    + C_22_1_11_6_in + C_22_1_11_7_in + C_22_1_11_8_in + C_22_1_11_9_in + C_22_1_11_10_in)
+    return OUT
+
+
+def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
+    # Cost category 22.1.19 Scheduled Replacement Cost
+    OUT.C220119 = M_USD(0)
     return OUT
