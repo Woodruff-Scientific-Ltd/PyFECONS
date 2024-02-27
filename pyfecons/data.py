@@ -239,6 +239,9 @@ class CAS22:
     C220506: M_USD = None
     C220500: M_USD = None
 
+    # Cost Category 22.6 Other Reactor Plant Equipment
+    C220600: M_USD = None
+
     # Final output
     C220000: M_USD = None
 

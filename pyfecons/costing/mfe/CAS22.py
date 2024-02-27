@@ -28,6 +28,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2203_auxilary_cooling(inputs.basic, data.power_table, OUT)
     compute_2204_radwaste(data.power_table, OUT)
     compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
+    compute_2206_other_reactor_plant_equipment(data.power_table, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -547,4 +548,11 @@ def compute_2205_fuel_handling_and_storage(fuel_handling: FuelHandling, OUT: CAS
     # ITER inflation cost
     OUT.C220500 = M_USD(OUT.C220501 + OUT.C220502 + OUT.C220503 + OUT.C220504 + OUT.C220505 + OUT.C220506)
 
+    return OUT
+
+
+def compute_2206_other_reactor_plant_equipment(power_table: PowerTable, OUT: CAS22):
+    # Cost Category 22.6 Other Reactor Plant Equipment
+    # From Waganer
+    OUT.C220600 = M_USD(11.5 * (power_table.p_net / 1000) ** (0.8))
     return OUT
