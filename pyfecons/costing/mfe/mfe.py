@@ -1,6 +1,7 @@
 from importlib import resources
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
+    FuelHandling
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -32,6 +33,7 @@ CAS_220119_TEX = 'CAS220119.tex' # TODO get file from Google Drive
 CAS_220200_TEX = 'CAS220200.tex' # TODO replace with updated file from Google Drive
 CAS_220300_TEX = 'CAS220300.tex' # TODO replace with updated file from Google Drive
 CAS_220400_TEX = 'CAS220400.tex' # TODO replace with updated file from Google Drive
+CAS_220500_TEX = 'CAS220500.tex' # TODO replace with updated file from Google Drive
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -58,6 +60,7 @@ TEMPLATE_FILES = [
     CAS_220200_TEX,
     CAS_220300_TEX,
     CAS_220400_TEX,
+    CAS_220500_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -216,6 +219,27 @@ def compute_cas_220200_replacements(blanket: Blanket, cas22: CAS22) -> dict[str,
         'C220203': cas22.C220203,
         'primaryC': blanket.primary_coolant.display_name,
         'secondaryC': blanket.secondary_coolant.display_name,
+    }
+
+
+def compute_cas_220500_replacements(fuel_handling: FuelHandling, cas22: CAS22) -> dict[str, str]:
+    return {
+        'LEARNING_CURVE_CREDIT': fuel_handling.learning_curve_credit,
+        'LEARNING_TENTH_OF_A_KIND': fuel_handling.learning_tenth_of_a_kind,
+        'C2205010ITER': cas22.C2205010ITER,
+        'C2205020ITER': cas22.C2205020ITER,
+        'C2205030ITER': cas22.C2205030ITER,
+        'C2205040ITER': cas22.C2205040ITER,
+        'C2205050ITER': cas22.C2205050ITER,
+        'C2205060ITER': cas22.C2205060ITER,
+        'C22050ITER': cas22.C22050ITER,
+        'C220501': cas22.C220501,
+        'C220502': cas22.C220502,
+        'C220503': cas22.C220503,
+        'C220504': cas22.C220504,
+        'C220505': cas22.C220505,
+        'C220506': cas22.C220506,
+        'C220500': cas22.C220500,
     }
 
 
@@ -393,6 +417,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C220300': str(data.cas22.C220300)}
     elif template == CAS_220400_TEX:
         return {'C220400': str(data.cas22.C220400)}
+    elif template == CAS_220500_TEX:
+        return compute_cas_220500_replacements(inputs.fuel_handling, data.cas22)
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

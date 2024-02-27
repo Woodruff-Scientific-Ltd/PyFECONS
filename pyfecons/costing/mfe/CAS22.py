@@ -4,7 +4,7 @@ import numpy as np
 import cadquery as cq
 
 from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure, \
-    VacuumSystem, PowerSupplies, DirectEnergyConverter, Installation
+    VacuumSystem, PowerSupplies, DirectEnergyConverter, Installation, FuelHandling
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
@@ -27,6 +27,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
     compute_2203_auxilary_cooling(inputs.basic, data.power_table, OUT)
     compute_2204_radwaste(data.power_table, OUT)
+    compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -435,7 +436,8 @@ def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergy
     # lambda function to compute scaled costs in these calculations
     scaled_cost = lambda cost: (cost * direct_energy_converter.system_power
                                 * (1 / math.sqrt(direct_energy_converter.flux_limit)) ** 3)
-    OUT.scaled_direct_energy_costs = {key: M_USD(scaled_cost(value)) for key, value in direct_energy_converter.costs.items()}
+    OUT.scaled_direct_energy_costs = {key: M_USD(scaled_cost(value)) for key, value in
+                                      direct_energy_converter.costs.items()}
     OUT.C220109 = M_USD(sum(OUT.scaled_direct_energy_costs.values()))
     return OUT
 
@@ -444,20 +446,24 @@ def compute_220111_installation_costs(basic: Basic, installation: Installation, 
     # Cost Category 22.1.11 Installation costs
     construction_worker = 20 * installation.r / 4
     C_22_1_11_in = installation.nmod * basic.construction_time * (installation.labor_rate * 20 * 300)
-    C_22_1_11_1_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
+    C_22_1_11_1_in = installation.nmod * (
+                (installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
     C_22_1_11_2_in = installation.nmod * ((installation.labor_rate * 150 * construction_worker) + 0)  # 22.2 shield
     C_22_1_11_3_in = installation.nmod * ((installation.labor_rate * 100 * construction_worker) + 0)  # coils
-    C_22_1_11_4_in = installation.nmod * ((installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
+    C_22_1_11_4_in = installation.nmod * (
+                (installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
     C_22_1_11_5_in = installation.nmod * ((installation.labor_rate * 60 * construction_worker) + 0)  # primary structure
     C_22_1_11_6_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # vacuum system
     C_22_1_11_7_in = installation.nmod * ((installation.labor_rate * 400 * construction_worker) + 0)  # power supplies
     C_22_1_11_8_in = 0  # guns
-    C_22_1_11_9_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)   # direct energy converter
+    C_22_1_11_9_in = installation.nmod * (
+                (installation.labor_rate * 200 * construction_worker) + 0)  # direct energy converter
     C_22_1_11_10_in = 0  # ECRH
 
     # Total cost calculations
-    OUT.C220111 = M_USD(C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
-                   + C_22_1_11_6_in + C_22_1_11_7_in + C_22_1_11_8_in + C_22_1_11_9_in + C_22_1_11_10_in)
+    OUT.C220111 = M_USD(
+        C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
+        + C_22_1_11_6_in + C_22_1_11_7_in + C_22_1_11_8_in + C_22_1_11_9_in + C_22_1_11_10_in)
     return OUT
 
 
@@ -499,7 +505,7 @@ def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTabl
     # 75.0 * (PTH/3500)^0.55
 
     # Main heat-transfer system (NSSS)
-    OUT.C220200 =  M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
+    OUT.C220200 = M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
     return OUT
 
 
@@ -517,4 +523,28 @@ def compute_2204_radwaste(power_table: PowerTable, OUT: CAS22) -> CAS22:
     # the CPI scaling of 1.96 comes from: https://www.bls.gov/data/inflation_calculator.htm
     # scaled relative to 1992 dollars (despite 2003 publication date)
     OUT.C220400 = M_USD(1.96 * 1e-3 * power_table.p_th * 2.02)
+    return OUT
+
+
+def compute_2205_fuel_handling_and_storage(fuel_handling: FuelHandling, OUT: CAS22) -> CAS22:
+    # Cost Category 22.5 Fuel Handling and Storage
+    OUT.C2205010ITER = M_USD(20.465 * fuel_handling.inflation)
+    OUT.C2205020ITER = M_USD(7 * fuel_handling.inflation)
+    OUT.C2205030ITER = M_USD(22.511 * fuel_handling.inflation)
+    OUT.C2205040ITER = M_USD(9.76 * fuel_handling.inflation)
+    OUT.C2205050ITER = M_USD(22.826 * fuel_handling.inflation)
+    OUT.C2205060ITER = M_USD(47.542 * fuel_handling.inflation)
+    # ITER inflation cost
+    OUT.C22050ITER = M_USD(OUT.C2205010ITER + OUT.C2205020ITER + OUT.C2205030ITER
+                           + OUT.C2205040ITER + OUT.C2205050ITER + OUT.C2205060ITER)
+
+    OUT.C220501 = M_USD(OUT.C2205010ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220502 = M_USD(OUT.C2205020ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220503 = M_USD(OUT.C2205030ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220504 = M_USD(OUT.C2205040ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220505 = M_USD(OUT.C2205050ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220506 = M_USD(OUT.C2205060ITER * fuel_handling.learning_tenth_of_a_kind)
+    # ITER inflation cost
+    OUT.C220500 = M_USD(OUT.C220501 + OUT.C220502 + OUT.C220503 + OUT.C220504 + OUT.C220505 + OUT.C220506)
+
     return OUT
