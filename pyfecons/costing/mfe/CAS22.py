@@ -24,6 +24,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
     compute_220119_scheduled_replacement_cost(OUT)
     compute_2201_total(OUT)
+    compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -468,4 +469,33 @@ def compute_2201_total(OUT: CAS22) -> CAS22:
     # Cost category 22.1 total
     OUT.C220100 = M_USD(OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
                         + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
+    return OUT
+
+
+def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:
+    # TODO - audit this function since there is lots of commented code
+    # MAIN AND SECONDARY COOLANT Cost Category 22.2
+
+    # Li(f), PbLi, He:                %Primary coolant(i):
+    # C_22_2_1  = 233.9 * (PTH/3500)^0.55
+
+    # am assuming a linear scaling	%Li(f), PbLi, He:
+    # C220201  = 268.5  * (float(basic.n_mod) * power_table.p_th / 3500) * 1.71
+
+    # Primary coolant(i):  1.85 is due to inflation%the CPI scaling of 1.71 comes from:
+    # https://www.bls.gov/data/inflation_calculator.htm scaled relative to 1992 dollars (despite 2003 publication date)
+    # this is the Sheffield cost for a 1GWe system
+    OUT.C220201 = M_USD(166 * (float(basic.n_mod) * power_table.p_net / 1000))
+
+    # OC, H2O(g)
+    # C_22_2_1  = 75.0 * (PTH/3500)^0.55
+    # Intermediate coolant system
+    OUT.C220202 = M_USD(40.6 * (power_table.p_th / 3500) ** 0.55)
+
+    OUT.C220203 = M_USD(0)
+    # Secondary coolant system
+    # 75.0 * (PTH/3500)^0.55
+
+    # Main heat-transfer system (NSSS)
+    OUT.C220200 =  M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
     return OUT

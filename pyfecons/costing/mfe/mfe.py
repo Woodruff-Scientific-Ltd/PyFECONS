@@ -1,6 +1,6 @@
 from importlib import resources
 from pyfecons.helpers import currency_str
-from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic
+from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket
 from pyfecons.data import Data, CAS22
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
@@ -27,8 +27,9 @@ CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
 CAS_220108_TEX = 'CAS220108.tex'
 CAS_220109_TEX = 'CAS220109.tex'
-CAS_220111_TEX = 'CAS220111.tex' # TODO replace with file form Google Drive
+CAS_220111_TEX = 'CAS220111.tex' # TODO replace with updated file from Google Drive
 CAS_220119_TEX = 'CAS220119.tex' # TODO get file from Google Drive
+CAS_220200_TEX = 'CAS220200.tex' # TODO replace with updated file from Google Drive
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -52,6 +53,7 @@ TEMPLATE_FILES = [
     CAS_220109_TEX,
     CAS_220111_TEX,
     # CAS_220119_TEX, # TODO get file from Google Drive
+    CAS_220200_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -200,6 +202,18 @@ def compute_cas_220109_replacements(cas22: CAS22) -> dict[str, str]:
     replacements = {key: str(value) for key, value in cas22.scaled_direct_energy_costs.items()}
     replacements['C220109'] = cas22.C220109
     return replacements
+
+
+def compute_cas_220200_replacements(blanket: Blanket, cas22: CAS22) -> dict[str, str]:
+    return {
+        'C220200': cas22.C220200,
+        'C220201': cas22.C220201,
+        'C220202': cas22.C220202,
+        'C220203': cas22.C220203,
+        'primaryC': blanket.primary_coolant.display_name,
+        'secondaryC': blanket.secondary_coolant.display_name,
+    }
+
 
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
@@ -369,6 +383,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C220111': str(data.cas22.C220111)}
     elif template == CAS_220119_TEX:
         return {'C220119': str(data.cas22.C220119)}
+    elif template == CAS_220200_TEX:
+        return compute_cas_220200_replacements(inputs.blanket, data.cas22)
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

@@ -211,6 +211,12 @@ class CAS22:
     # Cost category 22.1 total
     C220100: M_USD = None
 
+    # MAIN AND SECONDARY COOLANT Cost Category 22.2
+    C220201: M_USD = None
+    C220202: M_USD = None
+    C220203: M_USD = None
+    C220200: M_USD = None
+
     # Final output
     C220000: M_USD = None
 
