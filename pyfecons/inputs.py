@@ -286,6 +286,14 @@ class DirectEnergyConverter:
 
 
 @dataclass
+class Installation:
+    # 1600 dollars per day for skilled labor
+    labor_rate: USD = 1600 / 1e6
+    r: Meters = 8  # major radius of the system
+    nmod: int = 1  # number of modules
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -299,6 +307,7 @@ class Inputs(SerializableToJSON):
     vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
     power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
     direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
+    installation: Installation = field(default_factory=Installation)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

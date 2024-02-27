@@ -67,6 +67,11 @@ class Ratio(float):
         return f"{self:.3f}"
 
 
+class USD(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
 # Was Currency, renamed to M_USD
 # The templates suggest this is in millions of USD
 class M_USD(float):

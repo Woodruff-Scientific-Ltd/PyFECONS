@@ -4,7 +4,7 @@ import numpy as np
 import cadquery as cq
 
 from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure, \
-    VacuumSystem, PowerSupplies, DirectEnergyConverter
+    VacuumSystem, PowerSupplies, DirectEnergyConverter, Installation
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
@@ -21,6 +21,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
     compute_220108_divertor(inputs.materials, OUT)
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
+    compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
 
     OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
 
@@ -403,7 +404,7 @@ def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, O
     return OUT
 
 
-def compute_220108_divertor(materials: Materials, OUT: CAS22):
+def compute_220108_divertor(materials: Materials, OUT: CAS22) -> CAS22:
     # 22.1.8 Divertor
     # Simple volumetric calculation based on reactor geometry, user input, and tungsten material
     # properties (see "materials" dictionary)
@@ -424,11 +425,32 @@ def compute_220108_divertor(materials: Materials, OUT: CAS22):
     return OUT
 
 
-def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergyConverter, OUT: CAS22):
+def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergyConverter, OUT: CAS22) -> CAS22:
     # 22.1.9 Direct Energy Converter
     # lambda function to compute scaled costs in these calculations
     scaled_cost = lambda cost: (cost * direct_energy_converter.system_power
                                 * (1 / math.sqrt(direct_energy_converter.flux_limit)) ** 3)
     OUT.scaled_direct_energy_costs = {key: M_USD(scaled_cost(value)) for key, value in direct_energy_converter.costs.items()}
     OUT.C220109 = M_USD(sum(OUT.scaled_direct_energy_costs.values()))
-    pass
+    return OUT
+
+
+def compute_220111_installation_costs(basic: Basic, installation: Installation, OUT: CAS22) -> CAS22:
+    # Cost Category 22.1.11 Installation costs
+    construction_worker = 20 * installation.r / 4
+    C_22_1_11_in = installation.nmod * basic.construction_time * (installation.labor_rate * 20 * 300)
+    C_22_1_11_1_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
+    C_22_1_11_2_in = installation.nmod * ((installation.labor_rate * 150 * construction_worker) + 0)  # 22.2 shield
+    C_22_1_11_3_in = installation.nmod * ((installation.labor_rate * 100 * construction_worker) + 0)  # coils
+    C_22_1_11_4_in = installation.nmod * ((installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
+    C_22_1_11_5_in = installation.nmod * ((installation.labor_rate * 60 * construction_worker) + 0)  # primary structure
+    C_22_1_11_6_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # vacuum system
+    C_22_1_11_7_in = installation.nmod * ((installation.labor_rate * 400 * construction_worker) + 0)  # power supplies
+    C_22_1_11_8_in = 0  # guns
+    C_22_1_11_9_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)   # direct energy converter
+    C_22_1_11_10_in = 0  # ECRH
+
+    # Total cost calculations
+    OUT.C220111 = (C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
+                   + C_22_1_11_6_in + C_22_1_11_7_in + C_22_1_11_8_in + C_22_1_11_9_in + C_22_1_11_10_in)
+    return OUT

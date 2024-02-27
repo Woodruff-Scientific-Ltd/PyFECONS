@@ -202,6 +202,9 @@ class CAS22:
     C220109: M_USD = None
     scaled_direct_energy_costs: dict[str, M_USD] = None
 
+    # Cost Category 22.1.11 Installation costs
+    C220111: M_USD = None
+
     # Final output
     C220000: M_USD = None
 

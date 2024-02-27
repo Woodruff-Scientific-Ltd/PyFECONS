@@ -256,6 +256,11 @@
             "CONTINGENCY_15_PERCENT": 77
         }
     },
+    "installation": {
+        "labor_rate": 0.0016,
+        "r": 8,
+        "nmod": 1
+    },
     "materials": {
         "FS": {
             "name": "Ferritic Steel",
