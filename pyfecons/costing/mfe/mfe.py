@@ -1,4 +1,6 @@
 from importlib import resources
+
+from pyfecons import Materials
 from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
     FuelHandling
@@ -36,6 +38,7 @@ CAS_220400_TEX = 'CAS220400.tex' # TODO replace with updated file from Google Dr
 CAS_220500_TEX = 'CAS220500.tex' # TODO replace with updated file from Google Drive
 CAS_220600_TEX = 'CAS220600.tex' # TODO replace with updated file from Google Drive
 CAS_220700_TEX = 'CAS220700.tex' # TODO replace with updated file from Google Drive
+CAS_220000_TEX = 'CAS220000.tex' # TODO replace with updated file from Google Drive
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -65,6 +68,7 @@ TEMPLATE_FILES = [
     CAS_220500_TEX,
     CAS_220600_TEX,
     CAS_220700_TEX,
+    CAS_220000_TEX,
     CAS_230000_TEX,
     CAS_240000_TEX,
     CAS_250000_TEX,
@@ -244,6 +248,60 @@ def compute_cas_220500_replacements(fuel_handling: FuelHandling, cas22: CAS22) -
         'C220505': cas22.C220505,
         'C220506': cas22.C220506,
         'C220500': cas22.C220500,
+    }
+
+
+def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
+    return {
+        'C220000': cas22.C220000, # TODO - currently not in the template
+        'BFS_RHO': materials.BFS.rho,
+        'BFS_CRAW': materials.BFS.c_raw,
+        'BFS_M': materials.BFS.m,
+        'FS_RHO': materials.FS.rho,
+        'FS_CRAW': materials.FS.c_raw,
+        'FS_M': materials.FS.m,
+        'FS_SIGMA': materials.FS.sigma,
+        'LI4SIO4_RHO': materials.Li4SiO4.rho,
+        'LI4SIO4_CRAW': materials.Li4SiO4.c_raw,
+        'LI4SIO4_M': materials.Li4SiO4.m,
+        'FLIBE_RHO': materials.Flibe.rho,
+        'FLIBE_C': materials.Flibe.c,
+        'W_RHO': materials.W.rho,
+        'W_CRAW': materials.W.c_raw,
+        'W_M': materials.W.m,
+        'SIC_RHO': materials.SiC.rho,
+        'SIC_CRAW': materials.SiC.c_raw,
+        'SIC_M': materials.SiC.m,
+        'INCONEL_RHO': materials.Inconel.rho,
+        'INCONEL_CRAW': materials.Inconel.c_raw,
+        'INCONEL_M': materials.Inconel.m,
+        'CU_RHO': materials.Cu.rho,
+        'CU_CRAW': materials.Cu.c_raw,
+        'CU_M': materials.Cu.m,
+        'POLYIMIDE_RHO': materials.Polyimide.rho,
+        'POLYIMIDE_CRAW': materials.Polyimide.c_raw,
+        'POLYIMIDE_M': materials.Polyimide.m,
+        'YBCO_RHO': materials.YBCO.rho,
+        'YBCO_C': materials.YBCO.c,
+        'CONCRETE_RHO': materials.Concrete.rho,
+        'CONCRETE_CRAW': materials.Concrete.c_raw,
+        'CONCRETE_M': materials.Concrete.m,
+        'SS316_RHO': materials.SS316.rho,
+        'SS316_CRAW': materials.SS316.c_raw,
+        'SS316_M': materials.SS316.m,
+        'SS316_SIGMA': materials.SS316.sigma,
+        'NB3SN_C': materials.Nb3Sn.c,
+        'INCOLOY_RHO': materials.Incoloy.rho,
+        'INCOLOY_CRAW': materials.Incoloy.c_raw,
+        'INCOLOY_M': materials.Incoloy.m,
+        'PB_RHO': materials.Pb.rho,
+        'PB_CRAW': materials.Pb.c_raw,
+        'PB_M': materials.Pb.m,
+        'PBLI_RHO': materials.PbLi.rho,
+        'PBLI_C': materials.PbLi.c,
+        'LI_RHO': materials.Li.rho,
+        'LI_CRAW': materials.Li.c_raw,
+        'LI_M': materials.Li.m,
     }
 
 
@@ -427,6 +485,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C220600': str(data.cas22.C220600)}
     elif template == CAS_220700_TEX:
         return {'C220700': str(data.cas22.C220700)}
+    elif template == CAS_220000_TEX:
+        return compute_cas_220000_replacements(inputs.materials, data.cas22)
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

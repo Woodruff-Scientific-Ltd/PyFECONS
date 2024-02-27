@@ -30,8 +30,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
     compute_2206_other_reactor_plant_equipment(data.power_table, OUT)
     compute_2207_instrumentation_and_control(OUT)
-
-    OUT.C220000 = OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
+    compute_2200_reactor_plant_equipment_total(OUT)
 
 
 def compute_220101_reactor_equipment(BASIC: Basic, RADIAL_BUILD: RadialBuild, MATERIALS: Materials, OUT: CAS22):
@@ -562,4 +561,10 @@ def compute_2206_other_reactor_plant_equipment(power_table: PowerTable, OUT: CAS
 def compute_2207_instrumentation_and_control(OUT: CAS22) -> CAS22:
     # Cost Category 22.7 Instrumentation and Control
     OUT.C220700 = M_USD(85)
+    return OUT
+
+
+def compute_2200_reactor_plant_equipment_total(OUT: CAS22) -> CAS22:
+    # Reactor Plant Equipment (RPE) total
+    OUT.C220000 = M_USD(OUT.C220100 + OUT.C220200 + OUT.C220300 + OUT.C220400 + OUT.C220500 + OUT.C220600 + OUT.C220700)
     return OUT

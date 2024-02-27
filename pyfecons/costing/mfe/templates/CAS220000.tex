@@ -1,0 +1,44 @@
+% TODO - replace with updated file from Google Drive
+% 12/7/2023 need an iteration or two
+
+\subsection{Cost Category 22: Heat Island Plant Equipment}
+
+This category is most dependent on the heat island technology
+being considered, because the sub-account descriptions and costs depend heavily on the coolant used and whether the subsystems are factory-produced or constructed onsite. \\
+
+For the mechanical components, costs are determined by making a CAD drawing of the components  and determining the volume of the component.  The following equation is then used to determine 
+component costs from the volumes: $\Sigma_{i} C_{i} = V_{i}  \rho_{i}c_{i}$, where $\rho$ is  the mass density in kg/m$^{3}$ and $c_{i}$ is the cost per unit mass in \$/kg (see Table \ref{tab:materials})  with manufacturing factor applied.
+
+\begin{table}[h!]
+\centering
+\resizebox{0.7\linewidth}{!}{%
+\begin{tabular}{lccccc}
+\hline
+Material & \(\rho\) (kg/$m^{3}$) & \(c_{\textbf{raw}}\) (\$/kg or \$/kAm) & Manufacturing Factor & \(\sigma\) (MPa)& \(c\) (\$/kg or \$/kAm)\\
+\hline
+FS & FS_RHO & FS_CRAW & FS_M & FS_SIGMA & \\
+PB & PB_RHO & PB_CRAW & PB_M & & \\
+Li$_4$SiO$_4$ & LI4SIO4_RHO & LI4SIO4_CRAW & LI4SIO4_M & & \\
+Flibe & FLIBE_RHO & & & & FLIBE_C \\
+W & W_RHO & W_CRAW & W_M & & \\
+Li & LI_RHO & LI_CRAW & LI_M & & \\
+BFS & BFS_RHO & BFS_CRAW & BFS_M & & \\
+PbLi & PBLI_RHO & & & & PBLI_C \\
+SiC & SIC_RHO & SIC_CRAW & SIC_M & & \\
+Inconel & INCONEL_RHO & INCONEL_CRAW & INCONEL_M & & \\
+Cu & CU_RHO & CU_CRAW & CU_M & & \\
+Polyimide & POLYIMIDE_RHO & POLYIMIDE_CRAW & POLYIMIDE_M & & \\
+YBCO & YBCO_RHO & & & & YBCO_C \\
+Concrete & CONCRETE_RHO & CONCRETE_CRAW & CONCRETE_M & & \\
+SS316 & SS316_RHO & SS316_CRAW & SS316_M & SS316_SIGMA & \\
+Nb$_3$Sn & & & & & NB3SN_C \\
+Incoloy & INCOLOY_RHO & INCOLOY_CRAW & INCOLOY_M & & \\
+GdBCO & & & & & \\
+He & & & & & \\
+NbTi & & & & & \\
+\hline
+\end{tabular}}
+\caption{Properties of materials used in fusion reactors.}
+\label{tab:materials}
+\end{table}
+
