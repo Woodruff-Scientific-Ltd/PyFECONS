@@ -52,15 +52,15 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
     :param hydrated_templates: from cost calculations
     :return: final report
     """
-    latex_content = '\n\n'.join([hydrated_templates[key] for key in sorted(hydrated_templates.keys())])
+    template_content = '\n\n'.join([hydrated_templates[key] for key in sorted(hydrated_templates.keys())])
     # Uncomment the following two lines to view the compiled .tex file locally if pdf rendering is failing
     # with open(f"temp/report.tex", "w") as file:
-    #     file.write(latex_content)
+    #     file.write(template_content)
 
     doc = Document(documentclass='article')
     for package in LATEX_PACKAGES:
         doc.packages.append(Package(package))
-    doc.append(NoEscape(latex_content))
+    doc.append(NoEscape(template_content))
 
     # Use a temporary file to generate the PDF
     with tempfile.NamedTemporaryFile(prefix="pyfecons-", delete=False) as temp_file:
@@ -68,6 +68,8 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
     # Uncomment the following line of code to output the pylatex working directory path for debugging
     # print(f"temp filepath: {temp_file_path}")
     doc.generate_pdf(temp_file_path, clean_tex=False)
+    with open(temp_file_path + '.tex', 'r') as latex_file:
+        tex_content = latex_file.read()
     with open(temp_file_path + '.pdf', 'rb') as pdf_file:
         pdf_content = pdf_file.read()
     # Remove temporary files
@@ -75,4 +77,4 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
     for filename in glob.glob(pattern):
         os.remove(filename)
 
-    return FinalReport(report_tex=latex_content, report_pdf=pdf_content)
+    return FinalReport(report_tex=tex_content, report_pdf=pdf_content)
