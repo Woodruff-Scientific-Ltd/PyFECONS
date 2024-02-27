@@ -220,6 +220,9 @@ class CAS22:
     # Cost Category 22.3  Auxiliary cooling
     C220300: M_USD = None
 
+    # Cost Category 22.4 Radwaste
+    C220400: M_USD = None
+
     # Final output
     C220000: M_USD = None
 
