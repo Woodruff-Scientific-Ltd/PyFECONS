@@ -50,12 +50,12 @@
         "bioshield_t": 1
     },
     "blanket": {
-        "first_wall": "beryllium",
-        "blanket_type": "Solid first wall with a solid breeder (Li2TiO3)",
-        "primary_coolant": "Lithium (Li)",
-        "secondary_coolant": "Other eutectic salt",
-        "neutron_multiplier": "Be12Ti",
-        "structure": "Ferritic Martensitic Steel (FMS)"
+        "first_wall": "BERYLLIUM",
+        "blanket_type": "SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3",
+        "primary_coolant": "LITHIUM_LI",
+        "secondary_coolant": "LEAD_LITHIUM_PBLI",
+        "neutron_multiplier": "BE12TI",
+        "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
     },
     "coils": {
         "magnets": [

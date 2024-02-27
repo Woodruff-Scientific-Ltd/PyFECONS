@@ -21,12 +21,12 @@ def Generate():
             # construction_time=3
         ),
         blanket=Blanket(
-            BlanketFirstWall.BERYLLIUM,
-            BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3,
-            BlanketPrimaryCoolant.LITHIUM_LI,
-            BlanketSecondaryCoolant.OTHER_EUTECTIC_SALT,
-            BlanketNeutronMultiplier.BE12TI,
-            BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
+            first_wall=BlanketFirstWall.BERYLLIUM,
+            blanket_type=BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3,
+            primary_coolant=BlanketPrimaryCoolant.LITHIUM_LI,
+            secondary_coolant=BlanketSecondaryCoolant.LEAD_LITHIUM_PBLI,
+            neutron_multiplier=BlanketNeutronMultiplier.BE12TI,
+            structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
         coils=Coils(magnets=[
             Magnet(name="Coil 1", coil_count=1, j_cable=MA(21.4), r_centre=1.75, z_centre=0, dr=1, dz=1),
