@@ -19,46 +19,84 @@ class FuelType(Enum):
 
 
 class BlanketFirstWall(Enum):
-    TUNGSTEN = 'TUNGSTEN'
-    LIQUID_METAL = 'LIQUID_METAL'
-    BERYLLIUM = 'BERYLLIUM'
-    MOLTEN_SALT = 'MOLTEN_SALT'
+    TUNGSTEN = ('TUNGSTEN', 'Tungsten')
+    LIQUID_METAL = ('LIQUID_METAL', 'Liquid Metal')
+    BERYLLIUM = ('BERYLLIUM', 'Beryllium')
+    MOLTEN_SALT = ('MOLTEN_SALT', 'Molten Salt')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketType(Enum):
-    FLOWING_LIQUID_FIRST_WALL = 'FLOWING_LIQUID_FIRST_WALL'
-    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4 = 'SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4'
-    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3 = 'SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3'
-    SOLID_FIRST_WALL = 'SOLID_FIRST_WALL'
-    NO_BREEDER_ANEUTRONIC_FUEL = 'NO_BREEDER_ANEUTRONIC_FUEL'
+    FLOWING_LIQUID_FIRST_WALL = ('FLOWING_LIQUID_FIRST_WALL', 'Flowing Liquid First Wall')
+    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4 = ('SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4',
+                                                      'Solid First Wall with Liquid Breeder (Li4SiO4)')
+    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3 = ('SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3',
+                                                     'Solid First Wall with Solid Breeder (Li2TiO3)')
+    SOLID_FIRST_WALL = ('SOLID_FIRST_WALL', 'Solid First Wall')
+    NO_BREEDER_ANEUTRONIC_FUEL = ('NO_BREEDER_ANEUTRONIC_FUEL', 'No Breeder (Aneutronic Fuel)')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketPrimaryCoolant(Enum):
-    LEAD_LITHIUM_PBLI = 'LEAD_LITHIUM_PBLI'
-    LITHIUM_LI = 'LITHIUM_LI'
-    FLIBE = 'FLIBE'
+    LEAD_LITHIUM_PBLI = ('LEAD_LITHIUM_PBLI', 'Lead Lithium (PbLi)')
+    LITHIUM_LI = ('LITHIUM_LI', 'Lithium (Li)')
+    FLIBE = ('FLIBE', 'FliBe')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketSecondaryCoolant(Enum):
-    NONE = 'NONE'
-    LEAD_LITHIUM_PBLI = 'LEAD_LITHIUM_PBLI'
-    LITHIUM_LI = 'LITHIUM_LI'
-    FLIBE = 'FLIBE'
+    NONE = ('NONE', 'None')
+    LEAD_LITHIUM_PBLI = ('LEAD_LITHIUM_PBLI', 'Lead Lithium (PbLi)')
+    LITHIUM_LI = ('LITHIUM_LI', 'Lithium (Li)')
+    FLIBE = ('FLIBE', 'FliBe')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketNeutronMultiplier(Enum):
-    NONE = 'NONE'
-    BE = 'BE'
-    PB = 'PB'
-    PB_AS_PART_OF_PBLI = 'PB_AS_PART_OF_PBLI'
-    BE12TI = 'BE12TI'
+    NONE = ('NONE', 'None')
+    BE = ('BE', 'Beryllium (Be)')
+    PB = ('PB', 'Lead (Pb)')
+    PB_AS_PART_OF_PBLI = ('PB_AS_PART_OF_PBLI', 'Pb as part of PbLi')
+    BE12TI = ('BE12TI', 'Beryllium Titanium (Be12Ti)')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketStructure(Enum):
-    STAINLESS_STEEL_SS = 'STAINLESS_STEEL_SS'
-    FERRITIC_MARTENSITIC_STEEL_FMS = 'FERRITIC_MARTENSITIC_STEEL_FMS'
-    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = 'OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL'
-    VANADIUM = 'VANADIUM'
+    STAINLESS_STEEL_SS = ('STAINLESS_STEEL_SS', 'Stainless Steel (SS)')
+    FERRITIC_MARTENSITIC_STEEL_FMS = ('FERRITIC_MARTENSITIC_STEEL_FMS', 'Ferritic Martensitic Steel (FMS)')
+    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = ('OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL', 'Oxide Dispersion Strengthened Steel (ODS)')
+    VANADIUM = ('VANADIUM', 'Vanadium')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.

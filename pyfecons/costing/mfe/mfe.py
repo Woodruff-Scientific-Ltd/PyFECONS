@@ -329,11 +329,11 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'VOL07': round(data.cas22.gap1_vol),
             'VOL08': round(data.cas22.vessel_vol),
             'VOL09': round(data.cas22.ht_shield_vol),
-            'primaryC': inputs.blanket.primary_coolant.value,
-            'secondaryC': inputs.blanket.secondary_coolant.value,
-            'neutronM': inputs.blanket.neutron_multiplier.value,
-            'structure1': inputs.blanket.structure.value,
-            'firstW': inputs.blanket.first_wall.value,
+            'primaryC': inputs.blanket.primary_coolant.display_name,
+            'secondaryC': inputs.blanket.secondary_coolant.display_name,
+            'neutronM': inputs.blanket.neutron_multiplier.display_name,
+            'structure1': inputs.blanket.structure.display_name,
+            'firstW': inputs.blanket.first_wall.display_name,
         }
     elif template == CAS_220102_TEX:
         return {
@@ -343,7 +343,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C22010204': round(data.cas22.C22010204),
             'C22010200': round(data.cas22.C220102),
             'V220102': round(data.cas22.V_HTS),  # Missing from CAS220102.tex
-            'primaryC': inputs.blanket.primary_coolant.value,
+            'primaryC': inputs.blanket.primary_coolant.display_name,
             'VOL9': round(data.cas22.ht_shield_vol),
             'VOL11': round(data.cas22.lt_shield_vol),  # Missing from CAS220102.tex
         }
