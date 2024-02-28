@@ -30,15 +30,15 @@ CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
 CAS_220108_TEX = 'CAS220108.tex'
 CAS_220109_TEX = 'CAS220109.tex'
-CAS_220111_TEX = 'CAS220111.tex' # TODO replace with updated file from Google Drive
-CAS_220119_TEX = 'CAS220119.tex' # TODO get file from Google Drive
-CAS_220200_TEX = 'CAS220200.tex' # TODO replace with updated file from Google Drive
-CAS_220300_TEX = 'CAS220300.tex' # TODO replace with updated file from Google Drive
-CAS_220400_TEX = 'CAS220400.tex' # TODO replace with updated file from Google Drive
-CAS_220500_TEX = 'CAS220500.tex' # TODO replace with updated file from Google Drive
-CAS_220600_TEX = 'CAS220600.tex' # TODO replace with updated file from Google Drive
-CAS_220700_TEX = 'CAS220700.tex' # TODO replace with updated file from Google Drive
-CAS_220000_TEX = 'CAS220000.tex' # TODO replace with updated file from Google Drive
+CAS_220111_TEX = 'CAS220111.tex'
+CAS_220119_TEX = 'CAS220119.tex'
+CAS_220200_TEX = 'CAS220200.tex'
+CAS_220300_TEX = 'CAS220300.tex'
+CAS_220400_TEX = 'CAS220400.tex'
+CAS_220500_TEX = 'CAS220500.tex'
+CAS_220600_TEX = 'CAS220600.tex'
+CAS_220700_TEX = 'CAS220700.tex'
+CAS_220000_TEX = 'CAS220000.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -61,7 +61,7 @@ TEMPLATE_FILES = [
     CAS_220108_TEX,
     CAS_220109_TEX,
     CAS_220111_TEX,
-    # CAS_220119_TEX, # TODO get file from Google Drive
+    CAS_220119_TEX,
     CAS_220200_TEX,
     CAS_220300_TEX,
     CAS_220400_TEX,
@@ -224,7 +224,7 @@ def compute_cas_220200_replacements(blanket: Blanket, cas22: CAS22) -> dict[str,
         'C220200': cas22.C220200,
         'C220201': cas22.C220201,
         'C220202': cas22.C220202,
-        'C220203': cas22.C220203,
+        'C220203': cas22.C220203, # not in template
         'primaryC': blanket.primary_coolant.display_name,
         'secondaryC': blanket.secondary_coolant.display_name,
     }
@@ -296,9 +296,9 @@ def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
         'INCOLOY_M': materials.Incoloy.m,
         'PB_RHO': materials.Pb.rho,
         'PB_CRAW': materials.Pb.c_raw,
-        'PB_M': materials.Pb.m,
-        'PBLI_RHO': materials.PbLi.rho,
-        'PBLI_C': materials.PbLi.c,
+        'PB_M': round(materials.Pb.m, 2),
+        'PBLI_RHO': round(materials.PbLi.rho, 2),
+        'PBLI_C': round(materials.PbLi.c, 2),
         'LI_RHO': materials.Li.rho,
         'LI_CRAW': materials.Li.c_raw,
         'LI_M': materials.Li.m,
