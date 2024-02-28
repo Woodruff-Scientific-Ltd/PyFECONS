@@ -256,6 +256,16 @@
             "CONTINGENCY_15_PERCENT": 77
         }
     },
+    "installation": {
+        "labor_rate": 0.0016,
+        "r": 8,
+        "nmod": 1
+    },
+    "fuel_handling": {
+        "inflation": 1.43,
+        "learning_curve_credit": 0.8,
+        "learning_tenth_of_a_kind": 0.4765098748902245
+    },
     "materials": {
         "FS": {
             "name": "Ferritic Steel",

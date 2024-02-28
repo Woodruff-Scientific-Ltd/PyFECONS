@@ -202,6 +202,49 @@ class CAS22:
     C220109: M_USD = None
     scaled_direct_energy_costs: dict[str, M_USD] = None
 
+    # Cost Category 22.1.11 Installation costs
+    C220111: M_USD = None
+
+    # Cost category 22.1.19 Scheduled Replacement Cost
+    C220119: M_USD = None
+
+    # Cost category 22.1 total
+    C220100: M_USD = None
+
+    # MAIN AND SECONDARY COOLANT Cost Category 22.2
+    C220201: M_USD = None
+    C220202: M_USD = None
+    C220203: M_USD = None
+    C220200: M_USD = None
+
+    # Cost Category 22.3  Auxiliary cooling
+    C220300: M_USD = None
+
+    # Cost Category 22.4 Radwaste
+    C220400: M_USD = None
+
+    # Cost Category 22.5 Fuel Handling and Storage
+    C2205010ITER: M_USD = None
+    C2205020ITER: M_USD = None
+    C2205030ITER: M_USD = None
+    C2205040ITER: M_USD = None
+    C2205050ITER: M_USD = None
+    C2205060ITER: M_USD = None
+    C22050ITER: M_USD = None
+    C220501: M_USD = None
+    C220502: M_USD = None
+    C220503: M_USD = None
+    C220504: M_USD = None
+    C220505: M_USD = None
+    C220506: M_USD = None
+    C220500: M_USD = None
+
+    # Cost Category 22.6 Other Reactor Plant Equipment
+    C220600: M_USD = None
+
+    # Cost Category 22.7 Instrumentation and Control
+    C220700: M_USD = 85
+
     # Final output
     C220000: M_USD = None
 

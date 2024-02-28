@@ -1,3 +1,4 @@
+import math
 from dataclasses import dataclass, field
 from typing import Optional
 
@@ -286,6 +287,25 @@ class DirectEnergyConverter:
 
 
 @dataclass
+class Installation:
+    # 1600 dollars per day for skilled labor
+    labor_rate: USD = 1600 / 1e6
+    r: Meters = 8  # major radius of the system
+    nmod: int = 1  # number of modules
+
+
+@dataclass
+class FuelHandling:
+    inflation: Ratio = 1.43
+    learning_curve_credit: Ratio = 0.8
+    learning_tenth_of_a_kind: Unknown = None
+
+    def __post_init__(self):
+        if self.learning_tenth_of_a_kind is None:
+            self.learning_tenth_of_a_kind = Unknown(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -299,6 +319,8 @@ class Inputs(SerializableToJSON):
     vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
     power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
     direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
+    installation: Installation = field(default_factory=Installation)
+    fuel_handling: FuelHandling = field(default_factory=FuelHandling)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)
