@@ -72,7 +72,7 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
         tex_content = latex_file.read()
     with open(temp_file_path + '.pdf', 'rb') as pdf_file:
         pdf_content = pdf_file.read()
-    # Remove temporary files
+    # Remove temporary files - comment out for debugging
     pattern = os.path.join(temp_file_path + "*")
     for filename in glob.glob(pattern):
         os.remove(filename)

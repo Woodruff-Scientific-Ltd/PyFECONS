@@ -15,11 +15,12 @@ from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
 from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
-# from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
-# from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
+from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
+from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
+CAS_200000_TEX = 'CAS200000.tex'
 CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
@@ -50,6 +51,7 @@ CAS_290000_TEX = 'CAS290000.tex'
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
     CAS_100000_TEX,
+    CAS_200000_TEX,
     CAS_210000_TEX,
     CAS_220101_TEX,
     CAS_220102_TEX,
@@ -75,7 +77,7 @@ TEMPLATE_FILES = [
     CAS_260000_TEX,
     CAS_270000_TEX,
     CAS_280000_TEX,
-    # CAS_290000_TEX, - references CAS220000
+    CAS_290000_TEX,
 ]
 
 
@@ -92,8 +94,8 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS26Data(inputs, data, figures)
     CAS27Data(inputs, data, figures)
     CAS28Data(inputs, data, figures)
-    # CAS29Data(inputs, data, figures) # References CAS220000
-    # CAS20Data(inputs, data, figures) # This comes after all the other 20s - sums them all
+    CAS29Data(inputs, data, figures)
+    CAS20Data(inputs, data, figures)
     return data
 
 
@@ -359,6 +361,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C170000': currency_str(data.cas10.C170000),
             'C190000': currency_str(data.cas10.C190000),
         }
+    elif template == CAS_200000_TEX:
+        return {'C200000': str(data.cas20.C200000)} # TODO - C200000 not in the template
     elif template == CAS_210000_TEX:
         return {
             'C210000': currency_str(data.cas21.C210000),
