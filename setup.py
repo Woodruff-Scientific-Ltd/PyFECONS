@@ -1,8 +1,11 @@
 from setuptools import setup, find_packages
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name='pyfecons',
-    version='0.0.6',
+    version='0.0.7',
     author='nTtau Digital LTD',
     author_email='info@nttaudigital.com',
     description='Library for nTtau PyFECONS costing calculations.',
@@ -10,7 +13,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/nTtau/PyFECONS',
     packages=find_packages(),
-    install_requires=[],
+    install_requires=required,
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
