@@ -3,13 +3,25 @@ It's PyFecons, but with a different name.
 
 # Using this library
 
-## Conda Dependency Management
+## Dependency Management
 
-Because of OS specific dependencies, in order to use PyFECONs you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
+The library should work out of the box on linux python virtual environment. 
 
-Then you will need to add all the dependencies in the [environment.yml](https://github.com/nTtau/PyFECONS/blob/main/environment.yml) to your project.
+Because of OS specific dependencies, in order to use PyFECONs on Mac M1 (and Windows?) you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
 
-Finally, you can import a version of the library by adding to the environment.yml file in your project:
+If your system requires conda, then you will need to copy and paste the [environment.yml](https://github.com/nTtau/PyFECONS/blob/main/environment.yml) file to your project and add your project's dependencies.
+
+## Pip
+
+To import pyfecons into your pip project:
+
+```
+pip install pyfecons @ git+ssh://git@github.com/nTtau/PyFECONS.git@0.0.6
+```
+
+## Conda
+
+To import pyfecons into your conda project, add the following to `environment.yml`:
 ```
 - pip:
   - --upgrade git+https://github.com/nTtau/PyFECONS.git@X.Y.Z
@@ -44,15 +56,34 @@ cat ~/.ssh/your_file.pub
 ```
 Add to GitHub keys.
 
+# Installing dependencies
 
-## Using a Conda virtual environment
+Most dependency management is done with python virtual environment and pip. LaTeX will need to be installed outside the environment. cadquery works on linux with pip, but requires conda to work on Mac M1. `requirements.txt` is the main dependency file, but replicated to `environment.yml` to be used by conda for M1.
 
-We need to use [Conda](https://docs.conda.io/en/latest/) package management to handle OS specific libraries,
-mainly [cadquery](https://github.com/CadQuery/cadquery).
+TODO verify dependencies on Windows. For now consider using conda.
 
-### Removing legacy venv
+## Python Virtual Environment
 
-If you were previously using venv, please remove it running `rm -rf venv` to ensure a clean environment.
+Linux and deployment server.
+
+```bash
+# remove existing environment (on clean up)
+rm -rf venv
+
+# create virtual environment (on new environment)
+python3 -m venv venv
+
+# activate virtual environment (on new terminal)
+source venv/bin/activate
+
+# install dependencies (on new environment or after changes)
+pip install -r requirements.txt
+```
+
+## Conda Virtual Environment
+
+[Conda](https://docs.conda.io/en/latest/) package management is needed for local development on Mac M1 due to 
+incompatibility of [cadquery](https://github.com/CadQuery/cadquery and pip.
 
 ### Conda Installation
 
@@ -69,7 +100,7 @@ Don't forget to init your shell with:
 ~/miniconda3/bin/conda init bash
 ```
 
-### Creating the Conda environment 
+### Creating the Conda environment
 
 You'll only need to do this once or every time after deleting the environment.
 
@@ -105,7 +136,6 @@ You'll need to do this when you add or remove a package from the environment.yml
 conda env update -f environment.yml
 ```
 
-
 ### Deactivating the Conda environment
 
 You'll need to do this only to detach from the Conda environment in the current shell:
@@ -124,9 +154,27 @@ conda env remove -n pyfecons
 
 ### Managing dependencies
 
-Since Conda specializes in handling machine specific dependencies, we cannot commit the raw dependency file since it
-will contain OS specific libraries. You must add the specific package and version to the `environment.yml` file. 
-You should prioritize Conda dependencies, only adding to the `pip:` list if the dependency is not in Conda.
+Please add new dependencies to the `environment.yml` -pip array and duplicate these to `requirements.txt` file.
+
+## Installing LaTeX
+
+LaTeX is an external dependency to the library since installation varies widely by OS.
+
+### Mac
+
+```bash
+brew install --cask mactex
+```
+
+### Linux
+
+```
+sudo apt install texlive-latex-extra
+```
+
+### Windows
+
+TODO
 
 ## Running the costing code
 
