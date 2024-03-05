@@ -5,19 +5,25 @@ channels:
 dependencies:
   - python=3.9
   - pip=24.0
-  - cadquery=2.3.0
+  - cadquery=2.4.0
   - pip:
     - contourpy==1.2.0
     - cycler==0.12.1
-    - fonttools==4.47.2
-    - importlib-resources==6.1.1
+    - ezdxf==1.2.0
+    - fonttools==4.49.0
     - kiwisolver==1.4.5
-    - matplotlib==3.8.2
-    - numpy==1.26.3
+    - matplotlib==3.8.3
+    - multimethod==1.9.1
+    - nlopt==2.7.1
+    - nptyping==2.0.1
+    - numpy==1.26.4
+    - ordered-set==4.1.0
     - packaging==23.2
+    - path==16.10.0
     - pillow==10.2.0
-    - pylatex==1.4.2
+    - PyLaTeX==1.4.2
     - pyparsing==3.1.1
-    - python-dateutil==2.8.2
+    - python-dateutil==2.9.0.post0
     - six==1.16.0
-    - zipp==3.17.0
+    - typing_extensions==4.10.0
+    - typish==1.9.3
