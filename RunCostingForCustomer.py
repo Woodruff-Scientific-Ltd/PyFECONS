@@ -33,7 +33,8 @@ try:
     import DefineInputs as CustomerInputs
     if 'Generate' not in dir(CustomerInputs):
         raise AttributeError("ERROR: Generate function is missing in DefineInputs.py.")
-except ImportError:
+except ImportError as e:
+    print(e)
     print(f"ERROR: Could not import DefineInputs from {customerFolder}.")
     sys.exit(1)
 except AttributeError as e:
