@@ -1,7 +1,4 @@
 cadquery==2.4.0
-cadquery-ocp==7.7.2
-casadi==3.6.4
-contourpy==1.2.0
 cycler==0.12.1
 ezdxf==1.2.0
 fonttools==4.49.0
