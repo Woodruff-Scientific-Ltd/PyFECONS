@@ -51,6 +51,10 @@ class BlanketPrimaryCoolant(Enum):
     LEAD_LITHIUM_PBLI = ('LEAD_LITHIUM_PBLI', 'Lead Lithium (PbLi)')
     LITHIUM_LI = ('LITHIUM_LI', 'Lithium (Li)')
     FLIBE = ('FLIBE', 'FliBe')
+    OTHER_EUTECTIC_SALT = ('OTHER_EUTECTIC_SALT', 'Other Eutectic Salt')
+    HELIUM = ('HELIUM', 'Helium (He)')
+    DUAL_COOLANT_PBLI_AND_HE = ('DUAL_COOLANT_PBLI_AND_HE', 'Dual Coolant: PbLi and He')
+    WATER = ('WATER', 'Water')
 
     def __new__(cls, value, display_name):
         obj = object.__new__(cls)
@@ -64,6 +68,10 @@ class BlanketSecondaryCoolant(Enum):
     LEAD_LITHIUM_PBLI = ('LEAD_LITHIUM_PBLI', 'Lead Lithium (PbLi)')
     LITHIUM_LI = ('LITHIUM_LI', 'Lithium (Li)')
     FLIBE = ('FLIBE', 'FliBe')
+    OTHER_EUTECTIC_SALT = ('OTHER_EUTECTIC_SALT', 'Other Eutectic Salt')
+    HELIUM = ('HELIUM', 'Helium (He)')
+    DUAL_COOLANT_PBLI_AND_HE = ('DUAL_COOLANT_PBLI_AND_HE', 'Dual Coolant: PbLi and He')
+    WATER = ('WATER', 'Water')
 
     def __new__(cls, value, display_name):
         obj = object.__new__(cls)
