@@ -297,6 +297,17 @@ class CAS20:
 
 
 @dataclass
+class CAS30:
+    C310000LSA: M_USD = None
+    C310000: M_USD = None
+    C320000LSA: M_USD = None
+    C320000: M_USD = None
+    C350000LSA: M_USD = None
+    C350000: M_USD = None
+    C300000: M_USD = None
+
+
+@dataclass
 class Data(SerializableToJSON):
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
@@ -310,3 +321,4 @@ class Data(SerializableToJSON):
     cas28: CAS28 = field(default_factory=CAS28)
     cas29: CAS29 = field(default_factory=CAS29)
     cas20: CAS20 = field(default_factory=CAS20)
+    cas30: CAS30 = field(default_factory=CAS30)

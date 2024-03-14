@@ -4,7 +4,7 @@ from pyfecons import Materials
 from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
     FuelHandling
-from pyfecons.data import Data, CAS22
+from pyfecons.data import Data, CAS22, CAS30
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
@@ -16,6 +16,7 @@ from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
 from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
+from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data
 from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
@@ -47,6 +48,7 @@ CAS_260000_TEX = 'CAS260000.tex'
 CAS_270000_TEX = 'CAS270000.tex'
 CAS_280000_TEX = 'CAS280000.tex'
 CAS_290000_TEX = 'CAS290000.tex'
+CAS_300000_TEX = 'CAS300000.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -78,6 +80,7 @@ TEMPLATE_FILES = [
     CAS_270000_TEX,
     CAS_280000_TEX,
     CAS_290000_TEX,
+    CAS_300000_TEX,
 ]
 
 
@@ -96,6 +99,7 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS28Data(inputs, data, figures)
     CAS29Data(inputs, data, figures)
     CAS20Data(inputs, data, figures)
+    CAS30Data(inputs, data, figures)
     return data
 
 
@@ -253,7 +257,7 @@ def compute_cas_220500_replacements(fuel_handling: FuelHandling, cas22: CAS22) -
     }
 
 
-def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
+def compute_cas_220000_replacements(materials: Materials, cas22: CAS22) -> dict[str, str]:
     return {
         'C220000': cas22.C220000, # TODO - currently not in the template
         'BFS_RHO': materials.BFS.rho,
@@ -304,6 +308,18 @@ def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
         'LI_RHO': materials.Li.rho,
         'LI_CRAW': materials.Li.c_raw,
         'LI_M': materials.Li.m,
+    }
+
+
+def compute_cas_300000_replacements(basic: Basic, cas30: CAS30) -> dict[str, str]:
+    return {
+        'constructionTime': str(basic.construction_time),
+        'C300000XXX': str(cas30.C300000), # not in template
+        'C320000XXX': str(cas30.C320000),
+        'C310000LSA': str(cas30.C310000LSA),
+        'C310000XXX': str(cas30.C310000),
+        'C350000LSA': str(cas30.C350000LSA),
+        'C350000XXX': str(cas30.C350000),
     }
 
 
@@ -505,6 +521,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C280000': str(data.cas28.C280000)}
     elif template == CAS_290000_TEX:
         return {'C290000': str(data.cas29.C290000)}
+    elif template == CAS_300000_TEX:
+        return compute_cas_300000_replacements(inputs.basic, data.cas30)
     else:
         raise ValueError(f'Unrecognized template {template}')
 
