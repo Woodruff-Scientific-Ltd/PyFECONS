@@ -306,6 +306,37 @@ class FuelHandling:
 
 
 @dataclass
+class LsaLevels:
+    lsa: int = 2
+    fac_91: list[float] = None
+    fac_92: list[float] = None
+    fac_93: list[float] = None
+    fac_94: list[float] = None
+    fac_95: list[float] = None
+    fac_96: list[float] = None
+    fac_97: list[float] = None
+    fac_98: list[float] = None
+
+    def __post_init__(self):
+        if self.fac_91 is None:
+            self.fac_91 = [0.1130, 0.1200, 0.1280, 0.1510]
+        if self.fac_92 is None:
+            self.fac_92 = [0.0520, 0.0520, 0.0520, 0.0520]
+        if self.fac_93 is None:
+            self.fac_93 = [0.0520, 0.0600, 0.0640, 0.0870]
+        if self.fac_94 is None:
+            self.fac_94 = [0.1826, 0.1848, 0.1866, 0.1935]
+        if self.fac_95 is None:
+            self.fac_95 = [0.0000, 0.0000, 0.0000, 0.0000]
+        if self.fac_96 is None:
+            self.fac_96 = [0.2050, 0.2391, 0.2565, 0.2808]
+        if self.fac_97 is None:
+            self.fac_97 = [0.2651, 0.2736, 0.2787, 0.2915]
+        if self.fac_98 is None:
+            self.fac_98 = [0.0000, 0.0000, 0.0000, 0.0000]
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -321,6 +352,7 @@ class Inputs(SerializableToJSON):
     direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
     installation: Installation = field(default_factory=Installation)
     fuel_handling: FuelHandling = field(default_factory=FuelHandling)
+    lsa_levels: LsaLevels = field(default_factory=LsaLevels)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)
