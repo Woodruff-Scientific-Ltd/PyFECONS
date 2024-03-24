@@ -21,6 +21,7 @@ from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data
 from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data
 from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data
+from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
@@ -55,6 +56,7 @@ CAS_300000_TEX = 'CAS300000.tex'
 CAS_400000_TEX = 'CAS400000.tex'
 CAS_500000_TEX = 'CAS500000.tex'
 CAS_600000_TEX = 'CAS600000.tex'
+CAS_700000_TEX = 'CAS700000.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -90,6 +92,7 @@ TEMPLATE_FILES = [
     CAS_400000_TEX,
     CAS_500000_TEX,
     CAS_600000_TEX,
+    CAS_700000_TEX,
 ]
 
 
@@ -112,6 +115,7 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS40Data(inputs, data, figures)
     CAS50Data(inputs, data, figures)
     CAS60Data(inputs, data, figures)
+    CAS70Data(inputs, data, figures)
     return data
 
 
@@ -571,6 +575,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_500000_replacements(data.cas50)
     elif template == CAS_600000_TEX:
         return compute_cas_600000_replacements(data.cas60)
+    elif template == CAS_700000_TEX:
+        return {'C700000': str(data.cas70.C700000)}
     else:
         raise ValueError(f'Unrecognized template {template}')
 
