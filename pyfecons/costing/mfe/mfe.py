@@ -4,7 +4,7 @@ from pyfecons import Materials
 from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
     FuelHandling, LsaLevels
-from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60
+from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
@@ -22,6 +22,7 @@ from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data
 from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data
 from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
+from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
@@ -57,6 +58,7 @@ CAS_400000_TEX = 'CAS400000.tex'
 CAS_500000_TEX = 'CAS500000.tex'
 CAS_600000_TEX = 'CAS600000.tex'
 CAS_700000_TEX = 'CAS700000.tex'
+CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -93,6 +95,7 @@ TEMPLATE_FILES = [
     CAS_500000_TEX,
     CAS_600000_TEX,
     CAS_700000_TEX,
+    CAS_800000_DT_TEX,
 ]
 
 
@@ -116,6 +119,7 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS50Data(inputs, data, figures)
     CAS60Data(inputs, data, figures)
     CAS70Data(inputs, data, figures)
+    CAS80Data(inputs, data, figures)
     return data
 
 
@@ -369,6 +373,14 @@ def compute_cas_600000_replacements(cas60: CAS60) -> dict[str, str]:
     }
 
 
+def compute_cas_800000_replacements(blanket: Blanket, cas80: CAS80) -> dict[str, str]:
+    return {
+        'C800000': str(cas80.C800000),
+        'primaryC': blanket.primary_coolant.display_name,
+        'secondaryC': blanket.secondary_coolant.display_name,
+    }
+
+
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
         return {
@@ -577,6 +589,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return compute_cas_600000_replacements(data.cas60)
     elif template == CAS_700000_TEX:
         return {'C700000': str(data.cas70.C700000)}
+    elif template == CAS_800000_DT_TEX:
+        return compute_cas_800000_replacements(inputs.blanket, data.cas80)
     else:
         raise ValueError(f'Unrecognized template {template}')
 
