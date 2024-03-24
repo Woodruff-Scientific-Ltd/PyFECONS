@@ -36,6 +36,7 @@ class Basic:
     plant_lifetime: Years = 30.0
     plant_availability: Percent = 0.85
     noak: bool = True
+    yearly_inflation: Percent = 0.0245
 
 
 @dataclass
