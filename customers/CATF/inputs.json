@@ -11,7 +11,8 @@
         "am": 0.99,
         "construction_time": 6.0,
         "plant_lifetime": 30.0,
-        "plant_availability": 0.85
+        "plant_availability": 0.85,
+        "noak": true
     },
     "power_table": {
         "f_sub": 0.03,

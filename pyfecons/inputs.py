@@ -35,6 +35,7 @@ class Basic:
     construction_time: Years = 6.0
     plant_lifetime: Years = 30.0
     plant_availability: Percent = 0.85
+    noak: bool = True
 
 
 @dataclass
