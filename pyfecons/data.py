@@ -297,6 +297,74 @@ class CAS20:
 
 
 @dataclass
+class CAS30:
+    C310000LSA: M_USD = None
+    C310000: M_USD = None
+    C320000LSA: M_USD = None
+    C320000: M_USD = None
+    C350000LSA: M_USD = None
+    C350000: M_USD = None
+    C300000: M_USD = None
+
+
+@dataclass
+class CAS40:
+    C400000LSA : M_USD = None
+    C400000 : M_USD = None
+
+
+@dataclass
+class CAS50:
+    C510000: M_USD = None
+    C520000: M_USD = None
+    C530000: M_USD = None
+    C540000: M_USD = None
+    C550000: M_USD = None
+    C580000: M_USD = None
+    C590000: M_USD = None
+    C500000: M_USD = None
+
+
+@dataclass
+class CAS60:
+    C610000: M_USD = None
+    C630000LSA: M_USD = None
+    C630000: M_USD = None
+    C600000: M_USD = None
+
+
+@dataclass
+class CAS70:
+    C700000: M_USD = None
+
+
+@dataclass
+class CAS80:
+    C800000: M_USD = None
+
+
+@dataclass
+class CAS90:
+    C990000: M_USD = None
+    C900000: M_USD = None
+
+
+@dataclass
+class LCOE:
+    C1000000: M_USD = None
+    C2000000: M_USD = None
+
+
+@dataclass
+class CostTable:
+    replacements: dict[str, str] = None
+
+    def __post_init__(self):
+        if self.replacements is None:
+            self.replacements = {}
+
+
+@dataclass
 class Data(SerializableToJSON):
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
@@ -310,3 +378,12 @@ class Data(SerializableToJSON):
     cas28: CAS28 = field(default_factory=CAS28)
     cas29: CAS29 = field(default_factory=CAS29)
     cas20: CAS20 = field(default_factory=CAS20)
+    cas30: CAS30 = field(default_factory=CAS30)
+    cas40: CAS40 = field(default_factory=CAS40)
+    cas50: CAS50 = field(default_factory=CAS50)
+    cas60: CAS60 = field(default_factory=CAS60)
+    cas70: CAS70 = field(default_factory=CAS70)
+    cas80: CAS80 = field(default_factory=CAS80)
+    cas90: CAS90 = field(default_factory=CAS90)
+    lcoe: LCOE = field(default_factory=LCOE)
+    cost_table: CostTable = field(default_factory=CostTable)

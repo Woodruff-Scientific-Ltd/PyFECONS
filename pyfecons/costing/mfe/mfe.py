@@ -3,8 +3,8 @@ from importlib import resources
 from pyfecons import Materials
 from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
-    FuelHandling
-from pyfecons.data import Data, CAS22
+    FuelHandling, LsaLevels
+from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
@@ -17,6 +17,15 @@ from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
 from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
 from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
+from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data
+from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data
+from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data
+from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data
+from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
+from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
+from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
+from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
+from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
@@ -47,6 +56,15 @@ CAS_260000_TEX = 'CAS260000.tex'
 CAS_270000_TEX = 'CAS270000.tex'
 CAS_280000_TEX = 'CAS280000.tex'
 CAS_290000_TEX = 'CAS290000.tex'
+CAS_300000_TEX = 'CAS300000.tex'
+CAS_400000_TEX = 'CAS400000.tex'
+CAS_500000_TEX = 'CAS500000.tex'
+CAS_600000_TEX = 'CAS600000.tex'
+CAS_700000_TEX = 'CAS700000.tex'
+CAS_800000_DT_TEX = 'CAS800000_DT.tex'
+CAS_900000_TEX = 'CAS900000.tex'
+LCOE_TEX = 'LCOE.tex'
+CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -78,6 +96,15 @@ TEMPLATE_FILES = [
     CAS_270000_TEX,
     CAS_280000_TEX,
     CAS_290000_TEX,
+    CAS_300000_TEX,
+    CAS_400000_TEX,
+    CAS_500000_TEX,
+    CAS_600000_TEX,
+    CAS_700000_TEX,
+    CAS_800000_DT_TEX,
+    CAS_900000_TEX,
+    LCOE_TEX,
+    CAS_STRUCTURE_TEX,
 ]
 
 
@@ -96,6 +123,15 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS28Data(inputs, data, figures)
     CAS29Data(inputs, data, figures)
     CAS20Data(inputs, data, figures)
+    CAS30Data(inputs, data, figures)
+    CAS40Data(inputs, data, figures)
+    CAS50Data(inputs, data, figures)
+    CAS60Data(inputs, data, figures)
+    CAS70Data(inputs, data, figures)
+    CAS80Data(inputs, data, figures)
+    CAS90Data(inputs, data, figures)
+    LCOEData(inputs, data, figures)
+    CostTableData(inputs, data, figures)
     return data
 
 
@@ -226,7 +262,7 @@ def compute_cas_220200_replacements(blanket: Blanket, cas22: CAS22) -> dict[str,
         'C220200': cas22.C220200,
         'C220201': cas22.C220201,
         'C220202': cas22.C220202,
-        'C220203': cas22.C220203, # not in template
+        'C220203': cas22.C220203,  # not in template
         'primaryC': blanket.primary_coolant.display_name,
         'secondaryC': blanket.secondary_coolant.display_name,
     }
@@ -253,9 +289,9 @@ def compute_cas_220500_replacements(fuel_handling: FuelHandling, cas22: CAS22) -
     }
 
 
-def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
+def compute_cas_220000_replacements(materials: Materials, cas22: CAS22) -> dict[str, str]:
     return {
-        'C220000': cas22.C220000, # TODO - currently not in the template
+        'C220000': cas22.C220000,  # TODO - currently not in the template
         'BFS_RHO': materials.BFS.rho,
         'BFS_CRAW': materials.BFS.c_raw,
         'BFS_M': materials.BFS.m,
@@ -304,6 +340,70 @@ def compute_cas_220000_replacements(materials: Materials, cas22: CAS22):
         'LI_RHO': materials.Li.rho,
         'LI_CRAW': materials.Li.c_raw,
         'LI_M': materials.Li.m,
+    }
+
+
+def compute_cas_300000_replacements(basic: Basic, cas30: CAS30) -> dict[str, str]:
+    return {
+        'constructionTime': str(basic.construction_time),
+        'C300000XXX': str(cas30.C300000),  # TODO - not in template
+        'C320000XXX': str(cas30.C320000),
+        'C310000LSA': str(cas30.C310000LSA),
+        'C310000XXX': str(cas30.C310000),
+        'C350000LSA': str(cas30.C350000LSA),
+        'C350000XXX': str(cas30.C350000),
+    }
+
+
+def compute_cas_400000_replacements(lsa_levels: LsaLevels, cas40: CAS40) -> dict[str, str]:
+    return {
+        'LSA_LEVEL': str(lsa_levels.lsa),
+        'C400000LSA': str(cas40.C400000LSA),
+        'C400000XXX': str(cas40.C400000),  # TODO - not in template
+    }
+
+
+def compute_cas_500000_replacements(cas50: CAS50) -> dict[str, str]:
+    return {
+        'C500000': str(cas50.C500000),  # TODO - not in template
+        'C510000': str(cas50.C510000),
+        'C520000': str(cas50.C520000),
+        'C530000': str(cas50.C530000),
+        'C540000': str(cas50.C540000),
+        'C550000': str(cas50.C550000),
+        'C580000': str(cas50.C580000),
+        'C590000': str(cas50.C590000),
+    }
+
+
+def compute_cas_600000_replacements(cas60: CAS60) -> dict[str, str]:
+    return {
+        'C600000': str(cas60.C600000),  # TODO - not in template
+        'C610000': str(cas60.C610000),
+        'C630000LSA': str(cas60.C630000LSA),
+        'C630000XXX': str(cas60.C630000),
+    }
+
+
+def compute_cas_800000_replacements(blanket: Blanket, cas80: CAS80) -> dict[str, str]:
+    return {
+        'C800000': str(cas80.C800000),
+        'primaryC': blanket.primary_coolant.display_name,
+        'secondaryC': blanket.secondary_coolant.display_name,
+    }
+
+
+def compute_lcoe_replacements(inputs: Inputs, data: Data) -> dict[str, str]:
+    return {
+        'C1000000': str(round(data.lcoe.C1000000, 1)),
+        'C2000000': str(round(data.lcoe.C2000000, 1)),
+        'C700000': str(round(data.cas70.C700000, 1)),
+        'C800000': str(round(data.cas80.C800000, 1)),
+        'C900000': str(round(data.cas90.C900000, 1)),
+        'PNET': str(round(data.power_table.p_net, 3)),
+        'lifeY': str(round(inputs.basic.plant_lifetime)),
+        'yinflation': str(100 * round(inputs.basic.yearly_inflation, 3)),
+        'PAVAIL': str(round(inputs.basic.plant_availability, 2)),
     }
 
 
@@ -362,7 +462,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C190000': currency_str(data.cas10.C190000),
         }
     elif template == CAS_200000_TEX:
-        return {'C200000': str(data.cas20.C200000)} # TODO - C200000 not in the template
+        return {'C200000': str(data.cas20.C200000)}  # TODO - C200000 not in the template
     elif template == CAS_210000_TEX:
         return {
             'C210000': currency_str(data.cas21.C210000),
@@ -505,6 +605,24 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C280000': str(data.cas28.C280000)}
     elif template == CAS_290000_TEX:
         return {'C290000': str(data.cas29.C290000)}
+    elif template == CAS_300000_TEX:
+        return compute_cas_300000_replacements(inputs.basic, data.cas30)
+    elif template == CAS_400000_TEX:
+        return compute_cas_400000_replacements(inputs.lsa_levels, data.cas40)
+    elif template == CAS_500000_TEX:
+        return compute_cas_500000_replacements(data.cas50)
+    elif template == CAS_600000_TEX:
+        return compute_cas_600000_replacements(data.cas60)
+    elif template == CAS_700000_TEX:
+        return {'C700000': str(data.cas70.C700000)}
+    elif template == CAS_800000_DT_TEX:
+        return compute_cas_800000_replacements(inputs.blanket, data.cas80)
+    elif template == CAS_900000_TEX:
+        return {'C900000': str(data.cas90.C900000)}
+    elif template == LCOE_TEX:
+        return compute_lcoe_replacements(inputs, data)
+    elif template == CAS_STRUCTURE_TEX:
+        return data.cost_table.replacements
     else:
         raise ValueError(f'Unrecognized template {template}')
 

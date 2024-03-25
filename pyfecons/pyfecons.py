@@ -52,6 +52,7 @@ def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
     :param hydrated_templates: from cost calculations
     :return: final report
     """
+    # TODO - need to create ordering for the hydrated templates and support \include substitutions
     template_content = '\n\n'.join([hydrated_templates[key] for key in sorted(hydrated_templates.keys())])
     # Uncomment the following two lines to view the compiled .tex file locally if pdf rendering is failing
     # with open(f"temp/report.tex", "w") as file:
