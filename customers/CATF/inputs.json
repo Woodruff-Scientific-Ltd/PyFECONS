@@ -9,11 +9,13 @@
         "p_nrl": 2600.0,
         "n_mod": 1,
         "am": 0.99,
+        "downtime": 1,
         "construction_time": 6.0,
         "plant_lifetime": 30.0,
         "plant_availability": 0.85,
         "noak": true,
-        "yearly_inflation": 0.0245
+        "yearly_inflation": 0.0245,
+        "time_to_replace": 10
     },
     "power_table": {
         "f_sub": 0.03,

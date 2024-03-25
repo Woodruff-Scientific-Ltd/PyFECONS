@@ -3,20 +3,25 @@ from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
 
 
-# TODO give sensible defaults are force initialization
 @dataclass
-class PowerTable:
-    p_alpha: MW = None
-    p_neutron: MW = None
+class TemplateProvider:
+    replacements: dict[str, str] = field(default_factory=dict)
+    template_file: str = None
+
+
+@dataclass
+class PowerTable(TemplateProvider):
+    p_alpha: MW = None  # Charged particle power
+    p_neutron: MW = None  # Neutron power
     p_cool: MW = None
     p_aux: MW = None
     p_coils: MW = None
 
     p_th: MW = None
-    p_the: MW = None
+    p_the: MW = None  # Total thermal electric power
     p_dee: MW = None
 
-    p_et: MW = None
+    p_et: MW = None  # Gross electric
     p_loss: MW = None
     p_pump: MW = None
     p_sub: MW = None
@@ -356,13 +361,8 @@ class LCOE:
 
 
 @dataclass
-class CostTable:
-    replacements: dict[str, str] = None
-
-    def __post_init__(self):
-        if self.replacements is None:
-            self.replacements = {}
-
+class CostTable(TemplateProvider):
+    pass
 
 @dataclass
 class Data(SerializableToJSON):

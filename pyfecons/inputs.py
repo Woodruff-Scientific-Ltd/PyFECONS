@@ -29,35 +29,37 @@ class Basic:
     reactor_type: ReactorType = ReactorType.IFE
     energy_conversion: EnergyConversion = EnergyConversion.DIRECT
     fuel_type: FuelType = FuelType.DT
-    p_nrl: MW = 2600.0
+    p_nrl: MW = 2600.0  # Fusion Power
     n_mod: Count = 1
     am: Percent = 1.00
+    downtime: Years = 1
     construction_time: Years = 6.0
-    plant_lifetime: Years = 30.0
-    plant_availability: Percent = 0.85
+    plant_lifetime: Years = 30.0  # from end of construction
+    plant_availability: Percent = 0.85 # in Miller 2003 was 0.76
     noak: bool = True
     yearly_inflation: Percent = 0.0245
+    time_to_replace: Years = 10
 
 
 @dataclass
 class PowerTable:
-    f_sub: Percent = 0.03
+    f_sub: Percent = 0.03  # Subsystem and Control Fraction
     p_cryo: MW = 0.5
-    mn: Ratio = 1.1
-    eta_p: Percent = 0.5
-    eta_th: Percent = 0.46
-    fpcppf: Percent = 0.06
-    p_trit: MW = 10
-    p_house: MW = 4
-    p_tfcool: MW = 12.7
-    p_pfcool: MW = 1
-    p_tf: MW = 1
-    p_pf: MW = 1
-    eta_pin: Percent = 0.5
+    mn: Ratio = 1.1  # Neutron energy multiplier
+    eta_p: Percent = 0.5  # Pumping power capture efficiency
+    eta_th: Percent = 0.46  # Thermal conversion efficiency
+    fpcppf: Percent = 0.06  # Primary Coolant Pumping Power Fraction
+    p_trit: MW = 10  # Tritium Systems
+    p_house: MW = 4  # Housekeeping power
+    p_tfcool: MW = 12.7  # Solenoid coil cooling
+    p_pfcool: MW = 1   # Mirror coil cooling
+    p_tf: MW = 1  # Power into TF coils
+    p_pf: MW = 1  # Power into PF (equilibrium) coils (TODO - how to handle for HTS?)
+    eta_pin: Percent = 0.5  # Input power wall plug efficiency
     eta_pin1: Percent = 0.18
     eta_pin2: Percent = 0.82
-    eta_de: Percent = 0.85
-    p_input: MW = 50
+    eta_de: Percent = 0.85  # Direct energy conversion efficiency
+    p_input: MW = 50  # Input power
 
 
 @dataclass

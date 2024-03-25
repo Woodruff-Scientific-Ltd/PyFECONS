@@ -5,7 +5,7 @@ from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
     FuelHandling, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
-from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
+from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
@@ -25,9 +25,8 @@ from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
 from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
-from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData
+from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
 CAS_200000_TEX = 'CAS200000.tex'
 CAS_210000_TEX = 'CAS210000.tex'
@@ -64,7 +63,6 @@ CAS_700000_TEX = 'CAS700000.tex'
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 CAS_900000_TEX = 'CAS900000.tex'
 LCOE_TEX = 'LCOE.tex'
-CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -409,45 +407,7 @@ def compute_lcoe_replacements(inputs: Inputs, data: Data) -> dict[str, str]:
 
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
-        return {
-            # Ordered by occurrence in template
-            # 1. Output power
-            'PNRL': inputs.basic.p_nrl,  # Fusion Power
-            'PALPHA': data.power_table.p_alpha,  # Alpha Power
-            'PNEUTRON': data.power_table.p_neutron,  # Neutron Power
-            'MN': inputs.power_table.mn,  # Neutron Energy Multiplier
-            '00ETAP': inputs.power_table.eta_p,  # Pumping power capture efficiency
-            'PTH': data.power_table.p_th,  # Thermal Power
-            'ETATH': inputs.power_table.eta_th,  # Thermal conversion efficiency
-            'PET': data.power_table.p_et,  # Total (Gross) Electric Power
-            # 2. Recirculating power
-            'PLOSS': data.power_table.p_loss,  # Lost Power
-            'PCOILS': data.power_table.p_coils,  # Power into coils
-            '000PTF': inputs.power_table.p_tf,  # Power into TF coils
-            '000PPF': inputs.power_table.p_pf,  # Power into PF (equilibrium) coils
-            'FPCPPF': inputs.power_table.fpcppf,  # Primary Coolant Pumping Power Fraction
-            'PPUMP': data.power_table.p_pump,  # Primary Coolant Pumping Power
-            'FSUB': inputs.power_table.f_sub,  # Subsystem and Control Fraction
-            'PSUB': data.power_table.p_sub,  # Subsystem and Control Power
-            'PAUX': data.power_table.p_aux,  # Auxiliary systems
-            'PTRIT': inputs.power_table.p_trit,  # Tritium Systems
-            'PHOUSE': inputs.power_table.p_house,  # Housekeeping power
-            'PCOOL': data.power_table.p_cool,  # Cooling systems
-            'PTFCOOL': inputs.power_table.p_tfcool,  # TF coil cooling
-            'PPFCOOL': inputs.power_table.p_pfcool,  # PF coil cooling
-            'PCRYO': inputs.power_table.p_cryo,  # Cryo vacuum pumping
-            'ETAPIN': inputs.power_table.eta_pin,  # Input power wall plug efficiency
-            'PINPUT': inputs.power_table.p_input,  # Input power
-            # 3. Outputs
-            'QSCI': data.power_table.qsci,  # Scientific Q
-            'QENG': data.power_table.qeng,  # Engineering Q
-            'RECFRAC': round(data.power_table.recfrac, 3),  # Recirculating power fraction
-            'PNET': data.power_table.p_net,  # Output Power (Net Electric Power)
-            # Included in powerTableMFEDTM.tex but missing in powerTableMFEDT.tex
-            # 'PTHE': PTHE,
-            # 'ETADE': ETADE,
-            # 'PDEE': PDEE,
-        }
+        return data.power_table.replacements
     elif template == CAS_100000_TEX:
         return {
             'Nmod': str(inputs.basic.n_mod),

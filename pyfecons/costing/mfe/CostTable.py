@@ -1,6 +1,7 @@
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 
+CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     cost_values = {
@@ -96,6 +97,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     aries_st_percentages = {percentage(key): str(round(val / m99 * 100, 2)) for key, val in aries_st_values.items()}
     aries_st_empty_percentages = {percentage(key): val for key, val in aries_st_empty_values.items()}
 
+    data.cost_table.template_file = CAS_STRUCTURE_TEX
     data.cost_table.replacements = (rounded_cost_values | percentage_cost_values
                                     | aries_st_values_inflation | aries_st_percentages
                                     | aries_st_empty_values | aries_st_empty_percentages)
