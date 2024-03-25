@@ -25,6 +25,7 @@ from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
 from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
+from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 CAS_100000_TEX = 'CAS100000.tex'
@@ -63,6 +64,7 @@ CAS_700000_TEX = 'CAS700000.tex'
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 CAS_900000_TEX = 'CAS900000.tex'
 LCOE_TEX = 'LCOE.tex'
+CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -102,6 +104,7 @@ TEMPLATE_FILES = [
     CAS_800000_DT_TEX,
     CAS_900000_TEX,
     LCOE_TEX,
+    CAS_STRUCTURE_TEX,
 ]
 
 
@@ -128,6 +131,7 @@ def GenerateData(inputs: Inputs) -> Data:
     CAS80Data(inputs, data, figures)
     CAS90Data(inputs, data, figures)
     LCOEData(inputs, data, figures)
+    CostTableData(inputs, data, figures)
     return data
 
 
@@ -617,6 +621,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return {'C900000': str(data.cas90.C900000)}
     elif template == LCOE_TEX:
         return compute_lcoe_replacements(inputs, data)
+    elif template == CAS_STRUCTURE_TEX:
+        return data.cost_table.replacements
     else:
         raise ValueError(f'Unrecognized template {template}')
 

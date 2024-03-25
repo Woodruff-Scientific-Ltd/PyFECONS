@@ -356,6 +356,15 @@ class LCOE:
 
 
 @dataclass
+class CostTable:
+    replacements: dict[str, str] = None
+
+    def __post_init__(self):
+        if self.replacements is None:
+            self.replacements = {}
+
+
+@dataclass
 class Data(SerializableToJSON):
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
@@ -377,3 +386,4 @@ class Data(SerializableToJSON):
     cas80: CAS80 = field(default_factory=CAS80)
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
+    cost_table: CostTable = field(default_factory=CostTable)
