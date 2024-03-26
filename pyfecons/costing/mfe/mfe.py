@@ -6,7 +6,7 @@ from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructur
     FuelHandling, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
-from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
+from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
@@ -27,7 +27,6 @@ from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_100000_TEX = 'CAS100000.tex'
 CAS_200000_TEX = 'CAS200000.tex'
 CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
@@ -409,18 +408,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     if template == POWER_TABLE_MFE_DT_TEX:
         return data.power_table.replacements
     elif template == CAS_100000_TEX:
-        return {
-            'Nmod': str(inputs.basic.n_mod),
-            'C100000': currency_str(data.cas10.C100000),
-            'C110000': currency_str(data.cas10.C110000),
-            'C120000': currency_str(data.cas10.C120000),
-            'C130000': currency_str(data.cas10.C130000),
-            'C140000': currency_str(data.cas10.C140000),
-            'C150000': currency_str(data.cas10.C150000),
-            'C160000': currency_str(data.cas10.C160000),
-            'C170000': currency_str(data.cas10.C170000),
-            'C190000': currency_str(data.cas10.C190000),
-        }
+        return data.cas10.replacements
     elif template == CAS_200000_TEX:
         return {'C200000': str(data.cas20.C200000)}  # TODO - C200000 not in the template
     elif template == CAS_210000_TEX:

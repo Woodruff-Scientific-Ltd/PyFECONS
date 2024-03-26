@@ -33,7 +33,7 @@ class PowerTable(TemplateProvider):
 
 # TODO give sensible defaults are force initialization
 @dataclass
-class CAS10:
+class CAS10(TemplateProvider):
     C110000: M_USD = None
     C120000: M_USD = None
     C130000: M_USD = None
