@@ -7,7 +7,7 @@ from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructur
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
-from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
+from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
 from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
@@ -28,7 +28,6 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
 
-CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
@@ -412,28 +411,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_200000_TEX:
         return data.cas20.replacements
     elif template == CAS_210000_TEX:
-        return {
-            'C210000': currency_str(data.cas21.C210000),
-            'C210100': currency_str(data.cas21.C210100),
-            'C210200': currency_str(data.cas21.C210200),
-            'C210300': currency_str(data.cas21.C210300),
-            'C210400': currency_str(data.cas21.C210400),
-            'C210500': currency_str(data.cas21.C210500),
-            'C210600': currency_str(data.cas21.C210600),
-            'C210700': currency_str(data.cas21.C210700),
-            'C210800': currency_str(data.cas21.C210800),
-            'C210900': currency_str(data.cas21.C210900),
-            'C211000': currency_str(data.cas21.C211000),
-            'C211100': currency_str(data.cas21.C211100),
-            'C211200': currency_str(data.cas21.C211200),
-            'C211300': currency_str(data.cas21.C211300),
-            'C211400': currency_str(data.cas21.C211400),
-            'C211500': currency_str(data.cas21.C211500),
-            'C211600': currency_str(data.cas21.C211600),
-            'C211700': currency_str(data.cas21.C211700),
-            # not in template file or data
-            # 'C211900': currency_str(data.cas21.C211900),
-        }
+        return data.cas21.replacements
     elif template == CAS_220101_TEX:
         return {
             'C220101': currency_str(data.cas22.C220101),  # TODO - verify this is correct in template

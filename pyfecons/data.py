@@ -45,9 +45,8 @@ class CAS10(TemplateProvider):
     C100000: M_USD = None
 
 
-# TODO give sensible defaults are force initialization
 @dataclass
-class CAS21:
+class CAS21(TemplateProvider):
     C210100: M_USD = None
     C210200: M_USD = None
     C210300: M_USD = None
@@ -65,7 +64,7 @@ class CAS21:
     C211500: M_USD = None
     C211600: M_USD = None
     C211700: M_USD = None
-    C211800: M_USD = None
+    C211900: M_USD = None
     C210000: M_USD = None
 
 
