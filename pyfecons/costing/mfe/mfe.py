@@ -16,7 +16,7 @@ from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
 from pyfecons.costing.mfe.CAS28 import GenerateData as CAS28Data
 from pyfecons.costing.mfe.CAS29 import GenerateData as CAS29Data
-from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data
+from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data, CAS_200000_TEX
 from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data
 from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data
@@ -27,7 +27,7 @@ from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_200000_TEX = 'CAS200000.tex'
+
 CAS_210000_TEX = 'CAS210000.tex'
 CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
@@ -410,7 +410,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_100000_TEX:
         return data.cas10.replacements
     elif template == CAS_200000_TEX:
-        return {'C200000': str(data.cas20.C200000)}  # TODO - C200000 not in the template
+        return data.cas20.replacements
     elif template == CAS_210000_TEX:
         return {
             'C210000': currency_str(data.cas21.C210000),

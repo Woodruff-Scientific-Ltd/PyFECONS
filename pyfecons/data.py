@@ -297,7 +297,7 @@ class CAS29:
 
 
 @dataclass
-class CAS20:
+class CAS20(TemplateProvider):
     C200000: M_USD = None
 
 
