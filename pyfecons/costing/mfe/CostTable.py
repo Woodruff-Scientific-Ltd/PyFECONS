@@ -3,6 +3,7 @@ from pyfecons.data import Data
 
 CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
+
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     cost_values = {
         'C100000': data.cas10.C100000,
@@ -11,7 +12,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         'C220000': data.cas22.C220000,
         'C220100': data.cas22.C220100,
         'C220101': data.cas220101.C220101,
-        'C220102': data.cas22.C220102,
+        'C220102': data.cas220102.C220102,
         'C220103': data.cas22.C220103,
         'C220104': data.cas22.C220104,
         'C220105': data.cas22.C220105,

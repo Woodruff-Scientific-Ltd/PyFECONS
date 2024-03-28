@@ -10,6 +10,7 @@ from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
+CAS_220102_TEX = 'CAS220102.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -217,20 +218,20 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
     }
 
 def compute_220102_shield(inputs: Inputs, data: Data, figures: dict):
-    OUT = data.cas22
+    # Cost Category 22.1.2: Shield
+    OUT = data.cas220102
     cas220101 = data.cas220101
     materials = inputs.materials
-    # Cost Category 22.1.2: Shield
+
     # Define the fractions
     f_SiC = 0.00  # TODO - why is this 0? It invalidates the SiC material contribution
     FPCPPFbLi = 0.1
     f_W = 0.00  # TODO - why is this 0? It invalidates the W material contribution
     f_BFS = 0.9
-    # TODO - what is this line?
-    reactor = 'CATF'
+
     # Retrieve the volume of HTS from the reactor_volumes dictionary
-    # V_HTS = volumes["V_HTS"]
     OUT.V_HTS = round(cas220101.ht_shield_vol, 1)
+
     # Calculate the cost for HTS
     C_HTS = round(OUT.V_HTS * (
             materials.SiC.rho * materials.SiC.c_raw * materials.SiC.m * f_SiC +
@@ -238,14 +239,30 @@ def compute_220102_shield(inputs: Inputs, data: Data, figures: dict):
             materials.W.rho * materials.W.c_raw * materials.W.m * f_W +
             materials.BFS.rho * materials.BFS.c_raw * materials.BFS.m * f_BFS
     ) / 1e6, 1)
+
     # Volume of HTShield that is BFS
     V_HTS_BFS = OUT.V_HTS * f_BFS
+
+    # TODO -
     # The cost C_22_1_2 is the same as C_HTS
-    OUT.C22010201 = round(C_HTS, 1)
-    OUT.C22010202 = cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3
-    OUT.C22010203 = cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3
-    OUT.C22010204 = OUT.C22010203 * 0.1
-    OUT.C220102 = OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204
+    OUT.C22010201 = M_USD(round(C_HTS, 1))
+    OUT.C22010202 = M_USD(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3)
+    OUT.C22010203 = M_USD(cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3)
+    OUT.C22010204 = M_USD(OUT.C22010203 * 0.1)
+    OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
+
+    OUT.template_file = CAS_220102_TEX
+    OUT.replacements = {
+        'C220102__': round(data.cas220102.C220102),
+        'C22010201': round(data.cas220102.C22010201),
+        'C22010202': round(data.cas220102.C22010202),
+        'C22010203': round(data.cas220102.C22010203),
+        'C22010204': round(data.cas220102.C22010204),
+        'V220102': round(data.cas220102.V_HTS),  # Missing from CAS220102.tex
+        'primaryC': inputs.blanket.primary_coolant.display_name,
+        'VOL9': round(data.cas220101.ht_shield_vol),
+        'VOL11': round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
+    }
 
 
 def plot_radial_build(IN, figures):
@@ -590,7 +607,7 @@ def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
 def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
-    OUT.C220100 = M_USD(data.cas220101.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
+    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + OUT.C220103 + OUT.C220104
                         + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
 
 

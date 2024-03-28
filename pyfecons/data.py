@@ -150,8 +150,7 @@ class CAS220101(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
-
+class CAS220102(TemplateProvider):
     # Cost Category 22.1.2: Shield
     C22010201: M_USD = None
     C22010202: M_USD = None
@@ -160,6 +159,9 @@ class CAS22(TemplateProvider):
     C220102: M_USD = None
     V_HTS: Meters3 = None
 
+
+@dataclass
+class CAS22(TemplateProvider):
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
     total_struct_cost: M_USD = None
@@ -375,6 +377,7 @@ class Data(SerializableToJSON):
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
     cas220101: CAS220101 = field(default_factory=CAS220101)
+    cas220102: CAS220102 = field(default_factory=CAS220102)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

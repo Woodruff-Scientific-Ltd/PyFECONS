@@ -7,7 +7,7 @@ from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
-from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX
+from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX, CAS_220102_TEX
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -27,7 +27,6 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
 
-CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
 CAS_220104_TEX = 'CAS220104.tex'
 CAS_220105_TEX = 'CAS220105.tex'
@@ -413,17 +412,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_220101_MFE_DT_TEX:
         return data.cas220101.replacements
     elif template == CAS_220102_TEX:
-        return {
-            'C22010201': round(data.cas22.C22010201),
-            'C22010202': round(data.cas22.C22010202),
-            'C22010203': round(data.cas22.C22010203),
-            'C22010204': round(data.cas22.C22010204),
-            'C22010200': round(data.cas22.C220102),
-            'V220102': round(data.cas22.V_HTS),  # Missing from CAS220102.tex
-            'primaryC': inputs.blanket.primary_coolant.display_name,
-            'VOL9': round(data.cas220101.ht_shield_vol),
-            'VOL11': round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
-        }
+        return data.cas220102.replacements
     elif template == CAS_220103_TEX:
         return compute_cas_220103_replacements(inputs.coils, data.cas22)
     elif template == CAS_220104_TEX:
