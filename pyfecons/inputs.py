@@ -64,21 +64,23 @@ class PowerTable:
 
 @dataclass
 class RadialBuild:
-    chamber_length: Meters = 40  # chamber length
-    axis_t: Meters = 0  # central axis thickness
-    plasma_t: Meters = 4  # Radial plasma thickness
-    vacuum_t: Meters = 0.1  # Radial vacuum thickness
-    firstwall_t: Meters = 0.1  # Radial firstwall thickness
-    blanket1_t: Meters = 1  # Radial blanket thickness
-    reflector_t: Meters = 0.1  # Radial reflector thickness
-    ht_shield_t: Meters = 0.5  # Radial high temperature shield thickness
-    structure_t: Meters = 0.2  # Radial structure thickness
-    gap1_t: Meters = 0.5  # Radial first gap thickness
-    vessel_t: Meters = 0.2  # Radial vessel wall thickness
-    coil_t: Meters = 1.76  # Radial coil thickness
-    gap2_t: Meters = 1  # Radial second gap thickness
-    lt_shield_t: Meters = 0.3  # Radial low temperature shield thickness
-    bioshield_t: Meters = 1  # Radial bioshield thickness
+    # Radial build inputs
+    # Radial thicknesses of concentric components (innermost to outermost)
+    elon = 3  # torus elongation factor
+    axis_t: Meters = 3  # distance from r=0 to plasma central axis - effectively major radius
+    plasma_t: Meters = 1.1  # plasma radial thickness
+    vacuum_t: Meters = 0.1  # vacuum radial thickness
+    firstwall_t: Meters = 0.2  # first wall radial thickness
+    blanket1_t: Meters = 0.8  # blanket radial thickness
+    reflector_t: Meters = 0.2  # reflector radial thickness
+    ht_shield_t: Meters = 0.2  # High-temperature shield radial thickness
+    structure_t: Meters = 0.2  # support structure radial thickness
+    gap1_t: Meters = 0.5  # air gap radial thickness
+    vessel_t: Meters = 0.2  # vacuum vessel wall radial thickness
+    coil_t: Meters = 0.05  # TF coil radial thickness
+    gap2_t: Meters = 0.5  # second air gap radial thickness
+    lt_shield_t: Meters = 0.3  # low-temperature shield radial thickness
+    bioshield_t: Meters = 1  # concrete bioshield radial thickness
 
 
 @dataclass

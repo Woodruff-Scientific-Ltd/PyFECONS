@@ -20,9 +20,9 @@ class FuelType(Enum):
 
 class BlanketFirstWall(Enum):
     TUNGSTEN = ('TUNGSTEN', 'Tungsten')
-    LIQUID_METAL = ('LIQUID_METAL', 'Liquid Metal')
+    LIQUID_LITHIUM = ('LIQUID_LITHIUM', 'Liquid Lithium')
     BERYLLIUM = ('BERYLLIUM', 'Beryllium')
-    MOLTEN_SALT = ('MOLTEN_SALT', 'Molten Salt')
+    FLIBE = ('FLIBE', 'FLiBe')
 
     def __new__(cls, value, display_name):
         obj = object.__new__(cls)
@@ -33,12 +33,12 @@ class BlanketFirstWall(Enum):
 
 class BlanketType(Enum):
     FLOWING_LIQUID_FIRST_WALL = ('FLOWING_LIQUID_FIRST_WALL', 'Flowing Liquid First Wall')
-    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4 = ('SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER_LI4SIO4',
-                                                      'Solid First Wall with Liquid Breeder (Li4SiO4)')
+    SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER = ('SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER', 'Solid First Wall with a Liquid Breeder')
+    SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4 = ('SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4',
+                                                      'Solid First Wall with Solid Breeder (Li4SiO4)')
     SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3 = ('SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3',
                                                      'Solid First Wall with Solid Breeder (Li2TiO3)')
-    SOLID_FIRST_WALL = ('SOLID_FIRST_WALL', 'Solid First Wall')
-    NO_BREEDER_ANEUTRONIC_FUEL = ('NO_BREEDER_ANEUTRONIC_FUEL', 'No Breeder (Aneutronic Fuel)')
+    SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL = ('SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL', 'Solid First Wall No Breeder (Aneutronic Fuel)')
 
     def __new__(cls, value, display_name):
         obj = object.__new__(cls)

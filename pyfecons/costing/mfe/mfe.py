@@ -1,14 +1,13 @@
 from importlib import resources
 
 from pyfecons import Materials
-from pyfecons.helpers import currency_str
 from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
     FuelHandling, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
-from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
+from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -28,7 +27,6 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
 
-CAS_220101_TEX = 'CAS220101.tex'  # referenced as CAS220101_MFE_DT.tex in Jupyter
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_TEX = 'CAS220103.tex'
 CAS_220104_TEX = 'CAS220104.tex'
@@ -67,7 +65,7 @@ TEMPLATE_FILES = [
     CAS_100000_TEX,
     CAS_200000_TEX,
     CAS_210000_TEX,
-    CAS_220101_TEX,
+    CAS_220101_MFE_DT_TEX,
     CAS_220102_TEX,
     CAS_220103_TEX,
     CAS_220104_TEX,
@@ -298,8 +296,8 @@ def compute_cas_220000_replacements(materials: Materials, cas22: CAS22) -> dict[
         'LI4SIO4_RHO': materials.Li4SiO4.rho,
         'LI4SIO4_CRAW': materials.Li4SiO4.c_raw,
         'LI4SIO4_M': materials.Li4SiO4.m,
-        'FLIBE_RHO': materials.Flibe.rho,
-        'FLIBE_C': materials.Flibe.c,
+        'FLIBE_RHO': materials.FliBe.rho,
+        'FLIBE_C': materials.FliBe.c,
         'W_RHO': materials.W.rho,
         'W_CRAW': materials.W.c_raw,
         'W_M': materials.W.m,
@@ -412,67 +410,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return data.cas20.replacements
     elif template == CAS_210000_TEX:
         return data.cas21.replacements
-    elif template == CAS_220101_TEX:
-        return {
-            'C220101': currency_str(data.cas22.C220101),  # TODO - verify this is correct in template
-            'RAD12I': round(data.cas22.coil_ir),
-            'RAD13I': round(data.cas22.bioshield_ir),
-            'RAD10I': round(data.cas22.gap2_or, 1),
-            'RAD11I': round(data.cas22.lt_shield_or, 1),
-            'RAD1I': round(data.cas22.plasma_or, 1),
-            'RAD2I': round(data.cas22.vacuum_or, 1),
-            'RAD3I': round(data.cas22.firstwall_or, 1),
-            'RAD4I': round(data.cas22.blanket1_or, 1),
-            'RAD5I': round(data.cas22.structure_or, 1),
-            'RAD6I': round(data.cas22.reflector_or, 1),
-            'RAD7I': round(data.cas22.gap1_or, 1),
-            'RAD8I': round(data.cas22.vessel_or, 1),
-            'RAD9I': round(data.cas22.ht_shield_or, 1),
-            'RAD12O': round(data.cas22.coil_or),
-            'RAD13O': round(data.cas22.bioshield_or),
-            'RAD10O': round(data.cas22.gap2_or, 1),
-            'RAD11O': round(data.cas22.lt_shield_or, 1),
-            'RAD1O': round(data.cas22.plasma_or, 1),
-            'RAD2O': round(data.cas22.vacuum_or, 1),
-            'RAD3O': round(data.cas22.firstwall_or, 1),
-            'RAD4O': round(data.cas22.blanket1_or, 1),
-            'RAD5O': round(data.cas22.structure_or, 1),
-            'RAD6O': round(data.cas22.reflector_or, 1),
-            'RAD7O': round(data.cas22.gap1_or, 1),
-            'RAD8O': round(data.cas22.vessel_or, 1),
-            'RAD9O': round(data.cas22.ht_shield_or, 1),
-            'TH10': round(data.cas22.gap2_vol),
-            'TH11': round(inputs.radial_build.lt_shield_t),
-            'TH12': round(inputs.radial_build.coil_t),
-            'TH13': round(inputs.radial_build.bioshield_t),
-            'TH01': round(inputs.radial_build.plasma_t, 1),
-            'TH02': round(inputs.radial_build.vacuum_t, 1),
-            'TH03': round(inputs.radial_build.firstwall_t, 1),
-            'TH04': round(inputs.radial_build.blanket1_t, 1),
-            'TH05': round(inputs.radial_build.structure_t, 1),
-            'TH06': round(inputs.radial_build.reflector_t, 1),
-            'TH07': round(inputs.radial_build.gap1_t, 1),
-            'TH08': round(inputs.radial_build.vessel_t, 1),
-            'TH09': round(inputs.radial_build.ht_shield_t, 1),
-            'VOL10': round(data.cas22.gap2_vol),
-            'VOL11': round(data.cas22.lt_shield_vol),
-            'VOL12': round(data.cas22.coil_vol),
-            'VOL13': round(data.cas22.bioshield_vol),
-            'VOL01': round(data.cas22.plasma_vol),
-            'VOL02': round(data.cas22.vacuum_vol),
-            'VOL03': round(data.cas22.firstwall_vol),
-            'VOL04': round(data.cas22.blanket1_vol),
-            'VOL05': round(data.cas22.structure_vol),
-            'VOL06': round(data.cas22.reflector_vol),
-            'VOL07': round(data.cas22.gap1_vol),
-            'VOL08': round(data.cas22.vessel_vol),
-            'VOL09': round(data.cas22.ht_shield_vol),
-            'primaryC': inputs.blanket.primary_coolant.display_name,
-            'secondaryC': inputs.blanket.secondary_coolant.display_name,
-            'neutronM': inputs.blanket.neutron_multiplier.display_name,
-            'structure1': inputs.blanket.structure.display_name,
-            'firstW': inputs.blanket.first_wall.display_name,
-        }
+    elif template == CAS_220101_MFE_DT_TEX:
+        return data.cas220101.replacements
     elif template == CAS_220102_TEX:
         return {
             'C22010201': round(data.cas22.C22010201),
@@ -482,8 +421,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
             'C22010200': round(data.cas22.C220102),
             'V220102': round(data.cas22.V_HTS),  # Missing from CAS220102.tex
             'primaryC': inputs.blanket.primary_coolant.display_name,
-            'VOL9': round(data.cas22.ht_shield_vol),
-            'VOL11': round(data.cas22.lt_shield_vol),  # Missing from CAS220102.tex
+            'VOL9': round(data.cas220101.ht_shield_vol),
+            'VOL11': round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
         }
     elif template == CAS_220103_TEX:
         return compute_cas_220103_replacements(inputs.coils, data.cas22)

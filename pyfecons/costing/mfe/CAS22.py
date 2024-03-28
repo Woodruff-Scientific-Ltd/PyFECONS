@@ -3,27 +3,29 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cadquery as cq
 
-from pyfecons.inputs import Inputs, Basic, RadialBuild, Coils, Magnet, SupplementaryHeating, PrimaryStructure, \
-    VacuumSystem, PowerSupplies, DirectEnergyConverter, Installation, FuelHandling
+from pyfecons import BlanketFirstWall, BlanketType
+from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, SupplementaryHeating, PrimaryStructure, PowerSupplies,
+                             DirectEnergyConverter, Installation, FuelHandling)
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
-from pyfecons.materials import Materials
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
+
+CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT = data.cas22
-    compute_220101_reactor_equipment(inputs.basic, inputs.radial_build, inputs.materials, OUT)
-    compute_220102_shield(inputs.materials, OUT)
+    compute_220101_reactor_equipment(inputs, data, figures)
+    compute_220102_shield(inputs, data, figures)
     compute_220103_coils(inputs.coils, OUT)
     compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
     compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
-    compute_220106_vacuum_system(inputs.vacuum_system, data.power_table, OUT)
+    compute_220106_vacuum_system(inputs, data, figures)
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
-    compute_220108_divertor(inputs.materials, OUT)
+    compute_220108_divertor(inputs, data, figures)
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
     compute_220119_scheduled_replacement_cost(OUT)
-    compute_2201_total(OUT)
+    compute_2201_total(data)
     compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
     compute_2203_auxilary_cooling(inputs.basic, data.power_table, OUT)
     compute_2204_radwaste(data.power_table, OUT)
@@ -33,83 +35,191 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2200_reactor_plant_equipment_total(OUT)
 
 
-def compute_220101_reactor_equipment(BASIC: Basic, RADIAL_BUILD: RadialBuild, MATERIALS: Materials, OUT: CAS22):
+def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
     # Cost Category 22.1.1: Reactor Equipment
+    IN = inputs.radial_build
+    OUT = data.cas220101
+    blanket = inputs.blanket
+    materials = inputs.materials
 
     # Inner radii
-    OUT.axis_ir = RADIAL_BUILD.axis_t
-    OUT.plasma_ir = RADIAL_BUILD.plasma_t
-    OUT.vacuum_ir = RADIAL_BUILD.vacuum_t + RADIAL_BUILD.plasma_t
-    OUT.firstwall_ir = RADIAL_BUILD.vacuum_t + OUT.vacuum_ir
-    OUT.blanket1_ir = OUT.firstwall_ir + RADIAL_BUILD.firstwall_t
-    OUT.reflector_ir = OUT.blanket1_ir + RADIAL_BUILD.blanket1_t
-    OUT.ht_shield_ir = OUT.reflector_ir + RADIAL_BUILD.reflector_t
-    OUT.structure_ir = OUT.ht_shield_ir + RADIAL_BUILD.ht_shield_t
-    OUT.gap1_ir = OUT.structure_ir + RADIAL_BUILD.structure_t
-    OUT.vessel_ir = OUT.gap1_ir + RADIAL_BUILD.gap1_t
-    OUT.lt_shield_ir = OUT.vessel_ir + RADIAL_BUILD.vessel_t  # Moved lt_shield here
-    OUT.coil_ir = OUT.lt_shield_ir + RADIAL_BUILD.lt_shield_t  # Updated coil_ir calculation
-    OUT.gap2_ir = OUT.coil_ir + RADIAL_BUILD.coil_t
-    OUT.bioshield_ir = OUT.gap2_ir + RADIAL_BUILD.gap2_t  # Updated bioshield inner radius
+    OUT.axis_ir = IN.axis_t
+    OUT.plasma_ir = OUT.axis_ir
+    OUT.vacuum_ir = IN.plasma_t + OUT.plasma_ir
+    OUT.firstwall_ir = IN.vacuum_t + OUT.vacuum_ir
+    OUT.blanket1_ir = OUT.firstwall_ir + IN.firstwall_t
+    OUT.reflector_ir = OUT.blanket1_ir + IN.blanket1_t
+    OUT.ht_shield_ir = OUT.reflector_ir + IN.reflector_t
+    OUT.structure_ir = OUT.ht_shield_ir + IN.ht_shield_t
+    OUT.gap1_ir = OUT.structure_ir + IN.structure_t
+    OUT.vessel_ir = OUT.gap1_ir + IN.gap1_t
+    OUT.lt_shield_ir = OUT.vessel_ir + IN.vessel_t  # Moved lt_shield here
+    OUT.coil_ir = OUT.lt_shield_ir + IN.lt_shield_t  # Updated coil_ir calculation
+    OUT.gap2_ir = OUT.coil_ir + IN.coil_t
+    OUT.bioshield_ir = OUT.gap2_ir + IN.gap2_t  # Updated bioshield inner radius
+
     # Outer radii
-    OUT.axis_or = OUT.axis_ir + RADIAL_BUILD.axis_t
-    OUT.plasma_or = OUT.plasma_ir + RADIAL_BUILD.plasma_t
-    OUT.vacuum_or = OUT.vacuum_ir + RADIAL_BUILD.vacuum_t
-    OUT.firstwall_or = OUT.firstwall_ir + RADIAL_BUILD.firstwall_t
-    OUT.blanket1_or = OUT.blanket1_ir + RADIAL_BUILD.blanket1_t
-    OUT.reflector_or = OUT.reflector_ir + RADIAL_BUILD.reflector_t
-    OUT.ht_shield_or = OUT.ht_shield_ir + RADIAL_BUILD.ht_shield_t
-    OUT.structure_or = OUT.structure_ir + RADIAL_BUILD.structure_t
-    OUT.gap1_or = OUT.gap1_ir + RADIAL_BUILD.gap1_t
-    OUT.vessel_or = OUT.vessel_ir + RADIAL_BUILD.vessel_t
-    OUT.lt_shield_or = OUT.lt_shield_ir + RADIAL_BUILD.lt_shield_t  # Moved lt_shield here
-    OUT.coil_or = OUT.coil_ir + RADIAL_BUILD.coil_t  # Updated coil_or calculation
-    OUT.gap2_or = OUT.gap2_ir + RADIAL_BUILD.gap2_t
-    OUT.bioshield_or = OUT.bioshield_ir + RADIAL_BUILD.bioshield_t  # Updated bioshield outer radius
+    OUT.axis_or = OUT.axis_ir + IN.axis_t
+    OUT.plasma_or = OUT.plasma_ir + IN.plasma_t
+    OUT.vacuum_or = OUT.vacuum_ir + IN.vacuum_t
+    OUT.firstwall_or = OUT.firstwall_ir + IN.firstwall_t
+    OUT.blanket1_or = OUT.blanket1_ir + IN.blanket1_t
+    OUT.reflector_or = OUT.reflector_ir + IN.reflector_t
+    OUT.ht_shield_or = OUT.ht_shield_ir + IN.ht_shield_t
+    OUT.structure_or = OUT.structure_ir + IN.structure_t
+    OUT.gap1_or = OUT.gap1_ir + IN.gap1_t
+    OUT.vessel_or = OUT.vessel_ir + IN.vessel_t
+    OUT.lt_shield_or = OUT.lt_shield_ir + IN.lt_shield_t  # Moved lt_shield here
+    OUT.coil_or = OUT.coil_ir + IN.coil_t  # Updated coil_or calculation
+    OUT.gap2_or = OUT.gap2_ir + IN.gap2_t
+    OUT.bioshield_or = OUT.bioshield_ir + IN.bioshield_t  # Updated bioshield outer radius
 
-    def calc_volume(inner, outer):
-        return RADIAL_BUILD.chamber_length * math.pi * (outer ** 2 - inner ** 2)
+    # Volumes for torus
+    def calc_volume_torus(inner, outer):
+        return np.pi * IN.axis_t * (inner + outer) ** 2  # V_tok_b	= pi*L*(a_tok + d)^2 - V_tok_p;
 
-    # Volumes for cylinder
-    OUT.axis_vol = calc_volume(OUT.axis_ir, OUT.axis_or)
-    OUT.plasma_vol = calc_volume(OUT.plasma_ir, OUT.plasma_or)
-    OUT.vacuum_vol = calc_volume(OUT.vacuum_ir, OUT.vacuum_or)
-    OUT.firstwall_vol = calc_volume(OUT.firstwall_ir, OUT.firstwall_or)
-    OUT.blanket1_vol = calc_volume(OUT.blanket1_ir, OUT.blanket1_or)
-    OUT.reflector_vol = calc_volume(OUT.reflector_ir, OUT.reflector_or)
-    OUT.ht_shield_vol = calc_volume(OUT.ht_shield_ir, OUT.ht_shield_or)
-    OUT.structure_vol = calc_volume(OUT.structure_ir, OUT.structure_or)
-    OUT.gap1_vol = calc_volume(OUT.gap1_ir, OUT.gap1_or)
-    OUT.vessel_vol = calc_volume(OUT.vessel_ir, OUT.vessel_or)
-    OUT.lt_shield_vol = calc_volume(OUT.lt_shield_ir, OUT.lt_shield_or)  # Moved lt_shield volume here
-    OUT.coil_vol = calc_volume(OUT.coil_ir, OUT.coil_or) * (9 * 0.779) / 40  # Updated coil volume calculation
-    OUT.gap2_vol = calc_volume(OUT.gap2_ir, OUT.gap2_or)
-    OUT.bioshield_vol = calc_volume(OUT.bioshield_ir, OUT.bioshield_or)  # Updated bioshield volume
+    OUT.axis_vol = 0.0
+    OUT.plasma_vol = Meters3(IN.elon * calc_volume_torus(OUT.plasma_ir, IN.plasma_t) - OUT.axis_vol)
+    OUT.vacuum_vol = Meters3(IN.elon * calc_volume_torus(OUT.vacuum_ir, IN.vacuum_t)
+                             - sum([OUT.plasma_vol, OUT.axis_vol]))
+    OUT.firstwall_vol = Meters3(IN.elon * calc_volume_torus(OUT.firstwall_ir, IN.firstwall_t)
+                                - sum([OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.blanket1_vol = Meters3(IN.elon * calc_volume_torus(OUT.blanket1_ir, IN.blanket1_t)
+                               - sum([OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.reflector_vol = Meters3(IN.elon * calc_volume_torus(OUT.reflector_ir, IN.reflector_t)
+                                - sum([OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol,
+                                       OUT.axis_vol]))
+    OUT.ht_shield_vol = Meters3(IN.elon * calc_volume_torus(OUT.ht_shield_ir, IN.ht_shield_t)
+                                - sum([OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.structure_vol = Meters3(IN.elon * calc_volume_torus(OUT.structure_ir, IN.structure_t)
+                                - sum([OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.gap1_vol = Meters3(IN.elon * calc_volume_torus(OUT.gap1_ir, IN.gap1_t)
+                           - sum([OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol,
+                                  OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.vessel_vol = Meters3(IN.elon * calc_volume_torus(OUT.vessel_ir, IN.vessel_t)
+                             - sum([OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol,
+                                    OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.lt_shield_vol = Meters3(IN.elon * calc_volume_torus(OUT.lt_shield_ir, IN.lt_shield_t)
+                                - sum([OUT.vessel_vol, OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol,
+                                       OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol,
+                                       OUT.plasma_vol, OUT.axis_vol]))
+    # TODO - what are these constants: 9, 0.779, 40?
+    OUT.coil_vol = Meters3(calc_volume_torus(OUT.coil_ir, IN.coil_t) * (9 * 0.779) / 40)
 
-    # Cost calc 1
-    # Define the values
-    f_W = 1
-    C_OFW = 0
-    M_OFW = 0
+    # Volumes for sphere
+    def calc_volume_sphere(inner, outer):
+        return 4 / 3 * np.pi * (outer ** 3 - inner ** 3)
 
-    # Blanket is rotating vortex of PbLi
-    FPCPPFbLi = 0.9
-    f_FS = 0.1
+    # TODO - debug why these are returning negative volumes
+    OUT.gap2_vol = calc_volume_sphere(OUT.gap2_ir, IN.gap2_t)  # must be cylindrical in all cases
+    OUT.bioshield_vol = calc_volume_sphere(OUT.bioshield_ir, IN.bioshield_t)  # Updated bioshield volume
 
-    # Cost of blanket
-    C_OBI_PbLi = OUT.blanket1_vol * (MATERIALS.PbLi.rho * MATERIALS.PbLi.c * FPCPPFbLi)
-    C_OBI_FS = OUT.blanket1_vol * (MATERIALS.FS.rho * MATERIALS.FS.c_raw * f_FS)
+    # First wall
+    if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
+        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.W.rho * materials.W.c_raw * materials.W.m / 1e6)
+    elif blanket.first_wall == BlanketFirstWall.LIQUID_LITHIUM:
+        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+    elif blanket.first_wall == BlanketFirstWall.BERYLLIUM:
+        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.Be.rho * materials.Be.c_raw * materials.Be.m / 1e6)
+    elif blanket.first_wall == BlanketFirstWall.FLIBE:
+        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.FliBe.rho * materials.FliBe.c_raw * materials.FliBe.m / 1e6)
 
-    # Total heat capacity of OBI
-    C_OBI = C_OBI_FS + C_OBI_PbLi
+    # Blanket
+    if blanket.blanket_type == BlanketType.FLOWING_LIQUID_FIRST_WALL:
+        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+    elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER:
+        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+    elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4:
+        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw * materials.Li4SiO4.m / 1e6)
+    elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3:
+        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw * materials.Li2TiO3.m / 1e6)
+    elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL:
+        OUT.C22010102 = M_USD(0)
 
-    # Calculate C_22_1_1
-    OUT.C220101 = BASIC.am * float(BASIC.n_mod) * (C_OFW + C_OBI) / 1e6  # First Wall/Blanket/reflector
+    # Total cost of blanket and first wall
+    OUT.C220101 = M_USD(OUT.C22010101 + OUT.C22010102)
 
-    # plot_radial_build(RADIAL_BUILD, figures)
+    # TODO - PLOTTING RADIAL BUILD
 
+    OUT.template_file = CAS_220101_MFE_DT_TEX
+    OUT.replacements = {
+        'C220101__': str(data.cas220101.C220101),  # TODO - this is not in the template
+        'C22010101': str(data.cas220101.C22010101),
+        'C22010102': str(data.cas220101.C22010102),
 
-def compute_220102_shield(MATERIALS: Materials, OUT: CAS22):
+        'primaryC': inputs.blanket.primary_coolant.display_name,
+        'secondaryC': inputs.blanket.secondary_coolant.display_name,
+        'neutronM': inputs.blanket.neutron_multiplier.display_name,
+        'structure1': inputs.blanket.structure.display_name,
+        'firstW': inputs.blanket.first_wall.display_name,
+
+        'TH01': round(inputs.radial_build.plasma_t, 1),
+        'TH02': round(inputs.radial_build.vacuum_t, 1),
+        'TH03': round(inputs.radial_build.firstwall_t, 1),
+        'TH04': round(inputs.radial_build.blanket1_t, 1),
+        'TH05': round(inputs.radial_build.structure_t, 1),
+        'TH06': round(inputs.radial_build.reflector_t, 1),
+        'TH07': round(inputs.radial_build.gap1_t, 1),
+        'TH08': round(inputs.radial_build.vessel_t, 1),
+        'TH09': round(inputs.radial_build.ht_shield_t, 1),
+        'TH10': round(inputs.radial_build.lt_shield_t, 1),
+        'TH11': round(inputs.radial_build.coil_t, 1),
+        'TH12': round(inputs.radial_build.axis_t, 1),
+        'TH13': round(inputs.radial_build.gap2_t, 1),
+        'TH14': round(inputs.radial_build.bioshield_t, 1),
+
+        'RAD1I': round(data.cas220101.plasma_ir, 1),
+        'RAD2I': round(data.cas220101.vacuum_ir, 1),
+        'RAD3I': round(data.cas220101.firstwall_ir, 1),
+        'RAD4I': round(data.cas220101.blanket1_ir, 1),
+        'RAD5I': round(data.cas220101.structure_ir, 1),
+        'RAD6I': round(data.cas220101.reflector_ir, 1),
+        'RAD7I': round(data.cas220101.gap1_ir, 1),
+        'RAD8I': round(data.cas220101.vessel_ir, 1),
+        'RAD9I': round(data.cas220101.ht_shield_ir, 1),
+        'RAD10I': round(data.cas220101.lt_shield_ir, 1),
+        'RAD11I': round(data.cas220101.coil_ir, 1),
+        'RAD12I': round(data.cas220101.axis_ir, 1),
+        'RAD13I': round(data.cas220101.gap2_ir, 1),
+        'RAD14I': round(data.cas220101.bioshield_ir, 1),
+
+        'RAD1O': round(data.cas220101.plasma_or, 1),
+        'RAD2O': round(data.cas220101.vacuum_or, 1),
+        'RAD3O': round(data.cas220101.firstwall_or, 1),
+        'RAD4O': round(data.cas220101.blanket1_or, 1),
+        'RAD5O': round(data.cas220101.structure_or, 1),
+        'RAD6O': round(data.cas220101.reflector_or, 1),
+        'RAD7O': round(data.cas220101.gap1_or, 1),
+        'RAD8O': round(data.cas220101.vessel_or, 1),
+        'RAD9O': round(data.cas220101.ht_shield_or, 1),
+        'RAD10O': round(data.cas220101.lt_shield_or, 1),
+        'RAD11O': round(data.cas220101.coil_or, 1),
+        'RAD12O': round(data.cas220101.axis_or, 1),
+        'RAD13O': round(data.cas220101.gap2_or, 1),
+        'RAD14O': round(data.cas220101.bioshield_or, 1),
+
+        'VOL01': round(data.cas220101.plasma_vol, 1),
+        'VOL02': round(data.cas220101.vacuum_vol, 1),
+        'VOL03': round(data.cas220101.firstwall_vol, 1),
+        'VOL04': round(data.cas220101.blanket1_vol, 1),
+        'VOL05': round(data.cas220101.structure_vol, 1),
+        'VOL06': round(data.cas220101.reflector_vol, 1),
+        'VOL07': round(data.cas220101.gap1_vol, 1),
+        'VOL08': round(data.cas220101.vessel_vol, 1),
+        'VOL09': round(data.cas220101.ht_shield_vol, 1),
+        'VOL10': round(data.cas220101.lt_shield_vol, 1),
+        'VOL11': round(data.cas220101.coil_vol, 1),
+        'VOL12': round(data.cas220101.axis_vol, 1),
+        'VOL13': round(data.cas220101.gap2_vol, 1),
+        'VOL14': round(data.cas220101.bioshield_vol, 1),
+    }
+
+def compute_220102_shield(inputs: Inputs, data: Data, figures: dict):
+    OUT = data.cas22
+    cas220101 = data.cas220101
+    materials = inputs.materials
     # Cost Category 22.1.2: Shield
     # Define the fractions
     f_SiC = 0.00  # TODO - why is this 0? It invalidates the SiC material contribution
@@ -120,20 +230,20 @@ def compute_220102_shield(MATERIALS: Materials, OUT: CAS22):
     reactor = 'CATF'
     # Retrieve the volume of HTS from the reactor_volumes dictionary
     # V_HTS = volumes["V_HTS"]
-    OUT.V_HTS = round(OUT.ht_shield_vol, 1)
+    OUT.V_HTS = round(cas220101.ht_shield_vol, 1)
     # Calculate the cost for HTS
     C_HTS = round(OUT.V_HTS * (
-            MATERIALS.SiC.rho * MATERIALS.SiC.c_raw * MATERIALS.SiC.m * f_SiC +
-            MATERIALS.PbLi.rho * MATERIALS.PbLi.c * FPCPPFbLi +
-            MATERIALS.W.rho * MATERIALS.W.c_raw * MATERIALS.W.m * f_W +
-            MATERIALS.BFS.rho * MATERIALS.BFS.c_raw * MATERIALS.BFS.m * f_BFS
+            materials.SiC.rho * materials.SiC.c_raw * materials.SiC.m * f_SiC +
+            materials.PbLi.rho * materials.PbLi.c * FPCPPFbLi +
+            materials.W.rho * materials.W.c_raw * materials.W.m * f_W +
+            materials.BFS.rho * materials.BFS.c_raw * materials.BFS.m * f_BFS
     ) / 1e6, 1)
     # Volume of HTShield that is BFS
     V_HTS_BFS = OUT.V_HTS * f_BFS
     # The cost C_22_1_2 is the same as C_HTS
     OUT.C22010201 = round(C_HTS, 1)
-    OUT.C22010202 = OUT.lt_shield_vol * MATERIALS.SS316.c_raw * MATERIALS.SS316.m / 1e3
-    OUT.C22010203 = OUT.bioshield_vol * MATERIALS.SS316.c_raw * MATERIALS.SS316.m / 1e3
+    OUT.C22010202 = cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3
+    OUT.C22010203 = cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3
     OUT.C22010204 = OUT.C22010203 * 0.1
     OUT.C220102 = OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204
 
@@ -260,15 +370,17 @@ def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_
     return OUT
 
 
-def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: PowerTable, OUT: CAS22):
+def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     # 22.1.6 Vacuum system
+    OUT = data.cas22
+    vacuum_system = inputs.vacuum_system
 
     # 22.1.6.1 Vacuum Vessel
     # Parameters
-    middle_length = OUT.vacuum_ir  # Middle part length in meters
-    middle_diameter = 2 * OUT.vessel_ir  # Middle part diameter in meters
+    middle_length = data.cas220101.vacuum_ir  # Middle part length in meters
+    middle_diameter = 2 * data.cas220101.vessel_ir  # Middle part diameter in meters
     end_length = vacuum_system.end_length  # End parts length in meters (each)
-    end_diameter = 3 * OUT.vessel_ir  # End parts diameter in meters
+    end_diameter = 3 * data.cas220101.vessel_ir  # End parts diameter in meters
     fillet_radius = 0.022 * middle_length  # Fillet radius in meters, adjust as necessary
     thickness = vacuum_system.thickness  # Thickness in meters
 
@@ -332,7 +444,7 @@ def compute_220106_vacuum_system(vacuum_system: VacuumSystem, power_table: Power
 
     # power in from neutron flux, assume 95% is abosrbed in the blanket
     def qin_n():
-        return power_table.p_neutron * 0.05 / 1e6
+        return data.power_table.p_neutron * 0.05 / 1e6
 
     # cooling from power in/half carnot COP
     c_frac = vacuum_system.c_frac
@@ -411,15 +523,16 @@ def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, O
     return OUT
 
 
-def compute_220108_divertor(materials: Materials, OUT: CAS22) -> CAS22:
+def compute_220108_divertor(inputs: Inputs, data: Data, figures: dict) -> CAS22:
+    OUT = data.cas22
     # 22.1.8 Divertor
     # Simple volumetric calculation based on reactor geometry, user input, and tungsten material
     # properties (see "materials" dictionary)
-    OUT.divertor_maj_rad = Meters(OUT.coil_ir - OUT.axis_ir)
-    OUT.divertor_min_rad = Meters(OUT.firstwall_ir - OUT.axis_ir)
+    OUT.divertor_maj_rad = Meters(data.cas220101.coil_ir - data.cas220101.axis_ir)
+    OUT.divertor_min_rad = Meters(data.cas220101.firstwall_ir - data.cas220101.axis_ir)
     OUT.divertor_thickness_z = Meters(0.2)
     OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
-    OUT.divertor_material = materials.W  # Tungsten
+    OUT.divertor_material = inputs.materials.W  # Tungsten
 
     # volume of the divertor based on TF coil radius
     OUT.divertor_vol = Meters3(((OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
@@ -448,17 +561,17 @@ def compute_220111_installation_costs(basic: Basic, installation: Installation, 
     construction_worker = 20 * installation.r / 4
     C_22_1_11_in = installation.nmod * basic.construction_time * (installation.labor_rate * 20 * 300)
     C_22_1_11_1_in = installation.nmod * (
-                (installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
+            (installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
     C_22_1_11_2_in = installation.nmod * ((installation.labor_rate * 150 * construction_worker) + 0)  # 22.2 shield
     C_22_1_11_3_in = installation.nmod * ((installation.labor_rate * 100 * construction_worker) + 0)  # coils
     C_22_1_11_4_in = installation.nmod * (
-                (installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
+            (installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
     C_22_1_11_5_in = installation.nmod * ((installation.labor_rate * 60 * construction_worker) + 0)  # primary structure
     C_22_1_11_6_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # vacuum system
     C_22_1_11_7_in = installation.nmod * ((installation.labor_rate * 400 * construction_worker) + 0)  # power supplies
     C_22_1_11_8_in = 0  # guns
     C_22_1_11_9_in = installation.nmod * (
-                (installation.labor_rate * 200 * construction_worker) + 0)  # direct energy converter
+            (installation.labor_rate * 200 * construction_worker) + 0)  # direct energy converter
     C_22_1_11_10_in = 0  # ECRH
 
     # Total cost calculations
@@ -474,11 +587,11 @@ def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
     return OUT
 
 
-def compute_2201_total(OUT: CAS22) -> CAS22:
+def compute_2201_total(data: Data):
+    OUT = data.cas22
     # Cost category 22.1 total
-    OUT.C220100 = M_USD(OUT.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
+    OUT.C220100 = M_USD(data.cas220101.C220101 + OUT.C220102 + OUT.C220103 + OUT.C220104
                         + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
-    return OUT
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:

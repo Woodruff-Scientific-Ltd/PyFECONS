@@ -92,10 +92,8 @@ class MagnetProperties:
     magnet_total_cost: M_USD = None
 
 
-# TODO give sensible defaults are force initialization
-# TODO group inputs by section into classes
 @dataclass
-class CAS22:
+class CAS220101(TemplateProvider):
     # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     axis_ir: Meters = None
@@ -129,7 +127,7 @@ class CAS22:
     gap2_or: Meters = None
     bioshield_or: Meters = None  # Updated bioshield outer radius
 
-    # Volumes for cylinder
+    # Volumes for torus
     axis_vol: Meters3 = None
     plasma_vol: Meters3 = None
     vacuum_vol: Meters3 = None
@@ -146,7 +144,13 @@ class CAS22:
     bioshield_vol: Meters3 = None  # Updated bioshield volume
 
     # Costs
+    C22010101: M_USD = None
+    C22010102: M_USD = None
     C220101: M_USD = None
+
+
+@dataclass
+class CAS22(TemplateProvider):
 
     # Cost Category 22.1.2: Shield
     C22010201: M_USD = None
@@ -363,12 +367,14 @@ class LCOE:
 class CostTable(TemplateProvider):
     pass
 
+
 @dataclass
 class Data(SerializableToJSON):
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
+    cas220101: CAS220101 = field(default_factory=CAS220101)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

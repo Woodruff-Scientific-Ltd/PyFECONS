@@ -37,19 +37,18 @@
         "p_input": 50
     },
     "radial_build": {
-        "chamber_length": 40,
-        "axis_t": 0,
-        "plasma_t": 4,
+        "axis_t": 3,
+        "plasma_t": 1.1,
         "vacuum_t": 0.1,
-        "firstwall_t": 0.1,
-        "blanket1_t": 1,
-        "reflector_t": 0.1,
-        "ht_shield_t": 0.5,
+        "firstwall_t": 0.2,
+        "blanket1_t": 0.8,
+        "reflector_t": 0.2,
+        "ht_shield_t": 0.2,
         "structure_t": 0.2,
         "gap1_t": 0.5,
         "vessel_t": 0.2,
-        "coil_t": 1.76,
-        "gap2_t": 1,
+        "coil_t": 0.05,
+        "gap2_t": 0.5,
         "lt_shield_t": 0.3,
         "bioshield_t": 1
     },
@@ -346,7 +345,7 @@
             "m": 2,
             "sigma": null
         },
-        "Flibe": {
+        "FliBe": {
             "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
             "rho": 1900,
             "c": 40,
@@ -472,6 +471,22 @@
             "c": null,
             "c_raw": null,
             "m": null,
+            "sigma": null
+        },
+        "Be": {
+            "name": "Beryllium",
+            "rho": 1850,
+            "c": null,
+            "c_raw": 5750,
+            "m": 3,
+            "sigma": null
+        },
+        "Li2TiO3": {
+            "name": "Lithium Titanate",
+            "rho": 3430,
+            "c": null,
+            "c_raw": 1297.05,
+            "m": 3,
             "sigma": null
         },
         "PbLi": {
