@@ -3,21 +3,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cadquery as cq
 
-from pyfecons import BlanketFirstWall, BlanketType
+from pyfecons import BlanketFirstWall, BlanketType, MagnetType
+from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, SupplementaryHeating, PrimaryStructure, PowerSupplies,
                              DirectEnergyConverter, Installation, FuelHandling)
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
-from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms
+from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 CAS_220102_TEX = 'CAS220102.tex'
+CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror file?
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT = data.cas22
     compute_220101_reactor_equipment(inputs, data, figures)
-    compute_220102_shield(inputs, data, figures)
-    compute_220103_coils(inputs.coils, OUT)
+    compute_220102_shield(inputs, data)
+    compute_220103_coils(inputs, data)
     compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
     compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
     compute_220106_vacuum_system(inputs, data, figures)
@@ -133,9 +135,11 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER:
         OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4:
-        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw * materials.Li4SiO4.m / 1e6)
+        OUT.C22010102 = M_USD(
+            OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw * materials.Li4SiO4.m / 1e6)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3:
-        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw * materials.Li2TiO3.m / 1e6)
+        OUT.C22010102 = M_USD(
+            OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw * materials.Li2TiO3.m / 1e6)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL:
         OUT.C22010102 = M_USD(0)
 
@@ -217,7 +221,8 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
         'VOL14': round(data.cas220101.bioshield_vol, 1),
     }
 
-def compute_220102_shield(inputs: Inputs, data: Data, figures: dict):
+
+def compute_220102_shield(inputs: Inputs, data: Data):
     # Cost Category 22.1.2: Shield
     OUT = data.cas220102
     cas220101 = data.cas220101
@@ -311,50 +316,300 @@ def plot_radial_build(IN, figures):
     # fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='tight')
 
 
-def compute_magnet_properties(COILS: Coils, MAGNET: Magnet):
-    OUT = MagnetProperties(magnet=MAGNET)
+# Steel thermal conductivity function
+def k_steel(t:float) -> float:
+    return 10 * t
 
-    # Calculate maximum current based on tape dimensions and current density
-    max_tape_current = COILS.j_tape * COILS.tape_w * 1e3 * COILS.tape_t * 1e3  # Current in A
-    OUT.tape_current = Amperes(max_tape_current)
-    turns_scs = (COILS.cable_w * COILS.cable_h * COILS.frac_cs_sc_yuhu) / (COILS.tape_w * COILS.tape_t)
-    OUT.cable_current = Amperes(max_tape_current * turns_scs)
 
-    OUT.cs_area = Meters2(MAGNET.dr * MAGNET.dz)
-    OUT.turns_c = Turns(OUT.cs_area / (COILS.cable_w * COILS.cable_h))
-    OUT.current_supply = MA(OUT.cable_current * OUT.turns_c)
-    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * MAGNET.r_centre)
+# Power in from thermal conduction through support
+# For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+def compute_q_in_struct(coils: Coils, k: float, t_mag: float) -> float:
+    # TODO - unsure if we should use t_mag input or keep this as a function parameter. Can we differentiate them?
+    return k * coils.beam_cs_area * float(coils.no_beams) / coils.beam_length * (coils.t_env - t_mag) / 1e6
 
-    OUT.turns_sc_tot = Turns(turns_scs * OUT.turns_c)
-    OUT.tape_length = Kilometers(OUT.turns_sc_tot * MAGNET.r_centre * 2 * math.pi / 1e3)
 
-    OUT.cost_sc = M_USD(max_tape_current / 1e3 * OUT.tape_length * 1e3 * COILS.m_cost_ybco / 1e6)
-    OUT.cost_cu = M_USD(COILS.frac_cs_cu_yuhu * COILS.m_cost_cu * OUT.vol_coil * COILS.cu_density / 1e6)
-    OUT.cost_ss = M_USD(COILS.frac_cs_ss_yuhu * COILS.m_cost_ss * OUT.vol_coil * COILS.ss_density / 1e6)
+# power in from neutron flux, assume 95% is abosrbed in the blanket
+# Neutron heat loading for one coil
+def compute_q_in_n(int_coil_area: float, data: Data):
+    # surface area  of torus 4 × π^2 × R × r
+    return data.power_table.p_neutron * 0.05 * int_coil_area / (
+                4 * np.pi ** 2 * (data.cas220101.coil_ir - data.cas220101.axis_ir))
+
+
+def compute_iter_cost_per_MW(coils):
+    # Scaling cooling costs from ITER see Serio, L., ITER Organization and Domestic Agencies and Collaborators, 2010,
+    # April. Challenges for cryogenics at ITER. In AIP Conference Proceedings (Vol. 1218, No. 1, pp. 651-662).
+    # American Institute of Physics. ITER COP ITERcooling at 4.2 K
+    qiter_4k = 47e-3  # 47.1 kW at 4.2 K
+    # Calculating ITER cooling at system operating temp in MW
+    cost_iter_cooling = 165.1 * 1.43  # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
+    learning_credit = 0.5  # ITER system cooling seems unnecessarily high compared with other costings such as STARFIRE, FIRE
+    qiter_scaled = MW(qiter_4k / (coils.t_mag / (coils.t_env - 4.2) * coils.c_frac))  # ITER cooling power at T_env
+    iter_cost_per_MW = cost_iter_cooling / qiter_scaled * learning_credit
+    return iter_cost_per_MW
+
+
+def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, data: Data) -> M_USD:
+    # Neutron heat loading for one coil
+    q_in_n = compute_q_in_n(magnet.dz * abs((magnet.r_centre - magnet.dr / 2)), data)
+    # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+    q_in_struct = compute_q_in_struct(coils, k_steel((coils.t_env + magnet.coil_temp) / 2),
+                                      (coils.t_env + magnet.coil_temp) / 2)
+    q_in = (q_in_struct + q_in_n)  # total input heat for one coil
+    return M_USD(q_in * compute_iter_cost_per_MW(coils))
+
+
+def compute_hts_cicc_auto_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
+    OUT = MagnetProperties()
+    OUT.magnet = magnet
+
+    yuhu = YuhuHtsCiccExtrapolation(magnet, True)
+
+    OUT.turns_sc_tot = Turns(yuhu.r_turns * yuhu.z_turns)
+    OUT.cable_w = coils.cable_w
+    OUT.cable_h = coils.cable_h
+
+    OUT.cs_area = Meters2(yuhu.dr * yuhu.dz)
+    OUT.turns_c = Turns(OUT.cs_area / (coils.cable_w * coils.cable_h))
+    OUT.turns_scs = Turns(OUT.turns_sc_tot / OUT.turns_c)
+    OUT.current_supply = MA(OUT.turns_c * yuhu.cable_current)
+    OUT.cable_current = Amperes(yuhu.cable_current)
+
+    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
+    OUT.max_tape_current = Amperes(yuhu.cable_current / OUT.turns_scs)
+    OUT.j_tape = coils.j_tape_ybco
+
+    OUT.cost_sc = M_USD(OUT.max_tape_current / 1e3 * OUT.tape_length * 1e3 * coils.m_cost_ybco / 1e6)
+    OUT.cost_cu = M_USD(coils.frac_cs_cu_yuhu * coils.m_cost_cu * OUT.vol_coil * coils.cu_density / 1e6)
+    OUT.cost_ss = M_USD(coils.frac_cs_ss_yuhu * coils.m_cost_ss * OUT.vol_coil * coils.ss_density / 1e6)
+    OUT.cost_i = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
+    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * coils.mfr_factor)
+    OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
+                 + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
+                 + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
 
-    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * COILS.mfr_factor)
-    OUT.magnet_struct_cost = M_USD(COILS.struct_factor * OUT.magnet_cost)
+    OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
     OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
-    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * MAGNET.coil_count)
+    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * magnet.coil_count)
 
     return OUT
 
 
-def compute_220103_coils(COILS: Coils, OUT: CAS22):
+def compute_hts_cicc_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
+    OUT = MagnetProperties()
+    OUT.magnet = magnet
+
+    OUT.cable_w = coils.cable_w
+    OUT.cable_h = coils.cable_h
+
+    OUT.max_tape_current = coils.j_tape_ybco * coils.tape_w * 1e3 * coils.tape_t * 1e3
+    OUT.turns_scs = Turns((coils.cable_w * coils.cable_h * coils.frac_cs_sc_yuhu) / (coils.tape_w * coils.tape_t))
+    OUT.cable_current = Amperes(OUT.max_tape_current * OUT.turns_scs)
+
+    OUT.cs_area = Meters2(magnet.dr * magnet.dz)
+    OUT.turns_c = Turns(OUT.cs_area / (coils.cable_w * coils.cable_h))
+    OUT.current_supply = MA(OUT.cable_current * OUT.turns_c)
+    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+
+    OUT.turns_sc_tot = Turns(OUT.turns_scs * OUT.turns_c)
+    OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
+    OUT.j_tape = coils.j_tape_ybco
+
+    OUT.cost_sc = M_USD(OUT.max_tape_current / 1e3 * OUT.tape_length * 1e3 * coils.m_cost_ybco / 1e6)
+    OUT.cost_cu = M_USD(coils.frac_cs_cu_yuhu * coils.m_cost_cu * OUT.vol_coil * coils.cu_density / 1e6)
+    OUT.cost_ss = M_USD(coils.frac_cs_ss_yuhu * coils.m_cost_ss * OUT.vol_coil * coils.ss_density / 1e6)
+    OUT.cost_i = M_USD(0)
+    OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
+    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * coils.mfr_factor)
+    OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
+                              + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
+                              + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+
+    OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
+    OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
+    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * magnet.coil_count)
+
+    return OUT
+
+
+def compute_hts_pancake_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
+    OUT = MagnetProperties()
+    OUT.magnet = magnet
+
+    # Cables are not used here
+    OUT.cable_w = Meters(0)
+    OUT.cable_h = Meters(0)
+
+    OUT.max_tape_current = Amperes(coils.j_tape_ybco * coils.tape_w * 1e3 * coils.tape_t * 1e3)
+    OUT.cs_area = Meters2(magnet.dr * magnet.dz)
+    OUT.turns_scs = Turns((1 - magnet.frac_in) * OUT.cs_area / (coils.tape_w * coils.tape_t))
+
+    # in this case the 'cable' is the entire winding
+    OUT.cable_current = Amperes(OUT.max_tape_current * OUT.turns_scs)
+    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.turns_c = Turns(0)
+    OUT.turns_sc_tot = OUT.turns_scs
+    OUT.current_supply = OUT.cable_current
+
+    OUT.turns_i = Turns(magnet.frac_in * OUT.cs_area / (coils.tape_w * coils.tape_t))
+    OUT.no_p = OUT.turns_scs / coils.turns_p
+
+    # TODO are parenthesis correct here in the denominator?
+    OUT.vol_i = Meters3(OUT.turns_scs * magnet.r_centre * 2 * np.pi / 1e3 * magnet.frac_in * (coils.tape_w * coils.tape_t))
+    OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
+    OUT.j_tape = coils.j_tape_ybco
+
+    OUT.cost_sc = M_USD(OUT.max_tape_current / 1e3 * OUT.tape_length * 1e3 * coils.m_cost_ybco / 1e6)
+    OUT.cost_i = M_USD(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
+    OUT.cost_cu = M_USD(0)
+    OUT.cost_ss = M_USD(0)
+    OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
+    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
+    OUT.coil_mass = Kilograms(coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t
+                              + OUT.vol_i * coils.i_density)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+
+    OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
+    OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
+    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * magnet.coil_count)
+
+    return OUT
+
+
+def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
+    OUT = MagnetProperties()
+    OUT.magnet = magnet
+
+    OUT.cable_w = Meters(0)  # Cables are not used here
+    OUT.cable_h = Meters(0)  # Cables are not used here
+
+    # In this case 'Tape' refers to copper wire AWG 11
+    OUT.cs_area = Meters2(magnet.dr * magnet.dz)
+
+    OUT.turns_scs = Turns((1 - magnet.frac_in) * OUT.cs_area / (0.5 * coils.cu_wire_d)**2)
+    OUT.turns_i = Turns(magnet.frac_in * OUT.cs_area / (0.5 * coils.cu_wire_d)**2)
+
+    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.cu_wire_current = coils.max_cu_current
+    OUT.max_tape_current = coils.max_cu_current
+    OUT.j_tape = Amperes(coils.max_cu_current / (0.5 * coils.cu_wire_d * 1e3)**2)
+    OUT.turns_sc_tot = OUT.turns_scs
+    OUT.turns_c = Turns(0)
+    OUT.cable_current = Amperes(0)
+    OUT.tape_length = Kilometers(OUT.turns_scs * magnet.r_centre * 2 * np.pi / 1e3)
+    OUT.current_supply = MA(OUT.cu_wire_current * OUT.turns_scs)
+
+    OUT.vol_i = Meters3(magnet.frac_in * OUT.cs_area * magnet.r_centre * 2 * np.pi)
+    OUT.cost_sc = M_USD(0)
+    # simple volumetric material calc
+    OUT.cost_cu = M_USD((OUT.vol_coil - OUT.vol_i) * coils.cu_density * coils.m_cost_cu / 1e6)
+    OUT.cost_i = M_USD(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
+    OUT.cost_ss = M_USD(0)
+    OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
+    OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
+    OUT.coil_mass = Kilograms(((OUT.vol_coil - OUT.vol_i) * coils.cu_density) + (OUT.vol_i * coils.i_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+
+    OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
+    OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
+    OUT.magnet_total_cost = M_USD(OUT.magnet_total_cost_individual * magnet.coil_count)
+
+    return OUT
+
+
+def compute_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
+    if magnet.type == MagnetType.HTS_CICC:
+        if magnet.auto_cicc:
+            return compute_hts_cicc_auto_magnet_properties(coils, magnet, data)
+        else:
+            return compute_hts_cicc_magnet_properties(coils, magnet, data)
+    elif magnet.type == MagnetType.HTS_PANCAKE:
+        return compute_hts_pancake_magnet_properties(coils, magnet, data)
+    elif magnet.type == MagnetType.COPPER:
+        return compute_copper_magnet_properties(coils, magnet, data)
+    raise f'Unrecognized magnet type {magnet.type}'
+
+
+def compute_220103_coils(inputs: Inputs, data: Data):
     # Cost Category 22.1.3: Coils
-    OUT.magnet_properties = [compute_magnet_properties(COILS, magnet) for magnet in COILS.magnets]
+    IN = inputs.coils
+    OUT = data.cas220103
 
-    # Assuming magCosts[0] is for the first type of coils
-    OUT.C22010301 = M_USD(OUT.magnet_properties[0].magnet_total_cost)
+    OUT.magnet_properties = [compute_magnet_properties(IN, magnet, data) for magnet in IN.magnets]
 
-    # Sum of costs for other types of coils
-    OUT.C22010302 = M_USD(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[1:]]))
-    OUT.C22010303 = M_USD(0.05 * (OUT.C22010301 + OUT.C22010302))
-    OUT.C22010304 = M_USD(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))
-    OUT.C220103 = M_USD(OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
+    # Assign calculated totals to variables for .tex file
+    # TODO break out TF, CS, and PF into their own variables to avoid array mental mapping
+    OUT.C22010301 = M_USD(OUT.magnet_properties[0].magnet_total_cost)  # TF coils
+    OUT.C22010302 = M_USD(OUT.magnet_properties[1].magnet_total_cost)  # CS coils
+    OUT.C22010303 = M_USD(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[2:]]))  # PF coils
+    # Shim coil costs, taken as 5% total primary magnet costs
+    OUT.C22010304 = 0.05 * (OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
+    OUT.C22010305 = M_USD(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))  # Structural cost
+    OUT.C22010306 = M_USD(sum([mag.cooling_cost for mag in OUT.magnet_properties]))  # cooling cost
+    # Total cost
+    OUT.C220103 = M_USD(OUT.C22010301 + OUT.C22010302 + OUT.C22010303 + OUT.C22010304 + OUT.C22010305 + OUT.C22010306)
 
-    return OUT
+    # Additional totals and calculations
+    OUT.no_pf_coils = Count(sum(magnet.coil_count for magnet in IN.magnets[2:]))
+    OUT.no_pf_pairs = Count(OUT.no_pf_coils / 2)
+
+    # TODO verify template substition
+
+    OUT.template_file = CAS_220103_MIF_DT_MIRROR
+    OUT.replacements = {
+        'C220103__': str(OUT.C220103),
+        'C22010301': str(OUT.C22010301),
+        'C22010302': str(OUT.C22010302),
+        'C22010303': str(OUT.C22010303),
+        'C22010304': str(OUT.C22010304),
+        'C22010305': str(OUT.C22010305),  # TODO not in template, should it be?
+        'C22010306': str(OUT.C22010306),  # TODO not in template, should it be?
+
+        'structFactor': IN.struct_factor,  # TODO not in template, should it be?
+        'mcostI': IN.m_cost_ybco,  # TODO why is identical to mCostYBCO, not in template, should it be?
+        'nopfcoils': OUT.no_pf_coils,  # TODO not in template, should it be?
+        'nopfpairs': OUT.no_pf_pairs,  # TODO not in template, should it be?
+        'mCostYBCO': IN.m_cost_ybco,  # TODO not in template, should it be?
+
+        'TABLE_STRUCTURE': ('l' + 'c' * len(OUT.magnet_properties)),
+        'TABLE_HEADER_LIST': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in OUT.magnet_properties])),
+        # TODO fix
+        'MAGNET_TYPE_LIST': (" & ".join([f"\\textbf{{{props.magnet.type.display_name}}}" for props in OUT.magnet_properties])),
+        'MAGNET_RADIUS_LIST': (" & ".join([f"{props.magnet.r_centre}" for props in OUT.magnet_properties])),
+        'MAGNET_DR_LIST': (" & ".join([f"{props.magnet.dr}" for props in OUT.magnet_properties])),
+        'MAGNET_DZ_LIST': (" & ".join([f"{props.magnet.dz}" for props in OUT.magnet_properties])),
+        'CURRENT_SUPPLY_LIST': (" & ".join([f"{props.current_supply}" for props in OUT.magnet_properties])),
+        # TODO how do we calculate j_cable? Previously this was a magnet property.
+        # 'CABLE_CURRENT_DENSITY_LIST': (" & ".join([f"{props.magnet.j_cable}" for props in OUT.magnet_properties])),
+        'CONDUCTOR_CURRENT_DENSITY_LIST': (" & ".join([f"{props.j_tape}" for props in OUT.magnet_properties])),
+        'CABLE_WIDTH_LIST': (" & ".join([f"{props.cable_w}" for props in OUT.magnet_properties])),
+        'CABLE_HEIGHT_LIST': (" & ".join([f"{props.cable_h}" for props in OUT.magnet_properties])),
+        'TOTAL_VOLUME_LIST': (" & ".join([f"{props.vol_coil}" for props in OUT.magnet_properties])),
+        'CROSS_SECTIONAL_AREA_LIST': (" & ".join([f"{props.cs_area}" for props in OUT.magnet_properties])),
+        'TURN_INSULATION_FRACTION_LIST': (" & ".join([f"{props.magnet.frac_in}" for props in OUT.magnet_properties])),
+        'CABLE_TURNS_LIST': (" & ".join([f"{props.turns_c}" for props in OUT.magnet_properties])),
+        'TOTAL_TURNS_OF_CONDUCTOR_LIST': (" & ".join([f"{props.turns_scs}" for props in OUT.magnet_properties])),
+        'LENGTH_OF_CONDUCTOR_LIST': (" & ".join([f"{props.tape_length}" for props in OUT.magnet_properties])),
+        'CURRENT_PER_CONDUCTOR_LIST': (" & ".join([f"{props.max_tape_current}" for props in OUT.magnet_properties])),
+        'COST_OF_SC_LIST': (" & ".join([f"{props.cost_sc}" for props in OUT.magnet_properties])),
+        'COST_OF_COPPER_LIST': (" & ".join([f"{props.cost_cu}" for props in OUT.magnet_properties])),
+        'COST_OF_TURN_INSULATION_LIST': (" & ".join([f"{props.cost_i}" for props in OUT.magnet_properties])),
+        'COST_OF_SS_LIST': (" & ".join([f"{props.cost_ss}" for props in OUT.magnet_properties])),
+        'TOTAL_MATERIAL_COST_LIST': (" & ".join([f"{props.tot_mat_cost}" for props in OUT.magnet_properties])),
+        'MANUFACTURING_FACTOR_LIST': (" & ".join([f"{IN.mfr_factor}" for _ in OUT.magnet_properties])),
+        'STRUCTURAL_COST_LIST': (" & ".join([f"{props.magnet_struct_cost}" for props in OUT.magnet_properties])),
+        'NUMBER_COILS_LIST': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
+        'QUANTITY_LIST': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
+        'MAGNET_COST_LIST': (" & ".join([f"{props.magnet_cost}" for props in OUT.magnet_properties])),
+        'MAGNET_TOTAL_COST_INDIVIDUAL_LIST': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+        'MAGNET_TOTAL_COST_LIST': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+    }
 
 
 def compute_220104_supplementary_heating(supplementary_heating: SupplementaryHeating, OUT: CAS22):
@@ -607,7 +862,7 @@ def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
 def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
-    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + OUT.C220103 + OUT.C220104
+    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103 + OUT.C220104
                         + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
 
 

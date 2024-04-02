@@ -113,3 +113,15 @@ class StructurePga(Enum):
     PGA_02 = 0.2
     PGA_03 = 0.3
     PGA_05 = 0.5
+
+
+class MagnetType(Enum):
+    HTS_CICC = ('HTS_CICC', 'HTS CICC')
+    HTS_PANCAKE = ('HTS_PANCAKE', 'HTS Pancake')
+    COPPER = ('COPPER', 'Copper')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj

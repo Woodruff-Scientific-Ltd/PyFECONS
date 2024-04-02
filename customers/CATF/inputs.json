@@ -63,49 +63,224 @@
     "coils": {
         "magnets": [
             {
-                "name": "Coil 1",
+                "name": "TF",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 12,
+                "r_centre": 0.18,
+                "z_centre": 0.0,
+                "dr": 0.25,
+                "dz": 0.35,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 5,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "CS",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
                 "coil_count": 1,
-                "j_cable": 21.4,
-                "r_centre": 1.75,
-                "z_centre": 0,
-                "dr": 1,
-                "dz": 1
+                "r_centre": 0.18,
+                "z_centre": 0.0,
+                "dr": 0.2,
+                "dz": 6.3,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 10,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
             },
             {
-                "name": "Coil 2",
+                "name": "PF1",
+                "type": {
+                    "value": "COPPER",
+                    "display_name": "Copper"
+                },
                 "coil_count": 2,
-                "j_cable": 22.4,
-                "r_centre": 2.75,
-                "z_centre": 1,
-                "dr": 2,
-                "dz": 2
+                "r_centre": 0.67,
+                "z_centre": 3.73,
+                "dr": 0.3,
+                "dz": 0.6,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
             },
             {
-                "name": "Coil 3",
-                "coil_count": 3,
-                "j_cable": 23.4,
-                "r_centre": 3.75,
-                "z_centre": 2,
-                "dr": 3,
-                "dz": 3
+                "name": "PF2",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 0.9,
+                "z_centre": 4.64,
+                "dr": 0.3,
+                "dz": 0.6,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "PF3",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 1.28,
+                "z_centre": 5.55,
+                "dr": 0.5,
+                "dz": 0.6,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "PF4",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 2.72,
+                "z_centre": 7.24,
+                "dr": 0.75,
+                "dz": 0.37,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "PF5",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 5.3,
+                "z_centre": 7.24,
+                "dr": 1.8,
+                "dz": 0.37,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "PF6",
+                "type": {
+                    "value": "HTS_PANCAKE",
+                    "display_name": "HTS Pancake"
+                },
+                "coil_count": 2,
+                "r_centre": 9.34,
+                "z_centre": 5.0,
+                "dr": 1.0,
+                "dz": 1.0,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": false,
+                "auto_cicc_b": null,
+                "auto_cicc_r": null,
+                "structFactor": 1
+            },
+            {
+                "name": "PF7",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 9.34,
+                "z_centre": 3.6,
+                "dr": 1.0,
+                "dz": 1.0,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": true,
+                "auto_cicc_b": 5.0,
+                "auto_cicc_r": 5.0,
+                "structFactor": 1
+            },
+            {
+                "name": "PF8",
+                "type": {
+                    "value": "HTS_CICC",
+                    "display_name": "HTS CICC"
+                },
+                "coil_count": 2,
+                "r_centre": 9.34,
+                "z_centre": 2.2,
+                "dr": 1.0,
+                "dz": 1.0,
+                "frac_in": 0.0,
+                "coil_temp": 20,
+                "mfr_factor": 2,
+                "auto_cicc": true,
+                "auto_cicc_b": 5.0,
+                "auto_cicc_r": 5.0,
+                "structFactor": 1
             }
         ],
         "struct_factor": 0.5,
-        "cable_w": 0.014,
-        "cable_h": 0.017,
         "tape_w": 0.004,
         "tape_t": 0.00013,
-        "j_tape": 1000,
-        "m_cost_ybco": 10,
+        "j_tape_ybco": 150,
+        "m_cost_ybco": 50,
         "m_cost_ss": 5,
         "m_cost_cu": 10.3,
+        "rebco_density": 6350,
         "cu_density": 7900,
         "ss_density": 7900,
         "mfr_factor": 3,
+        "cable_w": 0.014,
+        "cable_h": 0.017,
         "frac_cs_cu_yuhu": 0.307,
         "frac_cs_ss_yuhu": 0.257,
         "frac_cs_sc_yuhu": 0.257,
-        "tot_cs_area_yuhu": 0.000238
+        "tot_cs_area_yuhu": 0.000238,
+        "m_cost_i": 20,
+        "i_density": 3000,
+        "turns_p": 18,
+        "max_cu_current": 20.0,
+        "cu_wire_d": 0.0033,
+        "c_frac": 0.1,
+        "no_beams": 20,
+        "beam_length": 1.5,
+        "beam_cs_area": 0.25,
+        "t_mag": 4,
+        "t_env": 300
     },
     "supplementary_heating": {
         "nbi_power": 25.0,
