@@ -308,7 +308,7 @@
         },
         "aries_rs": {
             "name": "ARIES-RS",
-            "type": "LH/HFFW",
+            "type": "ICRF/LH/HFFW",
             "power": 80.773,
             "cost_2009": 3.09,
             "cost_2023": 4.4187

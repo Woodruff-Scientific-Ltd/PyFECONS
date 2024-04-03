@@ -5,7 +5,7 @@ import cadquery as cq
 
 from pyfecons import BlanketFirstWall, BlanketType, MagnetType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
-from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, SupplementaryHeating, PrimaryStructure, PowerSupplies,
+from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PrimaryStructure, PowerSupplies,
                              DirectEnergyConverter, Installation, FuelHandling)
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count
@@ -13,6 +13,7 @@ from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meter
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror file?
+CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -20,7 +21,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220101_reactor_equipment(inputs, data, figures)
     compute_220102_shield(inputs, data)
     compute_220103_coils(inputs, data)
-    compute_220104_supplementary_heating(inputs.supplementary_heating, OUT)
+    compute_220104_supplementary_heating(inputs, data)
     compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
     compute_220106_vacuum_system(inputs, data, figures)
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
@@ -612,11 +613,29 @@ def compute_220103_coils(inputs: Inputs, data: Data):
     }
 
 
-def compute_220104_supplementary_heating(supplementary_heating: SupplementaryHeating, OUT: CAS22):
-    OUT.C22010401 = supplementary_heating.average_nbi.cost_2023 * supplementary_heating.nbi_power
-    OUT.C22010402 = supplementary_heating.average_icrf.cost_2023 * supplementary_heating.icrf_power
-    OUT.C220104 = OUT.C22010401 + OUT.C22010402
-    return OUT
+def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
+    # 22.1.4 Supplementary heating
+    IN = inputs.supplementary_heating
+    OUT = data.cas220104
+    OUT.C22010401 = M_USD(IN.average_nbi.cost_2023 * IN.nbi_power)
+    OUT.C22010402 = M_USD(IN.average_icrf.cost_2023 * IN.icrf_power)
+    OUT.C220104 = M_USD(OUT.C22010401 + OUT.C22010402)
+
+    heating_table_rows = "\n".join([
+        f"        {ref.name} & {ref.type} & {round(ref.power, 2)} " +
+        f"& {None if ref.cost_2009 is None else round(ref.cost_2009, 2)} & {round(ref.cost_2023, 2)} \\\\"
+        for ref in IN.heating_refs()
+    ])
+
+    OUT.template_file = CAS_220104_MFE_DT
+    OUT.replacements = {
+        'C22010401': str(round(OUT.C22010401, 3)),
+        'C22010402': str(round(OUT.C22010402, 3)),
+        'C220104__': str(round(OUT.C220104, 3)),
+        'NBIPOWER': str(round(IN.nbi_power, 3)),
+        'ICRFPOWER': str(round(IN.icrf_power, 3)),
+        'HEATING_TABLE_ROWS': heating_table_rows,
+    }
 
 
 def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_table: PowerTable, OUT: CAS22):
@@ -862,8 +881,8 @@ def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
 def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
-    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103 + OUT.C220104
-                        + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
+    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
+                        + data.cas220104.C220104 + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:

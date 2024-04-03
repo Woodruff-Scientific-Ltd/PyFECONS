@@ -1,14 +1,13 @@
 from importlib import resources
 
 from pyfecons import Materials
-from pyfecons.inputs import Inputs, Coils, SupplementaryHeating, PrimaryStructure, VacuumSystem, Basic, Blanket, \
-    FuelHandling, LsaLevels
+from pyfecons.inputs import Inputs, PrimaryStructure, VacuumSystem, Basic, Blanket, FuelHandling, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
 from pyfecons.costing.mfe.CAS22 import (GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX, CAS_220102_TEX
-    , CAS_220103_MIF_DT_MIRROR)
+    , CAS_220103_MIF_DT_MIRROR, CAS_220104_MFE_DT)
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -28,8 +27,6 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
 
-CAS_220103_TEX = 'CAS220103.tex'
-CAS_220104_TEX = 'CAS220104.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
@@ -68,7 +65,7 @@ TEMPLATE_FILES = [
     CAS_220101_MFE_DT_TEX,
     CAS_220102_TEX,
     CAS_220103_MIF_DT_MIRROR,
-    CAS_220104_TEX,
+    CAS_220104_MFE_DT,
     CAS_220105_TEX,
     CAS_220106_TEX,
     CAS_220107_TEX,
@@ -145,21 +142,6 @@ def read_template(template_file: str) -> str:
     return template_content
 
 
-def compute_cas_220104_replacements(supplementary_heating: SupplementaryHeating, cas22: CAS22) -> dict[str, str]:
-    heating_table_rows = "\n".join([
-        f"        {ref.name} & {ref.type} & {ref.power} & {ref.cost_2023} & {ref.cost_2009} \\\\"
-        for ref in supplementary_heating.heating_refs()
-    ])
-    return {
-        'C22010401': str(round(cas22.C22010401, 3)),
-        'C22010402': str(round(cas22.C22010402, 3)),
-        'C22010400': str(round(cas22.C220104, 3)),
-        'NBIpower': str(round(supplementary_heating.nbi_power, 3)),
-        'ICRFpower': str(round(supplementary_heating.icrf_power, 3)),
-        'HEATING_TABLE_ROWS': heating_table_rows,
-    }
-
-
 def compute_cas_220105_replacements(primary_structure: PrimaryStructure, cas22: CAS22) -> dict[str, str]:
     return {
         # TODO - next two fields are currently missing from the template
@@ -208,7 +190,7 @@ def compute_cas_220108_replacements(cas22: CAS22) -> dict[str, str]:
 
 def compute_cas_220109_replacements(cas22: CAS22) -> dict[str, str]:
     replacements = {key: str(value) for key, value in cas22.scaled_direct_energy_costs.items()}
-    replacements['C220109'] = cas22.C220109
+    replacements['C220109'] = str(cas22.C220109)
     return replacements
 
 
@@ -377,8 +359,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return data.cas220102.replacements
     elif template == CAS_220103_MIF_DT_MIRROR:
         return data.cas220103.replacements
-    elif template == CAS_220104_TEX:
-        return compute_cas_220104_replacements(inputs.supplementary_heating, data.cas22)
+    elif template == CAS_220104_MFE_DT:
+        return data.cas220104.replacements
     elif template == CAS_220105_TEX:
         return compute_cas_220105_replacements(inputs.primary_structure, data.cas22)
     elif template == CAS_220106_TEX:

@@ -193,12 +193,14 @@ class CAS220103(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
+class CAS220104(TemplateProvider):
     # 22.1.4 Supplementary heating
     C22010401: M_USD = None
     C22010402: M_USD = None
     C220104: M_USD = None
 
+@dataclass
+class CAS22(TemplateProvider):
     # 22.1.5 primary structure
     C22010501: M_USD = None
     C22010502: M_USD = None
@@ -398,6 +400,7 @@ class Data(SerializableToJSON):
     cas220101: CAS220101 = field(default_factory=CAS220101)
     cas220102: CAS220102 = field(default_factory=CAS220102)
     cas220103: CAS220103 = field(default_factory=CAS220103)
+    cas220104: CAS220104 = field(default_factory=CAS220104)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

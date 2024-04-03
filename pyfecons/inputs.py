@@ -183,20 +183,22 @@ class HeatingRef:
 
 @dataclass
 class SupplementaryHeating:
+    #see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
     nbi_power: MW = MW(25)
     icrf_power: MW = MW(25)
-    aries_at: HeatingRef = None
-    aries_i_a: HeatingRef = None
-    aries_i_b: HeatingRef = None
-    aries_rs: HeatingRef = None
-    aries_iv: HeatingRef = None
-    aries_ii: HeatingRef = None
-    aries_iii_a: HeatingRef = None
-    aries_iii_b: HeatingRef = None
-    iter: HeatingRef = None
-    average: HeatingRef = None
-    average_icrf: HeatingRef = None
-    average_nbi: HeatingRef = None
+    aries_at: HeatingRef = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
+    aries_i_a: HeatingRef = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
+    aries_i_b: HeatingRef = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
+    aries_rs: HeatingRef = HeatingRef("ARIES-RS", "ICRF/LH/HFFW", MW(80.773), 3.09, 4.4187)
+    aries_iv: HeatingRef = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
+    aries_ii: HeatingRef = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
+    # TODO why are there two ARIES-III?
+    aries_iii_a: HeatingRef = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
+    aries_iii_b: HeatingRef = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
+    iter: HeatingRef = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
+    average: HeatingRef = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
+    average_icrf: HeatingRef = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
+    average_nbi: HeatingRef = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
 
     def heating_refs(self):
         return [
@@ -213,32 +215,6 @@ class SupplementaryHeating:
             self.average_icrf,
             self.average_nbi,
         ]
-
-    def __post_init__(self):
-        if self.aries_at is None:
-            self.aries_at = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
-        if self.aries_i_a is None:
-            self.aries_i_a = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
-        if self.aries_i_b is None:
-            self.aries_i_b = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
-        if self.aries_rs is None:
-            self.aries_rs = HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187)
-        if self.aries_iv is None:
-            self.aries_iv = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
-        if self.aries_ii is None:
-            self.aries_ii = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
-        if self.aries_iii_a is None:
-            self.aries_iii_a = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
-        if self.aries_iii_b is None:
-            self.aries_iii_b = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
-        if self.iter is None:
-            self.iter = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
-        if self.average is None:
-            self.average = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
-        if self.average_icrf is None:
-            self.average_icrf = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
-        if self.average_nbi is None:
-            self.average_nbi = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
 
 
 # 22.1.5 primary structure
