@@ -1,13 +1,13 @@
 from importlib import resources
 
 from pyfecons import Materials
-from pyfecons.inputs import Inputs, PrimaryStructure, VacuumSystem, Basic, Blanket, FuelHandling, LsaLevels
+from pyfecons.inputs import Inputs, VacuumSystem, Basic, Blanket, FuelHandling, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
 from pyfecons.costing.mfe.CAS22 import (GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX, CAS_220102_TEX
-    , CAS_220103_MIF_DT_MIRROR, CAS_220104_MFE_DT)
+    , CAS_220103_MIF_DT_MIRROR, CAS_220104_MFE_DT, CAS_220105_TEX)
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -27,7 +27,6 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
 
-CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_TEX = 'CAS220106.tex'
 CAS_220107_TEX = 'CAS220107.tex'
 CAS_220108_TEX = 'CAS220108.tex'
@@ -140,17 +139,6 @@ def read_template(template_file: str) -> str:
         with open(template_path, 'r') as file:
             template_content = file.read()
     return template_content
-
-
-def compute_cas_220105_replacements(primary_structure: PrimaryStructure, cas22: CAS22) -> dict[str, str]:
-    return {
-        # TODO - next two fields are currently missing from the template
-        'pgaengcosts': str(primary_structure.get_pga_costs().eng_costs),
-        'pgafabcosts': str(primary_structure.get_pga_costs().fab_costs),
-        'C22010501': str(cas22.C22010501),
-        'C22010502': str(cas22.C22010502),
-        'C22010500': str(cas22.C220105),
-    }
 
 
 def compute_cas_220106_replacements(vacuum_system: VacuumSystem, cas22: CAS22) -> dict[str, str]:
@@ -362,7 +350,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_220104_MFE_DT:
         return data.cas220104.replacements
     elif template == CAS_220105_TEX:
-        return compute_cas_220105_replacements(inputs.primary_structure, data.cas22)
+        return data.cas220105.replacements
     elif template == CAS_220106_TEX:
         return compute_cas_220106_replacements(inputs.vacuum_system, data.cas22)
     elif template == CAS_220107_TEX:

@@ -5,7 +5,8 @@ import cadquery as cq
 
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
-from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PrimaryStructure, PowerSupplies,
+from pyfecons.helpers import safe_round
+from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PowerSupplies,
                              DirectEnergyConverter, Installation, FuelHandling)
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count
@@ -14,6 +15,7 @@ CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror file?
 CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
+CAS_220105_TEX = 'CAS220105.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -22,7 +24,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220102_shield(inputs, data)
     compute_220103_coils(inputs, data)
     compute_220104_supplementary_heating(inputs, data)
-    compute_220105_primary_structure(inputs.primary_structure, data.power_table, OUT)
+    compute_220105_primary_structure(inputs, data)
     compute_220106_vacuum_system(inputs, data, figures)
     compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
     compute_220108_divertor(inputs, data, figures)
@@ -317,7 +319,7 @@ def plot_radial_build(IN, figures):
 
 
 # Steel thermal conductivity function
-def k_steel(t:float) -> float:
+def k_steel(t: float) -> float:
     return 10 * t
 
 
@@ -333,7 +335,7 @@ def compute_q_in_struct(coils: Coils, k: float, t_mag: float) -> float:
 def compute_q_in_n(int_coil_area: float, data: Data):
     # surface area  of torus 4 × π^2 × R × r
     return data.power_table.p_neutron * 0.05 * int_coil_area / (
-                4 * np.pi ** 2 * (data.cas220101.coil_ir - data.cas220101.axis_ir))
+            4 * np.pi ** 2 * (data.cas220101.coil_ir - data.cas220101.axis_ir))
 
 
 def compute_iter_cost_per_MW(coils):
@@ -387,8 +389,8 @@ def compute_hts_cicc_auto_magnet_properties(coils: Coils, magnet: Magnet, data: 
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * coils.mfr_factor)
     OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
-                 + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
-                 + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
+                              + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
+                              + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
     OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
 
     OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
@@ -459,7 +461,8 @@ def compute_hts_pancake_magnet_properties(coils: Coils, magnet: Magnet, data: Da
     OUT.no_p = OUT.turns_scs / coils.turns_p
 
     # TODO are parenthesis correct here in the denominator?
-    OUT.vol_i = Meters3(OUT.turns_scs * magnet.r_centre * 2 * np.pi / 1e3 * magnet.frac_in * (coils.tape_w * coils.tape_t))
+    OUT.vol_i = Meters3(
+        OUT.turns_scs * magnet.r_centre * 2 * np.pi / 1e3 * magnet.frac_in * (coils.tape_w * coils.tape_t))
     OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
     OUT.j_tape = coils.j_tape_ybco
 
@@ -490,13 +493,13 @@ def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -
     # In this case 'Tape' refers to copper wire AWG 11
     OUT.cs_area = Meters2(magnet.dr * magnet.dz)
 
-    OUT.turns_scs = Turns((1 - magnet.frac_in) * OUT.cs_area / (0.5 * coils.cu_wire_d)**2)
-    OUT.turns_i = Turns(magnet.frac_in * OUT.cs_area / (0.5 * coils.cu_wire_d)**2)
+    OUT.turns_scs = Turns((1 - magnet.frac_in) * OUT.cs_area / (0.5 * coils.cu_wire_d) ** 2)
+    OUT.turns_i = Turns(magnet.frac_in * OUT.cs_area / (0.5 * coils.cu_wire_d) ** 2)
 
     OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
     OUT.cu_wire_current = coils.max_cu_current
     OUT.max_tape_current = coils.max_cu_current
-    OUT.j_tape = Amperes(coils.max_cu_current / (0.5 * coils.cu_wire_d * 1e3)**2)
+    OUT.j_tape = Amperes(coils.max_cu_current / (0.5 * coils.cu_wire_d * 1e3) ** 2)
     OUT.turns_sc_tot = OUT.turns_scs
     OUT.turns_c = Turns(0)
     OUT.cable_current = Amperes(0)
@@ -577,7 +580,8 @@ def compute_220103_coils(inputs: Inputs, data: Data):
         'TABLE_STRUCTURE': ('l' + 'c' * len(OUT.magnet_properties)),
         'TABLE_HEADER_LIST': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in OUT.magnet_properties])),
         # TODO fix
-        'MAGNET_TYPE_LIST': (" & ".join([f"\\textbf{{{props.magnet.material_type.display_name}}}" for props in OUT.magnet_properties])),
+        'MAGNET_TYPE_LIST': (
+            " & ".join([f"\\textbf{{{props.magnet.material_type.display_name}}}" for props in OUT.magnet_properties])),
         'MAGNET_RADIUS_LIST': (" & ".join([f"{props.magnet.r_centre}" for props in OUT.magnet_properties])),
         'MAGNET_DR_LIST': (" & ".join([f"{props.magnet.dr}" for props in OUT.magnet_properties])),
         'MAGNET_DZ_LIST': (" & ".join([f"{props.magnet.dz}" for props in OUT.magnet_properties])),
@@ -621,7 +625,7 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
 
     heating_table_rows = "\n".join([
         f"        {ref.name} & {ref.type} & {round(ref.power, 2)} " +
-        f"& {None if ref.cost_2009 is None else round(ref.cost_2009, 2)} & {round(ref.cost_2023, 2)} \\\\"
+        f"& {safe_round(ref.cost_2009, 2)} & {round(ref.cost_2023, 2)} \\\\"
         for ref in IN.heating_refs()
     ])
 
@@ -636,27 +640,37 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
     }
 
 
-def compute_220105_primary_structure(primary_structure: PrimaryStructure, power_table: PowerTable, OUT: CAS22):
+def compute_220105_primary_structure(inputs: Inputs, data: Data):
+    # 22.1.5 primary structure
+    IN = inputs.primary_structure
+    OUT = data.cas220105
+
     # lambda function to compute scaled costs in these calculations
-    scaled_cost = lambda cost: cost * power_table.p_et / 1000 * primary_structure.learning_credit
+    scaled_cost = lambda cost: cost * data.power_table.p_et / 1000 * IN.learning_credit
 
     # standard engineering costs
-    OUT.C22010501 = M_USD(scaled_cost(primary_structure.analyze_costs)
-                          + scaled_cost(primary_structure.unit1_seismic_costs)
-                          + scaled_cost(primary_structure.reg_rev_costs))
+    OUT.C22010501 = M_USD(scaled_cost(IN.analyze_costs)
+                          + scaled_cost(IN.unit1_seismic_costs)
+                          + scaled_cost(IN.reg_rev_costs))
 
     # standard fabrication costs
-    OUT.C22010502 = M_USD(
-        scaled_cost(primary_structure.unit1_fab_costs) + scaled_cost(primary_structure.unit10_fabcosts))
+    OUT.C22010502 = M_USD(scaled_cost(IN.unit1_fab_costs) + scaled_cost(IN.unit10_fabcosts))
 
     # add system PGA costs
-    pga_costs = primary_structure.get_pga_costs()
+    pga_costs = IN.get_pga_costs()
     OUT.C22010501 = M_USD(OUT.C22010501 + pga_costs.eng_costs)
     OUT.C22010502 = M_USD(OUT.C22010502 + pga_costs.fab_costs)
 
     # total cost calculation
     OUT.C220105 = M_USD(OUT.C22010501 + OUT.C22010502)
-    return OUT
+    OUT.template_file = CAS_220105_TEX
+    OUT.replacements = {
+        'C22010501': str(OUT.C22010501),
+        'C22010502': str(OUT.C22010502),
+        'C22010500': str(OUT.C220105),
+        'systPGA': str(IN.syst_pga.value),
+        'PNRL': str(inputs.basic.p_nrl)
+    }
 
 
 def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
@@ -880,7 +894,7 @@ def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
     OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                        + data.cas220104.C220104 + OUT.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
+                        + data.cas220104.C220104 + data.cas220105.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:

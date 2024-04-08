@@ -213,11 +213,15 @@ class CAS220104(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
+class CAS220105(TemplateProvider):
     # 22.1.5 primary structure
     C22010501: M_USD = None
     C22010502: M_USD = None
     C220105: M_USD = None
+
+
+@dataclass
+class CAS22(TemplateProvider):
 
     # 22.1.6 Vacuum system
     C22010601: M_USD = None
@@ -414,6 +418,7 @@ class Data(SerializableToJSON):
     cas220102: CAS220102 = field(default_factory=CAS220102)
     cas220103: CAS220103 = field(default_factory=CAS220103)
     cas220104: CAS220104 = field(default_factory=CAS220104)
+    cas220105: CAS220105 = field(default_factory=CAS220105)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)
