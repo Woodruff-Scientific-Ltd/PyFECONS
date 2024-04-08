@@ -10,12 +10,17 @@ class ReactorType(Enum):
 class EnergyConversion(Enum):
     DIRECT = 'DIRECT'
     TURBINE = 'TURBINE'
+    # HYBRID = 'HYBRID'
 
 
 class FuelType(Enum):
-    DT = 'DT'  # for now only one type of fuel
-    # DHE3 = 'DHE3'
-    # PB11 = 'PB11'
+    DT = 'DT'  # Deuterium Tritium  # only one for now
+    # DD = 'DD'  # Deuterium Deuterium
+    # DHE3 = 'DHE3'  # Deuterium Helium-3
+    # PB11 = 'PB11'  # Lead Boron-11
+
+
+# TODO confinement type - Tokomak, Stellerator, Mirror
 
 
 class BlanketFirstWall(Enum):

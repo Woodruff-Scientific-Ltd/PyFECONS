@@ -8,7 +8,9 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table
-    OUT.p_alpha = MW(basic.p_nrl * 3.52 / 17.58)
+    # TODO this will depend on fuel type
+    charged_particle_energy_fraction = 3.52 / 17.58
+    OUT.p_alpha = MW(basic.p_nrl * charged_particle_energy_fraction)
     OUT.p_neutron = MW(basic.p_nrl - OUT.p_alpha)
     OUT.p_cool = MW(IN.p_tfcool + IN.p_pfcool)
     OUT.p_aux = MW(IN.p_trit + IN.p_house)
@@ -63,7 +65,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         'QENG': OUT.qeng,  # Engineering Q
         'RECFRAC': round(OUT.recfrac, 3),  # Recirculating power fraction
         'PNET': OUT.p_net,  # Output Power (Net Electric Power)
-        # 'PTHE': PTHE, TODO - missing in template
-        # 'ETADE': ETADE, TODO - missing in template
-        # 'PDEE': PDEE,  TODO - missing in template
+        # TODO these will be included depending on EnergyConversion type
+        # 'ETADE': ETADE,
+        # 'PDEE': PDEE,
     }

@@ -249,7 +249,6 @@ def compute_220102_shield(inputs: Inputs, data: Data):
     # Volume of HTShield that is BFS
     V_HTS_BFS = OUT.V_HTS * f_BFS
 
-    # TODO -
     # The cost C_22_1_2 is the same as C_HTS
     OUT.C22010201 = M_USD(round(C_HTS, 1))
     OUT.C22010202 = M_USD(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3)
@@ -544,6 +543,7 @@ def compute_220103_coils(inputs: Inputs, data: Data):
 
     # Assign calculated totals to variables for .tex file
     # TODO break out TF, CS, and PF into their own variables to avoid array mental mapping
+    # TODO add MagnetType = [TF Toroidal Field, CS Central Solonoid, PF Poloidal Field]
     OUT.C22010301 = M_USD(OUT.magnet_properties[0].magnet_total_cost)  # TF coils
     OUT.C22010302 = M_USD(OUT.magnet_properties[1].magnet_total_cost)  # CS coils
     OUT.C22010303 = M_USD(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[2:]]))  # PF coils

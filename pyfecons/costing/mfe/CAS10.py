@@ -41,8 +41,8 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         0.1 * (OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000 + OUT.C170000))
 
     # Cost Category 10
-    # TODO - why isn't C190000 included in this?
-    OUT.C100000 = M_USD(OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000 + OUT.C170000)
+    OUT.C100000 = M_USD(OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000
+                        + OUT.C170000 + OUT.C190000)
 
     OUT.template_file = CAS_100000_TEX
     OUT.replacements = {
