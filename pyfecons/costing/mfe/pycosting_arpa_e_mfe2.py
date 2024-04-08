@@ -21,7 +21,7 @@ import os
 os.environ['GITHUB_AUTH'] = PAT
 
 # Clone the repository using the token for authentication
-repo_url = f"https://$GITHUB_AUTH@github.com/Alex-WSci/{repo_name}"
+repo_url = f"https://${{GITHUB_AUTH}}@github.com/Woodruff-Scientific-Ltd/{repo_name}"
 !git clone {repo_url}
 !git pull {repo_url}
 !git config --global user.name {gitusername}
@@ -486,10 +486,6 @@ vessel_vol = elon * calc_volume(vessel_ir, vessel_t) - gap1_vol  - structure_vol
 lt_shield_vol = elon * calc_volume(lt_shield_ir, lt_shield_t) - vessel_vol - gap1_vol  - structure_vol- ht_shield_vol - reflector_vol - blanket1_vol - firstwall_vol - vacuum_vol - plasma_vol - axis_vol
 coil_vol = calc_volume(coil_ir, coil_t)*(9*0.779)/40
 
-
-# Volumes for sphere
-def calc_volume(inner, outer):
-    return 4/3* np.pi * (outer**3 - inner**3)
 
 gap2_vol = calc_volume(gap2_ir, gap2_t) # must be cylindrical in all cases
 bioshield_vol = calc_volume(bioshield_ir, bioshield_t)  # Updated bioshield volume
@@ -1358,13 +1354,82 @@ overwrite_variable('CAS220106_MFE.tex', 'vesmatcost', round(vessel_base_costs["T
 
 #Cost Category 22.1.7 Power supplies
 
+cost_per_watt = 1 #1$/W power supply rule of thumb
+
+C22010701 = PCOMPRESS*impfreq*cost_per_watt # (M$) Power supplies for confinement
+
 #Scaled relative to ITER for a 500MW fusion power syste
 lcredit = 0.5# learning credit.
-C220107 = 269.6 * PNRL/500*lcredit #cost in kIUA
-C220107 = C220107*2 #assuming 1kIUA equals $2 M
+C22010702 = 269.6 * PNRL/500*lcredit*2 #assuming 1kIUA equals $2 M #cost in kIUA
+C220107 = C22010701+C22010702
+
+
+#scaled relative to the Woodruff Scientific PF bank designed for FLARE: 200kV, 400kA, 0.5MJ
+#C22010702 = 30
+#C220107 = 30
+
+# INPUTS
+captm = 60  # max temp rating of the film capacitor
+capta = 20  # ambient temperature of the application
+capdelt = 30  # temperature rise due to ripple current
+capvr = 20000  # rated voltage of capacitor
+capx = (captm - capta - capdelt) / 10
+capl1 = 50000  # load life rating of the film capacitor
+
+# Arrays for storing calculated values
+capv0 = np.zeros(100)
+capl2 = np.zeros(100)
+capcostfac = np.zeros(100)
+
+# Loop for calculations
+for i in range(100):
+    capv0[i] = capvr / 100 * (i + 1)  # applied voltage in application
+    capl2[i] = capl1 * (capvr / capv0[i]) ** 7 * 2 ** capx
+    capcostfac[i] = 1 / (capv0[i] / capvr) ** 2
+
+# Convert applied voltage from V to kV for plotting
+capv0_kV = capv0 / 1000  # Convert to kV
+
+# Re-plotting the third chart according to new specifications: not using standard form for y-axis and plotting in blue
+plt.figure(figsize=[15, 5])
+
+# Lifetime extension factor plot (unchanged)
+plt.subplot(1, 3, 1)
+plt.semilogy(capv0 / capvr, capl2 / capl1,'b')
+plt.title('Lifetime Extension Factor')
+plt.xlabel('Ratio of applied to rated voltage')
+plt.ylabel('Lifetime extension factor, L2/L1')
+plt.axis([0, 1, 1, 100000])
+
+# Lifetime of bank in years plot (unchanged)
+plt.subplot(1, 3, 2)
+plt.semilogy(capv0 / capvr, capl2 / (impfreq*86000 * 365), 'b')  # Assuming 86000 cycles per year
+plt.title('Lifetime of Bank in Years')
+plt.xlabel('Ratio of applied to rated voltage')
+plt.ylabel(f'Lifetime of bank in years, at {impfreq} Hz')
+plt.axis([0, 1, 0.001, 100])
+
+# Bank cost factor plot with specified changes
+plt.subplot(1, 3, 3)
+plt.plot(capv0 / capvr, capcostfac, 'b')  # Changed to blue color
+plt.title('Bank Cost Factor')
+plt.xlabel('Ratio of applied to rated voltage')
+plt.ylabel('Bank cost factor')
+plt.yscale('linear')  # Changed to linear scale
+plt.axis([0, 1, 1, 100])
+
+# Show updated plots
+plt.tight_layout()
+plt.show()
+
+fig.savefig(os.path.join(figures_directory, 'cap_derate.pdf'), bbox_inches='tight')
+
 
 copy_file('CAS220107_MFE.tex')
+#overwrite_variable('CAS220107_MIF.tex', 'C22010702', round(C22010702))
 overwrite_variable('CAS220107_MFE.tex', 'C220107', round(C220107))
+overwrite_variable('CAS220107_MFE.tex', 'C22010701', round(C22010701))
+overwrite_variable('CAS220107_MFE.tex', 'C22010702', round(C22010702))
 overwrite_variable('CAS220107_MFE.tex', 'PNRL', round(PNRL))
 
 #22.1.8 Divertor
@@ -1660,8 +1725,7 @@ overwrite_variable('CAS280000.tex', 'C280000', round(C280000))
 if NOAK == "y":
   C290000 = 0
 else:
-  C290000= 0.1 * (C210000+C210000 + C220000 + C230000 + C240000 + C250000 + C260000 + C270000 + C280000 + C280000)
-
+  C290000= 0.1 * (C210000+ + C220000 + C230000 + C240000 + C250000 + C260000 + C270000 + C280000)
 
 copy_file('CAS290000.tex')
 overwrite_variable('CAS290000.tex', 'C290000', round(C290000))
