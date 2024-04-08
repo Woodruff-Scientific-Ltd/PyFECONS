@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import cadquery as cq
 
-from pyfecons import BlanketFirstWall, BlanketType, MagnetType
+from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PrimaryStructure, PowerSupplies,
                              DirectEnergyConverter, Installation, FuelHandling)
@@ -522,16 +522,16 @@ def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -
 
 
 def compute_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> MagnetProperties:
-    if magnet.type == MagnetType.HTS_CICC:
+    if magnet.material_type == MagnetMaterialType.HTS_CICC:
         if magnet.auto_cicc:
             return compute_hts_cicc_auto_magnet_properties(coils, magnet, data)
         else:
             return compute_hts_cicc_magnet_properties(coils, magnet, data)
-    elif magnet.type == MagnetType.HTS_PANCAKE:
+    elif magnet.material_type == MagnetMaterialType.HTS_PANCAKE:
         return compute_hts_pancake_magnet_properties(coils, magnet, data)
-    elif magnet.type == MagnetType.COPPER:
+    elif magnet.material_type == MagnetMaterialType.COPPER:
         return compute_copper_magnet_properties(coils, magnet, data)
-    raise f'Unrecognized magnet type {magnet.type}'
+    raise f'Unrecognized magnet material type {magnet.material_type}'
 
 
 def compute_220103_coils(inputs: Inputs, data: Data):
@@ -579,7 +579,7 @@ def compute_220103_coils(inputs: Inputs, data: Data):
         'TABLE_STRUCTURE': ('l' + 'c' * len(OUT.magnet_properties)),
         'TABLE_HEADER_LIST': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in OUT.magnet_properties])),
         # TODO fix
-        'MAGNET_TYPE_LIST': (" & ".join([f"\\textbf{{{props.magnet.type.display_name}}}" for props in OUT.magnet_properties])),
+        'MAGNET_TYPE_LIST': (" & ".join([f"\\textbf{{{props.magnet.material_type.display_name}}}" for props in OUT.magnet_properties])),
         'MAGNET_RADIUS_LIST': (" & ".join([f"{props.magnet.r_centre}" for props in OUT.magnet_properties])),
         'MAGNET_DR_LIST': (" & ".join([f"{props.magnet.dr}" for props in OUT.magnet_properties])),
         'MAGNET_DZ_LIST': (" & ".join([f"{props.magnet.dz}" for props in OUT.magnet_properties])),
@@ -622,7 +622,7 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
     OUT.C220104 = M_USD(OUT.C22010401 + OUT.C22010402)
 
     heating_table_rows = "\n".join([
-        f"        {ref.name} & {ref.type} & {round(ref.power, 2)} " +
+        f"        {ref.name} & {ref.material_type} & {round(ref.power, 2)} " +
         f"& {None if ref.cost_2009 is None else round(ref.cost_2009, 2)} & {round(ref.cost_2023, 2)} \\\\"
         for ref in IN.heating_refs()
     ])

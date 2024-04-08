@@ -120,7 +120,7 @@ class StructurePga(Enum):
     PGA_05 = 0.5
 
 
-class MagnetType(Enum):
+class MagnetMaterialType(Enum):
     HTS_CICC = ('HTS_CICC', 'HTS CICC')
     HTS_PANCAKE = ('HTS_PANCAKE', 'HTS Pancake')
     COPPER = ('COPPER', 'Copper')
