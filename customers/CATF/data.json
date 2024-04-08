@@ -376,6 +376,10 @@
                 "magnet": {
                     "name": "TF",
                     "type": {
+                        "value": "TF",
+                        "display_name": "Toroidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -424,6 +428,10 @@
                 "magnet": {
                     "name": "CS",
                     "type": {
+                        "value": "CS",
+                        "display_name": "Central Solonoid"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -472,6 +480,10 @@
                 "magnet": {
                     "name": "PF1",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "COPPER",
                         "display_name": "Copper"
                     },
@@ -520,6 +532,10 @@
                 "magnet": {
                     "name": "PF2",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -568,6 +584,10 @@
                 "magnet": {
                     "name": "PF3",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -616,6 +636,10 @@
                 "magnet": {
                     "name": "PF4",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -664,6 +688,10 @@
                 "magnet": {
                     "name": "PF5",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -712,6 +740,10 @@
                 "magnet": {
                     "name": "PF6",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_PANCAKE",
                         "display_name": "HTS Pancake"
                     },
@@ -760,6 +792,10 @@
                 "magnet": {
                     "name": "PF7",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },
@@ -808,6 +844,10 @@
                 "magnet": {
                     "name": "PF8",
                     "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
                         "value": "HTS_CICC",
                         "display_name": "HTS CICC"
                     },

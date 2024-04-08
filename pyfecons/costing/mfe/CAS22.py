@@ -542,11 +542,9 @@ def compute_220103_coils(inputs: Inputs, data: Data):
     OUT.magnet_properties = [compute_magnet_properties(IN, magnet, data) for magnet in IN.magnets]
 
     # Assign calculated totals to variables for .tex file
-    # TODO break out TF, CS, and PF into their own variables to avoid array mental mapping
-    # TODO add MagnetType = [TF Toroidal Field, CS Central Solonoid, PF Poloidal Field]
-    OUT.C22010301 = M_USD(OUT.magnet_properties[0].magnet_total_cost)  # TF coils
-    OUT.C22010302 = M_USD(OUT.magnet_properties[1].magnet_total_cost)  # CS coils
-    OUT.C22010303 = M_USD(sum([mag.magnet_total_cost for mag in OUT.magnet_properties[2:]]))  # PF coils
+    OUT.C22010301 = M_USD(sum([mag.magnet_total_cost for mag in OUT.tf_coils]))
+    OUT.C22010302 = M_USD(sum([mag.magnet_total_cost for mag in OUT.cs_coils]))
+    OUT.C22010303 = M_USD(sum([mag.magnet_total_cost for mag in OUT.pf_coils]))
     # Shim coil costs, taken as 5% total primary magnet costs
     OUT.C22010304 = 0.05 * (OUT.C22010301 + OUT.C22010302 + OUT.C22010303)
     OUT.C22010305 = M_USD(sum([mag.magnet_struct_cost for mag in OUT.magnet_properties]))  # Structural cost
@@ -555,7 +553,7 @@ def compute_220103_coils(inputs: Inputs, data: Data):
     OUT.C220103 = M_USD(OUT.C22010301 + OUT.C22010302 + OUT.C22010303 + OUT.C22010304 + OUT.C22010305 + OUT.C22010306)
 
     # Additional totals and calculations
-    OUT.no_pf_coils = Count(sum(magnet.coil_count for magnet in IN.magnets[2:]))
+    OUT.no_pf_coils = Count(sum(magnet.magnet.coil_count for magnet in OUT.pf_coils))
     OUT.no_pf_pairs = Count(OUT.no_pf_coils / 2)
 
     # TODO verify template substition
@@ -622,7 +620,7 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
     OUT.C220104 = M_USD(OUT.C22010401 + OUT.C22010402)
 
     heating_table_rows = "\n".join([
-        f"        {ref.name} & {ref.material_type} & {round(ref.power, 2)} " +
+        f"        {ref.name} & {ref.type} & {round(ref.power, 2)} " +
         f"& {None if ref.cost_2009 is None else round(ref.cost_2009, 2)} & {round(ref.cost_2023, 2)} \\\\"
         for ref in IN.heating_refs()
     ])

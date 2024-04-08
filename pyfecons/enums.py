@@ -120,6 +120,18 @@ class StructurePga(Enum):
     PGA_05 = 0.5
 
 
+class MagnetType(Enum):
+    PF = ('PF', 'Poloidal Field')
+    CS = ('CS', 'Central Solonoid')
+    TF = ('TF', 'Toroidal Field')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
+
+
 class MagnetMaterialType(Enum):
     HTS_CICC = ('HTS_CICC', 'HTS CICC')
     HTS_PANCAKE = ('HTS_PANCAKE', 'HTS Pancake')

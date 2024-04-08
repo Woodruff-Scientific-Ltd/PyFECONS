@@ -83,10 +83,10 @@ class MagnetProperties:
     turns_scs: Turns = None  # turns of REBCO in one cable
     tape_length: Kilometers = None  # total length of REBCO in km
     turns_i: Turns = None  # turns of (partial?) insulation
-    j_tape: AmperesMillimeters2 = None # approximate critical current density
+    j_tape: AmperesMillimeters2 = None  # approximate critical current density
     cable_w: Meters = None  # Cable width in meters
     cable_h: Meters = None  # Cable height in meters
-# number of pancakes based on total required turns and the number of turns in a reference pancake coil
+    # number of pancakes based on total required turns and the number of turns in a reference pancake coil
     no_p: float = None
     vol_i: Meters3 = None  # total volume of insulation
     max_tape_current: Amperes = None  # current
@@ -101,7 +101,7 @@ class MagnetProperties:
     magnet_struct_cost: M_USD = None
     magnet_total_cost_individual: M_USD = None
     magnet_total_cost: M_USD = None
-    cu_wire_current: Amperes = None # current through each cu_wire
+    cu_wire_current: Amperes = None  # current through each cu_wire
 
 
 @dataclass
@@ -191,6 +191,18 @@ class CAS220103(TemplateProvider):
         if self.magnet_properties is None:
             self.magnet_properties = []
 
+    @property
+    def tf_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.TF]
+
+    @property
+    def cs_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.CS]
+
+    @property
+    def pf_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.PF]
+
 
 @dataclass
 class CAS220104(TemplateProvider):
@@ -198,6 +210,7 @@ class CAS220104(TemplateProvider):
     C22010401: M_USD = None
     C22010402: M_USD = None
     C220104: M_USD = None
+
 
 @dataclass
 class CAS22(TemplateProvider):
@@ -340,8 +353,8 @@ class CAS30:
 
 @dataclass
 class CAS40:
-    C400000LSA : M_USD = None
-    C400000 : M_USD = None
+    C400000LSA: M_USD = None
+    C400000: M_USD = None
 
 
 @dataclass

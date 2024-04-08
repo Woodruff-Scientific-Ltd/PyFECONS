@@ -96,6 +96,7 @@ class Blanket:
 @dataclass
 class Magnet:
     name: str
+    type: MagnetType
     material_type: MagnetMaterialType
     coil_count: int
     r_centre: Meters  # radius of each coil
