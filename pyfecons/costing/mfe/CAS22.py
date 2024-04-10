@@ -1,21 +1,21 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-import cadquery as cq
 
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
 from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PowerSupplies,
                              DirectEnergyConverter, Installation, FuelHandling)
-from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable
-from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count
+from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable, VesselCosts, VesselCost
+from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 CAS_220102_TEX = 'CAS220102.tex'
 CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror file?
 CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
 CAS_220105_TEX = 'CAS220105.tex'
+CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -675,147 +675,112 @@ def compute_220105_primary_structure(inputs: Inputs, data: Data):
 
 def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     # 22.1.6 Vacuum system
-    OUT = data.cas22
-    vacuum_system = inputs.vacuum_system
+    OUT = data.cas220106
+    IN = inputs.vacuum_system
+    build = data.cas220101
 
     # 22.1.6.1 Vacuum Vessel
     # Parameters
-    middle_length = data.cas220101.vacuum_ir  # Middle part length in meters
-    middle_diameter = 2 * data.cas220101.vessel_ir  # Middle part diameter in meters
-    end_length = vacuum_system.end_length  # End parts length in meters (each)
-    end_diameter = 3 * data.cas220101.vessel_ir  # End parts diameter in meters
+    middle_length = build.vacuum_ir  # Middle part length in meters
+    middle_diameter = 2 * build.vessel_ir  # Middle part diameter in meters
+    end_length = IN.end_length  # End parts length in meters (each)
+    # TODO why is this times 3?
+    end_diameter = 3 * build.vessel_ir  # End parts diameter in meters
+    # TODO what is 0.022?
     fillet_radius = 0.022 * middle_length  # Fillet radius in meters, adjust as necessary
-    thickness = vacuum_system.thickness  # Thickness in meters
+    thickness = IN.thickness  # Thickness in meters
 
-    # Create the middle cylinder
-    middle_cylinder = cq.Workplane("XY").cylinder(middle_length, middle_diameter / 2)
+    # from radial build
+    syst_spool_ir = build.axis_ir - (build.vessel_ir - build.axis_ir) * 0.5  # Spool inner radius (goes around CS)
+    syst_doors_ir = build.vessel_ir  # doors inner radius (goes within TF)
+    syst_height = inputs.radial_build.elon * build.vessel_vol / (np.pi * build.vessel_ir ** 2)  # System height
 
-    # Create the end cylinders and translate them into position
-    end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate(
-        (0, 0, middle_length / 2 + end_length / 2))
-    end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2).translate(
-        (0, 0, -(middle_length / 2 + end_length / 2)))
+    # Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design
+    # TODO figure out why intellij is giving warnings for these assignments
+    OUT.vessel_costs = VesselCosts(
+        spool_assembly=VesselCost(name="Spool assembly", total_mass=Kilograms(136043), material_cost=USD(49430),
+                                  fabrication_cost=USD(2614897), total_cost=USD(2800370)),
+        removable_doors=VesselCost(name="Removable doors", total_mass=Kilograms(211328), material_cost=USD(859863),
+                                   fabrication_cost=USD(6241880), total_cost=USD(7313071)),
+        door_frames=VesselCost(name="Doorframes", total_mass=Kilograms(53632), material_cost=USD(356555),
+                               fabrication_cost=USD(2736320), total_cost=USD(3146507)),
+        port_enclosures=VesselCost(name="Port enclosures", total_mass=Kilograms(712448), material_cost=USD(2020698),
+                                   fabrication_cost=USD(14309096), total_cost=USD(17042242)),
+        total=VesselCost(name="Total"),
+        contingency=VesselCost(name="Contingency (20%)"),
+        prime_contractor_fee=VesselCost(name="Prime contractor fee (12%)"),
+        total_subsystem_cost=VesselCost(name="Total subsystem cost")
+    )
 
-    # Combine the middle cylinder with the end cylinders for outer shape
-    combined_outer_shape = middle_cylinder.union(end_cylinder1).union(end_cylinder2)
+    for cost in [OUT.vessel_costs.spool_assembly, OUT.vessel_costs.removable_doors,
+                 OUT.vessel_costs.door_frames, OUT.vessel_costs.port_enclosures]:
+        geometry_factor = (syst_spool_ir / IN.spool_ir) * (syst_height / IN.spool_height) \
+            if cost.name == "Spool assembly" \
+            else (syst_doors_ir / IN.door_irb) * (syst_height / IN.spool_height)
+        cost.total_mass = cost.total_mass * geometry_factor
 
-    # Create an inner middle cylinder with a smaller diameter to represent the thickness
-    inner_middle_cylinder = cq.Workplane("XY").cylinder(middle_length, middle_diameter / 2 - thickness)
+        # Scaling costs based on new mass
+        if cost.total_mass > 0:
+            # New cost based on per kg rate, applying learning credit and inflation
+            cost.material_cost = cost.material_cost * geometry_factor * IN.learning_credit * IN.inflation_factor
+            cost.fabrication_cost = cost.fabrication_cost * geometry_factor * IN.learning_credit * IN.inflation_factor
 
-    # Create inner end cylinders with the reduced diameter and translate them into position
-    inner_end_cylinder1 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate(
-        (0, 0, middle_length / 2 + end_length / 2))
-    inner_end_cylinder2 = cq.Workplane("XY").cylinder(end_length, end_diameter / 2 - thickness).translate(
-        (0, 0, -(middle_length / 2 + end_length / 2)))
+        # Updating total cost after scaling other costs
+        cost.total_cost = cost.material_cost + cost.fabrication_cost
 
-    # Combine the inner middle cylinder with the inner end cylinders for inner shape
-    combined_inner_shape = inner_middle_cylinder.union(inner_end_cylinder1).union(inner_end_cylinder2)
-    OUT.vesvol = combined_inner_shape.val().Volume()
+        # Summing updated values to "Total"
+        OUT.vessel_costs.total.total_mass += cost.total_mass
+        OUT.vessel_costs.total.material_cost += cost.material_cost
+        OUT.vessel_costs.total.fabrication_cost += cost.fabrication_cost
+        OUT.vessel_costs.total.total_cost += cost.total_mass
 
-    # Subtract the combined inner shape from the outer shape for material volume calculation
-    material_shape = combined_outer_shape.cut(combined_inner_shape)
+    # Calculate new contingency and prime contractor fee based on updated total cost
+    total_cost = OUT.vessel_costs.total.total_cost / 1e6
+    OUT.vessel_costs.contingency.total_cost = total_cost * 0.20  # 20%
+    OUT.vessel_costs.prime_contractor_fee.total_cost = total_cost * 0.12  # 12%
 
-    # Calculate the material volume
-    OUT.materialvolume = material_shape.val().Volume()
-
-    # Now apply the fillets to the outer shape (for display purposes)
-    final_shape_with_fillets = combined_outer_shape.edges().fillet(fillet_radius)
-
-    # Material properties (density and cost)
-    ss_density = vacuum_system.ss_density  # kg/m^3
-    ss_cost = vacuum_system.ss_cost  # $/kg
+    # Update the total subsystem cost
+    OUT.vessel_costs.total_subsystem_cost.total_cost = (total_cost
+                                                        + OUT.vessel_costs.contingency.total_cost
+                                                        + OUT.vessel_costs.prime_contractor_fee.total_cost)
 
     # Calculate mass and cost
-    vesmfr = 10
-    OUT.massstruct = OUT.materialvolume * ss_density
-    OUT.vesmatcost = ss_cost * OUT.massstruct
-    OUT.C22010601 = OUT.vesmatcost * vesmfr / 1e6
+    OUT.massstruct = OUT.vessel_costs.total.total_mass
+    OUT.vesvol = np.pi * (syst_doors_ir ** 2 - syst_spool_ir ** 2) * syst_height
+    OUT.C22010601 = M_USD(OUT.vessel_costs.total_subsystem_cost.total_cost)
 
-    # Display the final shape
-    # display(final_shape_with_fillets)
-
+    # TODO why is this zero now?
     # COOLING 22.1.6.2
-    def k_steel(T):
-        return vacuum_system.k_steel
-
-    t_mag = vacuum_system.t_mag
-    t_env = vacuum_system.t_env
-
-    # Power in from thermal conduction through support
-    def qin_struct(no_beams, beam_cs_area, beam_length, k):
-        return k * beam_cs_area * no_beams / beam_length * (t_env - t_mag) / 1e6
-
-    # power in from neutron flux, assume 95% is abosrbed in the blanket
-    def qin_n():
-        return data.power_table.p_neutron * 0.05 / 1e6
-
-    # cooling from power in/half carnot COP
-    c_frac = vacuum_system.c_frac
-
-    def q_cooling(Qin, C_frac):
-        COP = t_mag / (t_env - t_mag) * C_frac  # Assume 10% of carnot efficiency
-        return Qin / COP, COP
-
-    # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-    OUT.q_in = qin_struct(20, 1, 5, k_steel((t_env + t_mag) / 2)) + qin_n()
-
-    def qin_tot(qin, no_coils):
-        return qin * no_coils
-
-    # Cooling power requirements for various temperature differences
-    # Generate a range of target temperatures from 20 K to 300 K
-    t_mag_range = np.linspace(4, 200, 100)  # Target temperatures
-
-    # Calculating cooling power requirement for different target temperatures
-    cooling_power_requirements = qin_tot(OUT.q_in, 13) / (t_mag_range / (t_env - t_mag_range) * c_frac)
-
-    # TODO - finish figure
-    # fig, ax = plt.subplots(figsize=(10, 6))
-    #
-    # # Plotting on the axes
-    # ax.plot(t_mag_range, cooling_power_requirements)
-    # ax.set_xlabel('Target Temperature (K)')
-    # ax.set_ylabel('Cooling Power Requirement (MW)')
-    # # ax.set_title('Cooling Power Requirement vs. Target Temperature')
-    # ax.grid(True)
-    #
-    # # Display the plot
-    # plt.show()
-    #
-    # # Export as PDF
-    # fig.savefig(os.path.join(figures_directory, 'cooling_efficiency.pdf'), bbox_inches='tight')
-
-    # Scaling cooling costs from STARFIRE see pg40 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
-    # Starfire COP
-    cop_starfire = 4.2 / (300 - 4.2) * 0.15
-    # STARFIRE cooling at 4.2 K
-    qsc_itarfire = 20e3  # 20 kW
-    # Calculating starfire cooling at system operating temp in MW
-    q_cooling_temp = qsc_itarfire * (q_cooling(OUT.q_in, c_frac)[1] / cop_starfire) / 1e6
-
-    # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
-    cost_starfire = 17.65 * 1.43
-    # M USD, scaled to system size, at system temperature, from the 20 kW cooling, 17.65 STARFIRE system
-    OUT.C22010602 = OUT.q_in / q_cooling_temp * 17.65 * 1.43
+    OUT.C22010602 = M_USD(0)
 
     # VACUUM PUMPING 22.1.6.3
-    # assume 1 second vac rate
-    # cost of 1 vacuum pump, scaled from 1985 dollars
-    cost_pump = 40000
-    # 48 pumps needed for 200^3 system
-    # m^3 capable of beign pumped by 1 pump
-    vpump_cap = 200 / 48
     # Number of vacuum pumps required to pump the full vacuum in 1 second
-    no_vpumps = int(OUT.vesvol / vpump_cap)
-    OUT.C22010603 = no_vpumps * cost_pump / 1e6
+    no_vpumps = int(OUT.vesvol / IN.vpump_cap)
+    OUT.C22010603 = M_USD(no_vpumps * IN.cost_pump / 1e6)
 
     # ROUGHING PUMP 22.1.6.4
     # from STARFIRE, only 1 needed
-    OUT.C22010604 = 120000 * 2.85 / 1e6
+    # TODO where do these constants come from?
+    OUT.C22010604 = M_USD(120000 * 2.85 / 1e6)
 
-    OUT.C220106 = OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604
+    # TODO we have in the script to replace all the vessel_costs keys with values but we don't do this, is this correct?
+    # for var_name, var_value in vessel_base_costs.items():
+    #     overwrite_variable('CAS220106_MFE.tex', var_name, round_to_2(var_value))
 
-    return OUT
+    # TODO review these numbers because they seem really low, maybe some units are missing?
+    OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
+    OUT.template_file = CAS_220106_MFE_TEX
+    OUT.replacements = {
+        'C22010601': round(OUT.C22010601),
+        'C22010602': round(OUT.C22010601),
+        'C22010603': round(OUT.C22010603),
+        'C22010604': round(OUT.C22010604),
+        'C22010600': round(OUT.C220106),
+        'vesvol': round(OUT.vesvol),
+        'massstruct': round(OUT.massstruct),
+        'vesmatcost': round(OUT.vessel_costs.total.material_cost / 1e6, 1),
+        # TODO we have materialvolume in the template but no longer compute it in the code
+    }
 
 
 def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, OUT: CAS22):
@@ -894,7 +859,8 @@ def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
     OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                        + data.cas220104.C220104 + data.cas220105.C220105 + OUT.C220106 + OUT.C220107 + OUT.C220111)
+                        + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106 + OUT.C220107
+                        + OUT.C220111)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:

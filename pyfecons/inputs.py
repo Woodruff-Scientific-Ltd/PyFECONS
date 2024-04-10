@@ -257,26 +257,27 @@ class VacuumSystem:
     # 22.1.6.1 Vacuum Vessel
     end_length: Meters = 8  # End parts length in meters (each)
     thickness: Meters = 0.02
-    # Material properties (density and cost)
-    ss_density: float = 6700  # kg/m^3
-    ss_cost: float = 5  # $/kg
-    vesmfr: float = 10
 
-    # COOLING 22.1.6.2
-    k_steel: float = 10
-    t_mag: float = 20
-    t_env: float = 300
-    c_frac: float = 0.1  # cooling from power in/half carnot COP
-    cop_starfire: float = 4.2 / (300 - 4.2) * 0.15  # Starfire COP
-    qsci_starfire: float = 20e3  # 20 kW - STARFIRE cooling at 4.2 K
-    cost_starfire: float = 17.65 * 1.43  # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
+    # Scaling parameters INPUTS
+    learning_credit: Ratio = 0.5
+    inflation_factor: Ratio = 1.58  # 2005 to 2024
+
+    # Reference values for scaling
+    # TODO confirm these units
+    spool_ir: Meters = 2.25
+    spool_or: Meters = 3.15
+    door_irb: Meters = 6
+    door_orb: Meters = 6.25
+    door_irc: Meters = 7.81
+    door_orc: Meters = 8.06
+    spool_height: Meters = 9
 
     # VACUUM PUMPING 22.1.6.3
     # assume 1 second vac rate
     # cost of 1 vacuum pump, scaled from 1985 dollars
     cost_pump: float = 40000
     # 48 pumps needed for 200^3 system
-    vpump_cap: float = 200 / 48  # m^3 capable of beign pumped by 1 pump
+    vpump_cap: float = 200 / 48  # m^3 capable of being pumped by 1 pump
 
 
 @dataclass

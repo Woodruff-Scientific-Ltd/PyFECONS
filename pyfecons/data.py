@@ -221,19 +221,41 @@ class CAS220105(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
+class VesselCost:
+    name: str = None
+    total_mass: Kilograms = 0
+    material_cost: USD = 0
+    fabrication_cost: USD = 0
+    total_cost: USD = 0
 
+
+@dataclass
+class VesselCosts:
+    spool_assembly: VesselCost = field(default_factory=VesselCost)
+    removable_doors: VesselCost = field(default_factory=VesselCost)
+    door_frames: VesselCost = field(default_factory=VesselCost)
+    port_enclosures: VesselCost = field(default_factory=VesselCost)
+    total: VesselCost = field(default_factory=VesselCost)
+    contingency: VesselCost = field(default_factory=VesselCost)  # 20%
+    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)  # 12%
+    total_subsystem_cost: VesselCost = field(default_factory=VesselCost)
+
+
+@dataclass
+class CAS220106(TemplateProvider):
     # 22.1.6 Vacuum system
     C22010601: M_USD = None
     C22010602: M_USD = None
     C22010603: M_USD = None
     C22010604: M_USD = None
     C220106: M_USD = None
-    vesvol: float = None
-    materialvolume: float = None
     massstruct: float = None
+    vesvol: float = None
     vesmatcost: float = None
-    q_in: float = None
+    vessel_costs: VesselCosts = field(default_factory=VesselCosts)
+
+@dataclass
+class CAS22(TemplateProvider):
 
     # Cost Category 22.1.7 Power supplies
     C220107: M_USD = None
@@ -419,6 +441,7 @@ class Data(SerializableToJSON):
     cas220103: CAS220103 = field(default_factory=CAS220103)
     cas220104: CAS220104 = field(default_factory=CAS220104)
     cas220105: CAS220105 = field(default_factory=CAS220105)
+    cas220106: CAS220106 = field(default_factory=CAS220106)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)
