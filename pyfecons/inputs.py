@@ -293,8 +293,7 @@ class DirectEnergyConverter:
 @dataclass
 class Installation:
     # 1600 dollars per day for skilled labor
-    labor_rate: USD = 1600 / 1e6
-    r: Meters = 8  # major radius of the system
+    labor_rate: USD = 1600 / 1e6  # 1600 dollars per day for skilled labor
     nmod: int = 1  # number of modules
 
 

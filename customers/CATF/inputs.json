@@ -460,7 +460,6 @@
     },
     "installation": {
         "labor_rate": 0.0016,
-        "r": 8,
         "nmod": 1
     },
     "fuel_handling": {

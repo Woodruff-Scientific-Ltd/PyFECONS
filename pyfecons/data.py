@@ -287,10 +287,13 @@ class CAS220109(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
-
+class CAS220111(TemplateProvider):
     # Cost Category 22.1.11 Installation costs
     C220111: M_USD = None
+
+
+@dataclass
+class CAS22(TemplateProvider):
 
     # Cost category 22.1.19 Scheduled Replacement Cost
     C220119: M_USD = None
@@ -458,6 +461,7 @@ class Data(SerializableToJSON):
     cas220107: CAS220107 = field(default_factory=CAS220107)
     cas220108: CAS220108 = field(default_factory=CAS220108)
     cas220109: CAS220109 = field(default_factory=CAS220109)
+    cas220111: CAS220111 = field(default_factory=CAS220111)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

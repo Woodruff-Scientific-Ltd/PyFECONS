@@ -5,7 +5,7 @@ import numpy as np
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs, Basic, Coils, Magnet, Installation, FuelHandling
+from pyfecons.inputs import Inputs, Basic, Coils, Magnet, FuelHandling
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable, VesselCosts, VesselCost
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
@@ -18,6 +18,7 @@ CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
 CAS_220107_MFE_TEX = 'CAS220107_MFE.tex'
 CAS_220108_MFE_TEX = 'CAS220108_MFE.tex'
 CAS_220109_TEX = 'CAS220109.tex'
+CAS_220111_TEX = 'CAS220111.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -31,7 +32,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220107_power_supplies(inputs, data)
     compute_220108_divertor(inputs, data)
     compute_220109_direct_energy_converter(inputs, data)
-    compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
+    compute_220111_installation_costs(inputs, data)
     compute_220119_scheduled_replacement_cost(OUT)
     compute_2201_total(data)
     compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
@@ -867,29 +868,38 @@ def compute_220109_direct_energy_converter(inputs: Inputs, data: Data):
     OUT.replacements['C220109'] = OUT.C220109
 
 
-def compute_220111_installation_costs(basic: Basic, installation: Installation, OUT: CAS22) -> CAS22:
+def compute_220111_installation_costs(inputs: Inputs, data: Data):
     # Cost Category 22.1.11 Installation costs
-    construction_worker = 20 * installation.r / 4
-    C_22_1_11_in = installation.nmod * basic.construction_time * (installation.labor_rate * 20 * 300)
-    C_22_1_11_1_in = installation.nmod * (
-            (installation.labor_rate * 200 * construction_worker) + 0)  # 22.1 first wall blanket
-    C_22_1_11_2_in = installation.nmod * ((installation.labor_rate * 150 * construction_worker) + 0)  # 22.2 shield
-    C_22_1_11_3_in = installation.nmod * ((installation.labor_rate * 100 * construction_worker) + 0)  # coils
-    C_22_1_11_4_in = installation.nmod * (
-            (installation.labor_rate * 30 * construction_worker) + 0)  # supplementary heating
-    C_22_1_11_5_in = installation.nmod * ((installation.labor_rate * 60 * construction_worker) + 0)  # primary structure
-    C_22_1_11_6_in = installation.nmod * ((installation.labor_rate * 200 * construction_worker) + 0)  # vacuum system
-    C_22_1_11_7_in = installation.nmod * ((installation.labor_rate * 400 * construction_worker) + 0)  # power supplies
-    C_22_1_11_8_in = 0  # guns
-    C_22_1_11_9_in = installation.nmod * (
-            (installation.labor_rate * 200 * construction_worker) + 0)  # direct energy converter
-    C_22_1_11_10_in = 0  # ECRH
+    IN = inputs.installation
+    OUT = data.cas220111
+
+    # Calculations
+    # TODO what are 20 and 4? Should they be inputs?
+    construction_worker = 20 * data.cas220101.axis_ir / 4
+    costs = {
+        # TODO what are 20 and 300? Should they be inputs?
+        'C_22_1_11_in': IN.nmod * inputs.basic.construction_time * (IN.labor_rate * 20 * 300),
+        # TODO for all constants, should they be inputs?
+        # TODO why + 0 for all of these
+        'C_22_1_11_1_in': IN.nmod * ((IN.labor_rate * 200 * construction_worker) + 0),  # 22.1 first wall blanket
+        'C_22_1_11_2_in': IN.nmod * ((IN.labor_rate * 150 * construction_worker) + 0),  # 22.2 shield
+        'C_22_1_11_3_in': IN.nmod * ((IN.labor_rate * 100 * construction_worker) + 0),  # coils
+        'C_22_1_11_4_in': IN.nmod * ((IN.labor_rate * 30 * construction_worker) + 0),  # supplementary heating
+        'C_22_1_11_5_in': IN.nmod * ((IN.labor_rate * 60 * construction_worker) + 0),  # primary structure
+        'C_22_1_11_6_in': IN.nmod * ((IN.labor_rate * 200 * construction_worker) + 0),  # vacuum system
+        'C_22_1_11_7_in': IN.nmod * ((IN.labor_rate * 400 * construction_worker) + 0),  # power supplies
+        'C_22_1_11_8_in': 0,  # guns
+        'C_22_1_11_9_in': IN.nmod * ((IN.labor_rate * 200 * construction_worker) + 0),  # direct energy converter
+        'C_22_1_11_10_in': 0,  # ECRH
+    }
 
     # Total cost calculations
-    OUT.C220111 = M_USD(
-        C_22_1_11_in + C_22_1_11_1_in + C_22_1_11_2_in + C_22_1_11_3_in + C_22_1_11_4_in + C_22_1_11_5_in
-        + C_22_1_11_6_in + C_22_1_11_7_in + C_22_1_11_8_in + C_22_1_11_9_in + C_22_1_11_10_in)
-    return OUT
+    OUT.C220111 = M_USD(sum(costs.values()))
+    OUT.template_file = CAS_220111_TEX
+    OUT.replacements = {
+        'C220111': str(OUT.C220111),
+        'constructionTime': round(inputs.basic.construction_time),
+    }
 
 
 def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
@@ -899,11 +909,10 @@ def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
 
 
 def compute_2201_total(data: Data):
-    OUT = data.cas22
     # Cost category 22.1 total
-    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                        + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
-                        + data.cas220107.C220107 + OUT.C220111)
+    data.cas22.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
+                               + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
+                               + data.cas220107.C220107 + data.cas220111.C220111)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:
