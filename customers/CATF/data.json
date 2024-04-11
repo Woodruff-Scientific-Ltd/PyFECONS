@@ -119,23 +119,6 @@
     "cas22": {
         "replacements": {},
         "template_file": null,
-        "C220108": 132.7129374034226,
-        "divertor_maj_rad": 3.8,
-        "divertor_min_rad": 1.1999999999999993,
-        "divertor_thickness_z": 0.2,
-        "divertor_thickness_r": 2.3999999999999986,
-        "divertor_material": {
-            "name": "Tungsten",
-            "rho": 19300,
-            "c": null,
-            "c_raw": 100,
-            "m": 3,
-            "sigma": null
-        },
-        "divertor_vol": 22.921060000591122,
-        "divertor_mass": 442376.4580114087,
-        "divertor_mat_cost": 44237645.80114087,
-        "divertor_cost": 132712937.4034226,
         "C220109": 288.1813686725774,
         "scaled_direct_energy_costs": {
             "EXPANDER_TANK": 5.656854249492379,
@@ -1007,6 +990,35 @@
         "C22010701": 2.0,
         "C22010702": 1401.9200000000003,
         "C220107": 1403.9200000000003
+    },
+    "cas220108": {
+        "replacements": {
+            "C220108": 133,
+            "divertorMajRad": 4,
+            "divertorMinRad": 1,
+            "divertorThicknessZ": 0,
+            "divertorMaterial": "Tungsten",
+            "divertorVol": 23,
+            "divertorMass": 442376
+        },
+        "template_file": "CAS220108_MFE.tex",
+        "C220108": 132.7129374034226,
+        "divertor_maj_rad": 3.8,
+        "divertor_min_rad": 1.1999999999999993,
+        "divertor_thickness_z": 0.2,
+        "divertor_thickness_r": 2.3999999999999986,
+        "divertor_material": {
+            "name": "Tungsten",
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "divertor_vol": 22.921060000591122,
+        "divertor_mass": 442376.4580114087,
+        "divertor_mat_cost": 44237645.80114087,
+        "divertor_cost": 132712937.4034226
     },
     "cas23": {
         "C230000": 5674.2

@@ -16,6 +16,7 @@ CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
 CAS_220107_MFE_TEX = 'CAS220107_MFE.tex'
+CAS_220108_MFE_TEX = 'CAS220108_MFE.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -27,7 +28,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220105_primary_structure(inputs, data)
     compute_220106_vacuum_system(inputs, data, figures)
     compute_220107_power_supplies(inputs, data)
-    compute_220108_divertor(inputs, data, figures)
+    compute_220108_divertor(inputs, data)
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
     compute_220119_scheduled_replacement_cost(OUT)
@@ -789,15 +790,19 @@ def compute_220107_power_supplies(inputs: Inputs, data: Data):
     }
 
 
-def compute_220108_divertor(inputs: Inputs, data: Data, figures: dict) -> CAS22:
-    OUT = data.cas22
+def compute_220108_divertor(inputs: Inputs, data: Data):
+    OUT = data.cas220108
+
     # 22.1.8 Divertor
     # Simple volumetric calculation based on reactor geometry, user input, and tungsten material
     # properties (see "materials" dictionary)
+    # TODO confirm this formula
     OUT.divertor_maj_rad = Meters(data.cas220101.coil_ir - data.cas220101.axis_ir)
     OUT.divertor_min_rad = Meters(data.cas220101.firstwall_ir - data.cas220101.axis_ir)
+    # TODO shouldn't 0.2 be a input?
     OUT.divertor_thickness_z = Meters(0.2)
     OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
+    # TODO does this vary? Should it be an input?
     OUT.divertor_material = inputs.materials.W  # Tungsten
 
     # volume of the divertor based on TF coil radius
@@ -808,7 +813,18 @@ def compute_220108_divertor(inputs: Inputs, data: Data, figures: dict) -> CAS22:
     OUT.divertor_mat_cost = M_USD(OUT.divertor_mass * OUT.divertor_material.c_raw)
     OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m)
     OUT.C220108 = M_USD(OUT.divertor_cost / 1e6)
-    return OUT
+
+    OUT.template_file = CAS_220108_MFE_TEX
+    OUT.replacements = {
+        'C220108': round(OUT.C220108),
+        # All of these are not in the templateo
+        'divertorMajRad': round(OUT.divertor_maj_rad),
+        'divertorMinRad': round(OUT.divertor_min_rad),
+        'divertorThicknessZ': round(OUT.divertor_thickness_z),
+        'divertorMaterial': OUT.divertor_material.name,
+        'divertorVol': round(OUT.divertor_vol),
+        'divertorMass': round(OUT.divertor_mass),
+    }
 
 
 def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergyConverter, OUT: CAS22) -> CAS22:
