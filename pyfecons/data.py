@@ -184,7 +184,7 @@ class CAS220103(TemplateProvider):
     C22010303: M_USD = None  # PF coils
     C22010304: M_USD = None  # Shim coil costs, taken as 5% total primary magnet costs
     C22010305: M_USD = None  # Structural cost
-    C22010306: M_USD = None  # ?
+    C22010306: M_USD = None  # Cooling cost
     C220103: M_USD = None  # Total cost
 
     def __post_init__(self):
@@ -236,8 +236,8 @@ class VesselCosts:
     door_frames: VesselCost = field(default_factory=VesselCost)
     port_enclosures: VesselCost = field(default_factory=VesselCost)
     total: VesselCost = field(default_factory=VesselCost)
-    contingency: VesselCost = field(default_factory=VesselCost)  # 20%
-    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)  # 12%
+    contingency: VesselCost = field(default_factory=VesselCost)
+    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)
     total_subsystem_cost: VesselCost = field(default_factory=VesselCost)
 
 

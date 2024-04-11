@@ -80,9 +80,8 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
     OUT.gap2_or = OUT.gap2_ir + IN.gap2_t
     OUT.bioshield_or = OUT.bioshield_ir + IN.bioshield_t  # Updated bioshield outer radius
 
-    # Volumes for torus
     def calc_volume_torus(inner, outer):
-        return np.pi * IN.axis_t * (inner + outer) ** 2  # V_tok_b	= pi*L*(a_tok + d)^2 - V_tok_p;
+        return Meters3(2 * np.pi * IN.axis_t * np.pi * (inner + outer) ** 2)
 
     OUT.axis_vol = 0.0
     OUT.plasma_vol = Meters3(IN.elon * calc_volume_torus(OUT.plasma_ir, IN.plasma_t) - OUT.axis_vol)
@@ -111,16 +110,15 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
                                 - sum([OUT.vessel_vol, OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol,
                                        OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol,
                                        OUT.plasma_vol, OUT.axis_vol]))
-    # TODO - what are these constants: 9, 0.779, 40?
-    OUT.coil_vol = Meters3(calc_volume_torus(OUT.coil_ir, IN.coil_t) * (9 * 0.779) / 40)
+    OUT.coil_vol = Meters3(calc_volume_torus(OUT.coil_ir, IN.coil_t) * 0.5)
 
-    # Volumes for sphere
-    def calc_volume_sphere(inner, outer):
-        return 4 / 3 * np.pi * (outer ** 3 - inner ** 3)
+    def calc_volume_ring(height: Meters, outer: Meters, inner: Meters) -> Meters3:
+        return Meters3(height * np.pi * (outer ** 2 - inner ** 2))
 
-    # TODO - debug why these are returning negative volumes
-    OUT.gap2_vol = calc_volume_sphere(OUT.gap2_ir, IN.gap2_t)  # must be cylindrical in all cases
-    OUT.bioshield_vol = calc_volume_sphere(OUT.bioshield_ir, IN.bioshield_t)  # Updated bioshield volume
+    # must be cylindrical in all cases
+    OUT.gap2_vol = calc_volume_ring(IN.axis_t, IN.gap2_t + OUT.gap2_ir, OUT.gap2_ir)
+    # Updated bioshield volume
+    OUT.bioshield_vol = calc_volume_ring(IN.axis_t, IN.bioshield_t + OUT.bioshield_ir, OUT.bioshield_ir)
 
     # First wall
     if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
@@ -680,16 +678,6 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     build = data.cas220101
 
     # 22.1.6.1 Vacuum Vessel
-    # Parameters
-    middle_length = build.vacuum_ir  # Middle part length in meters
-    middle_diameter = 2 * build.vessel_ir  # Middle part diameter in meters
-    end_length = IN.end_length  # End parts length in meters (each)
-    # TODO why is this times 3?
-    end_diameter = 3 * build.vessel_ir  # End parts diameter in meters
-    # TODO what is 0.022?
-    fillet_radius = 0.022 * middle_length  # Fillet radius in meters, adjust as necessary
-    thickness = IN.thickness  # Thickness in meters
-
     # from radial build
     syst_spool_ir = build.axis_ir - (build.vessel_ir - build.axis_ir) * 0.5  # Spool inner radius (goes around CS)
     syst_doors_ir = build.vessel_ir  # doors inner radius (goes within TF)
@@ -735,7 +723,7 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
         OUT.vessel_costs.total.total_cost += cost.total_mass
 
     # Calculate new contingency and prime contractor fee based on updated total cost
-    total_cost = OUT.vessel_costs.total.total_cost / 1e6
+    total_cost = OUT.vessel_costs.total.total_cost
     OUT.vessel_costs.contingency.total_cost = total_cost * 0.20  # 20%
     OUT.vessel_costs.prime_contractor_fee.total_cost = total_cost * 0.12  # 12%
 
@@ -747,9 +735,9 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     # Calculate mass and cost
     OUT.massstruct = OUT.vessel_costs.total.total_mass
     OUT.vesvol = np.pi * (syst_doors_ir ** 2 - syst_spool_ir ** 2) * syst_height
-    OUT.C22010601 = M_USD(OUT.vessel_costs.total_subsystem_cost.total_cost)
+    OUT.C22010601 = M_USD(OUT.vessel_costs.total_subsystem_cost.total_cost / 1e6)
 
-    # TODO why is this zero now?
+    # Now calculated in C22010306
     # COOLING 22.1.6.2
     OUT.C22010602 = M_USD(0)
 
@@ -762,10 +750,6 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     # from STARFIRE, only 1 needed
     # TODO where do these constants come from?
     OUT.C22010604 = M_USD(120000 * 2.85 / 1e6)
-
-    # TODO we have in the script to replace all the vessel_costs keys with values but we don't do this, is this correct?
-    # for var_name, var_value in vessel_base_costs.items():
-    #     overwrite_variable('CAS220106_MFE.tex', var_name, round_to_2(var_value))
 
     # TODO review these numbers because they seem really low, maybe some units are missing?
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)

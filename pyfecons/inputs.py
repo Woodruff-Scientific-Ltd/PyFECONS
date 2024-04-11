@@ -255,8 +255,6 @@ class PrimaryStructure():
 @dataclass
 class VacuumSystem:
     # 22.1.6.1 Vacuum Vessel
-    end_length: Meters = 8  # End parts length in meters (each)
-    thickness: Meters = 0.02
 
     # Scaling parameters INPUTS
     learning_credit: Ratio = 0.5

@@ -29,8 +29,6 @@ def Generate():
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
         coils=Coils(magnets=[
-            # TODO in code TF rCentre is defined as round((coil_ir-axis_ir),1), which doesn't exist at input definition
-            #  please clarify if we should do a special calculation for TF coil based on previous inputs
             Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), Meters(0.25), Meters(0.35), Ratio(0), 20, 5),
             Magnet('CS', MagnetType.CS, MagnetMaterialType.HTS_CICC, 1, Meters(0.18), Meters(0), Meters(0.2), Meters(6.3), Ratio(0), 20, 10),
             Magnet('PF1', MagnetType.PF, MagnetMaterialType.COPPER, 2, Meters(0.67), Meters(3.73), Meters(0.3), Meters(0.6), Ratio(0), 20, 2),

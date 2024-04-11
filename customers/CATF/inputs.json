@@ -438,8 +438,6 @@
         }
     },
     "vacuum_system": {
-        "end_length": 8,
-        "thickness": 0.02,
         "learning_credit": 0.5,
         "inflation_factor": 1.58,
         "spool_ir": 2.25,
