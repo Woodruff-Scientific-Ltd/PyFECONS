@@ -19,6 +19,7 @@ CAS_220107_MFE_TEX = 'CAS220107_MFE.tex'
 CAS_220108_MFE_TEX = 'CAS220108_MFE.tex'
 CAS_220109_TEX = 'CAS220109.tex'
 CAS_220111_TEX = 'CAS220111.tex'
+CAS_220119_TEX = 'CAS220119.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -33,7 +34,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220108_divertor(inputs, data)
     compute_220109_direct_energy_converter(inputs, data)
     compute_220111_installation_costs(inputs, data)
-    compute_220119_scheduled_replacement_cost(OUT)
+    compute_220119_scheduled_replacement_cost(data)
     compute_2201_total(data)
     compute_2202_main_and_secondary_coolant(inputs.basic, data.power_table, OUT)
     compute_2203_auxilary_cooling(inputs.basic, data.power_table, OUT)
@@ -902,10 +903,15 @@ def compute_220111_installation_costs(inputs: Inputs, data: Data):
     }
 
 
-def compute_220119_scheduled_replacement_cost(OUT: CAS22) -> CAS22:
+def compute_220119_scheduled_replacement_cost(data: Data):
     # Cost category 22.1.19 Scheduled Replacement Cost
+    OUT = data.cas220119
+    # TODO will this ever be non-zero?
     OUT.C220119 = M_USD(0)
-    return OUT
+    OUT.template_file = CAS_220119_TEX
+    OUT.replacements = {
+        'C220119': str(OUT.C220119)
+    }
 
 
 def compute_2201_total(data: Data):
