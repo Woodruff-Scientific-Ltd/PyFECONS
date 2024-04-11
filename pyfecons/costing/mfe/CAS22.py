@@ -5,7 +5,7 @@ import numpy as np
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs, Basic, Coils, Magnet, DirectEnergyConverter, Installation, FuelHandling
+from pyfecons.inputs import Inputs, Basic, Coils, Magnet, Installation, FuelHandling
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable, VesselCosts, VesselCost
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
@@ -17,6 +17,7 @@ CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
 CAS_220107_MFE_TEX = 'CAS220107_MFE.tex'
 CAS_220108_MFE_TEX = 'CAS220108_MFE.tex'
+CAS_220109_TEX = 'CAS220109.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -29,7 +30,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220106_vacuum_system(inputs, data, figures)
     compute_220107_power_supplies(inputs, data)
     compute_220108_divertor(inputs, data)
-    compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
+    compute_220109_direct_energy_converter(inputs, data)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
     compute_220119_scheduled_replacement_cost(OUT)
     compute_2201_total(data)
@@ -827,15 +828,43 @@ def compute_220108_divertor(inputs: Inputs, data: Data):
     }
 
 
-def compute_220109_direct_energy_converter(direct_energy_converter: DirectEnergyConverter, OUT: CAS22) -> CAS22:
+def compute_220109_direct_energy_converter(inputs: Inputs, data: Data):
     # 22.1.9 Direct Energy Converter
-    # lambda function to compute scaled costs in these calculations
-    scaled_cost = lambda cost: (cost * direct_energy_converter.system_power
-                                * (1 / math.sqrt(direct_energy_converter.flux_limit)) ** 3)
-    OUT.scaled_direct_energy_costs = {key: M_USD(scaled_cost(value)) for key, value in
-                                      direct_energy_converter.costs.items()}
-    OUT.C220109 = M_USD(sum(OUT.scaled_direct_energy_costs.values()))
-    return OUT
+    IN = inputs.direct_energy_converter
+    OUT = data.cas220109
+
+    # Subsystem costs
+    OUT.costs = {
+        "expandertank": M_USD(16),
+        "expandercoilandneutrontrapcoil": M_USD(33),
+        "convertoegatevalve": M_USD(0.1),
+        "neutrontrapshielding": M_USD(1),
+        "vacuumsystem": M_USD(16),
+        "gridsystem": M_USD(27),
+        "heatcollectionsystem": M_USD(6),
+        "electricaleqpmt": M_USD(13),
+        "costperunit": M_USD(112),
+        "totaldeunitcost": M_USD(447),
+        "engineering15percent": M_USD(67),
+        "contingency15percent": M_USD(77),
+    }
+
+    if inputs.basic.noak:
+        OUT.costs["contingency15percent"] = M_USD(0)
+
+    def scaled_cost(cost: M_USD) -> M_USD:
+        return M_USD(cost * IN.system_power * (1 / math.sqrt(IN.flux_limit)) ** 3)
+
+    OUT.scaled_costs = {key: M_USD(scaled_cost(value)) for key, value in OUT.costs.items()}
+    # TODO verify this right now the script pulls "totaldecost": 591, which is not the sum of the parts
+    # OUT.C220109 = M_USD(sum(OUT.scaled_costs.values()))
+    # TODO why is this zero?
+    OUT.C220109 = M_USD(0)
+
+    OUT.template_file = CAS_220109_TEX
+    OUT.replacements = {key: round(value, 1) for key, value in OUT.scaled_costs.items()}
+    OUT.replacements['totaldecost'] = round(M_USD(sum(OUT.scaled_costs.values())), 1)
+    OUT.replacements['C220109'] = OUT.C220109
 
 
 def compute_220111_installation_costs(basic: Basic, installation: Installation, OUT: CAS22) -> CAS22:

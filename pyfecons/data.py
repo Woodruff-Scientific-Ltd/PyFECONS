@@ -279,10 +279,15 @@ class CAS220108(TemplateProvider):
 
 
 @dataclass
-class CAS22(TemplateProvider):
+class CAS220109(TemplateProvider):
     # 22.1.9 Direct Energy Converter
     C220109: M_USD = None
-    scaled_direct_energy_costs: dict[str, M_USD] = None
+    costs: dict[str, M_USD] = None
+    scaled_costs: dict[str, M_USD] = None
+
+
+@dataclass
+class CAS22(TemplateProvider):
 
     # Cost Category 22.1.11 Installation costs
     C220111: M_USD = None
@@ -452,6 +457,7 @@ class Data(SerializableToJSON):
     cas220106: CAS220106 = field(default_factory=CAS220106)
     cas220107: CAS220107 = field(default_factory=CAS220107)
     cas220108: CAS220108 = field(default_factory=CAS220108)
+    cas220109: CAS220109 = field(default_factory=CAS220109)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)
