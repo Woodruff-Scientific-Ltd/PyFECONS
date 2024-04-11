@@ -916,9 +916,10 @@ def compute_220119_scheduled_replacement_cost(data: Data):
 
 def compute_2201_total(data: Data):
     # Cost category 22.1 total
+    # TODO - I added C220119 since it's zero now, is this OK?
     data.cas22.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
                                + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
-                               + data.cas220107.C220107 + data.cas220111.C220111)
+                               + data.cas220107.C220107 + data.cas220111.C220111 + data.cas220119.C220119)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:
