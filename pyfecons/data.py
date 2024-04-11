@@ -254,12 +254,17 @@ class CAS220106(TemplateProvider):
     vesmatcost: float = None
     vessel_costs: VesselCosts = field(default_factory=VesselCosts)
 
-@dataclass
-class CAS22(TemplateProvider):
 
+@dataclass
+class CAS220107(TemplateProvider):
     # Cost Category 22.1.7 Power supplies
+    C22010701: M_USD = None  # Power supplies for confinement
+    C22010702: M_USD = None
     C220107: M_USD = None
 
+
+@dataclass
+class CAS22(TemplateProvider):
     # 22.1.8 Divertor
     C220108: M_USD = None
     divertor_maj_rad: Meters = None
@@ -442,6 +447,7 @@ class Data(SerializableToJSON):
     cas220104: CAS220104 = field(default_factory=CAS220104)
     cas220105: CAS220105 = field(default_factory=CAS220105)
     cas220106: CAS220106 = field(default_factory=CAS220106)
+    cas220107: CAS220107 = field(default_factory=CAS220107)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

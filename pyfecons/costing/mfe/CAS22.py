@@ -5,8 +5,7 @@ import numpy as np
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import (Inputs, Basic, Coils, Magnet, PowerSupplies,
-                             DirectEnergyConverter, Installation, FuelHandling)
+from pyfecons.inputs import Inputs, Basic, Coils, Magnet, DirectEnergyConverter, Installation, FuelHandling
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable, VesselCosts, VesselCost
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
@@ -16,6 +15,7 @@ CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror
 CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
+CAS_220107_MFE_TEX = 'CAS220107_MFE.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -26,7 +26,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_220104_supplementary_heating(inputs, data)
     compute_220105_primary_structure(inputs, data)
     compute_220106_vacuum_system(inputs, data, figures)
-    compute_220107_power_supplies(inputs.basic, inputs.power_supplies, OUT)
+    compute_220107_power_supplies(inputs, data)
     compute_220108_divertor(inputs, data, figures)
     compute_220109_direct_energy_converter(inputs.direct_energy_converter, OUT)
     compute_220111_installation_costs(inputs.basic, inputs.installation, OUT)
@@ -767,12 +767,26 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     }
 
 
-def compute_220107_power_supplies(basic: Basic, power_supplies: PowerSupplies, OUT: CAS22):
+def compute_220107_power_supplies(inputs: Inputs, data: Data):
+    IN = inputs.power_supplies
+    OUT = data.cas220107
+
     # Cost Category 22.1.7 Power supplies
+    OUT.C22010701 = M_USD(data.power_table.p_coils * IN.cost_per_watt)
+
     # Scaled relative to ITER for a 500MW fusion power system
-    cost_in_kiua = 269.6 * basic.p_nrl / 500 * power_supplies.learning_credit
-    OUT.C220107 = M_USD(cost_in_kiua * 2)  # assuming 1kIUA equals $2 M
-    return OUT
+    # assuming 1kIUA equals $2 M #cost in kIUA
+    # TODO where does 269.6 come from?
+    OUT.C22010702 = M_USD(269.6 * inputs.basic.p_nrl / 500 * IN.learning_credit * 2)
+    OUT.C220107 = M_USD(OUT.C22010701 + OUT.C22010702)
+
+    OUT.template_file = CAS_220107_MFE_TEX
+    OUT.replacements = {
+        'C22010700': round(OUT.C220107),
+        'C22010701': round(OUT.C22010701),
+        'C22010702': round(OUT.C22010702),
+        'PNRL': round(inputs.basic.p_nrl),
+    }
 
 
 def compute_220108_divertor(inputs: Inputs, data: Data, figures: dict) -> CAS22:
@@ -843,8 +857,8 @@ def compute_2201_total(data: Data):
     OUT = data.cas22
     # Cost category 22.1 total
     OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                        + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106 + OUT.C220107
-                        + OUT.C220111)
+                        + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
+                        + data.cas220107.C220107 + OUT.C220111)
 
 
 def compute_2202_main_and_secondary_coolant(basic: Basic, power_table: PowerTable, OUT: CAS22) -> CAS22:

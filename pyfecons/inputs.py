@@ -281,6 +281,7 @@ class VacuumSystem:
 @dataclass
 class PowerSupplies:
     learning_credit: Unknown = 0.5
+    cost_per_watt: Unknown = 1  # $1/W power supply rule of thumb
 
 
 @dataclass

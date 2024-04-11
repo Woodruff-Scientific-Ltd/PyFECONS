@@ -451,7 +451,8 @@
         "vpump_cap": 4.166666666666667
     },
     "power_supplies": {
-        "learning_credit": 0.5
+        "learning_credit": 0.5,
+        "cost_per_watt": 1
     },
     "direct_energy_converter": {
         "system_power": 1,
