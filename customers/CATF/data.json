@@ -1077,8 +1077,8 @@
     },
     "cas2205": {
         "replacements": {
-            "LEARNING_CURVE_CREDIT": 0.8,
-            "LEARNING_TENTH_OF_A_KIND": 0.4765098748902245,
+            "lcredit": 0.8,
+            "ltoak": 0.4765098748902245,
             "C2205010ITER": 29.26495,
             "C2205020ITER": 10.01,
             "C2205030ITER": 32.190729999999995,

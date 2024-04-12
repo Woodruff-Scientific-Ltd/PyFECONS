@@ -1017,8 +1017,8 @@ def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data):
 
     OUT.template_file = CAS_220500_DT_TEX
     OUT.replacements = {
-        'LEARNING_CURVE_CREDIT': IN.learning_curve_credit,
-        'LEARNING_TENTH_OF_A_KIND': IN.learning_tenth_of_a_kind,
+        'lcredit': IN.learning_curve_credit,
+        'ltoak': IN.learning_tenth_of_a_kind,
         'C2205010ITER': OUT.C2205010ITER,
         'C2205020ITER': OUT.C2205020ITER,
         'C2205030ITER': OUT.C2205030ITER,
