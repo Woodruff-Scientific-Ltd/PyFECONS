@@ -23,7 +23,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         'C220111': data.cas220111.C220111,
         'C220119': data.cas220119.C220119,
         'C220200': data.cas2202.C220200,
-        'C220300': data.cas22.C220300,
+        'C220300': data.cas2203.C220300,
         'C220400': data.cas22.C220400,
         'C220500': data.cas22.C220500,
         'C220600': data.cas22.C220600,
