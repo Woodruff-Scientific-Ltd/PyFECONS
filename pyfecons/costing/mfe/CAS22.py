@@ -22,6 +22,7 @@ CAS_220111_TEX = 'CAS220111.tex'
 CAS_220119_TEX = 'CAS220119.tex'
 CAS_220200_DT_TEX = 'CAS220200_DT.tex'
 CAS_220300_TEX = 'CAS220300.tex'
+CAS_220400_TEX = 'CAS220400.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -40,7 +41,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2201_total(data)
     compute_2202_main_and_secondary_coolant(inputs, data)
     compute_2203_auxilary_cooling(inputs, data)
-    compute_2204_radwaste(data.power_table, OUT)
+    compute_2204_radwaste(data)
     compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
     compute_2206_other_reactor_plant_equipment(data.power_table, OUT)
     compute_2207_instrumentation_and_control(OUT)
@@ -975,13 +976,17 @@ def compute_2203_auxilary_cooling(inputs: Inputs, data: Data):
     }
 
 
-def compute_2204_radwaste(power_table: PowerTable, OUT: CAS22) -> CAS22:
+def compute_2204_radwaste(data: Data):
     # Cost Category 22.4 Radwaste
+    OUT = data.cas2204
     # Radioactive waste treatment
     # the CPI scaling of 1.96 comes from: https://www.bls.gov/data/inflation_calculator.htm
     # scaled relative to 1992 dollars (despite 2003 publication date)
-    OUT.C220400 = M_USD(1.96 * 1e-3 * power_table.p_th * 2.02)
-    return OUT
+    OUT.C220400 = M_USD(1.96 * 1e-3 * data.power_table.p_th * 2.02)
+    OUT.template_file = CAS_220400_TEX
+    OUT.replacements = {
+        'C220400': str(data.cas2204.C220400)
+    }
 
 
 def compute_2205_fuel_handling_and_storage(fuel_handling: FuelHandling, OUT: CAS22) -> CAS22:
@@ -1024,5 +1029,5 @@ def compute_2207_instrumentation_and_control(OUT: CAS22) -> CAS22:
 def compute_2200_reactor_plant_equipment_total(data: Data):
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
-    OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + OUT.C220400 + OUT.C220500
-                        + OUT.C220600 + OUT.C220700)
+    OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400
+                        + OUT.C220500 + OUT.C220600 + OUT.C220700)

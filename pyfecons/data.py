@@ -314,12 +314,15 @@ class CAS2203(TemplateProvider):
 
 
 @dataclass
+class CAS2204(TemplateProvider):
+    # Cost Category 22.4 Radwaste
+    C220400: M_USD = None
+
+
+@dataclass
 class CAS22(TemplateProvider):
     # Cost category 22.1 total
     C220100: M_USD = None
-
-    # Cost Category 22.4 Radwaste
-    C220400: M_USD = None
 
     # Cost Category 22.5 Fuel Handling and Storage
     C2205010ITER: M_USD = None
@@ -473,6 +476,7 @@ class Data(SerializableToJSON):
     cas220119: CAS220119 = field(default_factory=CAS220119)
     cas2202: CAS2202 = field(default_factory=CAS2202)
     cas2203: CAS2203 = field(default_factory=CAS2203)
+    cas2204: CAS2204 = field(default_factory=CAS2204)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)
