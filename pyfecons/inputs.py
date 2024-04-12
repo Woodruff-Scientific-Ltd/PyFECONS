@@ -301,11 +301,11 @@ class Installation:
 class FuelHandling:
     inflation: Ratio = 1.43
     learning_curve_credit: Ratio = 0.8
-    learning_tenth_of_a_kind: Unknown = None
+    learning_tenth_of_a_kind: Ratio = None
 
     def __post_init__(self):
         if self.learning_tenth_of_a_kind is None:
-            self.learning_tenth_of_a_kind = Unknown(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
+            self.learning_tenth_of_a_kind = Ratio(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
 
 
 @dataclass

@@ -1,14 +1,15 @@
 from importlib import resources
 
 from pyfecons import Materials
-from pyfecons.inputs import Inputs, Basic, Blanket, FuelHandling, LsaLevels
+from pyfecons.inputs import Inputs, Basic, Blanket, LsaLevels
 from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
 from pyfecons.costing.mfe.CAS22 import (GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX, CAS_220102_TEX
 , CAS_220103_MIF_DT_MIRROR, CAS_220104_MFE_DT, CAS_220105_TEX, CAS_220106_MFE_TEX, CAS_220107_MFE_TEX
-, CAS_220108_MFE_TEX, CAS_220109_TEX, CAS_220111_TEX, CAS_220119_TEX, CAS_220200_DT_TEX, CAS_220300_TEX, CAS_220400_TEX)
+, CAS_220108_MFE_TEX, CAS_220109_TEX, CAS_220111_TEX, CAS_220119_TEX, CAS_220200_DT_TEX, CAS_220300_TEX, CAS_220400_TEX
+, CAS_220500_DT_TEX)
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -27,7 +28,6 @@ from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_220500_TEX = 'CAS220500.tex'
 CAS_220600_TEX = 'CAS220600.tex'
 CAS_220700_TEX = 'CAS220700.tex'
 CAS_220000_TEX = 'CAS220000.tex'
@@ -66,7 +66,7 @@ TEMPLATE_FILES = [
     CAS_220200_DT_TEX,
     CAS_220300_TEX,
     CAS_220400_TEX,
-    CAS_220500_TEX,
+    CAS_220500_DT_TEX,
     CAS_220600_TEX,
     CAS_220700_TEX,
     CAS_220000_TEX,
@@ -130,27 +130,6 @@ def read_template(template_file: str) -> str:
         with open(template_path, 'r') as file:
             template_content = file.read()
     return template_content
-
-
-def compute_cas_220500_replacements(fuel_handling: FuelHandling, cas22: CAS22) -> dict[str, str]:
-    return {
-        'LEARNING_CURVE_CREDIT': fuel_handling.learning_curve_credit,
-        'LEARNING_TENTH_OF_A_KIND': fuel_handling.learning_tenth_of_a_kind,
-        'C2205010ITER': cas22.C2205010ITER,
-        'C2205020ITER': cas22.C2205020ITER,
-        'C2205030ITER': cas22.C2205030ITER,
-        'C2205040ITER': cas22.C2205040ITER,
-        'C2205050ITER': cas22.C2205050ITER,
-        'C2205060ITER': cas22.C2205060ITER,
-        'C22050ITER': cas22.C22050ITER,
-        'C220501': cas22.C220501,
-        'C220502': cas22.C220502,
-        'C220503': cas22.C220503,
-        'C220504': cas22.C220504,
-        'C220505': cas22.C220505,
-        'C220506': cas22.C220506,
-        'C220500': cas22.C220500,
-    }
 
 
 def compute_cas_220000_replacements(materials: Materials, cas22: CAS22) -> dict[str, str]:
@@ -308,8 +287,8 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
         return data.cas2203.replacements
     elif template == CAS_220400_TEX:
         return data.cas2204.replacements
-    elif template == CAS_220500_TEX:
-        return compute_cas_220500_replacements(inputs.fuel_handling, data.cas22)
+    elif template == CAS_220500_DT_TEX:
+        return data.cas2205.replacements
     elif template == CAS_220600_TEX:
         return {'C220600': str(data.cas22.C220600)}
     elif template == CAS_220700_TEX:

@@ -5,7 +5,7 @@ import numpy as np
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs, Coils, Magnet, FuelHandling
+from pyfecons.inputs import Inputs, Coils, Magnet
 from pyfecons.data import Data, CAS22, MagnetProperties, PowerTable, VesselCosts, VesselCost
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
@@ -23,6 +23,7 @@ CAS_220119_TEX = 'CAS220119.tex'
 CAS_220200_DT_TEX = 'CAS220200_DT.tex'
 CAS_220300_TEX = 'CAS220300.tex'
 CAS_220400_TEX = 'CAS220400.tex'
+CAS_220500_DT_TEX = 'CAS220500_DT.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -42,7 +43,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2202_main_and_secondary_coolant(inputs, data)
     compute_2203_auxilary_cooling(inputs, data)
     compute_2204_radwaste(data)
-    compute_2205_fuel_handling_and_storage(inputs.fuel_handling, OUT)
+    compute_2205_fuel_handling_and_storage(inputs, data)
     compute_2206_other_reactor_plant_equipment(data.power_table, OUT)
     compute_2207_instrumentation_and_control(OUT)
     compute_2200_reactor_plant_equipment_total(data)
@@ -989,28 +990,50 @@ def compute_2204_radwaste(data: Data):
     }
 
 
-def compute_2205_fuel_handling_and_storage(fuel_handling: FuelHandling, OUT: CAS22) -> CAS22:
+def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data):
     # Cost Category 22.5 Fuel Handling and Storage
-    OUT.C2205010ITER = M_USD(20.465 * fuel_handling.inflation)
-    OUT.C2205020ITER = M_USD(7 * fuel_handling.inflation)
-    OUT.C2205030ITER = M_USD(22.511 * fuel_handling.inflation)
-    OUT.C2205040ITER = M_USD(9.76 * fuel_handling.inflation)
-    OUT.C2205050ITER = M_USD(22.826 * fuel_handling.inflation)
-    OUT.C2205060ITER = M_USD(47.542 * fuel_handling.inflation)
+    IN = inputs.fuel_handling
+    OUT = data.cas2205
+
+    # TODO where do these constants come from?
+    OUT.C2205010ITER = M_USD(20.465 * IN.inflation)
+    OUT.C2205020ITER = M_USD(7 * IN.inflation)
+    OUT.C2205030ITER = M_USD(22.511 * IN.inflation)
+    OUT.C2205040ITER = M_USD(9.76 * IN.inflation)
+    OUT.C2205050ITER = M_USD(22.826 * IN.inflation)
+    OUT.C2205060ITER = M_USD(47.542 * IN.inflation)
     # ITER inflation cost
     OUT.C22050ITER = M_USD(OUT.C2205010ITER + OUT.C2205020ITER + OUT.C2205030ITER
                            + OUT.C2205040ITER + OUT.C2205050ITER + OUT.C2205060ITER)
 
-    OUT.C220501 = M_USD(OUT.C2205010ITER * fuel_handling.learning_tenth_of_a_kind)
-    OUT.C220502 = M_USD(OUT.C2205020ITER * fuel_handling.learning_tenth_of_a_kind)
-    OUT.C220503 = M_USD(OUT.C2205030ITER * fuel_handling.learning_tenth_of_a_kind)
-    OUT.C220504 = M_USD(OUT.C2205040ITER * fuel_handling.learning_tenth_of_a_kind)
-    OUT.C220505 = M_USD(OUT.C2205050ITER * fuel_handling.learning_tenth_of_a_kind)
-    OUT.C220506 = M_USD(OUT.C2205060ITER * fuel_handling.learning_tenth_of_a_kind)
+    OUT.C220501 = M_USD(OUT.C2205010ITER * IN.learning_tenth_of_a_kind)
+    OUT.C220502 = M_USD(OUT.C2205020ITER * IN.learning_tenth_of_a_kind)
+    OUT.C220503 = M_USD(OUT.C2205030ITER * IN.learning_tenth_of_a_kind)
+    OUT.C220504 = M_USD(OUT.C2205040ITER * IN.learning_tenth_of_a_kind)
+    OUT.C220505 = M_USD(OUT.C2205050ITER * IN.learning_tenth_of_a_kind)
+    OUT.C220506 = M_USD(OUT.C2205060ITER * IN.learning_tenth_of_a_kind)
     # ITER inflation cost
     OUT.C220500 = M_USD(OUT.C220501 + OUT.C220502 + OUT.C220503 + OUT.C220504 + OUT.C220505 + OUT.C220506)
 
-    return OUT
+    OUT.template_file = CAS_220500_DT_TEX
+    OUT.replacements = {
+        'LEARNING_CURVE_CREDIT': IN.learning_curve_credit,
+        'LEARNING_TENTH_OF_A_KIND': IN.learning_tenth_of_a_kind,
+        'C2205010ITER': OUT.C2205010ITER,
+        'C2205020ITER': OUT.C2205020ITER,
+        'C2205030ITER': OUT.C2205030ITER,
+        'C2205040ITER': OUT.C2205040ITER,
+        'C2205050ITER': OUT.C2205050ITER,
+        'C2205060ITER': OUT.C2205060ITER,
+        'C22050ITER': OUT.C22050ITER,
+        'C220501': OUT.C220501,
+        'C220502': OUT.C220502,
+        'C220503': OUT.C220503,
+        'C220504': OUT.C220504,
+        'C220505': OUT.C220505,
+        'C220506': OUT.C220506,
+        'C220500': OUT.C220500,
+    }
 
 
 def compute_2206_other_reactor_plant_equipment(power_table: PowerTable, OUT: CAS22):
@@ -1030,4 +1053,4 @@ def compute_2200_reactor_plant_equipment_total(data: Data):
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
     OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400
-                        + OUT.C220500 + OUT.C220600 + OUT.C220700)
+                        + data.cas2205.C220500 + OUT.C220600 + OUT.C220700)
