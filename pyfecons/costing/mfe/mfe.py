@@ -10,7 +10,7 @@ from pyfecons.costing.mfe.CAS22 import (GenerateData as CAS22Data, CAS_220101_MF
 , CAS_220108_MFE_TEX, CAS_220109_TEX, CAS_220111_TEX, CAS_220119_TEX, CAS_220200_DT_TEX, CAS_220300_TEX, CAS_220400_TEX
 , CAS_220500_DT_TEX, CAS_220600_TEX, CAS_220700_TEX, CAS_220000_TEX)
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data, CAS_230000_TEX
-from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
+from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data, CAS_240000_TEX
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
 from pyfecons.costing.mfe.CAS26 import GenerateData as CAS26Data
 from pyfecons.costing.mfe.CAS27 import GenerateData as CAS27Data
@@ -27,7 +27,6 @@ from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
 CAS_260000_TEX = 'CAS260000.tex'
 CAS_270000_TEX = 'CAS270000.tex'
@@ -239,7 +238,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_230000_TEX:
         return data.cas23.replacements
     elif template == CAS_240000_TEX:
-        return {'C240000': str(data.cas24.C240000)}
+        return data.cas24.replacements
     elif template == CAS_250000_TEX:
         return {'C250000': str(data.cas25.C250000)}
     elif template == CAS_260000_TEX:
