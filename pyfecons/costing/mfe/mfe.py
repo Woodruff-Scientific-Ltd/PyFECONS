@@ -1,15 +1,14 @@
 from importlib import resources
 
-from pyfecons import Materials
 from pyfecons.inputs import Inputs, Basic, Blanket, LsaLevels
-from pyfecons.data import Data, CAS22, CAS30, CAS40, CAS50, CAS60, CAS80
+from pyfecons.data import Data, CAS30, CAS40, CAS50, CAS60, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
 from pyfecons.costing.mfe.CAS22 import (GenerateData as CAS22Data, CAS_220101_MFE_DT_TEX, CAS_220102_TEX
 , CAS_220103_MIF_DT_MIRROR, CAS_220104_MFE_DT, CAS_220105_TEX, CAS_220106_MFE_TEX, CAS_220107_MFE_TEX
 , CAS_220108_MFE_TEX, CAS_220109_TEX, CAS_220111_TEX, CAS_220119_TEX, CAS_220200_DT_TEX, CAS_220300_TEX, CAS_220400_TEX
-, CAS_220500_DT_TEX, CAS_220600_TEX, CAS_220700_TEX)
+, CAS_220500_DT_TEX, CAS_220600_TEX, CAS_220700_TEX, CAS_220000_TEX)
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -28,7 +27,6 @@ from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_220000_TEX = 'CAS220000.tex'
 CAS_230000_TEX = 'CAS230000.tex'
 CAS_240000_TEX = 'CAS240000.tex'
 CAS_250000_TEX = 'CAS250000.tex'
@@ -128,60 +126,6 @@ def read_template(template_file: str) -> str:
         with open(template_path, 'r') as file:
             template_content = file.read()
     return template_content
-
-
-def compute_cas_220000_replacements(materials: Materials, cas22: CAS22) -> dict[str, str]:
-    return {
-        'C220000': cas22.C220000,  # TODO - currently not in the template
-        'BFS_RHO': materials.BFS.rho,
-        'BFS_CRAW': materials.BFS.c_raw,
-        'BFS_M': materials.BFS.m,
-        'FS_RHO': materials.FS.rho,
-        'FS_CRAW': materials.FS.c_raw,
-        'FS_M': materials.FS.m,
-        'FS_SIGMA': materials.FS.sigma,
-        'LI4SIO4_RHO': materials.Li4SiO4.rho,
-        'LI4SIO4_CRAW': materials.Li4SiO4.c_raw,
-        'LI4SIO4_M': materials.Li4SiO4.m,
-        'FLIBE_RHO': materials.FliBe.rho,
-        'FLIBE_C': materials.FliBe.c,
-        'W_RHO': materials.W.rho,
-        'W_CRAW': materials.W.c_raw,
-        'W_M': materials.W.m,
-        'SIC_RHO': materials.SiC.rho,
-        'SIC_CRAW': materials.SiC.c_raw,
-        'SIC_M': materials.SiC.m,
-        'INCONEL_RHO': materials.Inconel.rho,
-        'INCONEL_CRAW': materials.Inconel.c_raw,
-        'INCONEL_M': materials.Inconel.m,
-        'CU_RHO': materials.Cu.rho,
-        'CU_CRAW': materials.Cu.c_raw,
-        'CU_M': materials.Cu.m,
-        'POLYIMIDE_RHO': materials.Polyimide.rho,
-        'POLYIMIDE_CRAW': materials.Polyimide.c_raw,
-        'POLYIMIDE_M': materials.Polyimide.m,
-        'YBCO_RHO': materials.YBCO.rho,
-        'YBCO_C': materials.YBCO.c,
-        'CONCRETE_RHO': materials.Concrete.rho,
-        'CONCRETE_CRAW': materials.Concrete.c_raw,
-        'CONCRETE_M': materials.Concrete.m,
-        'SS316_RHO': materials.SS316.rho,
-        'SS316_CRAW': materials.SS316.c_raw,
-        'SS316_M': materials.SS316.m,
-        'SS316_SIGMA': materials.SS316.sigma,
-        'NB3SN_C': materials.Nb3Sn.c,
-        'INCOLOY_RHO': materials.Incoloy.rho,
-        'INCOLOY_CRAW': materials.Incoloy.c_raw,
-        'INCOLOY_M': materials.Incoloy.m,
-        'PB_RHO': materials.Pb.rho,
-        'PB_CRAW': materials.Pb.c_raw,
-        'PB_M': round(materials.Pb.m, 2),
-        'PBLI_RHO': round(materials.PbLi.rho, 2),
-        'PBLI_C': round(materials.PbLi.c, 2),
-        'LI_RHO': materials.Li.rho,
-        'LI_CRAW': materials.Li.c_raw,
-        'LI_M': materials.Li.m,
-    }
 
 
 def compute_cas_300000_replacements(basic: Basic, cas30: CAS30) -> dict[str, str]:
@@ -292,7 +236,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_220700_TEX:
         return data.cas2207.replacements
     elif template == CAS_220000_TEX:
-        return compute_cas_220000_replacements(inputs.materials, data.cas22)
+        return data.cas22.replacements
     elif template == CAS_230000_TEX:
         return {'C230000': str(data.cas23.C230000)}
     elif template == CAS_240000_TEX:

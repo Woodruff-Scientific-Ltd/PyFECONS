@@ -26,6 +26,8 @@ CAS_220400_TEX = 'CAS220400.tex'
 CAS_220500_DT_TEX = 'CAS220500_DT.tex'
 CAS_220600_TEX = 'CAS220600.tex'
 CAS_220700_TEX = 'CAS220700.tex'
+CAS_220000_TEX = 'CAS220000.tex'
+
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -48,7 +50,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2205_fuel_handling_and_storage(inputs, data)
     compute_2206_other_reactor_plant_equipment(data)
     compute_2207_instrumentation_and_control(data)
-    compute_2200_reactor_plant_equipment_total(data)
+    compute_2200_reactor_plant_equipment_total(inputs, data)
 
 
 def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
@@ -1063,8 +1065,61 @@ def compute_2207_instrumentation_and_control(data: Data):
     }
 
 
-def compute_2200_reactor_plant_equipment_total(data: Data):
+def compute_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data):
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
     OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400
                         + data.cas2205.C220500 + data.cas2206.C220600 + data.cas2207.C220700)
+
+    OUT.template_file = CAS_220000_TEX
+    OUT.replacements = {
+        'C220000': data.cas22.C220000,  # TODO - not in the template
+        'FSrho': round(inputs.materials.FS.rho, 2),
+        'FScraw': round(inputs.materials.FS.c_raw, 2),
+        'FSm': round(inputs.materials.FS.m, 2),
+        'FSsigma': round(inputs.materials.FS.sigma, 2),
+        'Pbrho': round(inputs.materials.Pb.rho, 2),
+        'Pbcraw': round(inputs.materials.Pb.c_raw, 2),
+        'Pbm': round(inputs.materials.Pb.m, 2),
+        'Li4SiO4rho': round(inputs.materials.Li4SiO4.rho, 2),
+        'Li4SiO4craw': round(inputs.materials.Li4SiO4.c_raw, 2),
+        'Li4SiO4m': round(inputs.materials.Li4SiO4.m, 2),
+        'Fliberho': round(inputs.materials.FliBe.rho, 2),
+        'Flibec': round(inputs.materials.FliBe.c, 2),
+        'Wrho': round(inputs.materials.W.rho, 2),
+        'Wcraw': round(inputs.materials.W.c_raw, 2),
+        'Wm': round(inputs.materials.W.m, 2),
+        'Lirho': round(inputs.materials.Li.rho, 2),
+        'Licraw': round(inputs.materials.Li.c_raw, 2),
+        'Lim': round(inputs.materials.Li.m, 2),
+        'BFSrho': round(inputs.materials.BFS.rho, 2),
+        'BFScraw': round(inputs.materials.BFS.c_raw, 2),
+        'BFSm': round(inputs.materials.BFS.m, 2),
+        'PbLirho': round(inputs.materials.PbLi.rho, 2),
+        'PbLic': round(inputs.materials.PbLi.c, 2),
+        'SiCrho': round(inputs.materials.SiC.rho, 2),
+        'SiCcraw': round(inputs.materials.SiC.c_raw, 2),
+        'SiCm': round(inputs.materials.SiC.m, 2),
+        'Inconelrho': round(inputs.materials.Inconel.rho, 2),
+        'Inconelcraw': round(inputs.materials.Inconel.c_raw, 2),
+        'Inconelm': round(inputs.materials.Inconel.m, 2),
+        'Curho': round(inputs.materials.Cu.rho, 2),
+        'Cucraw': round(inputs.materials.Cu.c_raw, 2),
+        'Cum': round(inputs.materials.Cu.m, 2),
+        'Polyimiderho': round(inputs.materials.Polyimide.rho, 2),
+        'Polyimidecraw': round(inputs.materials.Polyimide.c_raw, 2),
+        'Polyimidem': round(inputs.materials.Polyimide.m, 2),
+        'YBCOrho': round(inputs.materials.YBCO.rho, 2),
+        'YBCOc': round(inputs.materials.YBCO.c, 2),
+        'Concreterho': round(inputs.materials.Concrete.rho, 2),
+        'Concretecraw': round(inputs.materials.Concrete.c_raw, 2),
+        'Concretem': round(inputs.materials.Concrete.m, 2),
+        'SS316rho': round(inputs.materials.SS316.rho, 2),
+        'SS316craw': round(inputs.materials.SS316.c_raw, 2),
+        'SS316m': round(inputs.materials.SS316.m, 2),
+        'SS316sigma': round(inputs.materials.SS316.sigma, 2),
+        'Nb3Snc': round(inputs.materials.Nb3Sn.c, 2),
+        'Incoloyrho': round(inputs.materials.Incoloy.rho, 2),
+        'Incoloycraw': round(inputs.materials.Incoloy.c_raw, 2),
+        'Incoloym': round(inputs.materials.Incoloy.m, 2),
+    }
