@@ -6,7 +6,7 @@ from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
 from pyfecons.inputs import Inputs, Coils, Magnet
-from pyfecons.data import Data, CAS22, MagnetProperties, VesselCosts, VesselCost
+from pyfecons.data import Data, MagnetProperties, VesselCosts, VesselCost
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
@@ -25,6 +25,7 @@ CAS_220300_TEX = 'CAS220300.tex'
 CAS_220400_TEX = 'CAS220400.tex'
 CAS_220500_DT_TEX = 'CAS220500_DT.tex'
 CAS_220600_TEX = 'CAS220600.tex'
+CAS_220700_TEX = 'CAS220700.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
@@ -46,7 +47,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     compute_2204_radwaste(data)
     compute_2205_fuel_handling_and_storage(inputs, data)
     compute_2206_other_reactor_plant_equipment(data)
-    compute_2207_instrumentation_and_control(OUT)
+    compute_2207_instrumentation_and_control(data)
     compute_2200_reactor_plant_equipment_total(data)
 
 
@@ -1050,14 +1051,20 @@ def compute_2206_other_reactor_plant_equipment(data: Data):
     }
 
 
-def compute_2207_instrumentation_and_control(OUT: CAS22) -> CAS22:
+def compute_2207_instrumentation_and_control(data: Data):
     # Cost Category 22.7 Instrumentation and Control
+    OUT = data.cas2207
+    # TODO where does the 85 come from?
     OUT.C220700 = M_USD(85)
-    return OUT
+
+    OUT.template_file = CAS_220700_TEX
+    OUT.replacements = {
+        'C220700': str(data.cas2207.C220700)
+    }
 
 
 def compute_2200_reactor_plant_equipment_total(data: Data):
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
     OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400
-                        + data.cas2205.C220500 + data.cas2206.C220600 + OUT.C220700)
+                        + data.cas2205.C220500 + data.cas2206.C220600 + data.cas2207.C220700)
