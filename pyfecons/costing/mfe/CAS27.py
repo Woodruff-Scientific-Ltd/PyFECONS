@@ -1,37 +1,48 @@
+from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.enums import BlanketPrimaryCoolant
 
+CAS_270000_TEX = 'CAS270000.tex'
+
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     # Cost Category 27 Special Materials
-
-    # "Assuming the values for c_Flibe, c_Pb, c_Li, and MLM are defined elsewhere in your code"
-    #   - the original workbook said this
-    # I couldn't find these defined anywhere in the workbook - must ask Alex
-
+    OUT = data.cas27
     materials = inputs.materials
-    # TODO - figure out what the actual value is here
-    MLM = 1
+
     # Select the coolant and calculate C_27_1
+    # TODO where does 2130 come from?
     if inputs.blanket.primary_coolant == BlanketPrimaryCoolant.FLIBE:
-        data.cas27.C271000 = 1000 * 2130 * materials.Flibe.c / 1e6
+        data.cas27.C271000 = 1000 * 2130 * materials.FliBe.c / 1e6
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.LEAD_LITHIUM_PBLI:
+        # TODO should we pull these out into inputs?
         f_6Li = 0.1
         FPCPPFb = 0.9
-        data.cas27.C271000 = (materials.Pb.c * FPCPPFb * MLM * 1000 + materials.Li.c * f_6Li * MLM * 1000) / 1e6
+        OUT.C271000 = M_USD((materials.Pb.c * FPCPPFb * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
+                             + materials.Li.c * f_6Li * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
+                             ) / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.LITHIUM_LI:
-        data.cas27.C271000 = 1000 * 2130 * 50 / 1e6
+        OUT.C271000 = M_USD(1000 * 2130 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.OTHER_EUTECTIC_SALT:
-        data.cas27.C271000 = 1000 * 2130 * 50 / 1e6
+        OUT.C271000 = M_USD(1000 * 2130 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.HELIUM:
-        data.cas27.C271000 = 1000 * 2.13 * 50 / 1e6
+        # TODO why 2.13 instead of 2130?
+        OUT.C271000 = M_USD(1000 * 2.13 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.DUAL_COOLANT_PBLI_AND_HE:
-        data.cas27.C271000 = 1000 * 2.13 * 50 / 1e6
+        # TODO why 2.13 instead of 2130?
+        OUT.C271000 = M_USD(1000 * 2.13 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.WATER:
-        data.cas27.C271000 = 1000 * 1000 * 1 / 1e6
+        # TODO why 1000?
+        OUT.C271000 = M_USD(1000 * 1000 * 1 / 1e6)
 
     # Additional calculations
-    data.cas27.C274000 = 0.41 * 1.71  # Other
-    data.cas27.C275000 = 0.21 * 1.71  # Reactor-building cover gas
-    data.cas27.C270000 = round(data.cas27.C271000 + data.cas27.C274000 + data.cas27.C275000, 1)
+    OUT.C274000 = M_USD(0.41 * 1.71)  # Other
+    OUT.C275000 = M_USD(0.21 * 1.71)  # Reactor-building cover gas
+    OUT.C270000 = M_USD(OUT.C271000 + OUT.C274000 + OUT.C275000)
+
+    # TODO - script references CAS270000_MIF_DT.tex but repo only has CAS_270000_TEX, which is correct?
+    OUT.template_file = CAS_270000_TEX
+    OUT.replacements = {
+        'C270000': round(data.cas27.C270000)
+    }

@@ -1,13 +1,35 @@
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/CAS270000.tex#L1
+
 \subsection{Cost Category 27: Special Materials}
 
-This account contains the costs of specific types of materials that are introduced into the fusion power plant in the immediate prelude to the initiation of 
-testing and validation procedures. These materials are characterized within conventional categories, encompassing coolants, cover gases 
-designed for material handling systems and architectural components, breathable air containing specific compositions, as well as distinctive 
-gases or liquids that have not been preloaded into the existing plant systems. It is essential to classify these materials as intrinsic components of the 
-capital equipment, distinct from the diverse plant systems, and therefore not subject to acquisition via construction loans. The replenishment process for 
-these materials is to be delineated as an operational expense. Among the specialized materials encompassed are eutectic salts, treated water, liquid metals, 
-cryogenic liquids, gases with unique properties, and potentially select solid materials. \\
+This account contains the costs of specific types of materials that are introduced into the fusion power plant immediately before the initiation of testing and validation procedures. These materials are characterized within conventional categories, encompassing coolants, cover gases designed for material handling systems and architectural components, breathable air containing specific compositions, as well as gases or liquids that have not been pre-loaded into the existing plant systems. It is essential to classify these materials as intrinsic components of the capital equipment, distinct from the diverse plant systems, and therefore not subject to acquisition via construction loans. The replenishment process for  these materials is to be delineated as an operational expense. Among the specialized materials encompassed are eutectic salts, treated water, liquid metals,  cryogenic liquids, gases with unique properties, and potentially select solid materials, moderator and/or reflector materials that are non-fuel and non-structural in nature. Special heat transfer fluids, which are different from natural water, and may be in the form of gases or liquids. This includes primary and secondary coolant, intermediate loop heat transport fluid, and turbine cycle working fluids. The initial supply of oil, lubricants, ion exchange resins, boric acid, and gases such as $N_2$, $O_2$, He, and $CO_2$.
+This category is further broken down into sub-categories:
 
-Costs are based on volumes. For a primary coolant of primaryC with a volume of 1000 cubic meters, a cost of \$ C270000 M is obtained.
+\begin{itemize}
+    \item Cost Category 27.01.00 Primary Coolant. Costs are based on volumes. For a primary coolant of primaryC with a volume of primaryV cubic meters, a cost of \$ C270100 M is obtained.
+    \item Cost Category 27.02.00 Secondary Coolant. Costs are based on volumes. For a primary coolant of secondaryC with a volume of secondaryV cubic meters, a cost of \$ C270200 M is obtained.
+    \item Cost Category 27.03.00 Not used
+    \item Cost Category 27.04.00 Not used
+    \item Cost Category 27.05.00 Turbine cycle working fluid.
+    \item Cost Category 27.06.00 Initial materials, including oil, lubricants, resins for ion exchanger, and boric acid.
+\end{itemize}
+
+Note that for natural lithium, there is a cost per tonne quoted in the materials look-up table, Table \ref{tab:materials}.  If the lithium needs to be enriched or purified, the costs do not scale linearly with purity.  We include a scaling with the purity therefore as Table \ref{tab:purity} suggests.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|c}
+        Purity  &  Cost factor \\
+        90 \%  &  1 \\
+        99 \%  &  2 \\
+        99.9 \%  &  4 \\
+        99.99 \%  &  8 \\
+        99.999 \%  &  16 \\
+    \end{tabular}
+    \caption{Purity cost factors.}
+    \label{tab:purity}
+\end{table}
+
+Total costs for special materials is the summation over all the sub categories, giving \$ C270000 M.
 
 
