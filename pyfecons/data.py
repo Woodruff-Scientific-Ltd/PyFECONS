@@ -339,12 +339,15 @@ class CAS2205(TemplateProvider):
 
 
 @dataclass
+class CAS2206(TemplateProvider):
+    # Cost Category 22.6 Other Reactor Plant Equipment
+    C220600: M_USD = None
+
+
+@dataclass
 class CAS22(TemplateProvider):
     # Cost category 22.1 total
     C220100: M_USD = None
-
-    # Cost Category 22.6 Other Reactor Plant Equipment
-    C220600: M_USD = None
 
     # Cost Category 22.7 Instrumentation and Control
     C220700: M_USD = 85
@@ -481,6 +484,7 @@ class Data(SerializableToJSON):
     cas2203: CAS2203 = field(default_factory=CAS2203)
     cas2204: CAS2204 = field(default_factory=CAS2204)
     cas2205: CAS2205 = field(default_factory=CAS2205)
+    cas2206: CAS2206 = field(default_factory=CAS2206)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)
