@@ -370,7 +370,7 @@ class CAS24(TemplateProvider):
 
 
 @dataclass
-class CAS25:
+class CAS25(TemplateProvider):
     C250000: M_USD = None
 
 
