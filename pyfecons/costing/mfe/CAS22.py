@@ -29,9 +29,7 @@ CAS_220700_TEX = 'CAS220700.tex'
 CAS_220000_TEX = 'CAS220000.tex'
 
 
-
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
-    OUT = data.cas22
     compute_220101_reactor_equipment(inputs, data, figures)
     compute_220102_shield(inputs, data)
     compute_220103_coils(inputs, data)
