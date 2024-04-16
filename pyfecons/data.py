@@ -424,7 +424,7 @@ class CAS40(TemplateProvider):
 
 
 @dataclass
-class CAS50:
+class CAS50(TemplateProvider):
     C510000: M_USD = None
     C520000: M_USD = None
     C530000: M_USD = None

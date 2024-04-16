@@ -2,11 +2,12 @@ from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 
+CAS_500000_TEX = 'CAS500000.tex'
+
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
-    OUT = data.cas50
-
     # Cost Category 50 Capitalized Supplementary Costs (CSC)
+    OUT = data.cas50
 
     # Cost Category 51 – Shipping and Transportation Costs
     OUT.C510000 = M_USD(8)
@@ -34,5 +35,16 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     else:
         OUT.C590000 = M_USD(0.1 * (OUT.C580000 + OUT.C550000 + OUT.C540000 + OUT.C530000 + OUT.C520000 + OUT.C510000))
 
-    OUT.C500000 = M_USD(OUT.C510000 + OUT.C520000 + OUT.C530000 + OUT.C540000 + OUT.C550000
-                        + OUT.C580000 + OUT.C590000)
+    OUT.C500000 = M_USD(OUT.C510000 + OUT.C520000 + OUT.C530000 + OUT.C540000 + OUT.C550000 + OUT.C580000 + OUT.C590000)
+
+    OUT.template_file = CAS_500000_TEX
+    OUT.replacements = {
+        'C500000': round(OUT.C500000),  # TODO - not in template
+        'C510000': round(OUT.C510000),
+        'C520000': round(OUT.C520000),
+        'C530000': round(OUT.C530000),
+        'C540000': round(OUT.C540000),
+        'C550000': round(OUT.C550000),
+        'C580000': round(OUT.C580000),
+        'C590000': round(OUT.C590000),
+    }
