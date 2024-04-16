@@ -403,7 +403,7 @@ class CAS20(TemplateProvider):
 
 
 @dataclass
-class CAS30:
+class CAS30(TemplateProvider):
     C310000LSA: M_USD = None
     C310000: M_USD = None
     C320000LSA: M_USD = None

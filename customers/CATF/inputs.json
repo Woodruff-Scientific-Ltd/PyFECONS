@@ -47,7 +47,7 @@
         "structure_t": 0.2,
         "gap1_t": 0.5,
         "vessel_t": 0.2,
-        "coil_t": 0.05,
+        "coil_t": 0.25,
         "gap2_t": 0.5,
         "lt_shield_t": 0.3,
         "bioshield_t": 1
@@ -468,6 +468,7 @@
         "learning_tenth_of_a_kind": 0.4765098748902245
     },
     "lsa_levels": {
+        "initialized": true,
         "lsa": 2,
         "fac_91": [
             0.113,
