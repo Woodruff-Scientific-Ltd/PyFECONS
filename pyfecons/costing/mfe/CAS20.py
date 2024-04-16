@@ -21,6 +21,6 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
                         data.cas29.C290000)
     OUT.template_file = CAS_200000_TEX
     OUT.replacements = {
-        'C200000': str(data.cas20.C200000)  # TODO - C200000 not in the template
+        'C200000': round(data.cas20.C200000)  # TODO - C200000 not in the template
     }
 
