@@ -161,7 +161,7 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
 
     OUT.template_file = CAS_220101_MFE_DT_TEX
     OUT.replacements = {
-        'C220101__': str(data.cas220101.C220101),  # TODO - this is not in the template
+        'C22010100': str(data.cas220101.C220101),
         'C22010101': str(data.cas220101.C22010101),
         'C22010102': str(data.cas220101.C22010102),
 
@@ -761,7 +761,6 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     # TODO where do these constants come from?
     OUT.C22010604 = M_USD(120000 * 2.85 / 1e6)
 
-    # TODO review these numbers because they seem really low, maybe some units are missing?
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
     OUT.template_file = CAS_220106_MFE_TEX
     OUT.replacements = {

@@ -41,7 +41,6 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.C275000 = M_USD(0.21 * 1.71)  # Reactor-building cover gas
     OUT.C270000 = M_USD(OUT.C271000 + OUT.C274000 + OUT.C275000)
 
-    # TODO - script references CAS270000_MIF_DT.tex but repo only has CAS_270000_TEX, which is correct?
     OUT.template_file = CAS_270000_TEX
     OUT.replacements = {
         'C270000': round(data.cas27.C270000)
