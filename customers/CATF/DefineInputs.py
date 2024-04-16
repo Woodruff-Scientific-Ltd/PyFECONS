@@ -5,6 +5,8 @@ from pyfecons.units import *
 
 
 def Generate():
+    # TODO - need to extract tf_dr, radial build, and coils into a more defined construct
+    tf_dr = Meters(0.25)  # Main toroidal field coil thickness
     return Inputs(
         CustomerInfo(name="Clean Air Task Force"),
         Basic(
@@ -28,8 +30,9 @@ def Generate():
             neutron_multiplier=BlanketNeutronMultiplier.BE12TI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
+        radial_build=RadialBuild(coil_t=tf_dr),
         coils=Coils(magnets=[
-            Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), Meters(0.25), Meters(0.35), Ratio(0), 20, 5),
+            Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), tf_dr, Meters(0.35), Ratio(0), 20, 5),
             Magnet('CS', MagnetType.CS, MagnetMaterialType.HTS_CICC, 1, Meters(0.18), Meters(0), Meters(0.2), Meters(6.3), Ratio(0), 20, 10),
             Magnet('PF1', MagnetType.PF, MagnetMaterialType.COPPER, 2, Meters(0.67), Meters(3.73), Meters(0.3), Meters(0.6), Ratio(0), 20, 2),
             Magnet('PF2', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(0.9), Meters(4.64), Meters(0.3), Meters(0.6), Ratio(0), 20, 2),
