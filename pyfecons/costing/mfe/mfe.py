@@ -24,10 +24,9 @@ from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data, CAS_600000_TEX
 from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data, CAS_700000_TEX
 from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data, CAS_800000_DT_TEX
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data, CAS_900000_TEX
-from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
+from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData, LCOE_TEX
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-LCOE_TEX = 'LCOE.tex'
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -114,20 +113,6 @@ def read_template(template_file: str) -> str:
     return template_content
 
 
-def compute_lcoe_replacements(inputs: Inputs, data: Data) -> dict[str, str]:
-    return {
-        'C1000000': str(round(data.lcoe.C1000000, 1)),
-        'C2000000': str(round(data.lcoe.C2000000, 1)),
-        'C700000': str(round(data.cas70.C700000, 1)),
-        'C800000': str(round(data.cas80.C800000, 1)),
-        'C900000': str(round(data.cas90.C900000, 1)),
-        'PNET': str(round(data.power_table.p_net, 3)),
-        'lifeY': str(round(inputs.basic.plant_lifetime)),
-        'yinflation': str(100 * round(inputs.basic.yearly_inflation, 3)),
-        'PAVAIL': str(round(inputs.basic.plant_availability, 2)),
-    }
-
-
 def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict[str, str]:
     if template == POWER_TABLE_MFE_DT_TEX:
         return data.power_table.replacements
@@ -202,7 +187,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_900000_TEX:
         return data.cas90.replacements
     elif template == LCOE_TEX:
-        return compute_lcoe_replacements(inputs, data)
+        return data.lcoe.replacements
     elif template == CAS_STRUCTURE_TEX:
         return data.cost_table.replacements
     else:

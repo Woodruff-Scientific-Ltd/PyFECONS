@@ -460,7 +460,7 @@ class CAS90(TemplateProvider):
 
 
 @dataclass
-class LCOE:
+class LCOE(TemplateProvider):
     C1000000: M_USD = None
     C2000000: M_USD = None
 
