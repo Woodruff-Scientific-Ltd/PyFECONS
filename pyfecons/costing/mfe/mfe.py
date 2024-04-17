@@ -21,13 +21,12 @@ from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data, CAS_300000_TEX
 from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data, CAS_400000_TEX
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data, CAS_500000_TEX
 from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data, CAS_600000_TEX
-from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
+from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data, CAS_700000_TEX
 from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_700000_TEX = 'CAS700000.tex'
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 CAS_900000_TEX = 'CAS900000.tex'
 LCOE_TEX = 'LCOE.tex'
@@ -207,7 +206,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_600000_TEX:
         return data.cas60.replacements
     elif template == CAS_700000_TEX:
-        return {'C700000': str(data.cas70.C700000)}
+        return data.cas70.replacements
     elif template == CAS_800000_DT_TEX:
         return compute_cas_800000_replacements(inputs.blanket, data.cas80)
     elif template == CAS_900000_TEX:
