@@ -1,7 +1,7 @@
 from importlib import resources
 
 from pyfecons.inputs import Inputs, Blanket
-from pyfecons.data import Data, CAS60, CAS80
+from pyfecons.data import Data, CAS80
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
@@ -20,14 +20,13 @@ from pyfecons.costing.mfe.CAS20 import GenerateData as CAS20Data, CAS_200000_TEX
 from pyfecons.costing.mfe.CAS30 import GenerateData as CAS30Data, CAS_300000_TEX
 from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data, CAS_400000_TEX
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data, CAS_500000_TEX
-from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data
+from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data, CAS_600000_TEX
 from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data
 from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_600000_TEX = 'CAS600000.tex'
 CAS_700000_TEX = 'CAS700000.tex'
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 CAS_900000_TEX = 'CAS900000.tex'
@@ -118,15 +117,6 @@ def read_template(template_file: str) -> str:
     return template_content
 
 
-def compute_cas_600000_replacements(cas60: CAS60) -> dict[str, str]:
-    return {
-        'C600000': str(cas60.C600000),  # TODO - not in template
-        'C610000': str(cas60.C610000),
-        'C630000LSA': str(cas60.C630000LSA),
-        'C630000XXX': str(cas60.C630000),
-    }
-
-
 def compute_cas_800000_replacements(blanket: Blanket, cas80: CAS80) -> dict[str, str]:
     return {
         'C800000': str(cas80.C800000),
@@ -215,7 +205,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_500000_TEX:
         return data.cas50.replacements
     elif template == CAS_600000_TEX:
-        return compute_cas_600000_replacements(data.cas60)
+        return data.cas60.replacements
     elif template == CAS_700000_TEX:
         return {'C700000': str(data.cas70.C700000)}
     elif template == CAS_800000_DT_TEX:
