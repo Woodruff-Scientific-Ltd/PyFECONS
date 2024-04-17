@@ -1306,6 +1306,12 @@
         "C700000": 79.04140843964848
     },
     "cas80": {
+        "replacements": {
+            "C800000": 0.18,
+            "primaryC": "Lithium (Li)",
+            "secondaryC": "Lead Lithium (PbLi)"
+        },
+        "template_file": "CAS800000_DT.tex",
         "C800000": 0.1798689072895579
     },
     "cas90": {

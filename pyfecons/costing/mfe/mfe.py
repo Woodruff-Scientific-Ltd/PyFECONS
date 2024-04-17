@@ -1,7 +1,7 @@
 from importlib import resources
 
-from pyfecons.inputs import Inputs, Blanket
-from pyfecons.data import Data, CAS80
+from pyfecons.inputs import Inputs
+from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data, CAS_100000_TEX
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data, CAS_210000_TEX
@@ -22,12 +22,11 @@ from pyfecons.costing.mfe.CAS40 import GenerateData as CAS40Data, CAS_400000_TEX
 from pyfecons.costing.mfe.CAS50 import GenerateData as CAS50Data, CAS_500000_TEX
 from pyfecons.costing.mfe.CAS60 import GenerateData as CAS60Data, CAS_600000_TEX
 from pyfecons.costing.mfe.CAS70 import GenerateData as CAS70Data, CAS_700000_TEX
-from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data
+from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data, CAS_800000_DT_TEX
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
 
-CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 CAS_900000_TEX = 'CAS900000.tex'
 LCOE_TEX = 'LCOE.tex'
 
@@ -116,14 +115,6 @@ def read_template(template_file: str) -> str:
     return template_content
 
 
-def compute_cas_800000_replacements(blanket: Blanket, cas80: CAS80) -> dict[str, str]:
-    return {
-        'C800000': str(cas80.C800000),
-        'primaryC': blanket.primary_coolant.display_name,
-        'secondaryC': blanket.secondary_coolant.display_name,
-    }
-
-
 def compute_lcoe_replacements(inputs: Inputs, data: Data) -> dict[str, str]:
     return {
         'C1000000': str(round(data.lcoe.C1000000, 1)),
@@ -208,7 +199,7 @@ def get_template_replacements(template: str, inputs: Inputs, data: Data) -> dict
     elif template == CAS_700000_TEX:
         return data.cas70.replacements
     elif template == CAS_800000_DT_TEX:
-        return compute_cas_800000_replacements(inputs.blanket, data.cas80)
+        return data.cas80.replacements
     elif template == CAS_900000_TEX:
         return {'C900000': str(data.cas90.C900000)}
     elif template == LCOE_TEX:
