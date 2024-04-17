@@ -454,7 +454,7 @@ class CAS80(TemplateProvider):
 
 
 @dataclass
-class CAS90:
+class CAS90(TemplateProvider):
     C990000: M_USD = None
     C900000: M_USD = None
 

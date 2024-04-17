@@ -1,4 +1,4 @@
-% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/CAS900000.tex#L1
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/12d21470e1436c070d07aa077beb2f0f0b5158e3/MFE/Originals/CAS900000.tex
 
 \subsection{Cost Category 90: Annualized Financial Costs (AFC)}
 
@@ -12,15 +12,15 @@ Consists of: Capital recovery factor (or constant dollar FCR), $f_{cr}$ multipli
     \label{eq:C}
 \end{equation}
 
-where 
+where
 
 \begin{equation}
     x = i_cf_c + i_pf_p +(1-t)i_df_d
 \end{equation}
 
-is the effective cost of money. Here, $i_c$ is the rae of return on common stock, $f_c$ is the fraction of capital form common stock, $i_p$ is the rate of return of preferred stock, $f_p$ is the fraction of capital from preferred stock, $i_d$ is the interest rate on debt, and $f_d$ is the capital from debt.
+is the effective cost of money. Here, $i_c$ is the rae of return on common stock, $f_c$ is the fraction of capital form common stock, $i_p$ is the rate of return of preferred stock, $f_p$ is the fraction of capital from preferred stock, $i_d$ is the nterest rate on deb, and $f_d$ is the capital from debt.
 
-From here, the fixed charge rate can be calculated as 
+From here, the fixed charge rate can be calculated as
 \begin{equation}
     f_{cr} = \frac{Ck}{(1-t)} - \frac{td}{(1-t)} + t_p + r,
 \end{equation}
@@ -31,9 +31,9 @@ where $C$ is the capital recovery factor (\ref{eq:C}), $k$ is the adjustment for
 \begin{table}
     \centering
     \begin{tabular}{cc|cc}
-    \hline
-      $N$ (plant life)  & plifetime & $t$ (construction period) & constructionTime\\
-       $i_c$  & 0.1 & $t_p$ (property tax rate)& 0\\
+        \hline
+        $N$ (plant life)  & plifetime & $t$ (construction period) & constructionTime\\
+        $i_c$  & 0.1 & $t_p$ (property tax rate)& 0\\
         $i_p$ & 0 & $x_1$ (pre-tax)& 0.073\\
         $i_d$ & 0.05 & $x$ (post-tax)& 0.065\\
         $f_c$ & 0.45 & $x_r$ (real)& 0.045\\
@@ -45,7 +45,7 @@ where $C$ is the capital recovery factor (\ref{eq:C}), $k$ is the adjustment for
         $t_s$ (income tax 1) & 0.06 & $d$ (levelized depreciation)& 0.036\\
         $t_f$ (income tax 2) & 0.21 & $f_{cr}$ & 0.0910\\
         $t$ (effective income tax) & 0.257 & $f_{cr0}$ & 0.0722\\
-    \hline    
+        \hline
     \end{tabular}
     \caption{Values used in calculation of capital recovery factor  $f_{cr}$, the effective cost of money, $x$, and the fixed charge rate, $R$.}
     \label{tab:ec_vals}
@@ -100,7 +100,7 @@ This Cost Category primarily encompasses the costs associated with annual fees n
     \item \textbf{Inspection and Oversight:} Costs incurred for regular inspections and oversight activities by regulatory authorities to ensure adherence to safety and operational guidelines.
 \end{itemize}
 
-\textit{Cost Category 92 – Fees} is an essential financial Cost Category, especially for nuclear facilities, where regulatory compliance and licensing play a critical role. Proper management and allocation of funds for these fees are vital for uninterrupted and legal operation.
+\subsubsection{Cost Category 92 – Fees} is an essential financial Cost Category, especially for nuclear facilities, where regulatory compliance and licensing play a critical role. Proper management and allocation of funds for these fees are vital for uninterrupted and legal operation.
 
 \subsubsection*{Cost Category 93 – Cost of Money}
 The \textbf{cost of money} is akin to the \textit{opportunity cost} of using capital for a specific purpose. When capital is allocated to operating costs, it is an alternative to investing that capital elsewhere. Thus, the cost of money represents the return that this capital could have earned if invested differently.
