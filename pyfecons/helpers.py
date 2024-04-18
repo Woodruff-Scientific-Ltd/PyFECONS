@@ -1,3 +1,3 @@
 
-def currency_str(value: float):
-    return f"{value:.2f}"
+def safe_round(value, digits):
+    return None if value is None else round(value, digits)

@@ -1,4 +1,4 @@
-% copied from 2023ARPAECosting/MFE_Menard_01082024_1/CAS220109_MFE.tex on 2024-02-15
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/CAS220109.tex#L1
 
 \subsubsection*{Cost Category 22.01.09: Direct Energy Convertor}
 
@@ -8,39 +8,39 @@ A direct energy converter for fusion applications is a groundbreaking advancemen
     \item Cost Category 22.01.09.01 Expander Tank. Converts surface power loading to tolerable levels from the diverted plasma to incidents surfaces.
     \item Cost Category 22.01.09.02 Expander Coils.  Provides the magnetic funnel to direct plasma towards surfaces.
     \item Cost Category 22.01.09.03 Neutron Trap.  Provides shielding of components in the direct energy converter from neutron damage.
-    \item Cost Category 22.01.09.04 Vacuum System (separate from the chamber vaccum system).  Provides pumping on the direct energy converter.
+    \item Cost Category 22.01.09.04 Vacuum System (separate from the chamber vacuum system).  Provides pumping on the direct energy converter.
     \item Cost Category 22.01.09.05 Collector Electrode system.  Allows charged particles to be captured on electrode surfaces for energy to be directly converted.
-    \item Cost Category 22.01.09.06 Thermal Management.  Cooling system for electrodes - either passively radiatively or actively with a liquid or gaseos coolant.  Inlcudes heat rejection system.
+    \item Cost Category 22.01.09.06 Thermal Management.  Cooling system for electrodes - either passively radiatively or actively with a liquid or gaseos coolant.  Includes heat rejection system.
     \item Cost Category 22.01.09.07 Electrical subsystem.  Provides the coupling to the balance of plant systems, listed in Cost Category 24. Electric Plant Equipment.
 \end{itemize}
 
 
-The collector can accrue damage from sputtering caused by the ion fluence. For tungsten ribbons, this erosion rate is estimated to be 0.02mm/year, resulting in a low likelihood of having to replace grid elements.\\
+The collector can accrue damage from sputtering caused by the ion fluence. For tungsten ribbons, this erosion rate is estimated to be 0.02 mm/year, resulting in a low likelihood of having to replace grid elements.\\
 
-Using additively manufactured ribbons with a simple water coolant channel, a heat flux of 2MW/m$^3$ is acceptable, reducing the overall volume and thus the cost of the subsystem by a factor of 60\% compared with a 1MW/m$^3$ flux radiatively-cooled system.\\
+Using additively manufactured ribbons with a simple water coolant channel, a heat flux of 2 MW/m$^2$ is acceptable, reducing the overall volume and thus the cost of the subsystem by a factor of 60\% compared with a 1 MW/m$^2$ flux radiatively-cooled system.\\
 
 
 \begin{table}[ht]
     \centering
     \resizebox{0.6\linewidth}{!}{%
-    \begin{tabular}{|l|r|}
-    \hline
-    \textbf{Item} & \textbf{Cost (M USD)} \\ \hline
-    Expander tank & EXPANDER_TANK \\ \hline
-    Expander Coil and Neutron Trap Coil & EXPANDER_COIL_AND_NEUTRON_TRAP_COIL \\ \hline
-    Convertor gate valve & CONVERTOR_GATE_VALVE \\ \hline
-    Neutron Trap Shielding & NEUTRON_TRAP_SHIELDING \\ \hline
-    Vacuum system & VACUUM_SYSTEM \\ \hline
-    Grid system & GRID_SYSTEM \\ \hline
-    Heat collection system & HEAT_COLLECTION_SYSTEM \\ \hline
-    Electrical & ELECTRICAL_EQUIPMENT \\ \hline
-    Cost per unit & COST_PER_UNIT \\ \hline
-    Total unit cost & TOTAL_DEUNIT_COST \\ \hline
-    Engineering (15\%) & ENGINEERING_15_PERCENT \\ \hline
-    Contingency (15\%) & CONTINGENCY_15_PERCENT \\ \hline
-    Total facility cost & C220109 \\ \hline
-    \end{tabular}}
-    \caption{Cost Table}
+        \begin{tabular}{lr}
+            \hline
+            \textbf{Item} & \textbf{Cost (M USD)} \\ \hline
+            Expander tank & expandertank \\
+            Expander Coil and Neutron Trap Coil & expandercoilandneutrontrapcoil\\
+            Convertor gate valve & convertoegatevalve \\
+            Neutron Trap Shielding & neutrontrapshielding \\
+            Vacuum system & vacuumsystem \\
+            Grid system & gridsystem \\
+            Heat collection system & heatcollectionsystem \\
+            Electrical & electricaleqpmt \\
+            Cost per unit & costperunit \\
+            Total unit cost & totaldeunitcost \\
+            Engineering (15\%) & engineering15percent \\
+            Contingency (15\%) & contingency15percent \\
+            Total facility cost & totaldecost\\ \hline
+        \end{tabular}}
+    \caption{Costs for the direct energy convertor subsystems.}
     \label{tab:cost-table}
 \end{table}
 

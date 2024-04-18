@@ -5,6 +5,8 @@ from pyfecons.units import *
 
 
 def Generate():
+    # TODO - need to extract tf_dr, radial build, and coils into a more defined construct
+    tf_dr = Meters(0.25)  # Main toroidal field coil thickness
     return Inputs(
         CustomerInfo(name="Clean Air Task Force"),
         Basic(
@@ -28,10 +30,18 @@ def Generate():
             neutron_multiplier=BlanketNeutronMultiplier.BE12TI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
+        radial_build=RadialBuild(coil_t=tf_dr),
         coils=Coils(magnets=[
-            Magnet(name="Coil 1", coil_count=1, j_cable=MA(21.4), r_centre=1.75, z_centre=0, dr=1, dz=1),
-            Magnet(name="Coil 2", coil_count=2, j_cable=MA(22.4), r_centre=2.75, z_centre=1, dr=2, dz=2),
-            Magnet(name="Coil 3", coil_count=3, j_cable=MA(23.4), r_centre=3.75, z_centre=2, dr=3, dz=3),
+            Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), tf_dr, Meters(0.35), Ratio(0), 20, 5),
+            Magnet('CS', MagnetType.CS, MagnetMaterialType.HTS_CICC, 1, Meters(0.18), Meters(0), Meters(0.2), Meters(6.3), Ratio(0), 20, 10),
+            Magnet('PF1', MagnetType.PF, MagnetMaterialType.COPPER, 2, Meters(0.67), Meters(3.73), Meters(0.3), Meters(0.6), Ratio(0), 20, 2),
+            Magnet('PF2', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(0.9), Meters(4.64), Meters(0.3), Meters(0.6), Ratio(0), 20, 2),
+            Magnet('PF3', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(1.28), Meters(5.55), Meters(0.5), Meters(0.6), Ratio(0), 20, 2),
+            Magnet('PF4', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(2.72), Meters(7.24), Meters(0.75), Meters(0.37), Ratio(0), 20, 2),
+            Magnet('PF5', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(5.3), Meters(7.24), Meters(1.8), Meters(0.37), Ratio(0), 20, 2),
+            Magnet('PF6', MagnetType.PF, MagnetMaterialType.HTS_PANCAKE, 2, Meters(9.34), Meters(5), Meters(1), Meters(1), Ratio(0), 20, 2),
+            Magnet('PF7', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(3.6), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
+            Magnet('PF8', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(2.2), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
         ]),
-        primary_structure=PrimaryStructure(syst_pga=StructurePga.PGA_03, learning_credit=0.5)
+        primary_structure=PrimaryStructure(syst_pga=StructurePga.PGA_03, learning_credit=0.5),
     )

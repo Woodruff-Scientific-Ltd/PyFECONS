@@ -1,6 +1,8 @@
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 
+CAS_STRUCTURE_TEX = 'CASstructure.tex'
+
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     cost_values = {
@@ -9,23 +11,23 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         'C210000': data.cas21.C210000,
         'C220000': data.cas22.C220000,
         'C220100': data.cas22.C220100,
-        'C220101': data.cas22.C220101,
-        'C220102': data.cas22.C220102,
-        'C220103': data.cas22.C220103,
-        'C220104': data.cas22.C220104,
-        'C220105': data.cas22.C220105,
-        'C220106': data.cas22.C220106,
-        'C220107': data.cas22.C220107,
-        'C220108': data.cas22.C220108,
-        'C220109': data.cas22.C220109,
-        'C220111': data.cas22.C220111,
-        'C220119': data.cas22.C220119,
-        'C220200': data.cas22.C220200,
-        'C220300': data.cas22.C220300,
-        'C220400': data.cas22.C220400,
-        'C220500': data.cas22.C220500,
-        'C220600': data.cas22.C220600,
-        'C220700': data.cas22.C220700,
+        'C220101': data.cas220101.C220101,
+        'C220102': data.cas220102.C220102,
+        'C220103': data.cas220103.C220103,
+        'C220104': data.cas220104.C220104,
+        'C220105': data.cas220105.C220105,
+        'C220106': data.cas220106.C220106,
+        'C220107': data.cas220107.C220107,
+        'C220108': data.cas220108.C220108,
+        'C220109': data.cas220109.C220109,
+        'C220111': data.cas220111.C220111,
+        'C220119': data.cas220119.C220119,
+        'C220200': data.cas2202.C220200,
+        'C220300': data.cas2203.C220300,
+        'C220400': data.cas2204.C220400,
+        'C220500': data.cas2205.C220500,
+        'C220600': data.cas2206.C220600,
+        'C220700': data.cas2207.C220700,
         'C230000': data.cas23.C230000,
         'C240000': data.cas24.C240000,
         'C250000': data.cas25.C250000,
@@ -96,6 +98,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     aries_st_percentages = {percentage(key): str(round(val / m99 * 100, 2)) for key, val in aries_st_values.items()}
     aries_st_empty_percentages = {percentage(key): val for key, val in aries_st_empty_values.items()}
 
+    data.cost_table.template_file = CAS_STRUCTURE_TEX
     data.cost_table.replacements = (rounded_cost_values | percentage_cost_values
                                     | aries_st_values_inflation | aries_st_percentages
                                     | aries_st_empty_values | aries_st_empty_percentages)

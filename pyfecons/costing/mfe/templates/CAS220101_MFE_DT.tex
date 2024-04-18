@@ -1,7 +1,6 @@
-% This file is referenced as CAS220101_MFE_DT.tex in the Jupyter workbook
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/18b65173acdac007205dddf70e629e6c945eed00/MFE/Originals/CAS220101_MFE_DT.tex#L1
 
-\subsubsection*{Cost Category 22.1.1 First Wall and Blanket}
-\label{section:22.1.1}
+\subsubsection*{Cost Category 22.01.01 First Wall and Blanket}
 
 The first wall in a fusion heat island serves as a direct interface with the plasma, tasked with withstanding extreme heat and particle flux while also resisting radiation damage and managing tritium retention. The blanket surrounding the first wall plays a dual role in absorbing neutrons to generate heat and breed tritium for fuel, in addition to providing crucial radiation shielding for the reactor's structural integrity and safety.  This Cost Category therefore consists of the following subcategories:
 
@@ -12,30 +11,31 @@ The first wall in a fusion heat island serves as a direct interface with the pla
     \item Cost Category 21.01.02 Blanket: a crucial component that surrounds the plasma, serving multiple roles. It absorbs neutrons generated during fusion reactions, converting their kinetic energy into heat, and acts as a breeding ground for tritium, an essential fuel in deuterium-tritium fusion reactions, through interactions with materials like lithium. The blanket also provides critical radiation shielding, protecting reactor components and personnel from intense neutron radiation. Additionally, it plays a role in thermal management, as the heat generated within the blanket is often harnessed to produce steam for driving turbines and generating electricity. This makes the design and material choice for the blanket vital for reactor efficiency and safety, which requires advanced materials and engineering to withstand extreme temperatures and radiation levels.
 \end{itemize}
 
-The blanket under consideration has a firstW first wall with a primary coolant consisting of primaryC and secondaryC as the secondary coolant, with neutronM as the neutron multiplier, and a structure primarily consisting of structure1. The radial build dimensions are shown in Table \ref{tab:volumes}, which allow us to determine the volumes of components for costing.  The radial build is shown in TODO. \\
-% \ref{fig:radial}. \\  % TODO implement reference to figure.
+The blanket under consideration has a firstW first wall with a primary coolant consisting of primaryC and secondaryC as the secondary coolant, with neutronM as the neutron multiplier, and a structure primarily consisting of structure1. The radial build dimensions are shown in Table \ref{tab:volumes}, which allow us to determine the volumes of components for costing.  The radial build is shown in fig radial
+% \ref{fig:radial} TODO implement radial
+.  \\
 
 
-\begin{table}[ht!]
+\begin{table}[h!]
     \centering
     \begin{tabular}{l c  c c c}
-    \hline
+        \hline
         &	Thickness	&	Inner Radius	&	Outer radius	&	Volume		\\
         \hline
-Plasma	&	TH01	&	RAD1I	&	RAD1O	&	VOL01	m$^{3}$	\\
-Vacuum	&	TH02	&	RAD2I	&	RAD2O	&	VOL02	m$^{3}$	\\
-First Wall	&	TH03	&	RAD3I	&	RAD3O	&	VOL03	m$^{3}$	\\
-Blanket	&	TH04	&	RAD4I	&	RAD4O	&	VOL04	m$^{3}$	\\
-Reflector	&	TH06	&	RAD6I	&	RAD6O	&	VOL06	m$^{3}$	\\
-HT Shield	&	TH09	&	RAD9I	&	RAD9O	&	VOL09	m$^{3}$	\\
-Structure	&	TH05	&	RAD5I	&	RAD5O	&	VOL05	m$^{3}$	\\
-Gap	&	TH07	&	RAD7I	&	RAD7O	&	VOL07	m$^{3}$	\\
-Vessel	&	TH08	&	RAD8I	&	RAD8O	&	VOL08	m$^{3}$	\\
-LT Shield	&	TH09	&	RAD9I	&	RAD9O	&	VOL09	m$^{3}$	\\
-Coils	&	TH10	&	RAD10I	&	RAD11O	&	VOL10	m$^{3}$	\\
-Structure	&	TH11	&	RAD11I	&	RAD11O	&	VOL11	m$^{3}$	\\
-Bioshield	&	TH13	&	RAD13I	&	RAD13O	&	VOL13	m$^{3}$	\\
-
+        Plasma	&	TH01	&	RAD1I	&	RAD1O	&	VOL01	m$^{3}$	\\
+        Vacuum	&	TH02	&	RAD2I	&	RAD2O	&	VOL02	m$^{3}$	\\
+        First Wall	&	TH03	&	RAD3I	&	RAD3O	&	VOL03	m$^{3}$	\\
+        Blanket	&	TH04	&	RAD4I	&	RAD4O	&	VOL04	m$^{3}$	\\
+        Reflector	&	TH06	&	RAD6I	&	RAD6O	&	VOL06	m$^{3}$	\\
+        Structure	&	TH05	&	RAD5I	&	RAD5O	&	VOL05	m$^{3}$	\\
+        Gap	1 &	TH07	&	RAD7I	&	RAD7O	&	VOL07	m$^{3}$	\\
+        Gap 2	&	TH13	&	RAD13I	&	RAD13O	&	VOL13	m$^{3}$	\\
+        Vessel	&	TH08	&	RAD8I	&	RAD8O	&	VOL08	m$^{3}$	\\
+        HT Shield	&	TH09	&	RAD9I	&	RAD9O	&	VOL09	m$^{3}$	\\
+        LT Shield	&	TH10	&	RAD10I	&	RAD11O	&	VOL10	m$^{3}$	\\
+        Coil	&	TH11	&	RAD11I	&	RAD11O	&	VOL11	m$^{3}$	\\
+        Axis	&	TH12	&	RAD12I	&	RAD12O	&	VOL12	m$^{3}$	\\
+        Bioshield	&	TH14	&	RAD14I	&	RAD14O	&	VOL14	m$^{3}$	\\
         \hline
     \end{tabular}
     \caption{Volumes of components in the radial build.}
@@ -52,10 +52,7 @@ Bioshield	&	TH13	&	RAD13I	&	RAD13O	&	VOL13	m$^{3}$	\\
 
 
 
-The costs of the first wall and blanket are determined by the volume of the material and multiplied by a manufacturing factor per Table TODO.
-% \ref{tab:materials}. % TODO implement materials table and reference
-Cost of the first wall is \$ C220101 M.
-
-%TODO - I can't find blanket cost in the calculations, we'll need to add it later
-%Cost of the blanket is \$ C22010102 M.
+The costs of the first wall and blanket are determined by the volume of the material and multiplied by a manufacturing factor per Table materials
+%\ref{tab:materials} TODO - implement reference
+.   Cost of the first wall is \$ C22010101 M.  Cost of the blanket is \$ C22010102 M. The total is therefore \$ C22010100 M.
 

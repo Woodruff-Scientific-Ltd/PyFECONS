@@ -3,6 +3,8 @@ import os
 import json
 import shutil
 
+from pyfecons.serializable import PyfeconsEncoder
+
 #################
 # GATHER INPUTS #
 #################
@@ -55,7 +57,7 @@ except TypeError as e:
 inputDict = inputs.toDict()
 # Write the inputs to a json file in the customer's folder
 with open(f"{customerFolder}/inputs.json", "w") as file:
-    inputJSONstring = json.dumps(inputDict, indent=4)
+    inputJSONstring = json.dumps(inputDict, indent=4, cls=PyfeconsEncoder)
     file.write(inputJSONstring)
 
 
@@ -77,7 +79,7 @@ dataDict = data.toDict()
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
 with open(f"{customerFolder}/data.json", "w") as file:
-    dataJSONstring = json.dumps(dataDict, indent=4)
+    dataJSONstring = json.dumps(dataDict, indent=4, cls=PyfeconsEncoder)
     file.write(dataJSONstring)
 
 

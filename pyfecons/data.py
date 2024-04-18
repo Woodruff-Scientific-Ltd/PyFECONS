@@ -3,20 +3,25 @@ from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
 
 
-# TODO give sensible defaults are force initialization
 @dataclass
-class PowerTable:
-    p_alpha: MW = None
-    p_neutron: MW = None
+class TemplateProvider:
+    replacements: dict[str, str] = field(default_factory=dict)
+    template_file: str = None
+
+
+@dataclass
+class PowerTable(TemplateProvider):
+    p_alpha: MW = None  # Charged particle power
+    p_neutron: MW = None  # Neutron power
     p_cool: MW = None
     p_aux: MW = None
     p_coils: MW = None
 
     p_th: MW = None
-    p_the: MW = None
+    p_the: MW = None  # Total thermal electric power
     p_dee: MW = None
 
-    p_et: MW = None
+    p_et: MW = None  # Gross electric
     p_loss: MW = None
     p_pump: MW = None
     p_sub: MW = None
@@ -28,7 +33,7 @@ class PowerTable:
 
 # TODO give sensible defaults are force initialization
 @dataclass
-class CAS10:
+class CAS10(TemplateProvider):
     C110000: M_USD = None
     C120000: M_USD = None
     C130000: M_USD = None
@@ -40,9 +45,8 @@ class CAS10:
     C100000: M_USD = None
 
 
-# TODO give sensible defaults are force initialization
 @dataclass
-class CAS21:
+class CAS21(TemplateProvider):
     C210100: M_USD = None
     C210200: M_USD = None
     C210300: M_USD = None
@@ -60,38 +64,48 @@ class CAS21:
     C211500: M_USD = None
     C211600: M_USD = None
     C211700: M_USD = None
-    C211800: M_USD = None
+    C211900: M_USD = None
     C210000: M_USD = None
 
 
 @dataclass
 class MagnetProperties:
     # input
-    magnet: Magnet
+    magnet: Magnet = None
 
     # computed
-    vol_coil: Meters3 = None
-    cs_area: Meters2 = None
-    turns_c: Turns = None
-    cable_current: Amperes = None  # TODO - currently not used in template, should it be?
-    current_supply: MA = None
-    turns_sc_tot: Turns = None
-    tape_length: Kilometers = None
-    tape_current: Amperes = None
-    cost_sc: M_USD = None
-    cost_cu: M_USD = None
-    cost_ss: M_USD = None
+    vol_coil: Meters3 = None  # volume of the coil
+    cs_area: Meters2 = None  # cross-sectional area of entire coil
+    turns_c: Turns = None  # turns of cable in the coil
+    cable_current: Amperes = None  # current per cable
+    current_supply: MA = None  # total current supply to the coil
+    turns_sc_tot: Turns = None  # total turns of REBCO
+    turns_scs: Turns = None  # turns of REBCO in one cable
+    tape_length: Kilometers = None  # total length of REBCO in km
+    turns_i: Turns = None  # turns of (partial?) insulation
+    j_tape: AmperesMillimeters2 = None  # approximate critical current density
+    cable_w: Meters = None  # Cable width in meters
+    cable_h: Meters = None  # Cable height in meters
+    # number of pancakes based on total required turns and the number of turns in a reference pancake coil
+    no_p: float = None
+    vol_i: Meters3 = None  # total volume of insulation
+    max_tape_current: Amperes = None  # current
+    cost_sc: M_USD = None  # total cost of REBCO
+    cost_cu: M_USD = None  # total cost of copper
+    cost_ss: M_USD = None  # total cost of stainless steel
+    cost_i: M_USD = None  # total cost of insulation
+    coil_mass: Kilograms = None  # mass of the coil
+    cooling_cost: M_USD = None
     tot_mat_cost: M_USD = None
     magnet_cost: M_USD = None
     magnet_struct_cost: M_USD = None
     magnet_total_cost_individual: M_USD = None
     magnet_total_cost: M_USD = None
+    cu_wire_current: Amperes = None  # current through each cu_wire
 
 
-# TODO give sensible defaults are force initialization
-# TODO group inputs by section into classes
 @dataclass
-class CAS22:
+class CAS220101(TemplateProvider):
     # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     axis_ir: Meters = None
@@ -125,7 +139,7 @@ class CAS22:
     gap2_or: Meters = None
     bioshield_or: Meters = None  # Updated bioshield outer radius
 
-    # Volumes for cylinder
+    # Volumes for torus
     axis_vol: Meters3 = None
     plasma_vol: Meters3 = None
     vacuum_vol: Meters3 = None
@@ -142,8 +156,13 @@ class CAS22:
     bioshield_vol: Meters3 = None  # Updated bioshield volume
 
     # Costs
+    C22010101: M_USD = None
+    C22010102: M_USD = None
     C220101: M_USD = None
 
+
+@dataclass
+class CAS220102(TemplateProvider):
     # Cost Category 22.1.2: Shield
     C22010201: M_USD = None
     C22010202: M_USD = None
@@ -152,40 +171,100 @@ class CAS22:
     C220102: M_USD = None
     V_HTS: Meters3 = None
 
+
+@dataclass
+class CAS220103(TemplateProvider):
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
+    no_pf_coils: Count = None
+    no_pf_pairs: Count = None
     total_struct_cost: M_USD = None
-    C22010301: M_USD = None  # Assuming mag cost is for the first type of coils
-    C22010302: M_USD = None  # Sum of costs for other types of coils
-    C22010303: M_USD = None  # Additional costs
-    C22010304: M_USD = None  # Structural cost
+    C22010301: M_USD = None  # TF coils
+    C22010302: M_USD = None  # CS coils
+    C22010303: M_USD = None  # PF coils
+    C22010304: M_USD = None  # Shim coil costs, taken as 5% total primary magnet costs
+    C22010305: M_USD = None  # Structural cost
+    C22010306: M_USD = None  # Cooling cost
     C220103: M_USD = None  # Total cost
 
+    def __post_init__(self):
+        if self.magnet_properties is None:
+            self.magnet_properties = []
+
+    @property
+    def tf_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.TF]
+
+    @property
+    def cs_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.CS]
+
+    @property
+    def pf_coils(self) -> list[MagnetProperties]:
+        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.PF]
+
+
+@dataclass
+class CAS220104(TemplateProvider):
     # 22.1.4 Supplementary heating
     C22010401: M_USD = None
     C22010402: M_USD = None
     C220104: M_USD = None
 
+
+@dataclass
+class CAS220105(TemplateProvider):
     # 22.1.5 primary structure
     C22010501: M_USD = None
     C22010502: M_USD = None
     C220105: M_USD = None
 
+
+@dataclass
+class VesselCost:
+    name: str = None
+    total_mass: Kilograms = 0
+    material_cost: USD = 0
+    fabrication_cost: USD = 0
+    total_cost: USD = 0
+
+
+@dataclass
+class VesselCosts:
+    spool_assembly: VesselCost = field(default_factory=VesselCost)
+    removable_doors: VesselCost = field(default_factory=VesselCost)
+    door_frames: VesselCost = field(default_factory=VesselCost)
+    port_enclosures: VesselCost = field(default_factory=VesselCost)
+    total: VesselCost = field(default_factory=VesselCost)
+    contingency: VesselCost = field(default_factory=VesselCost)
+    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)
+    total_subsystem_cost: VesselCost = field(default_factory=VesselCost)
+
+
+@dataclass
+class CAS220106(TemplateProvider):
     # 22.1.6 Vacuum system
     C22010601: M_USD = None
     C22010602: M_USD = None
     C22010603: M_USD = None
     C22010604: M_USD = None
     C220106: M_USD = None
-    vesvol: float = None
-    materialvolume: float = None
     massstruct: float = None
+    vesvol: float = None
     vesmatcost: float = None
-    q_in: float = None
+    vessel_costs: VesselCosts = field(default_factory=VesselCosts)
 
+
+@dataclass
+class CAS220107(TemplateProvider):
     # Cost Category 22.1.7 Power supplies
+    C22010701: M_USD = None  # Power supplies for confinement
+    C22010702: M_USD = None
     C220107: M_USD = None
 
+
+@dataclass
+class CAS220108(TemplateProvider):
     # 22.1.8 Divertor
     C220108: M_USD = None
     divertor_maj_rad: Meters = None
@@ -198,31 +277,50 @@ class CAS22:
     divertor_mat_cost: M_USD = None
     divertor_cost: M_USD = None
 
+
+@dataclass
+class CAS220109(TemplateProvider):
     # 22.1.9 Direct Energy Converter
     C220109: M_USD = None
-    scaled_direct_energy_costs: dict[str, M_USD] = None
+    costs: dict[str, M_USD] = None
+    scaled_costs: dict[str, M_USD] = None
 
+
+@dataclass
+class CAS220111(TemplateProvider):
     # Cost Category 22.1.11 Installation costs
     C220111: M_USD = None
 
+
+@dataclass
+class CAS220119(TemplateProvider):
     # Cost category 22.1.19 Scheduled Replacement Cost
     C220119: M_USD = None
 
-    # Cost category 22.1 total
-    C220100: M_USD = None
 
+@dataclass
+class CAS2202(TemplateProvider):
     # MAIN AND SECONDARY COOLANT Cost Category 22.2
     C220201: M_USD = None
     C220202: M_USD = None
     C220203: M_USD = None
     C220200: M_USD = None
 
+
+@dataclass
+class CAS2203(TemplateProvider):
     # Cost Category 22.3  Auxiliary cooling
     C220300: M_USD = None
 
+
+@dataclass
+class CAS2204(TemplateProvider):
     # Cost Category 22.4 Radwaste
     C220400: M_USD = None
 
+
+@dataclass
+class CAS2205(TemplateProvider):
     # Cost Category 22.5 Fuel Handling and Storage
     C2205010ITER: M_USD = None
     C2205020ITER: M_USD = None
@@ -239,42 +337,50 @@ class CAS22:
     C220506: M_USD = None
     C220500: M_USD = None
 
+
+@dataclass
+class CAS2206(TemplateProvider):
     # Cost Category 22.6 Other Reactor Plant Equipment
     C220600: M_USD = None
 
+
+@dataclass
+class CAS2207(TemplateProvider):
     # Cost Category 22.7 Instrumentation and Control
-    C220700: M_USD = 85
+    C220700: M_USD = None
+
+
+@dataclass
+class CAS22(TemplateProvider):
+    # Cost category 22.1 total
+    C220100: M_USD = None
 
     # Final output
     C220000: M_USD = None
 
-    def __post_init__(self):
-        if self.magnet_properties is None:
-            self.magnet_properties = []
-
 
 @dataclass
-class CAS23:
+class CAS23(TemplateProvider):
     C230000: M_USD = None
 
 
 @dataclass
-class CAS24:
+class CAS24(TemplateProvider):
     C240000: M_USD = None
 
 
 @dataclass
-class CAS25:
+class CAS25(TemplateProvider):
     C250000: M_USD = None
 
 
 @dataclass
-class CAS26:
+class CAS26(TemplateProvider):
     C260000: M_USD = None
 
 
 @dataclass
-class CAS27:
+class CAS27(TemplateProvider):
     C271000: M_USD = None
     C274000: M_USD = None
     C275000: M_USD = None
@@ -282,22 +388,22 @@ class CAS27:
 
 
 @dataclass
-class CAS28:
+class CAS28(TemplateProvider):
     C280000: M_USD = None
 
 
 @dataclass
-class CAS29:
+class CAS29(TemplateProvider):
     C290000: M_USD = None
 
 
 @dataclass
-class CAS20:
+class CAS20(TemplateProvider):
     C200000: M_USD = None
 
 
 @dataclass
-class CAS30:
+class CAS30(TemplateProvider):
     C310000LSA: M_USD = None
     C310000: M_USD = None
     C320000LSA: M_USD = None
@@ -308,13 +414,17 @@ class CAS30:
 
 
 @dataclass
-class CAS40:
-    C400000LSA : M_USD = None
-    C400000 : M_USD = None
+class CAS40(TemplateProvider):
+    C400000LSA: M_USD = None
+    C400000: M_USD = None
+    C410000: M_USD = None
+    C420000: M_USD = None
+    C430000: M_USD = None
+    C440000: M_USD = None
 
 
 @dataclass
-class CAS50:
+class CAS50(TemplateProvider):
     C510000: M_USD = None
     C520000: M_USD = None
     C530000: M_USD = None
@@ -326,7 +436,7 @@ class CAS50:
 
 
 @dataclass
-class CAS60:
+class CAS60(TemplateProvider):
     C610000: M_USD = None
     C630000LSA: M_USD = None
     C630000: M_USD = None
@@ -334,34 +444,30 @@ class CAS60:
 
 
 @dataclass
-class CAS70:
+class CAS70(TemplateProvider):
     C700000: M_USD = None
 
 
 @dataclass
-class CAS80:
+class CAS80(TemplateProvider):
     C800000: M_USD = None
 
 
 @dataclass
-class CAS90:
+class CAS90(TemplateProvider):
     C990000: M_USD = None
     C900000: M_USD = None
 
 
 @dataclass
-class LCOE:
+class LCOE(TemplateProvider):
     C1000000: M_USD = None
     C2000000: M_USD = None
 
 
 @dataclass
-class CostTable:
-    replacements: dict[str, str] = None
-
-    def __post_init__(self):
-        if self.replacements is None:
-            self.replacements = {}
+class CostTable(TemplateProvider):
+    pass
 
 
 @dataclass
@@ -370,6 +476,23 @@ class Data(SerializableToJSON):
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
+    cas220101: CAS220101 = field(default_factory=CAS220101)
+    cas220102: CAS220102 = field(default_factory=CAS220102)
+    cas220103: CAS220103 = field(default_factory=CAS220103)
+    cas220104: CAS220104 = field(default_factory=CAS220104)
+    cas220105: CAS220105 = field(default_factory=CAS220105)
+    cas220106: CAS220106 = field(default_factory=CAS220106)
+    cas220107: CAS220107 = field(default_factory=CAS220107)
+    cas220108: CAS220108 = field(default_factory=CAS220108)
+    cas220109: CAS220109 = field(default_factory=CAS220109)
+    cas220111: CAS220111 = field(default_factory=CAS220111)
+    cas220119: CAS220119 = field(default_factory=CAS220119)
+    cas2202: CAS2202 = field(default_factory=CAS2202)
+    cas2203: CAS2203 = field(default_factory=CAS2203)
+    cas2204: CAS2204 = field(default_factory=CAS2204)
+    cas2205: CAS2205 = field(default_factory=CAS2205)
+    cas2206: CAS2206 = field(default_factory=CAS2206)
+    cas2207: CAS2207 = field(default_factory=CAS2207)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
     cas25: CAS25 = field(default_factory=CAS25)

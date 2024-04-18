@@ -27,56 +27,61 @@ class CustomerInfo:
 @dataclass
 class Basic:
     reactor_type: ReactorType = ReactorType.IFE
+    confinement_type: ConfinementType = ConfinementType.SPHERICAL_TOKAMAK
     energy_conversion: EnergyConversion = EnergyConversion.DIRECT
     fuel_type: FuelType = FuelType.DT
-    p_nrl: MW = 2600.0
+    p_nrl: MW = 2600.0  # Fusion Power
     n_mod: Count = 1
     am: Percent = 1.00
+    downtime: Years = 1
     construction_time: Years = 6.0
-    plant_lifetime: Years = 30.0
-    plant_availability: Percent = 0.85
+    plant_lifetime: Years = 30.0  # from end of construction
+    plant_availability: Percent = 0.85  # in Miller 2003 was 0.76
     noak: bool = True
     yearly_inflation: Percent = 0.0245
+    time_to_replace: Years = 10
 
 
 @dataclass
 class PowerTable:
-    f_sub: Percent = 0.03
+    f_sub: Percent = 0.03  # Subsystem and Control Fraction
     p_cryo: MW = 0.5
-    mn: Ratio = 1.1
-    eta_p: Percent = 0.5
-    eta_th: Percent = 0.46
-    fpcppf: Percent = 0.06
-    p_trit: MW = 10
-    p_house: MW = 4
-    p_tfcool: MW = 12.7
-    p_pfcool: MW = 1
-    p_tf: MW = 1
-    p_pf: MW = 1
-    eta_pin: Percent = 0.5
+    mn: Ratio = 1.1  # Neutron energy multiplier
+    eta_p: Percent = 0.5  # Pumping power capture efficiency
+    eta_th: Percent = 0.46  # Thermal conversion efficiency
+    fpcppf: Percent = 0.06  # Primary Coolant Pumping Power Fraction
+    p_trit: MW = 10  # Tritium Systems
+    p_house: MW = 4  # Housekeeping power
+    p_tfcool: MW = 12.7  # Solenoid coil cooling
+    p_pfcool: MW = 1  # Mirror coil cooling
+    p_tf: MW = 1  # Power into TF coils
+    p_pf: MW = 1  # Power into PF (equilibrium) coils (TODO - how to handle for HTS?)
+    eta_pin: Percent = 0.5  # Input power wall plug efficiency
     eta_pin1: Percent = 0.18
     eta_pin2: Percent = 0.82
-    eta_de: Percent = 0.85
-    p_input: MW = 50
+    eta_de: Percent = 0.85  # Direct energy conversion efficiency
+    p_input: MW = 50  # Input power
 
 
 @dataclass
 class RadialBuild:
-    chamber_length: Meters = 40  # chamber length
-    axis_t: Meters = 0  # central axis thickness
-    plasma_t: Meters = 4  # Radial plasma thickness
-    vacuum_t: Meters = 0.1  # Radial vacuum thickness
-    firstwall_t: Meters = 0.1  # Radial firstwall thickness
-    blanket1_t: Meters = 1  # Radial blanket thickness
-    reflector_t: Meters = 0.1  # Radial reflector thickness
-    ht_shield_t: Meters = 0.5  # Radial high temperature shield thickness
-    structure_t: Meters = 0.2  # Radial structure thickness
-    gap1_t: Meters = 0.5  # Radial first gap thickness
-    vessel_t: Meters = 0.2  # Radial vessel wall thickness
-    coil_t: Meters = 1.76  # Radial coil thickness
-    gap2_t: Meters = 1  # Radial second gap thickness
-    lt_shield_t: Meters = 0.3  # Radial low temperature shield thickness
-    bioshield_t: Meters = 1  # Radial bioshield thickness
+    # Radial build inputs
+    # Radial thicknesses of concentric components (innermost to outermost)
+    elon = 3  # torus elongation factor
+    axis_t: Meters = 3  # distance from r=0 to plasma central axis - effectively major radius
+    plasma_t: Meters = 1.1  # plasma radial thickness
+    vacuum_t: Meters = 0.1  # vacuum radial thickness
+    firstwall_t: Meters = 0.2  # first wall radial thickness
+    blanket1_t: Meters = 0.8  # blanket radial thickness
+    reflector_t: Meters = 0.2  # reflector radial thickness
+    ht_shield_t: Meters = 0.2  # High-temperature shield radial thickness
+    structure_t: Meters = 0.2  # support structure radial thickness
+    gap1_t: Meters = 0.5  # air gap radial thickness
+    vessel_t: Meters = 0.2  # vacuum vessel wall radial thickness
+    coil_t: Meters = 0.05  # TF coil radial thickness
+    gap2_t: Meters = 0.5  # second air gap radial thickness
+    lt_shield_t: Meters = 0.3  # low-temperature shield radial thickness
+    bioshield_t: Meters = 1  # concrete bioshield radial thickness
 
 
 @dataclass
@@ -92,12 +97,28 @@ class Blanket:
 @dataclass
 class Magnet:
     name: str
+    type: MagnetType
+    material_type: MagnetMaterialType
     coil_count: int
-    j_cable: MA  # [MA] current
-    r_centre: float
-    z_centre: float
-    dr: int
-    dz: int
+    r_centre: Meters  # radius of each coil
+    z_centre: Meters  # vertical coordinates of centre of each coil (r=0)
+    dr: Meters  # total coil thickness in r direction (radial)
+    dz: Meters  # total coil thickness in z direction (vertical)
+    # Total fraction of cross-sectional area comprised of insulation
+    # (for copper or tape-tape pancake geometry)
+    frac_in: Ratio
+    coil_temp: float  # TODO what are the units, C or K?
+    mfr_factor: float  # Manufacturing factor for each coil
+    # For each magnet
+    # if using HTS CICC, True to autogen paramters from field and radius
+    # False to use input parameters
+    auto_cicc: bool = False
+    # auto_cicc fields only used if auto_cicc is True
+    auto_cicc_b: float = None  # central field of each autogenerated HTS CICC coil
+    auto_cicc_r: Meters = None  # radius of each autogenerated HTS CICC coil
+    # Structural multiplication factor.
+    # This is multiplied by the magnet material cost (incl mfr factor) and added to the total
+    structFactor: float = 1
 
 
 @dataclass
@@ -107,23 +128,46 @@ class Coils:
     struct_factor: float = 0.5  # Structural multiplication factor
 
     # Constants
-    cable_w: Meters = 0.014  # Cable width in meters
-    cable_h: Meters = 0.017  # Cable height in meters
-    tape_w: Meters = 0.004  # Tape width in meters
-    tape_t: Meters = 0.00013  # Tape thickness in meters
-    j_tape: AmperesMillimeters2 = 1000  # Current density of the tape in A/mm^2
+    tape_w: Meters = 0.004  # REBCO tape width in meters
+    tape_t: Meters = 0.00013  # REBCO tape thickness in meters
 
-    m_cost_ybco: float = 10  # Material cost of YBCO tape in $/kAm
+    # Current density of the tape in A/mm^2, set in magnetsAll function
+    # approximate critical current density of YBCO at 18T
+    # https://www.sciencedirect.com/science/article/pii/S0011227516303812
+    j_tape_ybco: AmperesMillimeters2 = 150
+
+    m_cost_ybco: float = 50  # Material cost of YBCO tape in $/kAm
     m_cost_ss: float = 5  # Material cost of stainless steel in $/kg
     m_cost_cu: float = 10.3  # Material cost of copper in $/kg
+    # see https://cds.cern.ch/record/2839592/files/2020_04_21_SHiP_SpectrometerMagnet_Bajas.pdf
+    rebco_density: float = 6350  # Density of REBCO tape in kg/m^3
     cu_density: float = 7900  # Density of copper in kg/m^3
     ss_density: float = 7900  # Density of stainless steel in kg/m^3
     mfr_factor: int = 3  # Manufacturing factor
 
+    # Yuhu CICC HTS cable specifications
+    cable_w: Meters = Meters(0.014)  # Cable width in meters
+    cable_h: Meters = Meters(0.017)  # Cable height in meters
     frac_cs_cu_yuhu: float = 0.307  # Fractional cross-sectional area of copper in Yuhu Zhai's cable design
     frac_cs_ss_yuhu: float = 0.257  # Fractional cross-sectional area of stainless steel in Yuhu Zhai's cable design
     frac_cs_sc_yuhu: float = 0.257  # Fractional cross-sectional area of REBCO in Yuhu Zhai's cable design
     tot_cs_area_yuhu: Meters2 = 0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
+
+    # HTS pancake constants
+    m_cost_i: float = 20  # Material cost of insulator in $/kg
+    i_density: float = 3000  # Density of insulator in kg/m^3
+    turns_p: float = 18  # Turns of REBCO tape per pancake
+    max_cu_current: Amperes = Amperes(20)  # max current for water cooled AWG 8
+    # https://www.engineeringtoolbox.com/wire-gauges-d_419.html
+    cu_wire_d: float = 3.3e-3  # copper wire diameter in meters AWG8
+
+    # COOLING 22.1.3.6
+    c_frac: float = 0.1
+    no_beams: Count = Count(20)  # number of beams supporting each coil, from the coil to the vessel
+    beam_length: Meters = Meters(1.5)  # total length of each beam
+    beam_cs_area: Meters2 = Meters2(0.25)  # cross-sectional area of each support beam
+    t_op: float = 4  # operating temperature of magnets
+    t_env: float = 300  # temperature of environment (to be cooled from)
 
     def __post_init__(self):
         if self.magnets is None:
@@ -141,20 +185,22 @@ class HeatingRef:
 
 @dataclass
 class SupplementaryHeating:
+    #see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
     nbi_power: MW = MW(25)
     icrf_power: MW = MW(25)
-    aries_at: HeatingRef = None
-    aries_i_a: HeatingRef = None
-    aries_i_b: HeatingRef = None
-    aries_rs: HeatingRef = None
-    aries_iv: HeatingRef = None
-    aries_ii: HeatingRef = None
-    aries_iii_a: HeatingRef = None
-    aries_iii_b: HeatingRef = None
-    iter: HeatingRef = None
-    average: HeatingRef = None
-    average_icrf: HeatingRef = None
-    average_nbi: HeatingRef = None
+    aries_at: HeatingRef = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
+    aries_i_a: HeatingRef = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
+    aries_i_b: HeatingRef = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
+    aries_rs: HeatingRef = HeatingRef("ARIES-RS", "ICRF/LH/HFFW", MW(80.773), 3.09, 4.4187)
+    aries_iv: HeatingRef = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
+    aries_ii: HeatingRef = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
+    # TODO why are there two ARIES-III?
+    aries_iii_a: HeatingRef = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
+    aries_iii_b: HeatingRef = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
+    iter: HeatingRef = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
+    average: HeatingRef = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
+    average_icrf: HeatingRef = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
+    average_nbi: HeatingRef = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
 
     def heating_refs(self):
         return [
@@ -172,31 +218,6 @@ class SupplementaryHeating:
             self.average_nbi,
         ]
 
-    def __post_init__(self):
-        if self.aries_at is None:
-            self.aries_at = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
-        if self.aries_i_a is None:
-            self.aries_i_a = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
-        if self.aries_i_b is None:
-            self.aries_i_b = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
-        if self.aries_rs is None:
-            self.aries_rs = HeatingRef("ARIES-RS", "LH/HFFW", MW(80.773), 3.09, 4.4187)
-        if self.aries_iv is None:
-            self.aries_iv = HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
-        if self.aries_ii is None:
-            self.aries_ii = HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921)
-        if self.aries_iii_a is None:
-            self.aries_iii_a = HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
-        if self.aries_iii_b is None:
-            self.aries_iii_b = HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
-        if self.iter is None:
-            self.iter = HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
-        if self.average is None:
-            self.average = HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667)
-        if self.average_icrf is None:
-            self.average_icrf = HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333)
-        if self.average_nbi is None:
-            self.average_nbi = HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642)
 
 # 22.1.5 primary structure
 @dataclass
@@ -235,64 +256,45 @@ class PrimaryStructure():
 @dataclass
 class VacuumSystem:
     # 22.1.6.1 Vacuum Vessel
-    end_length: Meters = 8 # End parts length in meters (each)
-    thickness: Meters = 0.02
-    # Material properties (density and cost)
-    ss_density: float = 6700  # kg/m^3
-    ss_cost: float = 5  # $/kg
-    vesmfr: float = 10
 
-    # COOLING 22.1.6.2
-    k_steel: float = 10
-    t_mag: float = 20
-    t_env: float = 300
-    c_frac: float = 0.1 # cooling from power in/half carnot COP
-    cop_starfire: float = 4.2 / (300 - 4.2) * 0.15 # Starfire COP
-    qsci_starfire: float = 20e3 # 20 kW - STARFIRE cooling at 4.2 K
-    cost_starfire: float = 17.65 * 1.43 # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
+    # Scaling parameters INPUTS
+    learning_credit: Ratio = 0.5
+    inflation_factor: Ratio = 1.58  # 2005 to 2024
 
-    #VACUUM PUMPING 22.1.6.3
-    #assume 1 second vac rate
-    #cost of 1 vacuum pump, scaled from 1985 dollars
+    # Reference values for scaling
+    # TODO confirm these units
+    spool_ir: Meters = 2.25
+    spool_or: Meters = 3.15
+    door_irb: Meters = 6
+    door_orb: Meters = 6.25
+    door_irc: Meters = 7.81
+    door_orc: Meters = 8.06
+    spool_height: Meters = 9
+
+    # VACUUM PUMPING 22.1.6.3
+    # assume 1 second vac rate
+    # cost of 1 vacuum pump, scaled from 1985 dollars
     cost_pump: float = 40000
-    #48 pumps needed for 200^3 system
-    vpump_cap: float = 200/48 #m^3 capable of beign pumped by 1 pump
+    # 48 pumps needed for 200^3 system
+    vpump_cap: float = 200 / 48  # m^3 capable of being pumped by 1 pump
 
 
 @dataclass
 class PowerSupplies:
     learning_credit: Unknown = 0.5
+    cost_per_watt: Unknown = 1  # $1/W power supply rule of thumb
 
 
 @dataclass
 class DirectEnergyConverter:
     system_power: Unknown = 1
     flux_limit: Unknown = 2
-    costs: dict[str, M_USD] = None
-
-    def __post_init__(self):
-        if self.costs is None:
-            self.costs = {
-                "EXPANDER_TANK": 16,
-                "EXPANDER_COIL_AND_NEUTRON_TRAP_COIL": 33,
-                "CONVERTOR_GATE_VALVE": 0.1,
-                "NEUTRON_TRAP_SHIELDING": 1,
-                "VACUUM_SYSTEM": 16,
-                "GRID_SYSTEM": 27,
-                "HEAT_COLLECTION_SYSTEM": 6,
-                "ELECTRICAL_EQUIPMENT": 13,
-                "COST_PER_UNIT": 112,
-                "TOTAL_DEUNIT_COST": 447,
-                "ENGINEERING_15_PERCENT": 67,
-                "CONTINGENCY_15_PERCENT": 77,
-            }
 
 
 @dataclass
 class Installation:
     # 1600 dollars per day for skilled labor
-    labor_rate: USD = 1600 / 1e6
-    r: Meters = 8  # major radius of the system
+    labor_rate: USD = 1600 / 1e6  # 1600 dollars per day for skilled labor
     nmod: int = 1  # number of modules
 
 
@@ -300,16 +302,17 @@ class Installation:
 class FuelHandling:
     inflation: Ratio = 1.43
     learning_curve_credit: Ratio = 0.8
-    learning_tenth_of_a_kind: Unknown = None
+    learning_tenth_of_a_kind: Ratio = None
 
     def __post_init__(self):
         if self.learning_tenth_of_a_kind is None:
-            self.learning_tenth_of_a_kind = Unknown(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
+            self.learning_tenth_of_a_kind = Ratio(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
 
 
 @dataclass
 class LsaLevels:
-    lsa: int = 2
+    initialized: bool = False
+    lsa: Count = 2
     fac_91: list[float] = None
     fac_92: list[float] = None
     fac_93: list[float] = None
@@ -320,22 +323,17 @@ class LsaLevels:
     fac_98: list[float] = None
 
     def __post_init__(self):
-        if self.fac_91 is None:
-            self.fac_91 = [0.1130, 0.1200, 0.1280, 0.1510]
-        if self.fac_92 is None:
-            self.fac_92 = [0.0520, 0.0520, 0.0520, 0.0520]
-        if self.fac_93 is None:
-            self.fac_93 = [0.0520, 0.0600, 0.0640, 0.0870]
-        if self.fac_94 is None:
-            self.fac_94 = [0.1826, 0.1848, 0.1866, 0.1935]
-        if self.fac_95 is None:
-            self.fac_95 = [0.0000, 0.0000, 0.0000, 0.0000]
-        if self.fac_96 is None:
-            self.fac_96 = [0.2050, 0.2391, 0.2565, 0.2808]
-        if self.fac_97 is None:
-            self.fac_97 = [0.2651, 0.2736, 0.2787, 0.2915]
-        if self.fac_98 is None:
-            self.fac_98 = [0.0000, 0.0000, 0.0000, 0.0000]
+        if not self.initialized:
+            # Indirect Cost Factors for different LSA levels
+            self.fac_91 = [0.1130, 0.1200, 0.1280, 0.1510]  # x TDC [90]
+            self.fac_92 = [0.0520, 0.0520, 0.0520, 0.0520]  # x TDC [90]
+            self.fac_93 = [0.0520, 0.0600, 0.0640, 0.0870]  # x TDC [90]
+            self.fac_94 = [0.1826, 0.1848, 0.1866, 0.1935]  # applies only to C90, x TDC [90+91+92+93]
+            self.fac_95 = [0.0000, 0.0000, 0.0000, 0.0000]  # x TDC [90+91+92+93+94]
+            self.fac_96 = [0.2050, 0.2391, 0.2565, 0.2808]  # applied only to C90, x TDC [90+91+92+93+94]
+            self.fac_97 = [0.2651, 0.2736, 0.2787, 0.2915]  # applied only to C90, x TDC [90+91+92+93+94+95+96]
+            self.fac_98 = [0.0000, 0.0000, 0.0000, 0.0000]  # x TDC [90+91+92+93+94+95+96]
+            self.initialized = True
 
 
 @dataclass

@@ -2,19 +2,21 @@ from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.units import MW, Unknown
 
+POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table
-    OUT.p_alpha = MW(basic.p_nrl * 3.52 / 17.58)
+    # TODO this will depend on fuel type
+    charged_particle_energy_fraction = 3.52 / 17.58
+    OUT.p_alpha = MW(basic.p_nrl * charged_particle_energy_fraction)
     OUT.p_neutron = MW(basic.p_nrl - OUT.p_alpha)
     OUT.p_cool = MW(IN.p_tfcool + IN.p_pfcool)
     OUT.p_aux = MW(IN.p_trit + IN.p_house)
     OUT.p_coils = MW(IN.p_tf + IN.p_pf)
-    OUT.p_th = MW(IN.mn + OUT.p_neutron + IN.eta_th \
-               * (IN.fpcppf * IN.eta_p + IN.f_sub) \
-               * (IN.mn * OUT.p_neutron))
+    OUT.p_th = MW(IN.mn * OUT.p_neutron + IN.p_input + IN.eta_th
+                  * (IN.fpcppf * IN.eta_p + IN.f_sub) * (IN.mn * OUT.p_neutron))
     OUT.p_the = MW(IN.eta_th * OUT.p_th)
     OUT.p_dee = MW(IN.eta_de * OUT.p_alpha)
     OUT.p_et = MW(OUT.p_dee + OUT.p_the)
@@ -22,7 +24,48 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.p_pump = MW(IN.fpcppf * OUT.p_the)
     OUT.p_sub = MW(IN.f_sub * OUT.p_the)
     OUT.qsci = Unknown(basic.p_nrl / IN.p_input)
-    OUT.qeng = Unknown((IN.eta_th * (IN.mn * OUT.p_neutron + OUT.p_pump + IN.p_input) + IN.eta_de * OUT.p_alpha) \
-               / (OUT.p_coils + OUT.p_pump + OUT.p_sub + OUT.p_aux + OUT.p_cool + IN.p_cryo + IN.p_input / IN.eta_pin))
+    OUT.qeng = Unknown((IN.eta_th * (IN.mn * OUT.p_neutron + OUT.p_pump + IN.p_input) + IN.eta_de * OUT.p_alpha)
+                       / (OUT.p_coils + OUT.p_pump + OUT.p_sub + OUT.p_aux + OUT.p_cool + IN.p_cryo
+                          + IN.p_input / IN.eta_pin))
     OUT.recfrac = 1 / OUT.qeng
     OUT.p_net = MW((1 - 1 / OUT.qeng) * OUT.p_et)
+
+    OUT.template_file = POWER_TABLE_MFE_DT_TEX
+    OUT.replacements = {
+        # Ordered by occurrence in template
+        # 1. Output power
+        'PNRL': inputs.basic.p_nrl,  # Fusion Power
+        'PALPHA': OUT.p_alpha,  # Alpha Power
+        'PNEUTRON': OUT.p_neutron,  # Neutron Power
+        'MN___': inputs.power_table.mn,  # Neutron Energy Multiplier
+        'ETAP__': inputs.power_table.eta_p,  # Pumping power capture efficiency
+        'PTH___': OUT.p_th,  # Thermal Power
+        'ETATH': inputs.power_table.eta_th,  # Thermal conversion efficiency
+        'PET___': OUT.p_et,  # Total (Gross) Electric Power
+        # 2. Recirculating power
+        'PLOSS': OUT.p_loss,  # Lost Power
+        'PCOILS': OUT.p_coils,  # Power into coils
+        'PTF___': inputs.power_table.p_tf,  # Power into TF coils
+        'PPF___': inputs.power_table.p_pf,  # Power into PF (equilibrium) coils
+        'FPCPPF': inputs.power_table.fpcppf,  # Primary Coolant Pumping Power Fraction
+        'PPUMP': OUT.p_pump,  # Primary Coolant Pumping Power
+        'FSUB': inputs.power_table.f_sub,  # Subsystem and Control Fraction
+        'PSUB': OUT.p_sub,  # Subsystem and Control Power
+        'PAUX': OUT.p_aux,  # Auxiliary systems
+        'PTRIT': inputs.power_table.p_trit,  # Tritium Systems
+        'PHOUSE': inputs.power_table.p_house,  # Housekeeping power
+        'PCOOL': OUT.p_cool,  # Cooling systems
+        'PTFCOOL': inputs.power_table.p_tfcool,  # TF coil cooling
+        'PPFCOOL': inputs.power_table.p_pfcool,  # PF coil cooling
+        'PCRYO': inputs.power_table.p_cryo,  # Cryo vacuum pumping
+        'ETAPIN': inputs.power_table.eta_pin,  # Input power wall plug efficiency
+        'PINPUT': inputs.power_table.p_input,  # Input power
+        # 3. Outputs
+        'QSCI': OUT.qsci,  # Scientific Q
+        'QENG': OUT.qeng,  # Engineering Q
+        'RECFRAC': round(OUT.recfrac, 3),  # Recirculating power fraction
+        'PNET': OUT.p_net,  # Output Power (Net Electric Power)
+        # TODO these will be included depending on EnergyConversion type
+        # 'ETADE': ETADE,
+        # 'PDEE': PDEE,
+    }

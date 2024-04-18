@@ -1,0 +1,230 @@
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/12d21470e1436c070d07aa077beb2f0f0b5158e3/MFE/Originals/CAS220103_MFE_DT_tokamak.tex#L1
+
+\subsubsection*{Cost Category 22.01.03: Coils in a Tokamak}
+
+This cost category includes the costing for the plasma confinement coils, including  material, structural and manufacturing cost. As a primary cost driver for this device, careful consideration of a number of parameters is taken, including the number of coils, the conductor material, winding type, and quench mitigation in the case of superconducting cables.\\
+
+\subsubsection*{Cost Category 22.01.03: Coils}
+
+This cost category includes the costing for the plasma confinement coils, including  material, structural and manufacturing cost. As a primary cost driver for this device, careful consideration of a number of parameters is taken, including the number of coils, the B$\times$R value ( in the case of the solenoid coils here), the conductor material, winding type, and quench mitigation in the case of superconducting cables.\\
+
+Consists of:
+
+\begin{itemize}
+    \item 22.1.3.1 Toroidal field coils. The toroidal field coils in a tokamak generate a powerful magnetic field that confines the plasma in a stable, donut-shaped loop.
+    \item 22.1.3.2 Solenoid coils. The central solenoid in a tokamak functions as a primary electromagnet, creating a magnetic field that initiates the plasma and drives the plasma current.
+    \item 22.1.3.3 Poloidal field coils. These are responsible for shaping and stabilizing the plasma, helping to maintain its shape and control its position.
+    \item 22.1.3.4 Shim coils. These serve the purpose of making fine adjustments to the plasma to achieve the desired field uniformity or compensate for disturbances.
+    \item 22.1.3.5 Structural support. In a tokamak the structure is needed to brace the magnets against torsional forces.
+\end{itemize}
+
+
+The approach taken was to compare various geometries of HTS, LTS and copper coil sets using COMSOL, with the same central field and minimum inner radius requirements. These were down-selected to an HTS geometry with noTFCoils solenoid coils, and noCSCoils inner mirror coils and noPF1Coils outer mirror coils.\\
+
+To determine the cost, the coil parameters were determined using a combination of COMSOL, calibration points from the literature including Menard 2016
+% \cite{Menard2016} - TODO implement citation
+for HTS, and EU DEMO for LTS, and analytical electromagnetic modeling. The material cost then then be determined through the mass/length (in the case of REBCO tape) of each material used. \\
+
+To cost the magnet system, two steps are required. The first is to have the specifications of the magnets required, and the second is to calculate the resulting material requirements and costs, with a manufacturing factor applied to this total. In the costing code provided, four basic magnet types are available: HTS (CICC), HTS (pancake), LTS (CICC) and copper. In the standard code, as arguably the new industry standard, only HTS (CICC) includes both both steps of design and costing. For all others, the user will need to provide the following basic specifications to input into the code for a cost to be returned:
+
+\begin{itemize}
+    \item Magnet coil counts: this input specifies the number of identical coils of each type.
+    \item Magnet type: specifies the magnet type of the four described above.
+    \item \textit{r} centre: the average radius of the coil.
+    \item \textit{z} centre: the displacement of the centre of the coil in the \textit{z} (vertical) axis.
+    \item \textit{dr}: the radial thickness of each coil.
+    \item \textit{dz}: the thickness of each coil in the \textit{z} axis.
+    \item Insulating material fraction: in the case of the pancake winding geometry, a "partial insulation" is used. Currently, the 'partial insulation' technology being developed by, for example, Tokamak Energy is proprietary and details are not publicly available. As such, for costing purposes, a fraction of fracIns of the total cross-sectional area is assumed to be insulating material, with a density similar to paraffin or epoxy, and a material cost of mcostI \$/kg. These values are purely indicative of an order-of-magnitude costing reference, and can be updated with more information as costing code inputs.
+    \item Manufacturing factor: a scalar multiplying factor which is applied to the total material cost of each coil, based upon the complexity and cost of winding and installing the coil. Default values are provided for each coil type. For HTS, for example, there has yet to be a commercially implemented CICC, so it is assumed that the cost of winding is comparable with that of LTS, which is widely available.
+    \item Structural factor: another scalar multiplying factor applied to the total cost of the magnet (including manufacturing factor). This accounts for the direct structure required to support each magnet. Default values are provided here too, varying approximatley from 25-100\% of the base cost of the magnet.
+\end{itemize}
+
+For the purposes of clarity, and as a methodology guide for other coil types, the design approach for step 1 of the HTS (CICC) coils is as follows. The coil geometries and specifications as described in Menard 2016
+% \cite{Menard2016} - TODO implement citation
+as used as a calibration point. These specifications are then input into a Biot-Savart code that calculates the field at given coordinates. The coil is considered to comprise of N turns of current-carrying circular loops, with varying radii and \textit{r} and \textit{z} displacements. The total contributions of each concentric turn are then summed to determine the central field at \textit{r = 0}.\\
+
+Using these data, a SciPy interpolation function is used to determine the coil specifications required to achieve a given central field, constrained by the required average radius.\\
+
+It should be noted that the default cable geometry as seen in \href{fig:yuhu_cs} is by no means optimised, and it is recommended that for minimal capital costs, a minimal length of REBCO and a maximum available current is used.
+
+
+% TODO implement figure
+%\begin{figure}[h]
+%    \centering
+%    \includegraphics[width =0.5\linewidth]{StandardFigures/yuhu_cs.pdf}
+%    \caption{HTS cable geometry.}
+%    \label{fig:yuhu_cs}
+%\end{figure}
+
+Another recommended approach is to employ a multi-physics FEM tool such as COMSOL to design the magnet with the required properties to obtain the inputs required for the costing code.
+
+It should be noted that a series of optimizations can be made to the design to reduce cost. The first of these is conductor grading. By reducing the number of strands of superconductor where the fields lower, up to 50\% of the superconducting material can be saved
+% \cite{uglietti2018progressing}. - TODO implement citation
+\\
+
+The total cost of the coils is C220103 M USD.
+
+
+\subsubsection*{22.1.3.1 Toroidal Coils}
+
+This design consists of notfcoils toroidal field coils, which can be individually removed for maintenance. The total cost is \$C22010301 M.\\
+
+Both LTS and HTS cables can be considered here. For each, a wide variety of designs are available, including no-insulation, partial insulation, and an array of CICC geometries. For this concept, a simple CICC geometry is considered
+% \cite{Menard2016} - TODO implement citation
+, comprising a layer of superconducting REBCO conductor, copper for quench mitigation and cooling, a central coolant channel, and a steel jacket to help resist the considerable forces experienced during operation. See
+% \ref{fig:yuhu_cs} - TODO implement figure
+for the specific geometry.\\
+
+To cost the system, the magnet specifications are calibrated against Menard2016
+% \cite{Menard2016} - TOOD implement citation
+, and extrapolated to the requirements of this concept. The total length of the conductor is then calculated and, assuming a cost of 12 \$/kAm, the total cost can be found. For the steel and copper, the volume is also found and multiplied by the cost per kilogram. This gives a total material cost for the coil, which is then multiplied by a manufacturing factor. The manufacturing factor comprises the cost of manufacturing the cables, then winding and installing the coils.
+
+\subsubsection*{22.1.3.2 Central solenoid}
+
+For the central solenoid, either LTS or HTS cables are viable. In this case, the HTS geometry as seen in yuhu cs
+% \ref{fig:yuhu_cs} - TODO implement figure
+is used. The total cost is \$C22010302 M.
+
+\subsubsection*{22.1.3.3 Poloidal Coils}
+
+This subsystem includes nopfcoils, corresponding to nopfpairs pairs of identical pairs, displaced in positive and negative z coordinates. Owing to the generally large radius, HTS and LTS coils must be considered here. In this case, HTS coils are used, owing to their significantly increased current density, reducing the required number of turns and length of superconductor. This allows for a reduced form factor for the entire system, resulting in a multiplicative
+cost saving. The cable geometry used here is described in yuhu cs
+% \ref{fig:yuhu_cs} - TODO implement figure
+, although other HTS CICC geometries may be more optimised.
+Since the lower PF coils are effectively trapped by the TF coils and the power core above them, additional spare PF coils are to be provided below the power core. Even though the PF coils are designed to be life of plant and replaceable, the downtime to replace these particular lower PF coils are so onerous, it is more cost effective to have spares installed during the initial build sequence.  \\
+
+The total cost of the PF coils is \$C22010303 M.
+
+\subsubsection*{22.1.3.4 Shim Coils}
+
+These coils serve to apply fine adjustments to the field profile to maintain field uniformity, and control any plasma disturbances. The placement, size, and magnitude of these coils is dependent upon the uniformity requirements of the plasma, and requires sophisticated FEM analysis to accurately quantify. As such, for the scope of this costing report, a simple factor of 5\% of the total primary magnet costs is taken. The resulting cost is \$C22010304 M.
+
+\begin{table}[h]
+    \centering
+    \resizebox{\linewidth}{!}{%
+        \begin{tabular}{tableStructure}
+            \hline
+            \textbf{Parameter} & tableHeaderList \\
+            \hline
+            Magnet Type & magnetTypeList \\
+            Radius (m) & magnetRadiusList \\
+            dr (m) & magnetDrList \\
+            dz (m) & magnetDzList \\
+            Current supply (MA) & currentSupplyList \\
+            Conductor current density (A/mm$^2$) & conductorCurrentDensityList \\
+            Cable width (m) & cableWidthList \\
+            Cable height (m) & cableHeightList \\
+            Total volume (m$^3$) & totalVolumeList \\
+            Cross-sectional area (m$^2$) & crossSectionalAreaList \\
+            Turn-turn Insulation Fraction & turnInsulationFractionList \\
+            \hline
+            Cable turns & cableTurnsList \\
+            Total turns of conductor & totalTurnsOfConductorList \\
+            Length of conductor (km) & lengthOfConductorList \\
+            Current per conductor (A) & currentPerConductorList \\
+            \hline
+            Cost of REBCO tape(\$/kAm) & costOfRebcoTapeList \\
+            Cost of SC (M USD) & costOfScList \\
+            Cost of copper (M USD) & costOfCopperList \\
+            Cost of SS (M USD) & costOfStainlessSteelList \\
+            Cost of other turn-turn insulation (M USD) & costOfTurnInsulationList \\
+            Total material cost (M USD) & totalMaterialCostList \\
+            Manufacturing factor & manufacturingFactorList \\
+            Structural cost (M USD) & structuralCostList \\
+            Quantity & numberCoilsList \\
+            Magnet cost (single) (M USD) & magnetCostList \\
+            Magnet + structure cost (single) (M USD) & magnetTotalCostIndividualList \\
+            \hline
+            Total cost (M USD) & magnetTotalCostList \\
+            \hline
+        \end{tabular}}
+    \caption{Design parameters for an individual coil of each of the main coils in this concept.}
+    \label{your-table-label}
+\end{table}
+
+
+\subsubsection*{22.1.3.5 Structural cost for coils}
+
+The structural cost for the coils is difficult to cost from first principles without detailed structural analysis with FEM. Here, the approach is a series of analytical estimations of the dominant stresses. These include:
+
+\begin{itemize}
+    \item Hoop stress within the coil generated by the cumulative effect of the induced force between concentric radial turns.
+    \item Axial force generated between cable turns within the coils.
+    \item Axial force between adjacent coils.
+\end{itemize}
+
+
+In the case of Tokamaks, significant torsional forces are induced, demanding considerable bracing structure. By considering these primary contributions, an estimate of the structural material required (such as the hoop restraint requirements) can be calculated. From this preliminary estimate, a structural cost of 100\% of the coil cost is used as a conservative factor, based on previous Tokamak structural costs. The structural cost is thus C22010305 M USD.
+
+
+\subsubsection*{22.1.3.6 Magnet cryogenic systems}
+
+The key design requirement is to cope with large dynamic heat loads deposited in the
+magnets due to magnetic field variation and neutron production from deuterium-tritium
+fusion reaction. At the same time the system must be able to cope with the regular
+regeneration of the cryopumps to 80 K as well as higher temperature regeneration at 470 K.
+The basic duties of the cryogenic system are the cooldown of the cryopumps in order
+to pump the cryostat and torus and the gradual cooldown and fill of the magnet system and
+thermal shields. Once at nominal operating temperatures, the cryogenic system has to
+maintain the magnets and cryopumps at these operating conditions over a wide range of
+operating modes. It has also to accommodate resistive transitions and fast discharges of the
+magnets and limit the time to recover back to nominal operating conditions. Additionally
+the cryogenic system must ensure high flexibility and reliability of operation together with
+low maintenance requirements.
+
+The total cooling cost is cost is thus C22010306 M USD.
+
+
+
+\begin{comment}
+    The ITER cryogenic system consists of two main sub-systems (FIGURE 4 and 5): the
+    cryoplant [8] and the cryodistribution [9].
+
+
+    Three helium refrigerators will supply the required cooling power via an
+    interconnection box providing interface to the cryodistribution system and redundancy of
+    operation between refrigerators during faulty scenarios. One of the helium refrigerators is
+    fully dedicated to the cryopump system for the cooling of the cryopumps prior to cooling
+    the cryostat. It accommodates regular variations of liquefaction and refrigeration loads for
+    cryopumps operation. The other two refrigerators are used for the magnets system and
+    provide partial redundancy for stand-by operation while keeping the refrigerator size within
+    industrial standards.
+
+
+    Two nitrogen refrigerators provide cooling power for the thermal shields and HTS
+    leads cooling as well as 80 K pre-cooling of the helium refrigerators.
+    The cryogenic distribution system is composed of:
+    - the main cryogenic distribution boxes (ACB),
+    - a complex system of cryogenic transfer lines located inside the Tokamak building,
+    in the cryoplant buildings and in between the two buildings,
+    - the cold termination boxes for the magnet system (CTB),
+    - the cold valve boxes for the cryopumps and the thermal shields (CVB).
+
+    COOLING SCHEME AND CRYODISTRIBUTION
+    The distribution of cooling power is provided via a complex system of cryolines with
+    a total developed length of 3 km and 50 cryodistribution boxes. The cooling scheme is
+    shown in FIGURE 6.
+
+    LARGE-CAPACITY POWER REFRIGERATION
+    Large refrigerators at 4.5 K are required to cope with the requirements and heat loads
+    of the magnets and cryopump systems.
+    The refrigerators have to cope with static and dynamic heat loads for various plasma
+    scenarios, with large dynamic loads variation and high repetition rates. They have to
+    provide cooling power at 80 K, 50 K and 4.5 K. Liquid nitrogen pre-cooling is available
+    via the nitrogen refrigerator. The 80 K loop decouples the requirements of 80 K cooling
+    with high flow rate for the thermal shield from the helium refrigerator making use of a
+    separate plant.
+
+    The refrigerators and the whole cryoplant which comprise the dryers, gas medium
+    pressure storage for 24 t of helium, liquid helium and liquid nitrogen, purification system,
+    will make use of state-of-the-art technology adapted to large dynamic loads and parallel
+    refrigerators’ operation. Two large units of about 26 kW for the magnets and a smaller one
+    of 13 kW for the cryopumps and small users will be installed in order to minimize costs
+    and improve efficiency. Staged installation for the various phases of the machine operation
+    will be adopted instead of uncertainty factors and margins. The requirements and loads for
+    the refrigeration system will be therefore constantly checked and validated before
+    committing to an upgrade.
+
+\end{comment}
+
+

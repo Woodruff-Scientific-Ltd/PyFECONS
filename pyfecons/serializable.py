@@ -1,5 +1,19 @@
+import json
 from dataclasses import is_dataclass, asdict
 from enum import Enum
+
+
+# This is needed because our custom json serializer is not handling lists correctly
+class PyfeconsEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Enum):
+            # Check if the enum has a 'display_name' attribute
+            if hasattr(obj, 'display_name'):
+                return {"value": obj.value, "display_name": obj.display_name}
+            else:
+                return obj.value  # Return just the value if there's no 'display_name'
+        # Let the base class default method raise the TypeError for other types
+        return json.JSONEncoder.default(self, obj)
 
 
 class SerializableToJSON():
