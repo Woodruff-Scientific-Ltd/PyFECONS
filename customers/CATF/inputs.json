@@ -319,7 +319,7 @@
         "no_beams": 20,
         "beam_length": 1.5,
         "beam_cs_area": 0.25,
-        "t_mag": 4,
+        "t_op": 4,
         "t_env": 300
     },
     "supplementary_heating": {

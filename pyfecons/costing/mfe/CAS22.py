@@ -1,4 +1,6 @@
 import math
+from typing import Optional, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -333,17 +335,33 @@ def k_steel(t: float) -> float:
 
 # Power in from thermal conduction through support
 # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-def compute_q_in_struct(coils: Coils, k: float, t_mag: float) -> float:
-    # TODO - unsure if we should use t_mag input or keep this as a function parameter. Can we differentiate them?
-    return k * coils.beam_cs_area * float(coils.no_beams) / coils.beam_length * (coils.t_env - t_mag) / 1e6
+def compute_q_in_struct(coils: Coils, k: float, t_op: float) -> float:
+    # TODO - unsure if we should use t_op input or keep this as a function parameter. Can we differentiate them?
+    return k * coils.beam_cs_area * float(coils.no_beams) / coils.beam_length * (coils.t_env - t_op) / 1e6
 
 
 # power in from neutron flux, assume 95% is abosrbed in the blanket
 # Neutron heat loading for one coil
-def compute_q_in_n(int_coil_area: float, data: Data):
-    # surface area  of torus 4 × π^2 × R × r
-    return data.power_table.p_neutron * 0.05 * int_coil_area / (
-            4 * np.pi ** 2 * (data.cas220101.coil_ir - data.cas220101.axis_ir))
+def compute_q_in_n(load_area: float, p_neutron: float, maj_r: float, min_r: float) -> float:
+    # surface area of torus 4 × π^2 × R × r
+    return p_neutron * 0.05 * load_area / (4 * np.pi ** 2 * (maj_r - min_r))
+
+
+# cooling power
+# C_frac=0.1 TODO move this to an input?
+def compute_q_cooling(q_in: float, c_frac: float, t_op: float, t_env: float = 300) -> Optional[Tuple[float, float]]:
+    try:
+        cop = t_op / (t_env - t_op) * c_frac  # Assume 10% of Carnot efficiency
+    except ZeroDivisionError:
+        print("An error occurred: Division by zero. Please enter a value other than 300K for the magnet temperature.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+    if cop == 0:
+        print("Warning: cop is zero. Ensure the magnet temperature is not equal to the environment temperature.")
+
+    return q_in / cop, cop
 
 
 def compute_iter_cost_per_MW(coils):
@@ -354,14 +372,15 @@ def compute_iter_cost_per_MW(coils):
     # Calculating ITER cooling at system operating temp in MW
     cost_iter_cooling = 165.1 * 1.43  # 17.65 M USD in 2009 for 20kW at 4.2 K, adjusted to inflation
     learning_credit = 0.5  # ITER system cooling seems unnecessarily high compared with other costings such as STARFIRE, FIRE
-    qiter_scaled = MW(qiter_4k / (coils.t_mag / (coils.t_env - 4.2) * coils.c_frac))  # ITER cooling power at T_env
+    qiter_scaled = MW(qiter_4k / (coils.t_op / (coils.t_env - 4.2) * coils.c_frac))  # ITER cooling power at T_env
     iter_cost_per_MW = cost_iter_cooling / qiter_scaled * learning_credit
     return iter_cost_per_MW
 
 
 def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, data: Data) -> M_USD:
     # Neutron heat loading for one coil
-    q_in_n = compute_q_in_n(magnet.dz * abs((magnet.r_centre - magnet.dr / 2)), data)
+    q_in_n = compute_q_in_n(magnet.dz * abs((magnet.r_centre - magnet.dr / 2)), data.power_table.p_neutron,
+                            data.cas220101.coil_ir, data.cas220101.axis_ir)
     # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
     q_in_struct = compute_q_in_struct(coils, k_steel((coils.t_env + magnet.coil_temp) / 2),
                                       (coils.t_env + magnet.coil_temp) / 2)
@@ -613,8 +632,10 @@ def compute_220103_coils(inputs: Inputs, data: Data):
         'structuralCostList': (" & ".join([f"{props.magnet_struct_cost}" for props in OUT.magnet_properties])),
         'numberCoilsList': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
         'magnetCostList': (" & ".join([f"{props.magnet_cost}" for props in OUT.magnet_properties])),
-        'magnetTotalCostIndividualList': (" & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
-        'magnetTotalCostList': (" & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+        'magnetTotalCostIndividualList': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+        'magnetTotalCostList': (
+            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
     }
 
 
@@ -742,9 +763,31 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
     OUT.vesvol = np.pi * (syst_doors_ir ** 2 - syst_spool_ir ** 2) * syst_height
     OUT.C22010601 = M_USD(OUT.vessel_costs.total_subsystem_cost.total_cost / 1e6)
 
-    # Now calculated in C22010306
-    # COOLING 22.1.6.2
-    OUT.C22010602 = M_USD(0)
+    # COOLING 22.1.3.2
+    # INPUTS
+    T_op = 20  #Operating temerature of magnets
+    T_env = 300  #Temperature of environment (to be cooled from)
+
+    def calc_torus_sa(min_r: float, maj_r: float):
+        return 4 * np.pi ** 2 * maj_r * min_r
+
+    # Scaling cooling costs from ITER see Serio, L., ITER Organization and Domestic Agencies and Collaborators,
+    #  2010, April. Challenges for cryogenics at ITER. In AIP Conference Proceedings (Vol. 1218, No. 1, pp. 651-662).
+    #  American Institute of Physics.
+    coils = inputs.coils
+    load_area_1 = calc_torus_sa((build.ht_shield_ir - build.axis_ir), build.axis_ir)
+    load_area_2 = calc_torus_sa((build.lt_shield_ir - build.axis_ir), build.axis_ir)
+    p_neutron = data.power_table.p_neutron
+    # Neutron heat load on HT Shield
+    q_in_n = (compute_q_in_n(load_area_1, p_neutron, build.coil_ir, build.axis_ir)
+              + 0.1 * compute_q_in_n(load_area_2, p_neutron, build.coil_ir, build.axis_ir))
+    # TODO can we use the input coils instead of these constants?
+    input_coils = Coils(no_beams=Count(20), beam_cs_area=Meters2(0.15), beam_length=Meters(2))
+    Qinstruct = compute_q_in_struct(input_coils, k_steel((coils.t_env + coils.t_op) / 2),
+                                    (coils.t_env + coils.t_op) / 2)
+    q_in = (Qinstruct + q_in_n)  # total input heat for one coil
+
+    OUT.C22010602 = M_USD(q_in * compute_iter_cost_per_MW(coils))
 
     # VACUUM PUMPING 22.1.6.3
     # Number of vacuum pumps required to pump the full vacuum in 1 second

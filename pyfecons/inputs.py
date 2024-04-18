@@ -165,7 +165,7 @@ class Coils:
     no_beams: Count = Count(20)  # number of beams supporting each coil, from the coil to the vessel
     beam_length: Meters = Meters(1.5)  # total length of each beam
     beam_cs_area: Meters2 = Meters2(0.25)  # cross-sectional area of each support beam
-    t_mag: float = 4  # operating temperature of magnets
+    t_op: float = 4  # operating temperature of magnets
     t_env: float = 300  # temperature of environment (to be cooled from)
 
     def __post_init__(self):
