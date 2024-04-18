@@ -767,7 +767,6 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
         'vesvol': round(OUT.vesvol),
         'massstruct': round(OUT.massstruct),
         'vesmatcost': round(OUT.vessel_costs.total.material_cost / 1e6, 1),
-        # TODO we have materialvolume in the template but no longer compute it in the code
     }
 
 
