@@ -10,38 +10,43 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT = data.cas21
 
     # Cost Category 21: Buildings
-    # TODO - where do these constants come from? What do they represent?
 
     # Buildings come out to be 470$/kW gross, so if we are looking at a gross power of 1GW, we have:
 
-    # 21.01.00,,Site improvements and facs,,20.7,,,,,2019,1.19,
-    OUT.C210100 = M_USD(268 / 1e3 * IN.p_et)
+    # [1]From NETL reference case B12A
+    # [2] Waganer, L.M., 2013. ARIES cost account documentation. San Diego: University of California.
 
-    # 21.02.00,,Fusion Heat Island Building,Concrete & Steel,131.6,48.3,48.3,60,140000,2009,1.42,
-    OUT.C210200 = M_USD(186.8 / 1e3 * IN.p_et)
+    # 21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
+    # 0.5 comes from use of DD
+    OUT.C210100 = M_USD(268 / 1e3 * IN.p_et * 0.5)
 
-    # 21.03.00,,Turbine building,Steel ,45.3,48.3,48.3,30,70000,2019,1.19,
+    # 21.02.00,,Fusion Heat Island Building,Concrete & Steel,. Source: [2], pg 11.
+    # 0.5 comes from use of DD - we don't need so much structure in the containment building.
+    OUT.C210200 = M_USD(186.8 / 1e3 * IN.p_et * 0.5)
+
+    # 21.03.00,,Turbine building,Steel. Source: [1] cost account 14.2, page 134
     OUT.C210300 = M_USD(54.0 / 1e3 * IN.p_et)
 
-    # 21.04.00,,Heat exchanger building,Concrete & Steel,31.7,48.3,48.3,15,35000,2019,1.19,
+    # 21.04.00,,Heat exchanger building,Concrete & Steel,Source: [1] cost account 14.2, page 134
     OUT.C210400 = M_USD(37.8 / 1e3 * IN.p_et)
 
-    # 21.05.00,,Power supply & energy storage,Concrete & Steel,9.1,9.7,9.7,6.0,560,2019,1.19,
+    # 21.05.00,,Power supply & energy storage,Concrete & Steel,Source: scaled from [1] cost account 14.2, page 134
     OUT.C210500 = M_USD(10.8 / 1e3 * IN.p_et)
 
-    # 21.06.00,,Reactor auxiliaries,Concrete & Steel,4.5,4.8,4.8,3.0,70,2019,1.19,
+    # 21.06.00,,Reactor auxiliaries,Concrete & Steel, Source: [1] cost account 14.8, page 134
     OUT.C210600 = M_USD(5.4 / 1e3 * IN.p_et)
 
-    # 21.07.00,,Hot cell,Concrete & Steel,65.8,24.2,24.2,60,35000,2013,1.42,
-    OUT.C210700 = M_USD(93.4 / 1e3 * IN.p_et)
+    # 21.07.00,,Hot cell,Concrete & Steel, Source: [1] cost account 14.1, page 134
+    # 0.5 from use of DD
+    OUT.C210700 = M_USD(93.4 / 1e3 * IN.p_et * 0.5)
 
-    # 21.08.00,,Reactor services,Steel frame,13.2,4.8,4.8,10,233,2013,1.42,
+    # 21.08.00,,Reactor services,Steel frame, Source: scaled from [1] cost account 14.1, page 134
     OUT.C210800 = M_USD(18.7 / 1e3 * IN.p_et)
 
-    # 21.09.00,,Service water,Steel frame,0.2,1.3,4.0,4.0,21,2019,1.19,
+    # 21.09.00,,Service water,Steel frame, Source: [1] cost account 14.4, page 134
     OUT.C210900 = M_USD(0.3 / 1e3 * IN.p_et)
 
-    # 21.10.00,,Fuel storage,Steel frame,0.9,5.0,15.0,2.5,188,2019,1.19,
+    # 21.10.00,,Fuel storage,Steel frame, Source: scaled from [1] cost account 14.1, page 134
     OUT.C211000 = M_USD(1.1 / 1e3 * IN.p_et)
 
     # 21.11.00,,Control room,Steel frame,0.7,4.0,12.0,2,96,2019,1.19,
@@ -50,19 +55,20 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     # 21.12.00,,Onsite AC power,Steel frame,0.7,3.6,10.8,1.8,70,2019,1.19,
     OUT.C211200 = M_USD(0.8 / 1e3 * IN.p_et)
 
-    # 21.13.00,,Administration,Steel frame,3.7,20.0,60.0,10,12000,2019,1.19,
+    # 21.13.00,,Administration,Steel frame,Source: [1] cost account 14.3, page 134
     OUT.C211300 = M_USD(4.4 / 1e3 * IN.p_et)
 
-    # 21.14.00,,Site services,Steel frame,1.3,7.3,22.0,3.7,593,2019,1.19,
+    # 21.14.00,,Site services,Steel frame,Source: scaled from [1] cost account 14.6, page 134
     OUT.C211400 = M_USD(1.6 / 1e3 * IN.p_et)
 
-    # 21.15.00,,Cryogenics,Steel frame,2.0,11.0,33.0,5.5,2003,2019,1.19,
+    # 21.15.00,,Cryogenics,Steel frame,Source: scaled from [1] cost account 14.4, page 134
     OUT.C211500 = M_USD(2.4 / 1e3 * IN.p_et)
 
-    # 21.16.00,,Security,Steel frame,0.7,4.0,12.0,2,96,2019,1.19,
+    # 21.16.00,,Security,Steel frame,Source: scaled from [1] cost account 14.8, page 134
     OUT.C211600 = M_USD(0.9 / 1e3 * IN.p_et)
 
-    # 21.17.00,,Ventilation stack,Steel cylinder & concrete foundation,22.7,,,120,,2019,1.19,
+    # 21.17.00,,Ventilation stack,Steel cylinder & concrete foundation,Source: scaled from [1] cost account 14.3,
+    # page 134
     OUT.C211700 = M_USD(27.0 / 1e3 * IN.p_et)
 
     OUT.C210000 = M_USD(OUT.C210100 + OUT.C210200 + OUT.C210300 + OUT.C210400 + OUT.C210500 + OUT.C210600
@@ -93,5 +99,5 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         'C211500': str(round(data.cas21.C211500, 1)),
         'C211600': str(round(data.cas21.C211600, 1)),
         'C211700': str(round(data.cas21.C211700, 1)),
-        'C211900': str(round(data.cas21.C211900, 1)), # TODO - not in the template file
+        'C211900': str(round(data.cas21.C211900, 1)),  # TODO - not in the template file
     }
