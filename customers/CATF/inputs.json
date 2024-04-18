@@ -4,6 +4,7 @@
     },
     "basic": {
         "reactor_type": "MFE",
+        "confinement_type": "SPHERICAL_TOKAMAK",
         "energy_conversion": "DIRECT",
         "fuel_type": "DT",
         "p_nrl": 2600.0,

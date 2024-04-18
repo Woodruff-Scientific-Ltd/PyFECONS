@@ -27,6 +27,7 @@ class CustomerInfo:
 @dataclass
 class Basic:
     reactor_type: ReactorType = ReactorType.IFE
+    confinement_type: ConfinementType = ConfinementType.SPHERICAL_TOKAMAK
     energy_conversion: EnergyConversion = EnergyConversion.DIRECT
     fuel_type: FuelType = FuelType.DT
     p_nrl: MW = 2600.0  # Fusion Power
