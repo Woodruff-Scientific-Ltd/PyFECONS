@@ -43,7 +43,7 @@ class FinalReport:
     report_pdf: bytes
 
 
-LATEX_PACKAGES = ['hyperref', 'graphicx', 'color']
+LATEX_PACKAGES = ['hyperref', 'graphicx', 'color', 'comment']
 
 
 def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:

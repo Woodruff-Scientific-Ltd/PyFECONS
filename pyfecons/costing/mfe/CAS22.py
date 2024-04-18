@@ -11,7 +11,7 @@ from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meter
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
 CAS_220102_TEX = 'CAS220102.tex'
-CAS_220103_MIF_DT_MIRROR = 'CAS220103_MIF_DT_mirror.tex'  # TODO why this mirror file?
+CAS_220103_MFE_DT_TOKAMAK = 'CAS220103_MFE_DT_tokamak.tex'
 CAS_220104_MFE_DT = 'CAS220104_MFE_DT.tex'
 CAS_220105_TEX = 'CAS220105.tex'
 CAS_220106_MFE_TEX = 'CAS220106_MFE.tex'
@@ -569,7 +569,7 @@ def compute_220103_coils(inputs: Inputs, data: Data):
 
     # TODO verify template substition
 
-    OUT.template_file = CAS_220103_MIF_DT_MIRROR
+    OUT.template_file = CAS_220103_MFE_DT_TOKAMAK
     OUT.replacements = {
         'C220103__': str(OUT.C220103),
         'C22010301': str(OUT.C22010301),
@@ -585,41 +585,36 @@ def compute_220103_coils(inputs: Inputs, data: Data):
         'nopfpairs': OUT.no_pf_pairs,  # TODO not in template, should it be?
         'mCostYBCO': IN.m_cost_ybco,  # TODO not in template, should it be?
 
-        'TABLE_STRUCTURE': ('l' + 'c' * len(OUT.magnet_properties)),
-        'TABLE_HEADER_LIST': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in OUT.magnet_properties])),
-        # TODO fix
-        'MAGNET_TYPE_LIST': (
+        'tableStructure': ('l' + 'c' * len(OUT.magnet_properties)),
+        'tableHeaderList': (" & ".join([f"\\textbf{{{props.magnet.name}}}" for props in OUT.magnet_properties])),
+        'magnetTypeList': (
             " & ".join([f"\\textbf{{{props.magnet.material_type.display_name}}}" for props in OUT.magnet_properties])),
-        'MAGNET_RADIUS_LIST': (" & ".join([f"{props.magnet.r_centre}" for props in OUT.magnet_properties])),
-        'MAGNET_DR_LIST': (" & ".join([f"{props.magnet.dr}" for props in OUT.magnet_properties])),
-        'MAGNET_DZ_LIST': (" & ".join([f"{props.magnet.dz}" for props in OUT.magnet_properties])),
-        'CURRENT_SUPPLY_LIST': (" & ".join([f"{props.current_supply}" for props in OUT.magnet_properties])),
-        # TODO how do we calculate j_cable? Previously this was a magnet property.
-        # 'CABLE_CURRENT_DENSITY_LIST': (" & ".join([f"{props.magnet.j_cable}" for props in OUT.magnet_properties])),
-        'CONDUCTOR_CURRENT_DENSITY_LIST': (" & ".join([f"{props.j_tape}" for props in OUT.magnet_properties])),
-        'CABLE_WIDTH_LIST': (" & ".join([f"{props.cable_w}" for props in OUT.magnet_properties])),
-        'CABLE_HEIGHT_LIST': (" & ".join([f"{props.cable_h}" for props in OUT.magnet_properties])),
-        'TOTAL_VOLUME_LIST': (" & ".join([f"{props.vol_coil}" for props in OUT.magnet_properties])),
-        'CROSS_SECTIONAL_AREA_LIST': (" & ".join([f"{props.cs_area}" for props in OUT.magnet_properties])),
-        'TURN_INSULATION_FRACTION_LIST': (" & ".join([f"{props.magnet.frac_in}" for props in OUT.magnet_properties])),
-        'CABLE_TURNS_LIST': (" & ".join([f"{props.turns_c}" for props in OUT.magnet_properties])),
-        'TOTAL_TURNS_OF_CONDUCTOR_LIST': (" & ".join([f"{props.turns_scs}" for props in OUT.magnet_properties])),
-        'LENGTH_OF_CONDUCTOR_LIST': (" & ".join([f"{props.tape_length}" for props in OUT.magnet_properties])),
-        'CURRENT_PER_CONDUCTOR_LIST': (" & ".join([f"{props.max_tape_current}" for props in OUT.magnet_properties])),
-        'COST_OF_SC_LIST': (" & ".join([f"{props.cost_sc}" for props in OUT.magnet_properties])),
-        'COST_OF_COPPER_LIST': (" & ".join([f"{props.cost_cu}" for props in OUT.magnet_properties])),
-        'COST_OF_TURN_INSULATION_LIST': (" & ".join([f"{props.cost_i}" for props in OUT.magnet_properties])),
-        'COST_OF_SS_LIST': (" & ".join([f"{props.cost_ss}" for props in OUT.magnet_properties])),
-        'TOTAL_MATERIAL_COST_LIST': (" & ".join([f"{props.tot_mat_cost}" for props in OUT.magnet_properties])),
-        'MANUFACTURING_FACTOR_LIST': (" & ".join([f"{IN.mfr_factor}" for _ in OUT.magnet_properties])),
-        'STRUCTURAL_COST_LIST': (" & ".join([f"{props.magnet_struct_cost}" for props in OUT.magnet_properties])),
-        'NUMBER_COILS_LIST': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
-        'QUANTITY_LIST': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
-        'MAGNET_COST_LIST': (" & ".join([f"{props.magnet_cost}" for props in OUT.magnet_properties])),
-        'MAGNET_TOTAL_COST_INDIVIDUAL_LIST': (
-            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
-        'MAGNET_TOTAL_COST_LIST': (
-            " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+        'magnetRadiusList': (" & ".join([f"{props.magnet.r_centre}" for props in OUT.magnet_properties])),
+        'magnetDrList': (" & ".join([f"{props.magnet.dr}" for props in OUT.magnet_properties])),
+        'magnetDzList': (" & ".join([f"{props.magnet.dz}" for props in OUT.magnet_properties])),
+        'currentSupplyList': (" & ".join([f"{props.current_supply}" for props in OUT.magnet_properties])),
+        'conductorCurrentDensityList': (" & ".join([f"{props.j_tape}" for props in OUT.magnet_properties])),
+        'cableWidthList': (" & ".join([f"{props.cable_w}" for props in OUT.magnet_properties])),
+        'cableHeightList': (" & ".join([f"{props.cable_h}" for props in OUT.magnet_properties])),
+        'totalVolumeList': (" & ".join([f"{props.vol_coil}" for props in OUT.magnet_properties])),
+        'crossSectionalAreaList': (" & ".join([f"{props.cs_area}" for props in OUT.magnet_properties])),
+        'turnInsulationFractionList': (" & ".join([f"{props.magnet.frac_in}" for props in OUT.magnet_properties])),
+        'cableTurnsList': (" & ".join([f"{props.turns_c}" for props in OUT.magnet_properties])),
+        'totalTurnsOfConductorList': (" & ".join([f"{props.turns_scs}" for props in OUT.magnet_properties])),
+        'lengthOfConductorList': (" & ".join([f"{props.tape_length}" for props in OUT.magnet_properties])),
+        'currentPerConductorList': (" & ".join([f"{props.max_tape_current}" for props in OUT.magnet_properties])),
+        'costOfRebcoTapeList': (" & ".join([f"{IN.m_cost_ybco}" for _ in OUT.magnet_properties])),
+        'costOfScList': (" & ".join([f"{props.cost_sc}" for props in OUT.magnet_properties])),
+        'costOfCopperList': (" & ".join([f"{props.cost_cu}" for props in OUT.magnet_properties])),
+        'costOfStainlessSteelList': (" & ".join([f"{props.cost_ss}" for props in OUT.magnet_properties])),
+        'costOfTurnInsulationList': (" & ".join([f"{props.cost_i}" for props in OUT.magnet_properties])),
+        'totalMaterialCostList': (" & ".join([f"{props.tot_mat_cost}" for props in OUT.magnet_properties])),
+        'manufacturingFactorList': (" & ".join([f"{IN.mfr_factor}" for _ in OUT.magnet_properties])),
+        'structuralCostList': (" & ".join([f"{props.magnet_struct_cost}" for props in OUT.magnet_properties])),
+        'numberCoilsList': (" & ".join([f"{props.magnet.coil_count}" for props in OUT.magnet_properties])),
+        'magnetCostList': (" & ".join([f"{props.magnet_cost}" for props in OUT.magnet_properties])),
+        'magnetTotalCostIndividualList': (" & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
+        'magnetTotalCostList': (" & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
     }
 
 
