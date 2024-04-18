@@ -7,6 +7,7 @@ CAS_240000_TEX = 'CAS240000.tex'
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     # Cost Category 24 Electric Plant Equipment
+    # Talk to Simon, see page 508 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
     # TODO what do 0.054 & 1.15 represent?
     data.cas24.C240000 = M_USD(float(inputs.basic.n_mod) * data.power_table.p_et * 0.054 * 1.15)
 

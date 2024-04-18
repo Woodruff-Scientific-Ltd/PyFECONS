@@ -7,6 +7,7 @@ CAS_250000_TEX = 'CAS250000.tex'
 
 def GenerateData(inputs: Inputs, data: Data, figures: dict):
     # Cost Category 25 Miscellaneous Plant Equipment
+    # No cost basis stated
     OUT = data.cas25
     # factor of 1.15 obtained from escalating relative to $ 2019
     # TODO where does 0.038 come from? Can we extract 1.15 to an input parameter?
