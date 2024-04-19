@@ -1,7 +1,6 @@
 import os
 import glob
 import tempfile
-from dataclasses import dataclass
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.enums import *
@@ -9,9 +8,10 @@ from pyfecons.costing.mfe.mfe import GenerateData as GenerateMFEData
 from pyfecons.costing.mfe.mfe import HydrateTemplates as GenerateMFETemplates
 from pylatex import Document, Package
 from pylatex.utils import NoEscape
+from pyfecons.report import ReportContent, FinalReport
 
 
-def RunCostingWithInput(inputs: Inputs) -> Data:
+def RunCosting(inputs: Inputs) -> Data:
     if inputs.basic.reactor_type == ReactorType.MFE:
         return GenerateMFEData(inputs)
     elif inputs.basic.reactor_type == ReactorType.MIF:
@@ -21,12 +21,12 @@ def RunCostingWithInput(inputs: Inputs) -> Data:
     raise ValueError('Invalid basic reactor type')
 
 
-def HydrateTemplates(inputs: Inputs, data: Data) -> dict[str, str]:
+def CreateReportContent(inputs: Inputs, data: Data) -> ReportContent:
     """
-    Hydrates templates with given cost calculation inputs and output data.
+    Create report content with given cost calculation inputs and output data.
     :param inputs: The inputs used for cost calculations.
     :param data: The output data for cost calculations.
-    :return: A dictionary mapping template names to their hydrated contents.
+    :return: Report contents including files, hydrated templates, and latex packages.
     """
     if inputs.basic.reactor_type == ReactorType.MFE:
         return GenerateMFETemplates(inputs, data)
@@ -37,29 +37,21 @@ def HydrateTemplates(inputs: Inputs, data: Data) -> dict[str, str]:
     raise ValueError('Invalid basic reactor type')
 
 
-@dataclass
-class FinalReport:
-    report_tex: str
-    report_pdf: bytes
-
-
-LATEX_PACKAGES = ['hyperref', 'graphicx', 'color', 'comment']
-
-
-def CreateFinalReport(hydrated_templates: dict[str, str]) -> FinalReport:
+def RenderFinalReport(report_content: ReportContent) -> FinalReport:
     """
-    Parses hydrated templates into a final report
-    :param hydrated_templates: from cost calculations
+    Compiles report contents into a final Tex and Pdf report
+    :param report_content: from cost calculations
     :return: final report
     """
     # TODO - need to create ordering for the hydrated templates and support \include substitutions
-    template_content = '\n\n'.join([hydrated_templates[key] for key in sorted(hydrated_templates.keys())])
+    template_content = '\n\n'.join([report_content.hydrated_templates[key]
+                                    for key in sorted(report_content.hydrated_templates.keys())])
     # Uncomment the following two lines to view the compiled .tex file locally if pdf rendering is failing
     # with open(f"temp/report.tex", "w") as file:
     #     file.write(template_content)
 
     doc = Document(documentclass='article')
-    for package in LATEX_PACKAGES:
+    for package in report_content.latex_packages:
         doc.packages.append(Package(package))
     doc.append(NoEscape(template_content))
 

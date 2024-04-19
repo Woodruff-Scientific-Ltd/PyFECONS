@@ -26,7 +26,7 @@ from pyfecons.costing.mfe.CAS80 import GenerateData as CAS80Data, CAS_800000_DT_
 from pyfecons.costing.mfe.CAS90 import GenerateData as CAS90Data, CAS_900000_TEX
 from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData, LCOE_TEX
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData, CAS_STRUCTURE_TEX
-
+from pyfecons.report import ReportContent
 
 TEMPLATE_FILES = [
     POWER_TABLE_MFE_DT_TEX,
@@ -69,6 +69,7 @@ TEMPLATE_FILES = [
     CAS_STRUCTURE_TEX,
 ]
 
+LATEX_PACKAGES = ['hyperref', 'graphicx', 'color', 'comment']
 
 def GenerateData(inputs: Inputs) -> Data:
     data = Data()
@@ -97,13 +98,13 @@ def GenerateData(inputs: Inputs) -> Data:
     return data
 
 
-def HydrateTemplates(inputs: Inputs, data: Data) -> dict[str, str]:
+def HydrateTemplates(inputs: Inputs, data: Data) -> ReportContent:
     hydrated_templates = {}
     for template in TEMPLATE_FILES:
         template_content = read_template(template)
         replacements = get_template_replacements(template, inputs, data)
         hydrated_templates[template] = replace_values(template_content, replacements)
-    return hydrated_templates
+    return ReportContent(hydrated_templates, {}, LATEX_PACKAGES)
 
 
 def read_template(template_file: str) -> str:
