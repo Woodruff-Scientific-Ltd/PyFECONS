@@ -3,12 +3,10 @@ from dataclasses import dataclass
 
 @dataclass
 class ReportContent:
-    # TODO convert hydrated templates to an ordered list
     # filename -> contents
     hydrated_templates: dict[str, str] = None
-    # filename -> contents
+    # tex file path -> local file path of files to include in tex compilation
     included_files: dict[str, str] = None
-    latex_packages: list[str] = None
 
 
 @dataclass

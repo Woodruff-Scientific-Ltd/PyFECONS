@@ -1,5 +1,5 @@
 from importlib import resources
-
+from pyfecons.helpers import load_included_files, load_github_images
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData, POWER_TABLE_MFE_DT_TEX
@@ -69,7 +69,21 @@ TEMPLATE_FILES = [
     CAS_STRUCTURE_TEX,
 ]
 
-LATEX_PACKAGES = ['hyperref', 'graphicx', 'color', 'comment']
+BASE_URL = 'https://raw.githubusercontent.com/Woodruff-Scientific-Ltd/PyFECONS/'
+CACHE = 'temp/cache/mfe'
+# GitHub files to include in the tex compilation: tex file path -> remote path
+INCLUDED_FILES = {
+    'ST-SC.bib': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/ST-SC.bib',
+    'additions.bib': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/additions.bib',
+    'glossary.tex': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/glossary.tex',
+    'IEEEtran.bst': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/IEEEtran.bst'
+}
+# GitHub images to include in the tex compilation: tex file path -> remote path
+INCLUDED_IMAGES = {
+    'Figures/MFE.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Figures/MFE.png?raw=true',
+    'StandardFigures/WSLTD_logo.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/WSLTD_logo.png?raw=true',
+    'StandardFigures/signature.jpg': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/signature.jpg?raw=true'
+}
 
 def GenerateData(inputs: Inputs) -> Data:
     data = Data()
@@ -98,13 +112,20 @@ def GenerateData(inputs: Inputs) -> Data:
     return data
 
 
-def HydrateTemplates(inputs: Inputs, data: Data) -> ReportContent:
+def CreateReportContent(inputs: Inputs, data: Data) -> ReportContent:
+    hydrated_templates = hydrate_templates(data, inputs)
+    included_files = load_included_files(CACHE, BASE_URL, INCLUDED_FILES)
+    included_files = included_files | load_github_images(CACHE, INCLUDED_IMAGES)
+    return ReportContent(hydrated_templates, included_files)
+
+
+def hydrate_templates(data, inputs):
     hydrated_templates = {}
     for template in TEMPLATE_FILES:
         template_content = read_template(template)
         replacements = get_template_replacements(template, inputs, data)
         hydrated_templates[template] = replace_values(template_content, replacements)
-    return ReportContent(hydrated_templates, {}, LATEX_PACKAGES)
+    return hydrated_templates
 
 
 def read_template(template_file: str) -> str:

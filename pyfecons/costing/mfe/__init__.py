@@ -1,1 +1,1 @@
-from .mfe import GenerateData, HydrateTemplates
+from .mfe import GenerateData, CreateReportContent
