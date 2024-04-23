@@ -114,6 +114,8 @@ print(f"Existing contents of {outputDir} have been deleted.")
 
 # a dictionary with keys = name of file, value = contents
 # Write the data to files in the customer's folder
+with open(f"{customerFolder}/output/{report_content.document_template.template_provider.template_file}", "w") as file:
+    file.write(report_content.document_template.contents)
 for hydrated_template in report_content.hydrated_templates:
     with open(f"{customerFolder}/output/{hydrated_template.template_provider.template_file}", "w") as file:
         file.write(hydrated_template.contents)

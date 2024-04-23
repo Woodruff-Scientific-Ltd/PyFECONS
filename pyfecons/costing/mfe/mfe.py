@@ -25,6 +25,7 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData
 from pyfecons.report import ReportContent, CostingData, HydratedTemplate
 
+DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 BASE_URL = 'https://raw.githubusercontent.com/Woodruff-Scientific-Ltd/PyFECONS/'
 CACHE = 'temp/cache/mfe'
 # GitHub files to include in the tex compilation: tex file path -> remote path
@@ -76,11 +77,19 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
     return CostingData(data, template_providers)
 
 
+def load_document_template() -> HydratedTemplate:
+    return HydratedTemplate(
+        TemplateProvider(template_file=DOCUMENT_TEMPLATE),
+        read_template(DOCUMENT_TEMPLATE)
+    )
+
+
 def CreateReportContent(costing_data: CostingData) -> ReportContent:
+    document_template = load_document_template()
     hydrated_templates = hydrate_templates(costing_data.template_providers)
     included_files = load_included_files(CACHE, BASE_URL, INCLUDED_FILES)
     included_files = included_files | load_github_images(CACHE, INCLUDED_IMAGES)
-    return ReportContent(hydrated_templates, included_files)
+    return ReportContent(document_template, hydrated_templates, included_files)
 
 
 def hydrate_templates(template_providers: list[TemplateProvider]) -> list[HydratedTemplate]:

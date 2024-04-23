@@ -43,12 +43,14 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
     :param report_content: from cost calculations
     :return: final report
     """
-    # TODO - write hydrated templates to files and include them in tex compilation
-    # template_content = '\n\n'.join([report_content.hydrated_templates[key]
-    #                                 for key in sorted(report_content.hydrated_templates.keys())])
-
-    # Use a temporary file to generate the PDF
+    # Use a temporary directory for tex compilation
     with tempfile.TemporaryDirectory(prefix="pyfecons-") as temp_dir:
+        # Write top level document file
+        document_tex = report_content.document_template.template_provider.template_file
+        document_output_path = os.path.join(temp_dir, document_tex)
+        with open(document_output_path, 'w') as template_file:
+            template_file.write(report_content.document_template.contents)
+
         # Write hydrated templates to tex compile directory
         for hydrated_template in report_content.hydrated_templates:
             output_path = os.path.join(temp_dir, hydrated_template.template_provider.tex_path)
@@ -62,17 +64,10 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
             os.makedirs(os.path.dirname(full_dest_path), exist_ok=True)
             shutil.copy(local_path, full_dest_path)
 
-        # TODO replace this with github file when we copy all hydrated templates
-        document_tex = 'Costing_ARPA-E_MFE_Modified.tex'
-        shutil.copy(
-            '/Users/craastad/code/nttau/PyFECONS/pyfecons/costing/mfe/templates/' + document_tex,
-            os.path.join(temp_dir, document_tex)
-        )
-        document_base_name = base_name_without_extension(document_tex)
-
         original_dir = os.getcwd()
         os.chdir(temp_dir)
 
+        document_base_name = base_name_without_extension(document_tex)
         subprocess.run(['pdflatex', document_tex], check=True)
         subprocess.run(['bibtex', document_base_name], check=True)
         subprocess.run(['pdflatex', document_tex], check=True)
