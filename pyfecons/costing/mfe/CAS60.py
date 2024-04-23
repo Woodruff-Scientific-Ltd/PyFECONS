@@ -1,11 +1,11 @@
 from pyfecons import M_USD
 from pyfecons.inputs import Inputs
-from pyfecons.data import Data
+from pyfecons.data import Data, TemplateProvider
 
 CAS_600000_TEX = 'CAS600000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict):
+def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
     OUT = data.cas60
 
     # Cost Category 60 Capitalized Financial Costs (CFC)
@@ -41,9 +41,11 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.C600000 = M_USD(OUT.C630000 + OUT.C610000)
 
     OUT.template_file = CAS_600000_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C600000': round(OUT.C600000),  # TODO - not in template
         'C610000': round(OUT.C610000),
         'C630000LSA': round(OUT.C630000LSA),
         'C630000000': round(OUT.C630000),
     }
+    return [OUT]

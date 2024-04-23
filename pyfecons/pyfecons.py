@@ -5,16 +5,15 @@ import tempfile
 
 from pyfecons.helpers import base_name_without_extension
 from pyfecons.inputs import Inputs
-from pyfecons.data import Data
 from pyfecons.enums import *
-from pyfecons.costing.mfe.mfe import GenerateData as GenerateMFEData
+from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMFECostingData
 from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
-from pyfecons.report import ReportContent, FinalReport
+from pyfecons.report import ReportContent, FinalReport, CostingData
 
 
-def RunCosting(inputs: Inputs) -> Data:
+def RunCosting(inputs: Inputs) -> CostingData:
     if inputs.basic.reactor_type == ReactorType.MFE:
-        return GenerateMFEData(inputs)
+        return GenerateMFECostingData(inputs)
     elif inputs.basic.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
     elif inputs.basic.reactor_type == ReactorType.IFE:
@@ -22,15 +21,15 @@ def RunCosting(inputs: Inputs) -> Data:
     raise ValueError('Invalid basic reactor type')
 
 
-def CreateReportContent(inputs: Inputs, data: Data) -> ReportContent:
+def CreateReportContent(inputs: Inputs, costing_data: CostingData) -> ReportContent:
     """
     Create report content with given cost calculation inputs and output data.
     :param inputs: The inputs used for cost calculations.
-    :param data: The output data for cost calculations.
+    :param costing_data: The output data and templates providers for cost calculations.
     :return: Report contents including files, hydrated templates, and latex packages.
     """
     if inputs.basic.reactor_type == ReactorType.MFE:
-        return CreateMfeReport(inputs, data)
+        return CreateMfeReport(costing_data)
     elif inputs.basic.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
     elif inputs.basic.reactor_type == ReactorType.IFE:
@@ -45,8 +44,8 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
     :return: final report
     """
     # TODO - write hydrated templates to files and include them in tex compilation
-    template_content = '\n\n'.join([report_content.hydrated_templates[key]
-                                    for key in sorted(report_content.hydrated_templates.keys())])
+    # template_content = '\n\n'.join([report_content.hydrated_templates[key]
+    #                                 for key in sorted(report_content.hydrated_templates.keys())])
 
     # Use a temporary file to generate the PDF
     with tempfile.TemporaryDirectory(prefix="pyfecons-") as temp_dir:

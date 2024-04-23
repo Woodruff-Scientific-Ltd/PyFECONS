@@ -73,8 +73,8 @@ with open(f"{customerFolder}/inputs.json", "w") as file:
 # Run the initial costing code
 from pyfecons.pyfecons import RunCosting, CreateReportContent, RenderFinalReport
 
-data = RunCosting(inputs)
-dataDict = data.toDict()
+costing_data = RunCosting(inputs)
+dataDict = costing_data.data.toDict()
 
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
@@ -94,7 +94,7 @@ with open(f"{customerFolder}/data.json", "w") as file:
 #########################
 
 # fill in the templates and copy them to the customer's folder
-report_content = CreateReportContent(inputs, data)
+report_content = CreateReportContent(inputs, costing_data)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory
@@ -114,9 +114,9 @@ print(f"Existing contents of {outputDir} have been deleted.")
 
 # a dictionary with keys = name of file, value = contents
 # Write the data to files in the customer's folder
-for hydratedTemplateFileName, hydratedTemplateContents in report_content.hydrated_templates.items():
-    with open(f"{customerFolder}/output/{hydratedTemplateFileName}", "w") as file:
-        file.write(hydratedTemplateContents)
+for hydrated_template in report_content.hydrated_templates:
+    with open(f"{customerFolder}/output/{hydrated_template.template_provider.template_file}", "w") as file:
+        file.write(hydrated_template.contents)
 
 print(f"Costing run completed for {customer_name}. Data saved to {customerFolder}")
 

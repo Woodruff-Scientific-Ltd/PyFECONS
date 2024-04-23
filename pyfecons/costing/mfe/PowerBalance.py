@@ -1,10 +1,11 @@
 from pyfecons.inputs import Inputs
-from pyfecons.data import Data
+from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Unknown
 
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict):
+
+def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table
@@ -31,6 +32,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.p_net = MW((1 - 1 / OUT.qeng) * OUT.p_et)
 
     OUT.template_file = POWER_TABLE_MFE_DT_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         # Ordered by occurrence in template
         # 1. Output power
@@ -69,3 +71,4 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
         # 'ETADE': ETADE,
         # 'PDEE': PDEE,
     }
+    return [OUT]
