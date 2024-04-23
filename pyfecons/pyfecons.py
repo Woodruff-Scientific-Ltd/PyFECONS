@@ -56,7 +56,7 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
             os.makedirs(os.path.dirname(full_dest_path), exist_ok=True)
             shutil.copy(local_path, full_dest_path)
 
-        # TODO replace this when we copy all hydrated templates
+        # TODO replace this with github file when we copy all hydrated templates
         document_tex = 'Costing_ARPA-E_MFE_Modified.tex'
         shutil.copy(
             '/Users/craastad/code/nttau/PyFECONS/pyfecons/costing/mfe/templates/' + document_tex,
