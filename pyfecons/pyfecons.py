@@ -49,6 +49,13 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
 
     # Use a temporary file to generate the PDF
     with tempfile.TemporaryDirectory(prefix="pyfecons-") as temp_dir:
+        # Write hydrated templates to tex compile directory
+        for hydrated_template in report_content.hydrated_templates:
+            output_path = os.path.join(temp_dir, hydrated_template.template_provider.tex_path)
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'w') as template_file:
+                template_file.write(hydrated_template.contents)
+
         # Copy included files to tex compile directory
         for tex_path, local_path in report_content.included_files.items():
             full_dest_path = os.path.join(temp_dir, tex_path)
