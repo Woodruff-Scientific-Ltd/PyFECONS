@@ -61,19 +61,16 @@ When considering the geometry of the coil, a vacuum vessel CAD can be generated 
 
 The costs for this subsystem are C22010601 M USD for the vacuum vessel, C22010602 M USD for the cooling systems, C22010603 M USD for the vacuum pumping systems, and C22010604 M USD for the roughing pump. The total cost is C22010600 M USD.\\
 
-To determine the cooling power necessary to maintain 20 K in the coils, an analytical approach is taken, considering the primary heating components at the HTS coils. These are assumed to be the heat conducted through the support structure, and the neutron flux through the blanket (assuming 99\% of the neutron power is captured in the blanket). At 20 K, for one coil, these are estimated to contribute 11.2 and 1.8 kW, respectively. Scaling for a refrigeration efficiency of 15\% of the Carnot efficiency between 300 and 20 K, this results in a room temperature cooling power requirement of Qin MW. The operation temperature is selected based on a trade-off of the cooling efficiency (see fig
-% \ref{fig:cool_eff} - TODO implement figure
-), and the superconducting properties of the HTS coils.\\
+To determine the cooling power necessary to maintain 20 K in the coils, an analytical approach is taken, considering the primary heating components at the HTS coils. These are assumed to be the heat conducted through the support structure, and the neutron flux through the blanket (assuming 99\% of the neutron power is captured in the blanket). At 20 K, for one coil, these are estimated to contribute 11.2 and 1.8 kW, respectively. Scaling for a refrigeration efficiency of 15\% of the Carnot efficiency between 300 and 20 K, this results in a room temperature cooling power requirement of Qin MW. The operation temperature is selected based on a trade-off of the cooling efficiency (see fig \ref{fig:cool_eff}), and the superconducting properties of the HTS coils.\\
 
 Using STARFIRE as a reference (ITER cryogenic costs seem to be unexpectedly high), the cost for 20 kW of cooling at 4.2 K is 25.2 M USD. Scaling this to the cooling requirements of the system presented here results in a cost of C22010602 M USD. \\
 
-% TODO - implement figure
-%\begin{figure}[h]
-%    \centering
-%    \includegraphics[width=0.75\linewidth]{Figures/cooling_efficiency.pdf}
-%    \caption{The cooling power requirement for various magnet operating temperatures.}
-%    \label{fig:cool_eff}
-%\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.75\linewidth]{Figures/cooling_efficiency.pdf}
+    \caption{The cooling power requirement for various magnet operating temperatures.}
+    \label{fig:cool_eff}
+\end{figure}
 
 
 
