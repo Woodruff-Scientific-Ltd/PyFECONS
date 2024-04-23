@@ -13,15 +13,15 @@ If your system requires conda, then you will need to copy and paste the [environ
 
 ## Pip
 
-To import pyfecons into your pip project:
+To import pyfecons version `X.Y.Z` into your pip project:
 
 ```
-pip install pyfecons @ git+ssh://git@github.com/nTtau/PyFECONS.git@0.0.6
+pip install pyfecons @ git+ssh://git@github.com/nTtau/PyFECONS.git@X.Y.Z
 ```
 
 ## Conda
 
-To import pyfecons into your conda project, add the following to `environment.yml`:
+To import pyfecons version `X.Y.Z` into your conda project, add the following to `environment.yml`:
 ```
 - pip:
   - --upgrade git+https://github.com/nTtau/PyFECONS.git@X.Y.Z
@@ -46,8 +46,20 @@ After code is updated and merged to main, if the version has changed you'll need
 Please follow the [Github Instructions](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 to create a release matching the merged version number. This is important for the webapp to manage updates and changes.
 
-## Installing LaTex
-https://github.com/James-Yu/LaTeX-Workshop/wiki/Install
+## Installing LaTeX
+We are using native LaTeX to compile the pdf. You'll need to have `pdflatex` and `bibtex` installed and working on your system. Here's an unverified [guide](https://github.com/James-Yu/LaTeX-Workshop/wiki/Install) recommending TexLive.
+
+### Mac
+
+Simply use `brew install mactex`.
+
+### Linux
+
+TODO
+
+### Windows
+
+TODO
 
 ## Creating a key pair
 ```bash
