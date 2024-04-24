@@ -7,6 +7,7 @@ from pyfecons.serializable import SerializableToJSON
 class TemplateProvider:
     replacements: dict[str, str] = field(default_factory=dict)
     template_file: str = None
+    tex_path: str = None
 
 
 @dataclass

@@ -1,11 +1,11 @@
 from pyfecons import M_USD
 from pyfecons.inputs import Inputs
-from pyfecons.data import Data
+from pyfecons.data import Data, TemplateProvider
 
 CAS_290000_TEX = 'CAS290000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict):
+def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
     # Cost Category 29 Contingency
     OUT = data.cas29
     if inputs.basic.noak:
@@ -22,6 +22,8 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
                                    + data.cas28.C280000))
 
     OUT.template_file = CAS_290000_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C290000': round(data.cas29.C290000)
     }
+    return [OUT]

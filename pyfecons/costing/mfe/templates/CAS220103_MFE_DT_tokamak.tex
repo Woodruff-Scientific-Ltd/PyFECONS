@@ -21,9 +21,7 @@ Consists of:
 
 The approach taken was to compare various geometries of HTS, LTS and copper coil sets using COMSOL, with the same central field and minimum inner radius requirements. These were down-selected to an HTS geometry with noTFCoils solenoid coils, and noCSCoils inner mirror coils and noPF1Coils outer mirror coils.\\
 
-To determine the cost, the coil parameters were determined using a combination of COMSOL, calibration points from the literature including Menard 2016
-% \cite{Menard2016} - TODO implement citation
-for HTS, and EU DEMO for LTS, and analytical electromagnetic modeling. The material cost then then be determined through the mass/length (in the case of REBCO tape) of each material used. \\
+To determine the cost, the coil parameters were determined using a combination of COMSOL, calibration points from the literature including Menard 2016 \cite{Menard2016} for HTS, and EU DEMO for LTS, and analytical electromagnetic modeling. The material cost then then be determined through the mass/length (in the case of REBCO tape) of each material used. \\
 
 To cost the magnet system, two steps are required. The first is to have the specifications of the magnets required, and the second is to calculate the resulting material requirements and costs, with a manufacturing factor applied to this total. In the costing code provided, four basic magnet types are available: HTS (CICC), HTS (pancake), LTS (CICC) and copper. In the standard code, as arguably the new industry standard, only HTS (CICC) includes both both steps of design and costing. For all others, the user will need to provide the following basic specifications to input into the code for a cost to be returned:
 
@@ -39,28 +37,23 @@ To cost the magnet system, two steps are required. The first is to have the spec
     \item Structural factor: another scalar multiplying factor applied to the total cost of the magnet (including manufacturing factor). This accounts for the direct structure required to support each magnet. Default values are provided here too, varying approximatley from 25-100\% of the base cost of the magnet.
 \end{itemize}
 
-For the purposes of clarity, and as a methodology guide for other coil types, the design approach for step 1 of the HTS (CICC) coils is as follows. The coil geometries and specifications as described in Menard 2016
-% \cite{Menard2016} - TODO implement citation
-as used as a calibration point. These specifications are then input into a Biot-Savart code that calculates the field at given coordinates. The coil is considered to comprise of N turns of current-carrying circular loops, with varying radii and \textit{r} and \textit{z} displacements. The total contributions of each concentric turn are then summed to determine the central field at \textit{r = 0}.\\
+For the purposes of clarity, and as a methodology guide for other coil types, the design approach for step 1 of the HTS (CICC) coils is as follows. The coil geometries and specifications as described in Menard 2016 \cite{Menard2016} as used as a calibration point. These specifications are then input into a Biot-Savart code that calculates the field at given coordinates. The coil is considered to comprise of N turns of current-carrying circular loops, with varying radii and \textit{r} and \textit{z} displacements. The total contributions of each concentric turn are then summed to determine the central field at \textit{r = 0}.\\
 
 Using these data, a SciPy interpolation function is used to determine the coil specifications required to achieve a given central field, constrained by the required average radius.\\
 
 It should be noted that the default cable geometry as seen in \href{fig:yuhu_cs} is by no means optimised, and it is recommended that for minimal capital costs, a minimal length of REBCO and a maximum available current is used.
 
 
-% TODO implement figure
-%\begin{figure}[h]
-%    \centering
-%    \includegraphics[width =0.5\linewidth]{StandardFigures/yuhu_cs.pdf}
-%    \caption{HTS cable geometry.}
-%    \label{fig:yuhu_cs}
-%\end{figure}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width =0.5\linewidth]{StandardFigures/yuhu_cs.pdf}
+    \caption{HTS cable geometry.}
+    \label{fig:yuhu_cs}
+\end{figure}
 
 Another recommended approach is to employ a multi-physics FEM tool such as COMSOL to design the magnet with the required properties to obtain the inputs required for the costing code.
 
-It should be noted that a series of optimizations can be made to the design to reduce cost. The first of these is conductor grading. By reducing the number of strands of superconductor where the fields lower, up to 50\% of the superconducting material can be saved
-% \cite{uglietti2018progressing}. - TODO implement citation
-\\
+It should be noted that a series of optimizations can be made to the design to reduce cost. The first of these is conductor grading. By reducing the number of strands of superconductor where the fields lower, up to 50\% of the superconducting material can be saved \cite{uglietti2018progressing}.\\
 
 The total cost of the coils is C220103 M USD.
 
@@ -69,28 +62,17 @@ The total cost of the coils is C220103 M USD.
 
 This design consists of notfcoils toroidal field coils, which can be individually removed for maintenance. The total cost is \$C22010301 M.\\
 
-Both LTS and HTS cables can be considered here. For each, a wide variety of designs are available, including no-insulation, partial insulation, and an array of CICC geometries. For this concept, a simple CICC geometry is considered
-% \cite{Menard2016} - TODO implement citation
-, comprising a layer of superconducting REBCO conductor, copper for quench mitigation and cooling, a central coolant channel, and a steel jacket to help resist the considerable forces experienced during operation. See
-% \ref{fig:yuhu_cs} - TODO implement figure
-for the specific geometry.\\
+Both LTS and HTS cables can be considered here. For each, a wide variety of designs are available, including no-insulation, partial insulation, and an array of CICC geometries. For this concept, a simple CICC geometry is considered \cite{Menard2016}, comprising a layer of superconducting REBCO conductor, copper for quench mitigation and cooling, a central coolant channel, and a steel jacket to help resist the considerable forces experienced during operation. See \ref{fig:yuhu_cs} for the specific geometry.\\
 
-To cost the system, the magnet specifications are calibrated against Menard2016
-% \cite{Menard2016} - TOOD implement citation
-, and extrapolated to the requirements of this concept. The total length of the conductor is then calculated and, assuming a cost of 12 \$/kAm, the total cost can be found. For the steel and copper, the volume is also found and multiplied by the cost per kilogram. This gives a total material cost for the coil, which is then multiplied by a manufacturing factor. The manufacturing factor comprises the cost of manufacturing the cables, then winding and installing the coils.
+To cost the system, the magnet specifications are calibrated against \cite{Menard2016}, and extrapolated to the requirements of this concept. The total length of the conductor is then calculated and, assuming a cost of 12 \$/kAm, the total cost can be found. For the steel and copper, the volume is also found and multiplied by the cost per kilogram. This gives a total material cost for the coil, which is then multiplied by a manufacturing factor. The manufacturing factor comprises the cost of manufacturing the cables, then winding and installing the coils.
 
 \subsubsection*{22.1.3.2 Central solenoid}
 
-For the central solenoid, either LTS or HTS cables are viable. In this case, the HTS geometry as seen in yuhu cs
-% \ref{fig:yuhu_cs} - TODO implement figure
-is used. The total cost is \$C22010302 M.
+For the central solenoid, either LTS or HTS cables are viable. In this case, the HTS geometry as seen in \ref{fig:yuhu_cs} is used. The total cost is \$C22010302 M.
 
 \subsubsection*{22.1.3.3 Poloidal Coils}
 
-This subsystem includes nopfcoils, corresponding to nopfpairs pairs of identical pairs, displaced in positive and negative z coordinates. Owing to the generally large radius, HTS and LTS coils must be considered here. In this case, HTS coils are used, owing to their significantly increased current density, reducing the required number of turns and length of superconductor. This allows for a reduced form factor for the entire system, resulting in a multiplicative
-cost saving. The cable geometry used here is described in yuhu cs
-% \ref{fig:yuhu_cs} - TODO implement figure
-, although other HTS CICC geometries may be more optimised.
+This subsystem includes nopfcoils, corresponding to nopfpairs pairs of identical pairs, displaced in positive and negative z coordinates. Owing to the generally large radius, HTS and LTS coils must be considered here. In this case, HTS coils are used, owing to their significantly increased current density, reducing the required number of turns and length of superconductor. This allows for a reduced form factor for the entire system, resulting in a multiplicative cost saving. The cable geometry used here is described in \ref{fig:yuhu_cs}, although other HTS CICC geometries may be more optimised.
 Since the lower PF coils are effectively trapped by the TF coils and the power core above them, additional spare PF coils are to be provided below the power core. Even though the PF coils are designed to be life of plant and replaceable, the downtime to replace these particular lower PF coils are so onerous, it is more cost effective to have spares installed during the initial build sequence.  \\
 
 The total cost of the PF coils is \$C22010303 M.

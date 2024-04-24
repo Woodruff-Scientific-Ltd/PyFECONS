@@ -8,7 +8,7 @@ from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
 from pyfecons.inputs import Inputs, Coils, Magnet
-from pyfecons.data import Data, MagnetProperties, VesselCosts, VesselCost
+from pyfecons.data import Data, MagnetProperties, VesselCosts, VesselCost, TemplateProvider
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
 CAS_220101_MFE_DT_TEX = 'CAS220101_MFE_DT.tex'
@@ -31,29 +31,30 @@ CAS_220700_TEX = 'CAS220700.tex'
 CAS_220000_TEX = 'CAS220000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict):
-    compute_220101_reactor_equipment(inputs, data, figures)
-    compute_220102_shield(inputs, data)
-    compute_220103_coils(inputs, data)
-    compute_220104_supplementary_heating(inputs, data)
-    compute_220105_primary_structure(inputs, data)
-    compute_220106_vacuum_system(inputs, data, figures)
-    compute_220107_power_supplies(inputs, data)
-    compute_220108_divertor(inputs, data)
-    compute_220109_direct_energy_converter(inputs, data)
-    compute_220111_installation_costs(inputs, data)
-    compute_220119_scheduled_replacement_cost(data)
-    compute_2201_total(data)
-    compute_2202_main_and_secondary_coolant(inputs, data)
-    compute_2203_auxilary_cooling(inputs, data)
-    compute_2204_radwaste(data)
-    compute_2205_fuel_handling_and_storage(inputs, data)
-    compute_2206_other_reactor_plant_equipment(data)
-    compute_2207_instrumentation_and_control(data)
-    compute_2200_reactor_plant_equipment_total(inputs, data)
+def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+    return [
+        compute_220101_reactor_equipment(inputs, data, figures),
+        compute_220102_shield(inputs, data),
+        compute_220103_coils(inputs, data),
+        compute_220104_supplementary_heating(inputs, data),
+        compute_220105_primary_structure(inputs, data),
+        compute_220106_vacuum_system(inputs, data, figures),
+        compute_220107_power_supplies(inputs, data),
+        compute_220108_divertor(inputs, data),
+        compute_220109_direct_energy_converter(inputs, data),
+        compute_220111_installation_costs(inputs, data),
+        compute_220119_scheduled_replacement_cost(data),
+        compute_2202_main_and_secondary_coolant(inputs, data),
+        compute_2203_auxilary_cooling(inputs, data),
+        compute_2204_radwaste(data),
+        compute_2205_fuel_handling_and_storage(inputs, data),
+        compute_2206_other_reactor_plant_equipment(data),
+        compute_2207_instrumentation_and_control(data),
+        compute_2200_reactor_plant_equipment_total(inputs, data),
+    ]
 
 
-def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
+def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict) -> TemplateProvider:
     # Cost Category 22.1.1: Reactor Equipment
     IN = inputs.radial_build
     OUT = data.cas220101
@@ -162,6 +163,7 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
     # TODO - PLOTTING RADIAL BUILD
 
     OUT.template_file = CAS_220101_MFE_DT_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010100': str(data.cas220101.C220101),
         'C22010101': str(data.cas220101.C22010101),
@@ -233,9 +235,10 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict):
         'VOL13': round(data.cas220101.gap2_vol, 1),
         'VOL14': round(data.cas220101.bioshield_vol, 1),
     }
+    return OUT
 
 
-def compute_220102_shield(inputs: Inputs, data: Data):
+def compute_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.2: Shield
     OUT = data.cas220102
     cas220101 = data.cas220101
@@ -269,6 +272,7 @@ def compute_220102_shield(inputs: Inputs, data: Data):
     OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
 
     OUT.template_file = CAS_220102_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220102__': round(data.cas220102.C220102),
         'C22010201': round(data.cas220102.C22010201),
@@ -280,6 +284,7 @@ def compute_220102_shield(inputs: Inputs, data: Data):
         'VOL9': round(data.cas220101.ht_shield_vol),
         'VOL11': round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
     }
+    return OUT
 
 
 def plot_radial_build(IN, figures):
@@ -564,7 +569,7 @@ def compute_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -> Magne
     raise f'Unrecognized magnet material type {magnet.material_type}'
 
 
-def compute_220103_coils(inputs: Inputs, data: Data):
+def compute_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.3: Coils
     IN = inputs.coils
     OUT = data.cas220103
@@ -589,6 +594,7 @@ def compute_220103_coils(inputs: Inputs, data: Data):
     # TODO verify template substition
 
     OUT.template_file = CAS_220103_MFE_DT_TOKAMAK
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220103__': str(OUT.C220103),
         'C22010301': str(OUT.C22010301),
@@ -637,9 +643,10 @@ def compute_220103_coils(inputs: Inputs, data: Data):
         'magnetTotalCostList': (
             " & ".join([f"{props.magnet_total_cost_individual}" for props in OUT.magnet_properties])),
     }
+    return OUT
 
 
-def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
+def compute_220104_supplementary_heating(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.4 Supplementary heating
     IN = inputs.supplementary_heating
     OUT = data.cas220104
@@ -654,6 +661,7 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
     ])
 
     OUT.template_file = CAS_220104_MFE_DT
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010401': str(round(OUT.C22010401, 3)),
         'C22010402': str(round(OUT.C22010402, 3)),
@@ -662,9 +670,10 @@ def compute_220104_supplementary_heating(inputs: Inputs, data: Data):
         'ICRFPOWER': str(round(IN.icrf_power, 3)),
         'HEATING_TABLE_ROWS': heating_table_rows,
     }
+    return OUT
 
 
-def compute_220105_primary_structure(inputs: Inputs, data: Data):
+def compute_220105_primary_structure(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.5 primary structure
     IN = inputs.primary_structure
     OUT = data.cas220105
@@ -688,6 +697,7 @@ def compute_220105_primary_structure(inputs: Inputs, data: Data):
     # total cost calculation
     OUT.C220105 = M_USD(OUT.C22010501 + OUT.C22010502)
     OUT.template_file = CAS_220105_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010501': str(OUT.C22010501),
         'C22010502': str(OUT.C22010502),
@@ -695,9 +705,10 @@ def compute_220105_primary_structure(inputs: Inputs, data: Data):
         'systPGA': str(IN.syst_pga.value),
         'PNRL': str(inputs.basic.p_nrl)
     }
+    return OUT
 
 
-def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
+def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict) -> TemplateProvider:
     # 22.1.6 Vacuum system
     OUT = data.cas220106
     IN = inputs.vacuum_system
@@ -801,6 +812,7 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
 
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
     OUT.template_file = CAS_220106_MFE_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010601': round(OUT.C22010601),
         'C22010602': round(OUT.C22010601),
@@ -811,9 +823,10 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict):
         'massstruct': round(OUT.massstruct),
         'vesmatcost': round(OUT.vessel_costs.total.material_cost / 1e6, 1),
     }
+    return OUT
 
 
-def compute_220107_power_supplies(inputs: Inputs, data: Data):
+def compute_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
     IN = inputs.power_supplies
     OUT = data.cas220107
 
@@ -827,15 +840,17 @@ def compute_220107_power_supplies(inputs: Inputs, data: Data):
     OUT.C220107 = M_USD(OUT.C22010701 + OUT.C22010702)
 
     OUT.template_file = CAS_220107_MFE_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010700': round(OUT.C220107),
         'C22010701': round(OUT.C22010701),
         'C22010702': round(OUT.C22010702),
         'PNRL': round(inputs.basic.p_nrl),
     }
+    return OUT
 
 
-def compute_220108_divertor(inputs: Inputs, data: Data):
+def compute_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas220108
 
     # 22.1.8 Divertor
@@ -860,6 +875,7 @@ def compute_220108_divertor(inputs: Inputs, data: Data):
     OUT.C220108 = M_USD(OUT.divertor_cost / 1e6)
 
     OUT.template_file = CAS_220108_MFE_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220108': round(OUT.C220108),
         # All of these are not in the templateo
@@ -870,9 +886,10 @@ def compute_220108_divertor(inputs: Inputs, data: Data):
         'divertorVol': round(OUT.divertor_vol),
         'divertorMass': round(OUT.divertor_mass),
     }
+    return OUT
 
 
-def compute_220109_direct_energy_converter(inputs: Inputs, data: Data):
+def compute_220109_direct_energy_converter(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.9 Direct Energy Converter
     IN = inputs.direct_energy_converter
     OUT = data.cas220109
@@ -906,12 +923,14 @@ def compute_220109_direct_energy_converter(inputs: Inputs, data: Data):
     OUT.C220109 = M_USD(0)
 
     OUT.template_file = CAS_220109_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {key: round(value, 1) for key, value in OUT.scaled_costs.items()}
     OUT.replacements['totaldecost'] = round(M_USD(sum(OUT.scaled_costs.values())), 1)
     OUT.replacements['C220109'] = OUT.C220109
+    return OUT
 
 
-def compute_220111_installation_costs(inputs: Inputs, data: Data):
+def compute_220111_installation_costs(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.11 Installation costs
     IN = inputs.installation
     OUT = data.cas220111
@@ -939,32 +958,28 @@ def compute_220111_installation_costs(inputs: Inputs, data: Data):
     # Total cost calculations
     OUT.C220111 = M_USD(sum(costs.values()))
     OUT.template_file = CAS_220111_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220111': str(OUT.C220111),
         'constructionTime': round(inputs.basic.construction_time),
     }
+    return OUT
 
 
-def compute_220119_scheduled_replacement_cost(data: Data):
+def compute_220119_scheduled_replacement_cost(data: Data) -> TemplateProvider:
     # Cost category 22.1.19 Scheduled Replacement Cost
     OUT = data.cas220119
     # TODO will this ever be non-zero?
     OUT.C220119 = M_USD(0)
     OUT.template_file = CAS_220119_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220119': str(OUT.C220119)
     }
+    return OUT
 
 
-def compute_2201_total(data: Data):
-    # Cost category 22.1 total
-    # TODO - I added C220119 since it's zero now, is this OK?
-    data.cas22.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                               + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
-                               + data.cas220107.C220107 + data.cas220111.C220111 + data.cas220119.C220119)
-
-
-def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data):
+def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO - review this section since there is lots of commented code
 
     # MAIN AND SECONDARY COOLANT Cost Category 22.2
@@ -993,6 +1008,7 @@ def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data):
     # Main heat-transfer system (NSSS)
     OUT.C220200 = M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
     OUT.template_file = CAS_220200_DT_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220200': OUT.C220200,
         'C220201': OUT.C220201,
@@ -1001,21 +1017,24 @@ def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data):
         'primaryC': inputs.blanket.primary_coolant.display_name,
         'secondaryC': inputs.blanket.secondary_coolant.display_name,
     }
+    return OUT
 
 
-def compute_2203_auxilary_cooling(inputs: Inputs, data: Data):
+def compute_2203_auxilary_cooling(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.3  Auxiliary cooling
     OUT = data.cas2203
     # the CPI scaling of 2.02 comes from: https://www.bls.gov/data/inflation_calculator.htm
     # scaled relative to 1992 dollars (despite 2003 publication date)
     OUT.C220300 = M_USD(1.10 * 1e-3 * float(inputs.basic.n_mod) * data.power_table.p_th * 2.02)
     OUT.template_file = CAS_220300_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220300': str(round(OUT.C220300, 1))
     }
+    return OUT
 
 
-def compute_2204_radwaste(data: Data):
+def compute_2204_radwaste(data: Data) -> TemplateProvider:
     # Cost Category 22.4 Radwaste
     OUT = data.cas2204
     # Radioactive waste treatment
@@ -1023,12 +1042,14 @@ def compute_2204_radwaste(data: Data):
     # scaled relative to 1992 dollars (despite 2003 publication date)
     OUT.C220400 = M_USD(1.96 * 1e-3 * data.power_table.p_th * 2.02)
     OUT.template_file = CAS_220400_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220400': str(data.cas2204.C220400)
     }
+    return OUT
 
 
-def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data):
+def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.5 Fuel Handling and Storage
     IN = inputs.fuel_handling
     OUT = data.cas2205
@@ -1054,6 +1075,7 @@ def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data):
     OUT.C220500 = M_USD(OUT.C220501 + OUT.C220502 + OUT.C220503 + OUT.C220504 + OUT.C220505 + OUT.C220506)
 
     OUT.template_file = CAS_220500_DT_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'lcredit': IN.learning_curve_credit,
         'ltoak': IN.learning_tenth_of_a_kind,
@@ -1072,9 +1094,10 @@ def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data):
         'C220506': OUT.C220506,
         'C220500': OUT.C220500,
     }
+    return OUT
 
 
-def compute_2206_other_reactor_plant_equipment(data: Data):
+def compute_2206_other_reactor_plant_equipment(data: Data) -> TemplateProvider:
     # Cost Category 22.6 Other Reactor Plant Equipment
     OUT = data.cas2206
     # From Waganer
@@ -1082,30 +1105,43 @@ def compute_2206_other_reactor_plant_equipment(data: Data):
     OUT.C220600 = M_USD(11.5 * (data.power_table.p_net / 1000) ** 0.8)
 
     OUT.template_file = CAS_220600_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220600': str(OUT.C220600)
     }
+    return OUT
 
 
-def compute_2207_instrumentation_and_control(data: Data):
+def compute_2207_instrumentation_and_control(data: Data) -> TemplateProvider:
     # Cost Category 22.7 Instrumentation and Control
     OUT = data.cas2207
     # TODO where does the 85 come from?
     OUT.C220700 = M_USD(85)
 
     OUT.template_file = CAS_220700_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220700': str(data.cas2207.C220700)
     }
+    return OUT
 
 
-def compute_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data):
+def compute_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data) -> TemplateProvider:
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
+
+    # Cost category 22.1 total
+    # TODO - I added C220119 since it's zero now, is this OK?
+    OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
+                               + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
+                               + data.cas220107.C220107 + data.cas220111.C220111 + data.cas220119.C220119)
+
+    # Cost category 22.2 total
     OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400
                         + data.cas2205.C220500 + data.cas2206.C220600 + data.cas2207.C220700)
 
     OUT.template_file = CAS_220000_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220000': data.cas22.C220000,  # TODO - not in the template
         'FSrho': round(inputs.materials.FS.rho, 2),
@@ -1157,3 +1193,4 @@ def compute_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data):
         'Incoloycraw': round(inputs.materials.Incoloy.c_raw, 2),
         'Incoloym': round(inputs.materials.Incoloy.m, 2),
     }
+    return OUT

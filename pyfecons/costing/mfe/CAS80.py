@@ -1,11 +1,11 @@
 from pyfecons import M_USD
 from pyfecons.inputs import Inputs
-from pyfecons.data import Data
+from pyfecons.data import Data, TemplateProvider
 
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict):
+def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
     # Cost Category 80: Annualized Fuel Cost (AFC)
     OUT = data.cas80
 
@@ -24,8 +24,10 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict):
     OUT.C800000 = M_USD(c_f/1e6)
 
     OUT.template_file = CAS_800000_DT_TEX
+    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C800000': round(OUT.C800000, 2),
         'primaryC': inputs.blanket.primary_coolant.display_name,
         'secondaryC': inputs.blanket.secondary_coolant.display_name,
     }
+    return [OUT]
