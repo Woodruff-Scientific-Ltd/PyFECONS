@@ -6,4 +6,4 @@ from .pyfecons import RunCosting, CreateReportContent, RenderFinalReport, FinalR
 from .units import *
 from .report import *
 
-from .costing import ife, mfe, mif
+from .costing import ife, mfe, mif, calculations
