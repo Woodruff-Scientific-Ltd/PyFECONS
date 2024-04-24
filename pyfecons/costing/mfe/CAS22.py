@@ -591,8 +591,6 @@ def compute_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.no_pf_coils = Count(sum(magnet.magnet.coil_count for magnet in OUT.pf_coils))
     OUT.no_pf_pairs = Count(OUT.no_pf_coils / 2)
 
-    # TODO verify template substition
-
     OUT.template_file = CAS_220103_MFE_DT_TOKAMAK
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
