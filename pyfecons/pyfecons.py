@@ -37,10 +37,11 @@ def CreateReportContent(inputs: Inputs, costing_data: CostingData) -> ReportCont
     raise ValueError('Invalid basic reactor type')
 
 
-def RenderFinalReport(report_content: ReportContent) -> FinalReport:
+def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) -> FinalReport:
     """
     Compiles report contents into a final Tex and Pdf report
     :param report_content: from cost calculations
+    :param hide_output: if true, hide console output
     :return: final report
     """
     # Use a temporary directory for tex compilation
@@ -68,10 +69,11 @@ def RenderFinalReport(report_content: ReportContent) -> FinalReport:
         os.chdir(temp_dir)
 
         document_base_name = base_name_without_extension(document_tex)
-        subprocess.run(['pdflatex', document_tex], check=True)
-        subprocess.run(['bibtex', document_base_name], check=True)
-        subprocess.run(['pdflatex', document_tex], check=True)
-        subprocess.run(['pdflatex', document_tex], check=True)
+        args = {'stdout': subprocess.DEVNULL, 'stderr': subprocess.DEVNULL} if hide_output else {}
+        subprocess.run(['pdflatex', document_tex], check=True, **args)
+        subprocess.run(['bibtex', document_base_name], check=True, **args)
+        subprocess.run(['pdflatex', document_tex], check=True, **args)
+        subprocess.run(['pdflatex', document_tex], check=True, **args)
 
         with open(document_tex, 'r') as latex_file:
             tex_content = latex_file.read()
