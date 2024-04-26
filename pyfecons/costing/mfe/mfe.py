@@ -1,5 +1,5 @@
-from importlib import resources
-from pyfecons.helpers import load_included_files, load_github_images
+from pyfecons.helpers import load_remote_included_files, load_github_images
+from pyfecons.templates import read_template, hydrate_templates
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
@@ -25,6 +25,7 @@ from pyfecons.costing.mfe.LCOE import GenerateData as LCOEData
 from pyfecons.costing.mfe.CostTable import GenerateData as CostTableData
 from pyfecons.report import ReportContent, CostingData, HydratedTemplate
 
+TEMPLATES_PATH = 'pyfecons.costing.mfe.templates'
 DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 BASE_URL = 'https://raw.githubusercontent.com/Woodruff-Scientific-Ltd/PyFECONS/'
 CACHE = 'temp/cache/mfe'
@@ -86,35 +87,13 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
 def load_document_template() -> HydratedTemplate:
     return HydratedTemplate(
         TemplateProvider(template_file=DOCUMENT_TEMPLATE),
-        read_template(DOCUMENT_TEMPLATE)
+        read_template(TEMPLATES_PATH, DOCUMENT_TEMPLATE)
     )
 
 
 def CreateReportContent(costing_data: CostingData) -> ReportContent:
     document_template = load_document_template()
-    hydrated_templates = hydrate_templates(costing_data.template_providers)
-    included_files = load_included_files(CACHE, BASE_URL, INCLUDED_FILES)
+    hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers)
+    included_files = load_remote_included_files(CACHE, BASE_URL, INCLUDED_FILES)
     included_files = included_files | load_github_images(CACHE, INCLUDED_IMAGES)
     return ReportContent(document_template, hydrated_templates, included_files)
-
-
-def hydrate_templates(template_providers: list[TemplateProvider]) -> list[HydratedTemplate]:
-    hydrated_templates = []
-    for provider in template_providers:
-        template_content = read_template(provider.template_file)
-        contents = replace_values(template_content, provider.replacements)
-        hydrated_templates.append(HydratedTemplate(provider, contents))
-    return hydrated_templates
-
-
-def read_template(template_file: str) -> str:
-    with resources.path('pyfecons.costing.mfe.templates', template_file) as template_path:
-        with open(template_path, 'r') as file:
-            template_content = file.read()
-    return template_content
-
-
-def replace_values(template_content: str, replacements: dict[str, str]) -> str:
-    for key, value in replacements.items():
-        template_content = template_content.replace(key, str(value))
-    return template_content
