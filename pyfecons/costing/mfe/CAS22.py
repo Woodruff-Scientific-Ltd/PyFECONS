@@ -1,4 +1,5 @@
 import math
+from io import BytesIO
 from typing import Optional, Tuple
 
 import matplotlib.pyplot as plt
@@ -7,7 +8,7 @@ import numpy as np
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs, Coils, Magnet
+from pyfecons.inputs import Inputs, Coils, Magnet, RadialBuild
 from pyfecons.data import Data, MagnetProperties, VesselCosts, VesselCost, TemplateProvider
 from pyfecons.units import M_USD, Kilometers, Turns, Amperes, Meters2, MA, Meters3, Meters, Kilograms, MW, Count, USD
 
@@ -160,7 +161,7 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict) 
     # Total cost of blanket and first wall
     OUT.C220101 = M_USD(OUT.C22010101 + OUT.C22010102)
 
-    # TODO - PLOTTING RADIAL BUILD
+    OUT.figures['Figures/radial_build.pdf'] = plot_radial_build(IN)
 
     OUT.template_file = CAS_220101_MFE_DT_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
@@ -287,13 +288,13 @@ def compute_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     return OUT
 
 
-def plot_radial_build(IN, figures):
+def plot_radial_build(radial_build: RadialBuild) -> bytes:
     """
     PLOTTING RADIAL BUILD
     """
+    IN = radial_build
 
-    ## The names of the sections
-
+    # The names of the sections
     # Updated order of the sections
     sections = ['Plasma', 'Vacuum', 'First Wall', 'Blanket', 'Reflector', 'HT Shield', 'Structure', 'Gap', 'Vessel',
                 'LT Shield', 'Coil', 'Gap', 'Bioshield']
@@ -324,13 +325,11 @@ def plot_radial_build(IN, figures):
     # Show grid for the x-axis
     ax.xaxis.grid(True)
 
-    # Show the plot
-    plt.tight_layout()  # TODO comment or delete
-    plt.show()  # TODO comment or delete
-    figures["radial_build.pdf"] = fig
-
-    # Export as pdf
-    # fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='tight')
+    # save figure
+    figure_data = BytesIO()
+    fig.savefig(figure_data, format='pdf', bbox_inches='tight')
+    figure_data.seek(0)
+    return figure_data.getvalue()
 
 
 # Steel thermal conductivity function
@@ -1131,8 +1130,8 @@ def compute_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data) -> Te
     # Cost category 22.1 total
     # TODO - I added C220119 since it's zero now, is this OK?
     OUT.C220100 = M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                               + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
-                               + data.cas220107.C220107 + data.cas220111.C220111 + data.cas220119.C220119)
+                        + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
+                        + data.cas220107.C220107 + data.cas220111.C220111 + data.cas220119.C220119)
 
     # Cost category 22.2 total
     OUT.C220000 = M_USD(OUT.C220100 + data.cas2202.C220200 + data.cas2203.C220300 + data.cas2204.C220400

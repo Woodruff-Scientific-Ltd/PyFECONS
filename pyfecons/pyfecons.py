@@ -61,6 +61,13 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
             with open(output_path, 'w') as template_file:
                 template_file.write(hydrated_template.contents)
 
+        # Write figures to tex compile directory
+        for tex_path, figure_bytes in report_content.figures.items():
+            output_path = os.path.join(temp_dir, tex_path)
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            with open(output_path, 'wb') as template_file:
+                template_file.write(figure_bytes)
+
         # Copy included files to tex compile directory
         for tex_path, local_path in report_content.included_files.items():
             full_dest_path = os.path.join(temp_dir, tex_path)

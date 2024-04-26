@@ -12,6 +12,8 @@ class PyfeconsEncoder(json.JSONEncoder):
                 return {"value": obj.value, "display_name": obj.display_name}
             else:
                 return obj.value  # Return just the value if there's no 'display_name'
+        elif isinstance(obj, bytes):
+            return ''
         # Let the base class default method raise the TypeError for other types
         return json.JSONEncoder.default(self, obj)
 

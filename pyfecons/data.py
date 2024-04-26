@@ -8,6 +8,8 @@ class TemplateProvider:
     replacements: dict[str, str] = field(default_factory=dict)
     template_file: str = None
     tex_path: str = None
+    # latex path -> image bytes
+    figures: dict[str, bytes] = field(default_factory=dict)
 
 
 @dataclass

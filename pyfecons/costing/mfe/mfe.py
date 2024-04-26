@@ -1,5 +1,5 @@
 from pyfecons.helpers import load_remote_included_files, load_github_images
-from pyfecons.templates import read_template, hydrate_templates
+from pyfecons.templates import read_template, hydrate_templates, combine_figures
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
@@ -94,6 +94,7 @@ def load_document_template() -> HydratedTemplate:
 def CreateReportContent(costing_data: CostingData) -> ReportContent:
     document_template = load_document_template()
     hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers)
+    figures = combine_figures(costing_data.template_providers)
     included_files = load_remote_included_files(CACHE, BASE_URL, INCLUDED_FILES)
     included_files = included_files | load_github_images(CACHE, INCLUDED_IMAGES)
-    return ReportContent(document_template, hydrated_templates, included_files)
+    return ReportContent(document_template, hydrated_templates, included_files, figures)

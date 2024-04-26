@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from pyfecons.data import Data, TemplateProvider
 
@@ -24,9 +24,11 @@ class ReportContent:
     # Top level document file as base of tex compilation
     document_template: HydratedTemplate = None
     # Hydrated templates to be included in tex compilation
-    hydrated_templates: list[HydratedTemplate] = None
+    hydrated_templates: list[HydratedTemplate] = field(default_factory=list)
     # tex file path -> local file path of files to include in tex compilation
-    included_files: dict[str, str] = None
+    included_files: dict[str, str] = field(default_factory=dict)
+    # latex path -> image bytes
+    figures: dict[str, bytes] = field(default_factory=dict)
 
 
 @dataclass

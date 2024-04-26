@@ -128,6 +128,11 @@ with open(f"{customer_folder}/output/{report_content.document_template.template_
 for hydrated_template in report_content.hydrated_templates:
     with open(f"{customer_folder}/output/{hydrated_template.template_provider.template_file}", "w") as file:
         file.write(hydrated_template.contents)
+for tex_path, figure_bytes in report_content.figures.items():
+    output_file = f'{customer_folder}/output/{tex_path}'
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
+    with open(output_file, "wb") as file:
+        file.write(figure_bytes)
 
 print(f"Costing run completed for {customer_name}. Data saved to {customer_folder}")
 
