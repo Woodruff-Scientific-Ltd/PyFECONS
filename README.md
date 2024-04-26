@@ -55,7 +55,10 @@ Simply use `brew install mactex`.
 
 ### Linux
 
-TODO
+```
+sudo apt-get update
+sudo apt-get install texlive texlive-font-utils
+```
 
 ### Windows
 

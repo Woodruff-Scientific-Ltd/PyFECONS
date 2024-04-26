@@ -41,10 +41,16 @@ class EnergyConversion(Enum):
 
 
 class FuelType(Enum):
-    DT = 'DT'  # Deuterium Tritium  # only one for now
-    # DD = 'DD'  # Deuterium Deuterium
-    # DHE3 = 'DHE3'  # Deuterium Helium-3
-    # PB11 = 'PB11'  # Lead Boron-11
+    DT = ('DT', 'Deuterium Tritium')
+    DD = ('DD', 'Deuterium Deuterium')
+    DHE3 = ('DHE3', 'Deuterium Helium-3')
+    PB11 = ('PB11', 'Lead Boron-11')
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
 
 
 class BlanketFirstWall(Enum):

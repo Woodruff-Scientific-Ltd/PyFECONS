@@ -84,6 +84,12 @@ class Turns(float):
     def __str__(self):
         return f"{self:.2f}"
 
+
 class Unknown(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+# Hertz
+class HZ(float):
     def __str__(self):
         return f"{self:.2f}"

@@ -37,7 +37,7 @@ def download_file(cache_path: str, base_url: str, remote_path: str) -> str:
     return str(local_path)
 
 
-def load_included_files(cache_path: str, base_url: str, included_files: dict[str, str]) -> dict[str, str]:
+def load_remote_included_files(cache_path: str, base_url: str, included_files: dict[str, str]) -> dict[str, str]:
     """
     Create report content with given cost calculation inputs and output data.
     :param cache_path: local cache directory

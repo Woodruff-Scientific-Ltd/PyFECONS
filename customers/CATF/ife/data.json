@@ -1,0 +1,454 @@
+{
+    "power_table": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "p_alpha": null,
+        "p_neutron": null,
+        "p_cool": null,
+        "p_aux": null,
+        "p_coils": null,
+        "p_th": null,
+        "p_the": null,
+        "p_dee": null,
+        "p_et": null,
+        "p_loss": null,
+        "p_pump": null,
+        "p_sub": null,
+        "qsci": null,
+        "qeng": null,
+        "recfrac": null,
+        "p_net": null
+    },
+    "cas10": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C110000": null,
+        "C120000": null,
+        "C130000": null,
+        "C140000": null,
+        "C150000": null,
+        "C160000": null,
+        "C170000": null,
+        "C190000": null,
+        "C100000": null
+    },
+    "cas21": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C210100": null,
+        "C210200": null,
+        "C210300": null,
+        "C210400": null,
+        "C210500": null,
+        "C210600": null,
+        "C210700": null,
+        "C210800": null,
+        "C210900": null,
+        "C211000": null,
+        "C211100": null,
+        "C211200": null,
+        "C211300": null,
+        "C211400": null,
+        "C211500": null,
+        "C211600": null,
+        "C211700": null,
+        "C211900": null,
+        "C210000": null
+    },
+    "cas22": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220100": null,
+        "C220000": null
+    },
+    "cas220101": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "axis_ir": null,
+        "plasma_ir": null,
+        "vacuum_ir": null,
+        "firstwall_ir": null,
+        "blanket1_ir": null,
+        "reflector_ir": null,
+        "ht_shield_ir": null,
+        "structure_ir": null,
+        "gap1_ir": null,
+        "vessel_ir": null,
+        "lt_shield_ir": null,
+        "coil_ir": null,
+        "gap2_ir": null,
+        "bioshield_ir": null,
+        "axis_or": null,
+        "plasma_or": null,
+        "vacuum_or": null,
+        "firstwall_or": null,
+        "blanket1_or": null,
+        "reflector_or": null,
+        "ht_shield_or": null,
+        "structure_or": null,
+        "gap1_or": null,
+        "vessel_or": null,
+        "lt_shield_or": null,
+        "coil_or": null,
+        "gap2_or": null,
+        "bioshield_or": null,
+        "axis_vol": null,
+        "plasma_vol": null,
+        "vacuum_vol": null,
+        "firstwall_vol": null,
+        "blanket1_vol": null,
+        "reflector_vol": null,
+        "ht_shield_vol": null,
+        "structure_vol": null,
+        "gap1_vol": null,
+        "vessel_vol": null,
+        "lt_shield_vol": null,
+        "coil_vol": null,
+        "gap2_vol": null,
+        "bioshield_vol": null,
+        "C22010101": null,
+        "C22010102": null,
+        "C220101": null
+    },
+    "cas220102": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C22010201": null,
+        "C22010202": null,
+        "C22010203": null,
+        "C22010204": null,
+        "C220102": null,
+        "V_HTS": null
+    },
+    "cas220103": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "magnet_properties": [],
+        "no_pf_coils": null,
+        "no_pf_pairs": null,
+        "total_struct_cost": null,
+        "C22010301": null,
+        "C22010302": null,
+        "C22010303": null,
+        "C22010304": null,
+        "C22010305": null,
+        "C22010306": null,
+        "C220103": null
+    },
+    "cas220104": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C22010401": null,
+        "C22010402": null,
+        "C220104": null
+    },
+    "cas220105": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C22010501": null,
+        "C22010502": null,
+        "C220105": null
+    },
+    "cas220106": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C22010601": null,
+        "C22010602": null,
+        "C22010603": null,
+        "C22010604": null,
+        "C220106": null,
+        "massstruct": null,
+        "vesvol": null,
+        "vesmatcost": null,
+        "vessel_costs": {
+            "spool_assembly": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "removable_doors": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "door_frames": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "port_enclosures": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "total": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "contingency": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "prime_contractor_fee": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            },
+            "total_subsystem_cost": {
+                "name": null,
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 0
+            }
+        }
+    },
+    "cas220107": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C22010701": null,
+        "C22010702": null,
+        "C220107": null
+    },
+    "cas220108": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220108": null,
+        "divertor_maj_rad": null,
+        "divertor_min_rad": null,
+        "divertor_thickness_z": null,
+        "divertor_thickness_r": null,
+        "divertor_material": null,
+        "divertor_vol": null,
+        "divertor_mass": null,
+        "divertor_mat_cost": null,
+        "divertor_cost": null
+    },
+    "cas220109": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220109": null,
+        "costs": null,
+        "scaled_costs": null
+    },
+    "cas220111": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220111": null
+    },
+    "cas220119": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220119": null
+    },
+    "cas2202": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220201": null,
+        "C220202": null,
+        "C220203": null,
+        "C220200": null
+    },
+    "cas2203": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220300": null
+    },
+    "cas2204": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220400": null
+    },
+    "cas2205": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C2205010ITER": null,
+        "C2205020ITER": null,
+        "C2205030ITER": null,
+        "C2205040ITER": null,
+        "C2205050ITER": null,
+        "C2205060ITER": null,
+        "C22050ITER": null,
+        "C220501": null,
+        "C220502": null,
+        "C220503": null,
+        "C220504": null,
+        "C220505": null,
+        "C220506": null,
+        "C220500": null
+    },
+    "cas2206": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220600": null
+    },
+    "cas2207": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C220700": null
+    },
+    "cas23": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C230000": null
+    },
+    "cas24": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C240000": null
+    },
+    "cas25": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C250000": null
+    },
+    "cas26": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C260000": null
+    },
+    "cas27": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C271000": null,
+        "C274000": null,
+        "C275000": null,
+        "C270000": null
+    },
+    "cas28": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C280000": null
+    },
+    "cas29": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C290000": null
+    },
+    "cas20": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C200000": null
+    },
+    "cas30": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C310000LSA": null,
+        "C310000": null,
+        "C320000LSA": null,
+        "C320000": null,
+        "C350000LSA": null,
+        "C350000": null,
+        "C300000": null
+    },
+    "cas40": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C400000LSA": null,
+        "C400000": null,
+        "C410000": null,
+        "C420000": null,
+        "C430000": null,
+        "C440000": null
+    },
+    "cas50": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C510000": null,
+        "C520000": null,
+        "C530000": null,
+        "C540000": null,
+        "C550000": null,
+        "C580000": null,
+        "C590000": null,
+        "C500000": null
+    },
+    "cas60": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C610000": null,
+        "C630000LSA": null,
+        "C630000": null,
+        "C600000": null
+    },
+    "cas70": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C700000": null
+    },
+    "cas80": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C800000": null
+    },
+    "cas90": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C990000": null,
+        "C900000": null
+    },
+    "lcoe": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null,
+        "C1000000": null,
+        "C2000000": null
+    },
+    "cost_table": {
+        "replacements": {},
+        "template_file": null,
+        "tex_path": null
+    }
+}

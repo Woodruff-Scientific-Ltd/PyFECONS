@@ -40,6 +40,7 @@ class Basic:
     noak: bool = True
     yearly_inflation: Percent = 0.0245
     time_to_replace: Years = 10
+    implosion_frequency: HZ = None  # Implosion laser driving frequency
 
 
 @dataclass

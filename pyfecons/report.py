@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons import Data, TemplateProvider
+from pyfecons.data import Data, TemplateProvider
 
 
 @dataclass
