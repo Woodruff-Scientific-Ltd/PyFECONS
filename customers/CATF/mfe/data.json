@@ -33,6 +33,7 @@
         },
         "template_file": "powerTableMFEDT.tex",
         "tex_path": "Modified/powerTableMFEDT.tex",
+        "figures": {},
         "p_alpha": 520.5915813424347,
         "p_neutron": 2079.4084186575656,
         "p_cool": 13.7,
@@ -65,6 +66,7 @@
         },
         "template_file": "CAS100000.tex",
         "tex_path": "Modified/CAS100000.tex",
+        "figures": {},
         "C110000": 17.621203250174933,
         "C120000": 10.0,
         "C130000": 200.0,
@@ -99,6 +101,7 @@
         },
         "template_file": "CAS210000.tex",
         "tex_path": "Modified/CAS210000.tex",
+        "figures": {},
         "C210100": 207.26097448591588,
         "C210200": 144.46399266406377,
         "C210300": 83.5230792704437,
@@ -173,6 +176,7 @@
         },
         "template_file": "CAS220000.tex",
         "tex_path": "Modified/CAS220000.tex",
+        "figures": {},
         "C220100": 38151.41086054635,
         "C220000": 38605.916403179945
     },
@@ -245,6 +249,9 @@
         },
         "template_file": "CAS220101_MFE_DT.tex",
         "tex_path": "Modified/CAS220101_MFE_DT.tex",
+        "figures": {
+            "Figures/radial_build.pdf": ""
+        },
         "axis_ir": 3,
         "plasma_ir": 3,
         "vacuum_ir": 4.1,
@@ -305,6 +312,7 @@
         },
         "template_file": "CAS220102.tex",
         "tex_path": "Modified/CAS220102.tex",
+        "figures": {},
         "C22010201": 168.9,
         "C22010202": 2.835339952344955,
         "C22010203": 0.6069557006735483,
@@ -358,6 +366,7 @@
         },
         "template_file": "CAS220103_MFE_DT_tokamak.tex",
         "tex_path": "Modified/CAS220103_MFE_DT_tokamak.tex",
+        "figures": {},
         "magnet_properties": [
             {
                 "magnet": {
@@ -902,6 +911,7 @@
         },
         "template_file": "CAS220104_MFE_DT.tex",
         "tex_path": "Modified/CAS220104_MFE_DT.tex",
+        "figures": {},
         "C22010401": 176.605,
         "C22010402": 103.734583325,
         "C220104": 280.339583325
@@ -916,6 +926,7 @@
         },
         "template_file": "CAS220105.tex",
         "tex_path": "Modified/CAS220105.tex",
+        "figures": {},
         "C22010501": 205.73575683321957,
         "C22010502": 296.47151366643914,
         "C220105": 502.2072704996587
@@ -933,6 +944,7 @@
         },
         "template_file": "CAS220106_MFE.tex",
         "tex_path": "Modified/CAS220106_MFE.tex",
+        "figures": {},
         "C22010601": 1.7780179023697384,
         "C22010602": 767.7962407072313,
         "C22010603": 12.48,
@@ -1009,6 +1021,7 @@
         },
         "template_file": "CAS220107_MFE.tex",
         "tex_path": "Modified/CAS220107_MFE.tex",
+        "figures": {},
         "C22010701": 2.0,
         "C22010702": 1401.9200000000003,
         "C220107": 1403.9200000000003
@@ -1025,6 +1038,7 @@
         },
         "template_file": "CAS220108_MFE.tex",
         "tex_path": "Modified/CAS220108_MFE.tex",
+        "figures": {},
         "C220108": 132.7129374034226,
         "divertor_maj_rad": 3.8,
         "divertor_min_rad": 1.1999999999999993,
@@ -1062,6 +1076,7 @@
         },
         "template_file": "CAS220109.tex",
         "tex_path": "Modified/CAS220109.tex",
+        "figures": {},
         "C220109": 0.0,
         "costs": {
             "expandertank": 16.0,
@@ -1099,6 +1114,7 @@
         },
         "template_file": "CAS220111.tex",
         "tex_path": "Modified/CAS220111.tex",
+        "figures": {},
         "C220111": 89.75999999999998
     },
     "cas220119": {
@@ -1107,6 +1123,7 @@
         },
         "template_file": "CAS220119.tex",
         "tex_path": "Modified/CAS220119.tex",
+        "figures": {},
         "C220119": 0.0
     },
     "cas2202": {
@@ -1120,6 +1137,7 @@
         },
         "template_file": "CAS220200_DT.tex",
         "tex_path": "Modified/CAS220200_DT.tex",
+        "figures": {},
         "C220201": 218.68123001636081,
         "C220202": 32.995337097914735,
         "C220203": 0.0,
@@ -1131,6 +1149,7 @@
         },
         "template_file": "CAS220300.tex",
         "tex_path": "Modified/CAS220300.tex",
+        "figures": {},
         "C220300": 5.333866782452789
     },
     "cas2204": {
@@ -1139,6 +1158,7 @@
         },
         "template_file": "CAS220400.tex",
         "tex_path": "Modified/CAS220400.tex",
+        "figures": {},
         "C220400": 9.503980812370424
     },
     "cas2205": {
@@ -1162,6 +1182,7 @@
         },
         "template_file": "CAS220500_DT.tex",
         "tex_path": "Modified/CAS220500_DT.tex",
+        "figures": {},
         "C2205010ITER": 29.26495,
         "C2205020ITER": 10.01,
         "C2205030ITER": 32.190729999999995,
@@ -1183,6 +1204,7 @@
         },
         "template_file": "CAS220600.tex",
         "tex_path": "Modified/CAS220600.tex",
+        "figures": {},
         "C220600": 14.337075633811484
     },
     "cas2207": {
@@ -1191,6 +1213,7 @@
         },
         "template_file": "CAS220700.tex",
         "tex_path": "Modified/CAS220700.tex",
+        "figures": {},
         "C220700": 85.0
     },
     "cas23": {
@@ -1199,6 +1222,7 @@
         },
         "template_file": "CAS230000.tex",
         "tex_path": "Modified/CAS230000.tex",
+        "figures": {},
         "C230000": 389.5423613752083
     },
     "cas24": {
@@ -1207,6 +1231,7 @@
         },
         "template_file": "CAS240000.tex",
         "tex_path": "Modified/CAS240000.tex",
+        "figures": {},
         "C240000": 96.05154116101025
     },
     "cas25": {
@@ -1215,6 +1240,7 @@
         },
         "template_file": "CAS250000.tex",
         "tex_path": "Modified/CAS250000.tex",
+        "figures": {},
         "C250000": 67.59182526145166
     },
     "cas26": {
@@ -1223,6 +1249,7 @@
         },
         "template_file": "CAS260000.tex",
         "tex_path": "Modified/CAS260000.tex",
+        "figures": {},
         "C260000": 190.3243500782981
     },
     "cas27": {
@@ -1231,6 +1258,7 @@
         },
         "template_file": "CAS270000.tex",
         "tex_path": "Modified/CAS270000.tex",
+        "figures": {},
         "C271000": 106.5,
         "C274000": 0.7011,
         "C275000": 0.3591,
@@ -1242,6 +1270,7 @@
         },
         "template_file": "CAS280000.tex",
         "tex_path": "Modified/CAS280000.tex",
+        "figures": {},
         "C280000": 5.0
     },
     "cas29": {
@@ -1250,6 +1279,7 @@
         },
         "template_file": "CAS290000.tex",
         "tex_path": "Modified/CAS290000.tex",
+        "figures": {},
         "C290000": 0.0
     },
     "cas20": {
@@ -1258,6 +1288,7 @@
         },
         "template_file": "CAS200000.tex",
         "tex_path": "Modified/CAS200000.tex",
+        "figures": {},
         "C200000": 40828.722217902185
     },
     "cas30": {
@@ -1272,6 +1303,7 @@
         },
         "template_file": "CAS300000.tex",
         "tex_path": "Modified/CAS300000.tex",
+        "figures": {},
         "C310000LSA": 2449.723333074131,
         "C310000": 53.34314111324291,
         "C320000LSA": 4899.446666148262,
@@ -1288,6 +1320,7 @@
         },
         "template_file": "CAS400000.tex",
         "tex_path": "Modified/CAS400000.tex",
+        "figures": {},
         "C400000LSA": 4899.446666148262,
         "C400000": 4899.446666148262,
         "C410000": 0.0,
@@ -1308,6 +1341,7 @@
         },
         "template_file": "CAS500000.tex",
         "tex_path": "Modified/CAS500000.tex",
+        "figures": {},
         "C510000": 8.0,
         "C520000": 85.60702778759685,
         "C530000": 100.0,
@@ -1326,6 +1360,7 @@
         },
         "template_file": "CAS600000.tex",
         "tex_path": "Modified/CAS600000.tex",
+        "figures": {},
         "C610000": 299.0,
         "C630000LSA": 11170.738398818037,
         "C630000": 782.5099435525201,
@@ -1337,6 +1372,7 @@
         },
         "template_file": "CAS700000.tex",
         "tex_path": "Modified/CAS700000.tex",
+        "figures": {},
         "C700000": 79.04140843964848
     },
     "cas80": {
@@ -1347,6 +1383,7 @@
         },
         "template_file": "CAS800000_DT.tex",
         "tex_path": "Modified/CAS800000_DT.tex",
+        "figures": {},
         "C800000": 0.1798689072895579
     },
     "cas90": {
@@ -1355,6 +1392,7 @@
         },
         "template_file": "CAS900000.tex",
         "tex_path": "Modified/CAS900000.tex",
+        "figures": {},
         "C990000": 48010.22364053452,
         "C900000": 4320.920127648106
     },
@@ -1372,6 +1410,7 @@
         },
         "template_file": "LCOE.tex",
         "tex_path": "Modified/LCOE.tex",
+        "figures": {},
         "C1000000": 457.1984620577469,
         "C2000000": 45.71984620577469
     },
@@ -1515,6 +1554,7 @@
             "M.28pp": "-"
         },
         "template_file": "CASstructure.tex",
-        "tex_path": "Modified/CASstructure.tex"
+        "tex_path": "Modified/CASstructure.tex",
+        "figures": {}
     }
 }

@@ -21,3 +21,10 @@ def hydrate_templates(templates_path: str, template_providers: list[TemplateProv
         contents = replace_values(template_content, provider.replacements)
         hydrated_templates.append(HydratedTemplate(provider, contents))
     return hydrated_templates
+
+
+def combine_figures(template_providers: list[TemplateProvider]) -> dict[str, bytes]:
+    all_figures = {}
+    for provider in template_providers:
+        all_figures.update(provider.figures)
+    return all_figures
