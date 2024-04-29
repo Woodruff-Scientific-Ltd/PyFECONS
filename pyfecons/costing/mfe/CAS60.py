@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_600000_TEX = 'CAS600000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cas60
 
     # Cost Category 60 Capitalized Financial Costs (CFC)

@@ -32,14 +32,14 @@ CAS_220700_TEX = 'CAS220700.tex'
 CAS_220000_TEX = 'CAS220000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     return [
-        compute_220101_reactor_equipment(inputs, data, figures),
+        compute_220101_reactor_equipment(inputs, data),
         compute_220102_shield(inputs, data),
         compute_220103_coils(inputs, data),
         compute_220104_supplementary_heating(inputs, data),
         compute_220105_primary_structure(inputs, data),
-        compute_220106_vacuum_system(inputs, data, figures),
+        compute_220106_vacuum_system(inputs, data),
         compute_220107_power_supplies(inputs, data),
         compute_220108_divertor(inputs, data),
         compute_220109_direct_energy_converter(inputs, data),
@@ -55,7 +55,7 @@ def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProv
     ]
 
 
-def compute_220101_reactor_equipment(inputs: Inputs, data: Data, figures: dict) -> TemplateProvider:
+def compute_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.1: Reactor Equipment
     IN = inputs.radial_build
     OUT = data.cas220101
@@ -705,7 +705,7 @@ def compute_220105_primary_structure(inputs: Inputs, data: Data) -> TemplateProv
     return OUT
 
 
-def compute_220106_vacuum_system(inputs: Inputs, data: Data, figures: dict) -> TemplateProvider:
+def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.6 Vacuum system
     OUT = data.cas220106
     IN = inputs.vacuum_system

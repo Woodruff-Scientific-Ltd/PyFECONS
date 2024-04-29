@@ -6,7 +6,7 @@ import math
 CAS_100000_TEX = 'CAS100000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     basic = inputs.basic
     IN = data.power_table
     OUT = data.cas10

@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_400000_TEX = 'CAS400000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 40 Capitalized Owner’s Cost (COC)
     OUT = data.cas40
     IN = inputs.lsa_levels

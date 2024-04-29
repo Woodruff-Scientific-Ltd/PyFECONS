@@ -5,7 +5,7 @@ from pyfecons.units import MW, Unknown
 POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table

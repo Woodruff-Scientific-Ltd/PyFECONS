@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_250000_TEX = 'CAS250000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 25 Miscellaneous Plant Equipment
     # No cost basis stated
     OUT = data.cas25
