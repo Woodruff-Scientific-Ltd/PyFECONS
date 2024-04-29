@@ -1,4 +1,4 @@
-from pyfecons import M_USD, Kilograms
+from pyfecons import Kilograms
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider

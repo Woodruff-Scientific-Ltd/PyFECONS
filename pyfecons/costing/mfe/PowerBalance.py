@@ -1,3 +1,4 @@
+from pyfecons import FuelType
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Unknown
@@ -9,9 +10,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table
-    # TODO this will depend on fuel type
-    charged_particle_energy_fraction = 3.52 / 17.58
-    OUT.p_alpha = MW(basic.p_nrl * charged_particle_energy_fraction)
+    OUT.p_alpha = compute_p_alpha(basic.p_nrl, basic.fuel_type)
     OUT.p_neutron = MW(basic.p_nrl - OUT.p_alpha)
     OUT.p_cool = MW(IN.p_tfcool + IN.p_pfcool)
     OUT.p_aux = MW(IN.p_trit + IN.p_house)
@@ -72,3 +71,16 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         # 'PDEE': PDEE,
     }
     return [OUT]
+
+
+def compute_p_alpha(p_nrl: MW, fuel_type: FuelType) -> MW:
+    # Charged particle power in fuel_type reaction - from ratio of total energy for fuel_type
+    #   https://en.wikipedia.org/wiki/Nuclear_fusion
+    if fuel_type == FuelType.DT:
+        return MW(p_nrl * 3.52 / 17.58)
+    elif fuel_type == FuelType.DD:
+        return MW(p_nrl * (0.5 * 3.02 / (3.02 + 1.01) + 0.5 * 0.82 / (0.82 + 2.45)))
+    elif fuel_type == FuelType.DHE3:
+        return MW(p_nrl * 14.7 / (14.7+3.6))
+    elif fuel_type == FuelType.PB11:
+        return MW(p_nrl * 8.7/8.7)
