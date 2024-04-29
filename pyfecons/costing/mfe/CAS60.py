@@ -9,6 +9,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cas60
 
     # Cost Category 60 Capitalized Financial Costs (CFC)
+    # TODO determine cost basis, ask simon
     # TODO are these inputs or constants?
     A_C_98 = 115
     A_power = 1000

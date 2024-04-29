@@ -1,4 +1,5 @@
 from pyfecons import M_USD
+from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 
@@ -18,58 +19,58 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
 
     # 21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
     # 0.5 comes from use of DD
-    OUT.C210100 = M_USD(268 / 1e3 * IN.p_et * 0.5)
+    OUT.C210100 = M_USD(k_to_m_usd(268) * IN.p_et * 0.5)
 
     # 21.02.00,,Fusion Heat Island Building,Concrete & Steel,. Source: [2], pg 11.
     # 0.5 comes from use of DD - we don't need so much structure in the containment building.
-    OUT.C210200 = M_USD(186.8 / 1e3 * IN.p_et * 0.5)
+    OUT.C210200 = M_USD(k_to_m_usd(186.8) * IN.p_et * 0.5)
 
     # 21.03.00,,Turbine building,Steel. Source: [1] cost account 14.2, page 134
-    OUT.C210300 = M_USD(54.0 / 1e3 * IN.p_et)
+    OUT.C210300 = M_USD(k_to_m_usd(54.0) * IN.p_et)
 
     # 21.04.00,,Heat exchanger building,Concrete & Steel,Source: [1] cost account 14.2, page 134
-    OUT.C210400 = M_USD(37.8 / 1e3 * IN.p_et)
+    OUT.C210400 = M_USD(k_to_m_usd(37.8) * IN.p_et)
 
     # 21.05.00,,Power supply & energy storage,Concrete & Steel,Source: scaled from [1] cost account 14.2, page 134
-    OUT.C210500 = M_USD(10.8 / 1e3 * IN.p_et)
+    OUT.C210500 = M_USD(k_to_m_usd(10.8) * IN.p_et)
 
     # 21.06.00,,Reactor auxiliaries,Concrete & Steel, Source: [1] cost account 14.8, page 134
-    OUT.C210600 = M_USD(5.4 / 1e3 * IN.p_et)
+    OUT.C210600 = M_USD(k_to_m_usd(5.4) * IN.p_et)
 
     # 21.07.00,,Hot cell,Concrete & Steel, Source: [1] cost account 14.1, page 134
     # 0.5 from use of DD
-    OUT.C210700 = M_USD(93.4 / 1e3 * IN.p_et * 0.5)
+    OUT.C210700 = M_USD(k_to_m_usd(93.4) * IN.p_et * 0.5)
 
     # 21.08.00,,Reactor services,Steel frame, Source: scaled from [1] cost account 14.1, page 134
-    OUT.C210800 = M_USD(18.7 / 1e3 * IN.p_et)
+    OUT.C210800 = M_USD(k_to_m_usd(18.7) * IN.p_et)
 
     # 21.09.00,,Service water,Steel frame, Source: [1] cost account 14.4, page 134
-    OUT.C210900 = M_USD(0.3 / 1e3 * IN.p_et)
+    OUT.C210900 = M_USD(k_to_m_usd(0.3) * IN.p_et)
 
     # 21.10.00,,Fuel storage,Steel frame, Source: scaled from [1] cost account 14.1, page 134
-    OUT.C211000 = M_USD(1.1 / 1e3 * IN.p_et)
+    OUT.C211000 = M_USD(k_to_m_usd(1.1) * IN.p_et)
 
     # 21.11.00,,Control room,Steel frame,0.7,4.0,12.0,2,96,2019,1.19,
-    OUT.C211100 = M_USD(0.9 / 1e3 * IN.p_et)
+    OUT.C211100 = M_USD(k_to_m_usd(0.9) * IN.p_et)
 
     # 21.12.00,,Onsite AC power,Steel frame,0.7,3.6,10.8,1.8,70,2019,1.19,
-    OUT.C211200 = M_USD(0.8 / 1e3 * IN.p_et)
+    OUT.C211200 = M_USD(k_to_m_usd(0.8) * IN.p_et)
 
     # 21.13.00,,Administration,Steel frame,Source: [1] cost account 14.3, page 134
-    OUT.C211300 = M_USD(4.4 / 1e3 * IN.p_et)
+    OUT.C211300 = M_USD(k_to_m_usd(4.4) * IN.p_et)
 
     # 21.14.00,,Site services,Steel frame,Source: scaled from [1] cost account 14.6, page 134
-    OUT.C211400 = M_USD(1.6 / 1e3 * IN.p_et)
+    OUT.C211400 = M_USD(k_to_m_usd(1.6) * IN.p_et)
 
     # 21.15.00,,Cryogenics,Steel frame,Source: scaled from [1] cost account 14.4, page 134
-    OUT.C211500 = M_USD(2.4 / 1e3 * IN.p_et)
+    OUT.C211500 = M_USD(k_to_m_usd(2.4) * IN.p_et)
 
     # 21.16.00,,Security,Steel frame,Source: scaled from [1] cost account 14.8, page 134
-    OUT.C211600 = M_USD(0.9 / 1e3 * IN.p_et)
+    OUT.C211600 = M_USD(k_to_m_usd(0.9) * IN.p_et)
 
     # 21.17.00,,Ventilation stack,Steel cylinder & concrete foundation,Source: scaled from [1] cost account 14.3,
     # page 134
-    OUT.C211700 = M_USD(27.0 / 1e3 * IN.p_et)
+    OUT.C211700 = M_USD(k_to_m_usd(27.0) * IN.p_et)
 
     OUT.C210000 = M_USD(OUT.C210100 + OUT.C210200 + OUT.C210300 + OUT.C210400 + OUT.C210500 + OUT.C210600
                         + OUT.C210700 + OUT.C210800 + OUT.C210900 + OUT.C211000 + OUT.C211100 + OUT.C211200

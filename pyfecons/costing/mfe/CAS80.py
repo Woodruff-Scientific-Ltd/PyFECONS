@@ -1,4 +1,5 @@
-from pyfecons import M_USD
+from pyfecons import M_USD, Kilograms
+from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 
@@ -13,15 +14,15 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # c_f = 0.03 * (8760 * PNET*NMOD * p_a) / (1 + yinflation )**lifeY #hours * power = MWh
     # c_f = 50
 
-    # TODO what is the constant here?
-    m_D = 3.342*10**(-27) # (kg)
+    # the mass of deuterium https://physics.nist.gov/cgi-bin/cuu/Value?md
+    m_D = Kilograms(3.342*10**(-27))
 
-    # where u_D ($/kg) = 2175 ($/kg) from STARFIRE * 1.12345/0.42273 [GDP IPD ratio for 2019/1980]
+    # u_D ($/kg) = 2175 ($/kg) from STARFIRE * 1.12345/0.42273 [GDP IPD ratio for 2019/1980]
     u_D = 2175
     c_f = (float(inputs.basic.n_mod) * inputs.basic.p_nrl * 1e6 * 3600 * 8760
            * u_D * m_D * inputs.basic.plant_availability / (17.58 * 1.6021e-13))
 
-    OUT.C800000 = M_USD(c_f/1e6)
+    OUT.C800000 = to_m_usd(c_f)
 
     OUT.template_file = CAS_800000_DT_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file

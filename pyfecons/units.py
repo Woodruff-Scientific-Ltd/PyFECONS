@@ -12,6 +12,13 @@ class MA(float):
         return f"{self:.2f}"
 
 
+# Watts
+class W(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Megawatts
 class MW(float):
     def __str__(self):
         return f"{self:.2f}"

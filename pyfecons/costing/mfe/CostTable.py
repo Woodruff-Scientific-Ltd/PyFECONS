@@ -46,8 +46,10 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     percentage_cost_values = {percentage(key): str(round(val / data.cas90.C990000 * 100, 2)) for key, val in cost_values.items()}
 
     # ARIES ST
+    # Values from page 148, Najmabadi, F. and Aries Team, 2003. Spherical torus concept as power plants—the ARIES-ST
+    #   study. Fusion Engineering and Design, 65(2), pp.143-164.
+    # TODO what inflation period is this? Move to conversions.
     inflation_factor = 1.35
-    # TODO - what is 4479.7?
     m30 = data.cas30.C300000/data.cas90.C990000*4479.7
     m40 = data.cas40.C400000/data.cas90.C990000*4479.7
     m50 = data.cas50.C500000/data.cas90.C990000*4479.7

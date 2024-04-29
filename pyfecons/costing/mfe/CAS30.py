@@ -7,12 +7,11 @@ CAS_300000_TEX = 'CAS300000.tex'
 
 def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 30 Capitalized Indirect Service Costs (CISC)
+    # TODO determine cost basis, ask simon
     IN = inputs.lsa_levels
     OUT = data.cas30
 
     # Cost Category 31 – Field Indirect Costs - previously Cost Category 93
-    # 0.060 * C_90; %NMOD*(/1e6)/A_power * A_C_93
-    # Field Office Engineering and Services  Table 3.2-VII of Ref. [1]
     OUT.C310000LSA = M_USD(IN.fac_93[IN.lsa - 1] * data.cas20.C200000)
 
     OUT.C310000 = M_USD((data.power_table.p_net / 150) ** -0.5
@@ -37,8 +36,6 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
                         * data.power_table.p_net * 0.03 * inputs.basic.construction_time)
 
     OUT.C350000LSA = M_USD(IN.fac_92[IN.lsa - 1] * data.cas20.C200000)
-    # Home Office Engineering and Services  Table 3.2-VII of Ref. [1]
-    # 0.052 * C_90; %NMOD*(/1e6)/A_power * A_C_92;
 
     OUT.C300000 = M_USD(OUT.C310000 + OUT.C320000 + OUT.C350000)
 

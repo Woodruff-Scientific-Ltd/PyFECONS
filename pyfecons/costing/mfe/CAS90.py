@@ -13,9 +13,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.C990000 = M_USD(data.cas10.C100000 + data.cas20.C200000 + data.cas30.C300000
                         + data.cas40.C400000 + data.cas50.C500000 + data.cas60.C600000)
 
-    # TODO should this be an input?
-    f_cr = 0.09   # Capital return factor
-    OUT.C900000 = M_USD(f_cr * OUT.C990000)
+    OUT.C900000 = M_USD(inputs.financial.capital_recovery_factor * OUT.C990000)
 
     OUT.template_file = CAS_900000_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
