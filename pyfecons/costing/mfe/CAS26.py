@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_260000_TEX = 'CAS260000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 26 Heat Rejection
     OUT = data.cas26
     # heat rejection scaled as NET electric power escalated relative to 2019 dollars to 2026 dollars

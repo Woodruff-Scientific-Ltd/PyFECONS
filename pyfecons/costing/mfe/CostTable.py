@@ -4,7 +4,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cost_table
     cost_values = {
         'C100000': data.cas10.C100000,

@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_280000_TEX = 'CAS280000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # cost category 28 Digital Twin
     OUT = data.cas28
     # TODO why 5? Should this be an input?

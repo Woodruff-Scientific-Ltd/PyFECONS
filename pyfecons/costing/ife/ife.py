@@ -28,7 +28,6 @@ LOCAL_INCLUDED_FILES = {
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data()
-    figures = {}
     template_providers = []
     return CostingData(data, template_providers)
 

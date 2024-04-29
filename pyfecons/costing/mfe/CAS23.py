@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_230000_TEX = 'CAS230000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 23 Turbine Plant Equipment
     # Talk to Simon, see page 507 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
 

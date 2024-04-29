@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 LCOE_TEX = 'LCOE.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # LCOE = _____ Cost of Electricity
     OUT = data.lcoe
 

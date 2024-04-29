@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_200000_TEX = 'CAS200000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cas20
     # TODO - why are C210000 and C280000 counted twice?
     OUT.C200000 = M_USD(data.cas21.C210000 +

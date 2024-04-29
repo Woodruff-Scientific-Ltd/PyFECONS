@@ -6,7 +6,7 @@ from pyfecons.enums import BlanketPrimaryCoolant
 CAS_270000_TEX = 'CAS270000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 27 Special Materials
     OUT = data.cas27
     materials = inputs.materials

@@ -5,7 +5,7 @@ from pyfecons.data import Data, TemplateProvider
 CAS_290000_TEX = 'CAS290000.tex'
 
 
-def GenerateData(inputs: Inputs, data: Data, figures: dict) -> list[TemplateProvider]:
+def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 29 Contingency
     OUT = data.cas29
     if inputs.basic.noak:
