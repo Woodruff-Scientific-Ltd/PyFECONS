@@ -105,6 +105,7 @@ AM=1 #input
 constructionTime=6 #input
 lifeY=30 #lifetime of plant from end of cinstruction
 NOAK ="y" #Enter "y" as input if NOAK costing, enter "n" otherwise
+fuelType = "DT"
 yinflation=0.0245 #inflation at 2.45%
 p_a = 0.9 #plant availability factor in Miller 2003 was 0.76
 
@@ -202,11 +203,31 @@ def round_to_2(x):
         # Directly return x for 0 or non-numeric types that don't need rounding
         return x
 
+#Unit conversions
+dollars_to_millions = 1/1e6
+thousands_to_millions = 1/1e3
+W_to_MW = 1/1e6
+
+#Inflation adjustment, all from https://www.usinflationcalculator.com/
+inflation_1992_2024 = 2.26
+inflation_2005_2024 = 1.58
+inflation_2010_2024 = 1.43
+inflation_factor_2019_2024= 1.22
+
 #power balance
 
 #MCF
 PNRL = 2600  # Fusion Power
-PALPHA = PNRL * 3.52 / 17.58  # Charged particle power
+if fuelType == "DT":
+  PALPHA = PNRL * 3.52 / 17.58  # Charged particle power in DT reaction - from ratio of total energy for DT (https://en.wikipedia.org/wiki/Nuclear_fusion)
+elif fuelType == "DD":
+  PALPHA = PNRL * (0.5*3.02 / (3.02+1.01)+ 0.5*0.82/(0.82+2.45))  # Charged particle power in DD reaction - from ratio of total energy for DT (https://en.wikipedia.org/wiki/Nuclear_fusion)
+elif fuelType == "DHe3":
+    PALPHA = PNRL * 14.7 / (14.7+3.6)  # Charged particle power in DHe3 reaction - from ratio of total energy for DT (https://en.wikipedia.org/wiki/Nuclear_fusion)
+elif fuelType == "pB11":
+    PALPHA = PNRL * 8.7/8.7  # Charged particle power in pB11 reaction - from ratio of total energy for DT (https://en.wikipedia.org/wiki/Nuclear_fusion)
+
+
 PNEUTRON = PNRL - PALPHA  # Neutron power
 MN = 1.1  # Neutron energy multiplier
 ETAP = 0.5  # Pumping power capture efficiency
@@ -265,9 +286,8 @@ C110000 = np.sqrt(NMOD) * (PNEUTRON /239 * 0.9 + PNRL/239*0.9)
 C120000 = 10
 
 #Cost Category 13 – Plant Licensing
-# https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
 
-C130000 = 200
+C130000 = 210 #Source: Midpoint of estimation from 'Capital Costs' section of https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
 
 #Cost Category 14 – Plant Permits
 
@@ -297,7 +317,7 @@ else:
 C100000 = C110000 + C120000 + C130000 + C140000 + C150000 + C160000 + C170000
 
 copy_file('CAS100000.tex')
-overwrite_variable('CAS100000.tex', 'Nmod', NMOD)
+overwrite_variable('CAS100000.tex', 'NMOD', NMOD)
 overwrite_variable('CAS100000.tex', 'C100000', round(C100000))
 overwrite_variable('CAS100000.tex', 'C110000', round(C110000))
 overwrite_variable('CAS100000.tex', 'C120000', round(C120000))
@@ -318,70 +338,70 @@ overwrite_variable('CAS100000.tex', 'C190000', round(C190000))
 
 #21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
 
-C210100 = 268/1e3 * PET * 0.5 # 0.5 comes from use of DD,
+C210100 = 268*thousands_to_millions * PET * 0.5 # 0.5 comes from use of DD,
 
 #21.02.00,,Fusion Heat Island Building,Concrete & Steel,. Source: [2], pg 11.
-C210200 = 186.8/1e3 * PET * 0.5 # 0.5 comes from use of DD - we don't need so much structure in the containment building.
+C210200 = 186.8*thousands_to_millions * PET * 0.5 # 0.5 comes from use of DD - we don't need so much structure in the containment building.
 
 #21.03.00,,Turbine building,Steel. Source: [1] cost account 14.2, page 134
 
-C210300 = 54.0/1e3 * PET
+C210300 = 54.0*thousands_to_millions * PET
 
 #21.04.00,,Heat exchanger building,Concrete & Steel,Source: [1] cost account 14.2, page 134
 
-C210400 = 37.8/1e3 * PET
+C210400 = 37.8*thousands_to_millions * PET
 
 #21.05.00,,Power supply & energy storage,Concrete & Steel,Source: scaled from [1] cost account 14.2, page 134
 
-C210500 = 10.8/1e3 * PET
+C210500 = 10.8*thousands_to_millions * PET
 
 #21.06.00,,Reactor auxiliaries,Concrete & Steel, Source: [1] cost account 14.8, page 134
 
-C210600 = 5.4/1e3 * PET
+C210600 = 5.4*thousands_to_millions * PET
 
 #21.07.00,,Hot cell,Concrete & Steel, Source: [1] cost account 14.1, page 134
 
-C210700 = 93.4/1e3 * PET * 0.5 # 0.5 from use of DD
+C210700 = 93.4*thousands_to_millions * PET * 0.5 # 0.5 from use of DD
 
 #21.08.00,,Reactor services,Steel frame, Source: scaled from [1] cost account 14.1, page 134
 
-C210800 = 18.7/1e3 * PET
+C210800 = 18.7*thousands_to_millions * PET
 
 #21.09.00,,Service water,Steel frame, Source: [1] cost account 14.4, page 134
 
-C210900 = 0.3/1e3 * PET
+C210900 = 0.3*thousands_to_millions * PET
 
 #21.10.00,,Fuel storage,Steel frame, Source: scaled from [1] cost account 14.1, page 134
 
-C211000 = 1.1/1e3 * PET
+C211000 = 1.1*thousands_to_millions * PET
 
 #21.11.00,,Control room,Steel frame,0.7,4.0,12.0,2,96,2019,1.19,
 
-C211100 = 0.9/1e3 * PET
+C211100 = 0.9*thousands_to_millions * PET
 
 #21.12.00,,Onsite AC power,Steel frame,0.7,3.6,10.8,1.8,70,2019,1.19,
 
-C211200 = 0.8/1e3 * PET
+C211200 = 0.8*thousands_to_millions * PET
 
 #21.13.00,,Administration,Steel frame,Source: [1] cost account 14.3, page 134
 
-C211300 = 4.4/1e3 * PET
+C211300 = 4.4*thousands_to_millions * PET
 
 #21.14.00,,Site services,Steel frame,Source: scaled from [1] cost account 14.6, page 134
 
-C211400 = 1.6/1e3 * PET
+C211400 = 1.6*thousands_to_millions * PET
 
 #21.15.00,,Cryogenics,Steel frame,Source: scaled from [1] cost account 14.4, page 134
 
-C211500 = 2.4/1e3 * PET
+C211500 = 2.4*thousands_to_millions * PET
 
 #21.16.00,,Security,Steel frame,Source: scaled from [1] cost account 14.8, page 134
 
-C211600 = 0.9/1e3 * PET
+C211600 = 0.9*thousands_to_millions * PET
 
 #21.17.00,,Ventilation stack,Steel cylinder & concrete foundation,Source: scaled from [1] cost account 14.3, page 134
 
-C211700 = 27.0/1e3 * PET
+C211700 = 27.0*thousands_to_millions * PET
 
 C210000 = C210100 + C210200 + C210300 + C210400 + C210500 + C210600 + C210700 + C210800 + C210900 + C211000 + C211100 + C211200 + C211300 + C211400 + C211500 + C211600 + C211700
 
@@ -422,7 +442,7 @@ overwrite_variable('CAS210000.tex', 'C211900', round(C211900,1))
 CALCS
 """
 
-# Radial build inputs
+# Radial build INPUTS
 #Radial thicknesses of concentric components (innermost to outermost)
 elon=3 #torus elongation factor
 axis_t = 3 #[m] distance from r=0 to plasma central axis - effectively major radius
@@ -499,24 +519,24 @@ bioshield_vol = calc_volume(bioshield_ir, bioshield_t)  # Updated bioshield volu
 
 #First wall
 if firstW == "tungsten":
-  C22010101 = firstwall_vol*materials["W"]["rho"]*materials["W"]["c_raw"]*materials["W"]["m"]/1e6
+  C22010101 = firstwall_vol*materials["W"]["rho"]*materials["W"]["c_raw"]*materials["W"]["m"]*dollars_to_millions
 elif firstW == "liquid lithium":
-  C22010101 = firstwall_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]/1e6
+  C22010101 = firstwall_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]*dollars_to_millions
 elif firstW == "beryllium":
-  C22010101 = firstwall_vol*materials["Be"]["rho"]*materials["Be"]["c_raw"]*materials["Be"]["m"]/1e6
+  C22010101 = firstwall_vol*materials["Be"]["rho"]*materials["Be"]["c_raw"]*materials["Be"]["m"]*dollars_to_millions
 elif firstW == "FLiBe":
-  C22010101 = firstwall_vol*materials["FliBe"]["rho"]*materials["FliBe"]["c_raw"]*materials["FliBe"]["m"]/1e6
+  C22010101 = firstwall_vol*materials["FliBe"]["rho"]*materials["FliBe"]["c_raw"]*materials["FliBe"]["m"]*dollars_to_millions
 
 #Blanket
 
 if blanketT == "flowing liquid first wall":
-  C22010102 = blanket1_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]/1e6
+  C22010102 = blanket1_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]*dollars_to_millions
 elif blanketT == "solid first wall with a liquid breeder":
-  C22010102 = blanket1_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]/1e6
+  C22010102 = blanket1_vol*materials["Li"]["rho"]*materials["Li"]["c_raw"]*materials["Li"]["m"]*dollars_to_millions
 elif blanketT == "solid first wall with a solid breeder (Li4SiO4)":
-  C22010102 = blanket1_vol*materials["Li4SiO4"]["rho"]*materials["Li4SiO4"]["c_raw"]*materials["Li4SiO4"]["m"]/1e6
+  C22010102 = blanket1_vol*materials["Li4SiO4"]["rho"]*materials["Li4SiO4"]["c_raw"]*materials["Li4SiO4"]["m"]*dollars_to_millions
 elif blanketT == "solid first wall with a solid breeder (Li2TiO3)":
-  C22010102 = blanket1_vol*materials["Li2TiO3"]["rho"]*materials["Li2TiO3"]["c_raw"]*materials["Li2TiO3"]["m"]/1e6
+  C22010102 = blanket1_vol*materials["Li2TiO3"]["rho"]*materials["Li2TiO3"]["c_raw"]*materials["Li2TiO3"]["m"]*dollars_to_millions
 elif blanketT == "solid first wall, no breeder (anuetronic fuel)":
   C22010102 = 0
 
@@ -602,6 +622,11 @@ overwrite_variable('CAS220101_MFE_DT.tex', "C220101", round_to_2(C220101))
 CALCS
 """
 # Define the fractions
+#Shield type input
+#Shield type == "x"
+#Set fractions based on x
+
+
 f_SiC = 0.00
 FPCPPFbLi = 0.1
 f_W = 0.00
@@ -623,8 +648,8 @@ C_HTS = round(V_HTS * (
 V_HTS_BFS = V_HTS * f_BFS
 # The cost C_22_1_2 is the same as C_HTS
 C22010201 = round(C_HTS,1)*5
-C22010202 = lt_shield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]/1e3
-C22010203 = bioshield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]/1e3
+C22010202 = lt_shield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]*thousands_to_millions
+C22010203 = bioshield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]*thousands_to_millions
 C22010204 = C22010203*0.1
 C220102 = C22010201+C22010202+C22010203+C22010204
 
@@ -794,7 +819,7 @@ def k_steel(T):
 
 #Power in from thermal conduction through support
 def Qin_struct(no_beams, beam_cs_area, beam_length,k,T_op):
-    return k*beam_cs_area*no_beams/beam_length *(T_env-T_op)/1e6
+    return k*beam_cs_area*no_beams/beam_length *(T_env-T_op)*W_to_MW
 
 #power in from neutron flux, assume 95% is abosrbed in the blanket
 def Qin_n(load_area,r,R):
@@ -821,7 +846,7 @@ def Qin_tot(Qin,no_coils):
 
 def Q_ohmic(wire_length,cuWireCurrent):
   cures= wire_length*3.2 #Resistance of 3.2 Ohms/1000m see https://www.engineeringtoolbox.com/copper-wire-d_1429.html
-  return cuWireCurrent**2*cures/1e6 #MA
+  return cuWireCurrent**2*cures*W_to_MW #MA
 
 #Scaling cooling costs from ITER see Serio, L., ITER Organization and Domestic Agencies and Collaborators, 2010, April. Challenges for cryogenics at ITER. In AIP Conference Proceedings (Vol. 1218, No. 1, pp. 651-662). American Institute of Physics.
 #ITER COP
@@ -937,7 +962,7 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       tapeLength = turnsScS * rCentre * 2 * np.pi / 1e3
 
       costSC = maxTapeCurrent / 1e3 * tapeLength * 1e3 * mCostYBCO / 1e6
-      costI = mcostI * volI * Idensity/1e6  # material cost of inter-tape insulation [m$]
+      costI = mcostI * volI * Idensity*dollars_to_millions  # material cost of inter-tape insulation [m$]
       costCu = 0
       costSS = 0
       totMatCost = costSC + costCu + costSS + costI
@@ -976,8 +1001,8 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       volI = fracIns*csArea*rCentre*2*np.pi #total volume of insulation [m^3]
 
       costSC = 0
-      costCu = (volCoil - volI)*cuDensity*mCostCu/1e6 #[$] simple volumetric material calc
-      costI = mcostI * volI * Idensity/1e6  # material cost of inter-turn insulation [m$]
+      costCu = (volCoil - volI)*cuDensity*mCostCu*dollars_to_millions #[$] simple volumetric material calc
+      costI = mcostI * volI * Idensity*dollars_to_millions  # material cost of inter-turn insulation [m$]
       costSS = 0
       totMatCost = costSC + costCu + costSS +costI
       magCost = totMatCost * mfrFactor
@@ -1143,6 +1168,10 @@ overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C220103', round(C220103))
 
 #22.1.4 Supplementary heating
 
+#INPUTS
+NBIpower = 50 #MW
+ICRFpower = 0#MW
+
 #see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
 heating_refs = {
     "ARIES-AT": {"Type": "ICRF/LH", "Power (MW)": 37.441, "$/W (2009)": 1.67, "$/W (2023)": 2.3881},
@@ -1159,10 +1188,9 @@ heating_refs = {
     "Average (NBI)": {"Type": None, "Power (MW)": 167.6, "$/W (2009)": 4.94, "$/W (2023)": 7.0642},
 }
 
-NBIpower = 50 #MW
+
 C22010401= heating_refs["Average (NBI)"]["$/W (2023)"]*NBIpower
 
-ICRFpower = 0#MW
 C22010402= heating_refs["Average (ICRF)"]["$/W (2023)"]*ICRFpower
 
 C220104 = C22010401+C22010402
@@ -1177,7 +1205,7 @@ overwrite_variable('CAS220104_MFE_DT.tex', 'ICRFPOWER', round(ICRFpower,3))
 #INPUT - choose from pga of 0.1, 0.2, 0.3 or 0.5. PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
 systpga=0.1
 
-#Dictionary of fission reactor costs from "Towards standardized nuclear reactors: Seismic isolation and the cost impact of the earthquake load case"
+#Dictionary of fission reactor costs from "Towards standardized nuclear reactors: Seismic isolation and the cost impact of the earthquake load case" URL: https://www.sciencedirect.com/science/article/abs/pii/S0029549321004398
 primary_struct_costs = {
     "analyzecosts":30,
     "unit1seiscosts":25,
@@ -1254,7 +1282,7 @@ overwrite_variable('CAS220105.tex', 'PNRL', round(PNRL))
 #22.1.6.1 Vacuum Vessel
 # Scaling parameters INPUTS
 learning_credit = 0.5
-inf_fact = 1.58  # 2005 to 2024
+
 #from radial build
 syst_spool_ir = axis_ir-(vessel_ir-axis_ir)*0.5 #Spool inner radius (goes around CS)
 syst_doors_ir = vessel_ir #doors inner radius (goes within TF)
@@ -1262,7 +1290,7 @@ syst_height = elon*vessel_vol / (np.pi * vessel_ir**2) #System height
 
 
 
-# Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design
+# Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design. URL: http://qedfusion.org/LIB/REPORT/CONF/ACTsyscodedocs/ASC_FED2_Dragojlovic.pdf
 vessel_base_costs = {
     "Spool assembly": {"Total mass (kg)": 136043, "Material cost (US$)": 49430, "Fabrication cost (US$)": 2614897, "Total cost (US$)": 2800370},
     "Removable doors": {"Total mass (kg)": 211328, "Material cost (US$)": 859863, "Fabrication cost (US$)": 6241880, "Total cost (US$)": 7313071},
@@ -1300,7 +1328,7 @@ for key, costs in vessel_base_costs.items():
         for cost_key in ["Material cost (US$)", "Fabrication cost (US$)"]:
             if original_mass > 0:  # Avoid division by zero
                 scaled_cost = (costs[cost_key] / original_mass) * new_mass  # New cost based on per kg rate
-                scaled_cost = scaled_cost * learning_credit * inf_fact  # Apply learning credit and inflation
+                scaled_cost = scaled_cost * learning_credit * inflation_2005_2024  # Apply learning credit and inflation
                 costs[cost_key] = scaled_cost
 
         # Updating total cost after scaling other costs
@@ -1313,7 +1341,7 @@ for key, costs in vessel_base_costs.items():
         vessel_base_costs["Total"]["Total cost (US$)"] += costs["Total cost (US$)"]
 
 # Calculate new contingency and prime contractor fee based on updated total cost
-total_cost = vessel_base_costs["Total"]["Total cost (US$)"]/1e6
+total_cost = vessel_base_costs["Total"]["Total cost (US$)"]*dollars_to_millions
 vessel_base_costs["Contingency (20%)"]["Total cost (US$)"] = total_cost * 0.20
 vessel_base_costs["Prime contractor fee (12%)"]["Total cost (US$)"] = total_cost * 0.12
 
@@ -1348,11 +1376,11 @@ cost_pump = 40000
 #48 pumps needed for 200^3 system
 vpump_cap = 200/48 #m^3 capable of being pumped by 1 pump
 no_vpumps = int(vesvol/vpump_cap)#Number of vacuum pumps required to pump the full vacuum in 1 second
-C22010603  = no_vpumps*cost_pump/1e6
+C22010603  = no_vpumps*cost_pump*dollars_to_millions
 
 #ROUGHING PUMP 22.1.6.4
 #from STARFIRE, only 1 needed
-C22010604 = 120000*2.85/1e6
+C22010604 = 120000*2.85*dollars_to_millions
 
 C220106 = C22010601  +C22010602 +C22010603+C22010604
 copy_file('CAS220106_MFE.tex')
@@ -1365,11 +1393,11 @@ overwrite_variable('CAS220106_MFE.tex', 'C22010604', round(C22010604,2))
 overwrite_variable('CAS220106_MFE.tex', 'C220106', round(C220106))
 overwrite_variable('CAS220106_MFE.tex', 'vesvol', round(vesvol))
 overwrite_variable('CAS220106_MFE.tex', 'massstruct', round(massstruct))
-overwrite_variable('CAS220106_MFE.tex', 'vesmatcost', round(vessel_base_costs["Total"]["Material cost (US$)"]/1e6,1))
+overwrite_variable('CAS220106_MFE.tex', 'vesmatcost', round(vessel_base_costs["Total"]["Material cost (US$)"]*dollars_to_millions,1))
 
 #Cost Category 22.1.7 Power supplies
 
-cost_per_watt = 1 #1$/W power supply rule of thumb
+cost_per_watt = 1 #1$/W power supply industry rule of thumb
 
 C22010701 = PCOILS*cost_per_watt # (M$) Power supplies for confinement
 
@@ -1396,7 +1424,7 @@ divertorVol = ((divertorMajRad+divertorThicknessR)**2-(divertorMajRad-divertorTh
 divertorMass= divertorVol*divertorMaterial["rho"]
 divertorMatCost=divertorMass*divertorMaterial["c_raw"]
 divertorCost=divertorMatCost*divertorMaterial["m"]
-C220108 = divertorCost/1e6
+C220108 = divertorCost*dollars_to_millions
 
 copy_file('CAS220108_MFE.tex')
 overwrite_variable('CAS220108_MFE.tex', 'C220108', round(C220108))
@@ -1408,8 +1436,9 @@ overwrite_variable('CAS220108_MFE.tex', 'divertorVol', round(divertorVol))
 overwrite_variable('CAS220108_MFE.tex', 'divertorMass', round(divertorMass))
 
 #22.1.9 Direct Energy Converter
-import math
 #Subsystem costs
+
+#Data scaled from Post, R.F., 1970. Mirror systems: fuel cycles, loss reduction and energy recovery. In Nuclear fusion reactors (pp. 99-111). Thomas Telford Publishing.
 de_costs = {
     "expandertank": 16,
     "expandercoilandneutrontrapcoil": 33,
@@ -1429,6 +1458,7 @@ de_costs = {
 if NOAK =="y":
   de_costs["contingency15percent"] = 0
 
+#Scaling with system size
 def de_scaling(syst_power, flux_lim, input_dict):
     scaled_dict = {}
     for key, value in input_dict.items():
@@ -1485,11 +1515,9 @@ overwrite_variable('CAS220119.tex', 'C220119', round(C220119))
 C220100 = C220101 + C220102 + C220103 + C220104 + C220105 + C220106 + C220107 +C220108 + C220109 + C220111 +C220119
 
 #MAIN AND SECONDARY COOLANT Cost Category 22.2
-NMOD=1
-
 #C_22_2_1  = 233.9 * (PTH/3500)^0.55; 	#Li(f), PbLi, He:                %Primary coolant(i):
-C220201  = 268.5  * (NMOD * PTH/3500) * 1.71 #am assuming a linear scaling	%Li(f), PbLi, He:
-#Primary coolant(i):  1.85 is due to inflation%the CPI scaling of 1.71 comes from:
+C220201  = 268.5  * (NMOD * PTH/3500) * inflation_1992_2024 #am assuming a linear scaling	%Li(f), PbLi, He:
+#Primary coolant(i):
 #https://www.bls.gov/data/inflation_calculator.htm scaled relative to 1992 dollars (despite 2003 publication date)
 C220201 = 166 * (NMOD * PNET/1000)  #this is the Sheffield cost for a 1GWe system
 #C_22_2_1  = 75.0 * (PTH/3500)^0.55   	#OC, H2O(g)
@@ -1508,30 +1536,26 @@ overwrite_variable('CAS220200_DT.tex', 'primaryC', primaryC)
 overwrite_variable('CAS220200_DT.tex', 'secondaryC', secondaryC)
 
 #Cost Category 22.3  Auxiliary cooling
-
-
-C220300    = round(1.10 * 1e-3 * NMOD * PTH * 2.02,1)          #Auxiliary cooling systems %the CPI scaling of 2.02 comes from: https://www.bls.gov/data/inflation_calculator.htm scaled relative to 1992 dollars (despite 2003 publication date)
-
+ #Auxiliary cooling systems
+C220300    = round(1.10 * 1e-3 * NMOD * PTH * inflation_1992_2024,1)
 copy_file('CAS220300.tex')
 overwrite_variable('CAS220300.tex', 'C220300', round(C220300,1))
 
 #Cost Category 22.4 Radwaste
-
-C220400    = round(1.96 * 1e-3 * PTH * 2.02  ,1)     	#Radioactive waste treatment %the CPI scaling of 1.96 comes from: https://www.bls.gov/data/inflation_calculator.htm scaled relative to 1992 dollars (despite 2003 publication date)
-
+C220400    = round(1.96 * 1e-3 * PTH * inflation_1992_2024  ,1)     	#Radioactive waste treatment
+#base cost of 1.96M from Alexeeva, V., Molloy, B., Beestermoeller, R., Black, G., Bradish, D., Cameron, R., Keppler, J.H., Rothwell, G., Urso, M.E., Colakoglu, I. and Emeric, J., 2018. Measuring Employment Generated by the Nuclear Power Sector (No. NEA--7204). Organisation for Economic Co-Operation and Development.
 copy_file('CAS220400.tex')
 overwrite_variable('CAS220400.tex', 'C220400', C220400)
 
 #Cost Category 22.5 Fuel Handling and Storage
 
-
-inflation = 1.43
-C2205010ITER = 20.465*inflation
-C2205020ITER = 7*inflation
-C2205030ITER = 22.511*inflation
-C2205040ITER = 9.76*inflation
-C2205050ITER = 22.826*inflation
-C2205060ITER = 47.542*inflation
+#ITER values from: Waganer, L., 2013. ARIES Cost Account Documentation. [pdf] San Diego: University of California, San Diego. Available at: https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf  Pge 90.
+C2205010ITER = 20.465*inflation_2010_2024
+C2205020ITER = 7*inflation_2010_2024
+C2205030ITER = 22.511*inflation_2010_2024
+C2205040ITER = 9.76*inflation_2010_2024
+C2205050ITER = 22.826*inflation_2010_2024
+C2205060ITER = 47.542*inflation_2010_2024
 C22050ITER = C2205010ITER+C2205020ITER+C2205030ITER+C2205040ITER+C2205050ITER+C2205060ITER #ITER inflation cost
 
 
@@ -1563,7 +1587,7 @@ for var_name, var_value in variable_dictionary.items():
 #Cost Category 22.6 Other Reactor Plant Equipment
 
 
-C220600 = round(11.5*(PNET/1000)**(0.8),1) #from waganer
+C220600 = round(11.5*(PNET/1000)**(0.8),1) #from Waganer, L., 2013. ARIES Cost Account Documentation. [pdf] San Diego: University of California, San Diego. Available at: https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
 
 copy_file('CAS220600.tex')
 overwrite_variable('CAS220600.tex', 'C220600', round(C220600))
@@ -1571,7 +1595,8 @@ overwrite_variable('CAS220600.tex', 'C220600', round(C220600))
 #Cost Category 22.7 Instrumentation and Control
 
 # 22.07.00.00    instrumentation & control(i&c)
-C220700 = 85
+#Source: page 576, account 12, https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
+C220700 = 85 #M USD
 
 copy_file('CAS220700.tex')
 overwrite_variable('CAS220700.tex', 'C220700', round(C220700))
@@ -1604,32 +1629,30 @@ for var_name, var_value in variables_to_overwrite.items():
     overwrite_variable('CAS220000.tex', var_name, round(var_value,2))
 
 #Cost Category 23 Turbine Plant Equipment
-#Talk to Simon, see page 507 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
-
-
-C230000=round(NMOD * PET * 0.219 *1.15,1)
+#Source: page 507 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
+C230000=round(NMOD * PET * 0.219 *inflation_factor_2019_2024,1)
 
 copy_file('CAS230000.tex')
 overwrite_variable('CAS230000.tex', 'C230000', round(C230000))
 
 #Cost Category 24 Electric Plant Equipment
-#Talk to Simon, see page 508 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
+#Source: page 508 https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
 
-C240000= round(NMOD * PET * 0.054 * 1.15,1)
+C240000= round(NMOD * PET * 0.054 * inflation_factor_2019_2024,1)
 
 copy_file('CAS240000.tex')
 overwrite_variable('CAS240000.tex', 'C240000', round(C240000))
 
 #Cost Category 25 Miscellaneous Plant Equipment
-#No cost basis stated
-C250000  = round( NMOD* PET  * 0.038 * 1.15,1)   #factor of 1.15 obtained from escalating relative to 2019 $
+#From NETL https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
+C250000  = round( NMOD* PET  * 0.038 * inflation_factor_2019_2024,1)
 
 copy_file('CAS250000.tex')
 overwrite_variable('CAS250000.tex', 'C250000', round(C250000))
 
 #Cost Category 26 Heat Rejection
 
-C260000 = round(NMOD * PNET * 0.107 * 1.15,1) #heat rejection scaled as NET electric power escalated relative to 2019 dollars to 2026 dollars
+C260000 = round(NMOD * PNET * 0.107 * inflation_factor_2019_2024,1) #heat rejection scaled as NET electric power escalated relative to 2019 dollars to 2026 dollars
 
 copy_file('CAS260000.tex')
 overwrite_variable('CAS260000.tex', 'C260000', round(C260000))
@@ -1670,7 +1693,7 @@ copy_file('CAS270000.tex')
 overwrite_variable('CAS270000.tex', 'C270000', round(C270000))
 
 #cost category 28 Digital Twin
-
+#In-house cost stimate provided by nTtau Ltd
 C280000=5
 
 copy_file('CAS280000.tex')
@@ -1692,7 +1715,7 @@ overwrite_variable('CAS200000.tex', 'C200000', round(C200000))
 """# Indirect Costs"""
 
 #Cost Category 30 Capitalized Indirect Service Costs (CISC)
-
+#TODO determine cost basis, ask simon
 # Define LSA
 LSA = 2
 
@@ -1710,7 +1733,6 @@ fac_98 = [0.0000, 0.0000, 0.0000, 0.0000]  # x TDC [90+91+92+93+94+95+96]
 #Cost Category 31 – Field Indirect Costs - previously Cost Category 93
 
 C310000LSA = fac_93[LSA - 1] * C200000
-#0.060 * C_90; %NMOD*(/1e6)/A_power * A_C_93 #Field Office Engineering and Services  Table 3.2-VII of Ref. [1]
 
 C310000 = (PNET/150)**-0.5 * PNET * 0.02 * constructionTime
 
@@ -1728,7 +1750,6 @@ C320000 = (PNET/150)**-0.5 * PNET * 0.05 * constructionTime #this takes the 316$
 C350000 = (PNET/150)**-0.5 * PNET * 0.03 * constructionTime
 
 C350000LSA = fac_92[LSA - 1] * C200000
-#0.052 * C_90; %NMOD*(/1e6)/A_power * A_C_92; %Home Office Engineering and Services  Table 3.2-VII of Ref. [1]
 
 C300000=C310000+C320000+C350000
 
@@ -1742,6 +1763,7 @@ overwrite_variable('CAS300000.tex', 'C350000LSA', round(C350000LSA))
 overwrite_variable('CAS300000.tex', 'C350000', round(C350000))
 
 #Cost Category 40 Capitalized Owner’s Cost (COC)
+#TODO determine cost basis, ask simon
 
 C400000LSA = fac_91[LSA - 1] * C200000
 
@@ -1769,6 +1791,7 @@ overwrite_variable('CAS400000.tex', 'C400000LSA', round(C400000LSA))
 overwrite_variable('CAS400000.tex', 'C400000', round(C400000))
 
 #Cost Category 50 Capitalized Supplementary Costs (CSC)
+#TODO determine cost basis, ask simon
 
 
 #Cost Category 51 – Shipping and Transportation Costs
@@ -1819,6 +1842,7 @@ overwrite_variable('CAS500000.tex', 'C580000', round(C580000))
 overwrite_variable('CAS500000.tex', 'C590000', round(C590000))
 
 #Cost Category 60 Capitalized Financial Costs (CFC)
+#TODO determine cost basis, ask simon
 
 A_C_98 = 115
 A_power = 1000
@@ -1872,7 +1896,7 @@ costfac90 = [0.0863, 0.1118, 0.1381, 0.1652, 0.1931, 0.2219, 0.2515, 0.2821, 0.3
 C630000LSA = fac_97[LSA - 1] * C200000
 
 #C_97_sens = costfac90 * (C_90 + C_96 + C_94 + C_93 + C_92 + C_91);
-#(/1e6)/A_power * A_C_97; %Interest during Construction (IDC)  Table 3.2-X of Ref. [1]
+#(*dollars_to_millions)/A_power * A_C_97; %Interest during Construction (IDC)  Table 3.2-X of Ref. [1]
 
 C630000 = PNET * 0.099 * constructionTime
 
@@ -1894,7 +1918,7 @@ C_OM = 60 * PNET * 1000
 
 #C750000 = 0.1 * (C220000) scheduled replacement costs
 
-C700000 = C_OM/1e6 #+ C750000
+C700000 = C_OM*dollars_to_millions #+ C750000
 
 copy_file('CAS700000.tex')
 overwrite_variable('CAS700000.tex', 'C700000', round(C700000))
@@ -1902,14 +1926,11 @@ overwrite_variable('CAS700000.tex', 'C700000', round(C700000))
 
 #Cost Category 80: Annualized Fuel Cost (AFC)
 C_F = 0.03 * (8760 * PNET*NMOD * p_a) / (1 + yinflation )**lifeY #hours * power = MWh
-C_F=50
-
-
-m_D = 3.342*10**(-27) # (kg)
+m_D = 3.342*10**(-27) # (kg) the mass of deuterium https://physics.nist.gov/cgi-bin/cuu/Value?md
 u_D = 2175 #Where u_D ($/kg) = 2175 ($/kg) from STARFIRE * 1.12345/0.42273 [GDP IPD ratio for 2019/1980]
 C_F = NMOD * PNRL * 1e6 * 3600 * 8760 * u_D * m_D * p_a / (17.58 * 1.6021e-13)
 
-C800000 = C_F/1e6
+C800000 = C_F*dollars_to_millions
 copy_file('CAS800000_DT.tex')
 overwrite_variable('CAS800000_DT.tex', 'C800000', round(C800000,2))
 overwrite_variable('CAS800000_DT.tex', 'primaryC', primaryC)
@@ -1917,15 +1938,14 @@ overwrite_variable('CAS800000_DT.tex', 'secondaryC', secondaryC)
 
 #Cost Category 90: Annualized Financial Costs (AFC)
 
-f_cr = 0.09   #Capital return factor
+#INPUT - default resanoble value: 0.09
+f_cr = 0.09   #Capital recovery factor see https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
 C900000= f_cr * C990000
 
 copy_file('CAS900000.tex')
 overwrite_variable('CAS900000.tex', 'C900000', round(C900000))
 
 #LCOE
-
-
 C1000000 = (C900000*1e6 + (C700000*1e6 + C800000*1e6) * (1 + yinflation) ** lifeY) / (8760 * PNET * NMOD * p_a)
 C2000000 = C1000000 / 10
 
@@ -1973,6 +1993,7 @@ percent_placeholders = [ "C100000pp","C200000pp","C210000pp", "C220000pp", "C220
 ]
 
 #ARIES ST
+#Values from page 148, Najmabadi, F. and Aries Team, 2003. Spherical torus concept as power plants—the ARIES-ST study. Fusion Engineering and Design, 65(2), pp.143-164.
 M30 =C300000/C990000*4479.7
 M40 =C400000/C990000*4479.7
 M50=C500000/C990000*4479.7
@@ -1984,10 +2005,6 @@ ARIESST_values = np.array([
     3.49, 339, 125.4,  77.9, 64.3, 108.9,np.nan,555.1,
      M30,429,M50,M60,4479.7+M30+M40+M50+M60
 ])*1.35#Inflation factor
-
-
-
-
 
 
 ARIESST_value_placeholders = [
@@ -2004,12 +2021,6 @@ ARIESST_percentages_p = [
     "M22.02pp", "M22.03pp", "M22.04pp", "M22.05pp", "M22.06pp", "M22.07pp", "M23pp", "M24pp",
     "M25pp", "M26pp", "M27pp", "M28pp", "M29pp", "M30pp","M40pp","M50pp","M60pp","M99pp"
 ]
-
-
-print(len(ARIESST_values))
-print(len(ARIESST_value_placeholders))
-print(len(ARIESST_percentages_p))
-
 
 #As a percentage
 ARIESST_percentages=np.array(ARIESST_values)/((4479.7+M30+M40+M50+M60)*1.35)*100

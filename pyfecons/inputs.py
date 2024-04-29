@@ -187,8 +187,8 @@ class HeatingRef:
 @dataclass
 class SupplementaryHeating:
     #see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
-    nbi_power: MW = MW(25)
-    icrf_power: MW = MW(25)
+    nbi_power: MW = MW(50)
+    icrf_power: MW = MW(0)
     aries_at: HeatingRef = HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881)
     aries_i_a: HeatingRef = HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741)
     aries_i_b: HeatingRef = HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028)
@@ -240,6 +240,9 @@ class PrimaryStructure():
     unit10_fabcosts: M_USD = 70
     pga_costs_mapping: dict[str, PgaCosts] = None
 
+    # Dictionary of fission reactor costs from "Towards standardized nuclear reactors: Seismic isolation and the cost
+    # impact of the earthquake load case" URL: https://www.sciencedirect.com/science/article/abs/pii/S0029549321004398
+
     def __post_init__(self):
         if self.pga_costs_mapping is None:
             self.pga_costs_mapping = {
@@ -260,7 +263,6 @@ class VacuumSystem:
 
     # Scaling parameters INPUTS
     learning_credit: Ratio = 0.5
-    inflation_factor: Ratio = 1.58  # 2005 to 2024
 
     # Reference values for scaling
     # TODO confirm these units
@@ -283,7 +285,7 @@ class VacuumSystem:
 @dataclass
 class PowerSupplies:
     learning_credit: Unknown = 0.5
-    cost_per_watt: Unknown = 1  # $1/W power supply rule of thumb
+    cost_per_watt: Unknown = 1  # $1/W power supply industry rule of thumb
 
 
 @dataclass
@@ -301,7 +303,6 @@ class Installation:
 
 @dataclass
 class FuelHandling:
-    inflation: Ratio = 1.43
     learning_curve_credit: Ratio = 0.8
     learning_tenth_of_a_kind: Ratio = None
 
@@ -338,6 +339,12 @@ class LsaLevels:
 
 
 @dataclass
+class Financial:
+    # Capital recovery factor see https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
+    capital_recovery_factor: Ratio = 0.09
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -354,6 +361,7 @@ class Inputs(SerializableToJSON):
     installation: Installation = field(default_factory=Installation)
     fuel_handling: FuelHandling = field(default_factory=FuelHandling)
     lsa_levels: LsaLevels = field(default_factory=LsaLevels)
+    financial: Financial = field(default_factory=Financial)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

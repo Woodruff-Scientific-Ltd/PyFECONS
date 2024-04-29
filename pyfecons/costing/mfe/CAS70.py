@@ -1,4 +1,4 @@
-from pyfecons import M_USD
+from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 
@@ -14,7 +14,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # TODO what's up with the commented code here?
     # C750000 = 0.1 * (C220000) scheduled replacement costs
 
-    OUT.C700000 = M_USD(c_om/1e6)  # + C750000
+    OUT.C700000 = to_m_usd(c_om)  # + C750000
 
     OUT.template_file = CAS_700000_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file

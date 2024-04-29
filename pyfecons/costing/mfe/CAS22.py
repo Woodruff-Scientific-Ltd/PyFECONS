@@ -7,6 +7,8 @@ import numpy as np
 
 from pyfecons import BlanketFirstWall, BlanketType, MagnetMaterialType
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
+from pyfecons.costing.calculations.conversions import k_to_m_usd, to_m_usd, w_to_mw, inflation_2005_2024, \
+    inflation_1992_2024, inflation_2010_2024
 from pyfecons.helpers import safe_round
 from pyfecons.inputs import Inputs, Coils, Magnet, RadialBuild
 from pyfecons.data import Data, MagnetProperties, VesselCosts, VesselCost, TemplateProvider
@@ -136,25 +138,25 @@ def compute_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProv
 
     # First wall
     if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
-        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.W.rho * materials.W.c_raw * materials.W.m / 1e6)
+        OUT.C22010101 = to_m_usd(OUT.firstwall_vol * materials.W.rho * materials.W.c_raw * materials.W.m)
     elif blanket.first_wall == BlanketFirstWall.LIQUID_LITHIUM:
-        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+        OUT.C22010101 = to_m_usd(OUT.firstwall_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m)
     elif blanket.first_wall == BlanketFirstWall.BERYLLIUM:
-        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.Be.rho * materials.Be.c_raw * materials.Be.m / 1e6)
+        OUT.C22010101 = to_m_usd(OUT.firstwall_vol * materials.Be.rho * materials.Be.c_raw * materials.Be.m)
     elif blanket.first_wall == BlanketFirstWall.FLIBE:
-        OUT.C22010101 = M_USD(OUT.firstwall_vol * materials.FliBe.rho * materials.FliBe.c_raw * materials.FliBe.m / 1e6)
+        OUT.C22010101 = to_m_usd(OUT.firstwall_vol * materials.FliBe.rho * materials.FliBe.c_raw * materials.FliBe.m)
 
     # Blanket
     if blanket.blanket_type == BlanketType.FLOWING_LIQUID_FIRST_WALL:
-        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER:
-        OUT.C22010102 = M_USD(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m / 1e6)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4:
-        OUT.C22010102 = M_USD(
-            OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw * materials.Li4SiO4.m / 1e6)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw
+                                   * materials.Li4SiO4.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3:
-        OUT.C22010102 = M_USD(
-            OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw * materials.Li2TiO3.m / 1e6)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw
+                                   * materials.Li2TiO3.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL:
         OUT.C22010102 = M_USD(0)
 
@@ -267,8 +269,8 @@ def compute_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # The cost C_22_1_2 is the same as C_HTS
     OUT.C22010201 = M_USD(round(C_HTS, 1))
-    OUT.C22010202 = M_USD(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3)
-    OUT.C22010203 = M_USD(cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m / 1e3)
+    OUT.C22010202 = k_to_m_usd(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m)
+    OUT.C22010203 = k_to_m_usd(cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m)
     OUT.C22010204 = M_USD(OUT.C22010203 * 0.1)
     OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
 
@@ -339,9 +341,9 @@ def k_steel(t: float) -> float:
 
 # Power in from thermal conduction through support
 # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-def compute_q_in_struct(coils: Coils, k: float, t_op: float) -> float:
+def compute_q_in_struct(coils: Coils, k: float, t_op: float) -> MW:
     # TODO - unsure if we should use t_op input or keep this as a function parameter. Can we differentiate them?
-    return k * coils.beam_cs_area * float(coils.no_beams) / coils.beam_length * (coils.t_env - t_op) / 1e6
+    return w_to_mw(k * coils.beam_cs_area * float(coils.no_beams) / coils.beam_length * (coils.t_env - t_op))
 
 
 # power in from neutron flux, assume 95% is abosrbed in the blanket
@@ -498,7 +500,7 @@ def compute_hts_pancake_magnet_properties(coils: Coils, magnet: Magnet, data: Da
     OUT.j_tape = coils.j_tape_ybco
 
     OUT.cost_sc = M_USD(OUT.max_tape_current / 1e3 * OUT.tape_length * 1e3 * coils.m_cost_ybco / 1e6)
-    OUT.cost_i = M_USD(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
+    OUT.cost_i = to_m_usd(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
     OUT.cost_cu = M_USD(0)
     OUT.cost_ss = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
@@ -540,8 +542,8 @@ def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -
     OUT.vol_i = Meters3(magnet.frac_in * OUT.cs_area * magnet.r_centre * 2 * np.pi)
     OUT.cost_sc = M_USD(0)
     # simple volumetric material calc
-    OUT.cost_cu = M_USD((OUT.vol_coil - OUT.vol_i) * coils.cu_density * coils.m_cost_cu / 1e6)
-    OUT.cost_i = M_USD(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
+    OUT.cost_cu = to_m_usd((OUT.vol_coil - OUT.vol_i) * coils.cu_density * coils.m_cost_cu)
+    OUT.cost_i = to_m_usd(coils.m_cost_i * OUT.vol_i * coils.i_density / 1e6)
     OUT.cost_ss = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
@@ -717,7 +719,8 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
     syst_doors_ir = build.vessel_ir  # doors inner radius (goes within TF)
     syst_height = inputs.radial_build.elon * build.vessel_vol / (np.pi * build.vessel_ir ** 2)  # System height
 
-    # Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design
+    # Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design. URL:
+    #   http://qedfusion.org/LIB/REPORT/CONF/ACTsyscodedocs/ASC_FED2_Dragojlovic.pdf
     # TODO figure out why intellij is giving warnings for these assignments
     OUT.vessel_costs = VesselCosts(
         spool_assembly=VesselCost(name="Spool assembly", total_mass=Kilograms(136043), material_cost=USD(49430),
@@ -744,8 +747,8 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
         # Scaling costs based on new mass
         if cost.total_mass > 0:
             # New cost based on per kg rate, applying learning credit and inflation
-            cost.material_cost = cost.material_cost * geometry_factor * IN.learning_credit * IN.inflation_factor
-            cost.fabrication_cost = cost.fabrication_cost * geometry_factor * IN.learning_credit * IN.inflation_factor
+            cost.material_cost = cost.material_cost * geometry_factor * IN.learning_credit * inflation_2005_2024
+            cost.fabrication_cost = cost.fabrication_cost * geometry_factor * IN.learning_credit * inflation_2005_2024
 
         # Updating total cost after scaling other costs
         cost.total_cost = cost.material_cost + cost.fabrication_cost
@@ -769,7 +772,7 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
     # Calculate mass and cost
     OUT.massstruct = OUT.vessel_costs.total.total_mass
     OUT.vesvol = np.pi * (syst_doors_ir ** 2 - syst_spool_ir ** 2) * syst_height
-    OUT.C22010601 = M_USD(OUT.vessel_costs.total_subsystem_cost.total_cost / 1e6)
+    OUT.C22010601 = to_m_usd(OUT.vessel_costs.total_subsystem_cost.total_cost)
 
     # COOLING 22.1.3.2
     # INPUTS
@@ -800,12 +803,12 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
     # VACUUM PUMPING 22.1.6.3
     # Number of vacuum pumps required to pump the full vacuum in 1 second
     no_vpumps = int(OUT.vesvol / IN.vpump_cap)
-    OUT.C22010603 = M_USD(no_vpumps * IN.cost_pump / 1e6)
+    OUT.C22010603 = to_m_usd(no_vpumps * IN.cost_pump)
 
     # ROUGHING PUMP 22.1.6.4
     # from STARFIRE, only 1 needed
     # TODO where do these constants come from?
-    OUT.C22010604 = M_USD(120000 * 2.85 / 1e6)
+    OUT.C22010604 = to_m_usd(120000 * 2.85)
 
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
     OUT.template_file = CAS_220106_MFE_TEX
@@ -818,7 +821,7 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
         'C22010600': round(OUT.C220106),
         'vesvol': round(OUT.vesvol),
         'massstruct': round(OUT.massstruct),
-        'vesmatcost': round(OUT.vessel_costs.total.material_cost / 1e6, 1),
+        'vesmatcost': round(to_m_usd(OUT.vessel_costs.total.material_cost), 1),
     }
     return OUT
 
@@ -869,7 +872,7 @@ def compute_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.divertor_mass = Kilograms(OUT.divertor_vol * OUT.divertor_material.rho)
     OUT.divertor_mat_cost = M_USD(OUT.divertor_mass * OUT.divertor_material.c_raw)
     OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m)
-    OUT.C220108 = M_USD(OUT.divertor_cost / 1e6)
+    OUT.C220108 = to_m_usd(OUT.divertor_cost)
 
     OUT.template_file = CAS_220108_MFE_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
@@ -892,6 +895,8 @@ def compute_220109_direct_energy_converter(inputs: Inputs, data: Data) -> Templa
     OUT = data.cas220109
 
     # Subsystem costs
+    # Data scaled from Post, R.F., 1970. Mirror systems: fuel cycles, loss reduction and energy recovery.
+    #   In Nuclear fusion reactors (pp. 99-111). Thomas Telford Publishing.
     OUT.costs = {
         "expandertank": M_USD(16),
         "expandercoilandneutrontrapcoil": M_USD(33),
@@ -910,6 +915,7 @@ def compute_220109_direct_energy_converter(inputs: Inputs, data: Data) -> Templa
     if inputs.basic.noak:
         OUT.costs["contingency15percent"] = M_USD(0)
 
+    # Scaling with system size
     def scaled_cost(cost: M_USD) -> M_USD:
         return M_USD(cost * IN.system_power * (1 / math.sqrt(IN.flux_limit)) ** 3)
 
@@ -986,7 +992,7 @@ def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data) -> Templ
     # C_22_2_1  = 233.9 * (PTH/3500)^0.55
 
     # am assuming a linear scaling	%Li(f), PbLi, He:
-    # C220201  = 268.5  * (float(basic.n_mod) * power_table.p_th / 3500) * 1.71
+    # C220201  = 268.5  * (float(basic.n_mod) * power_table.p_th / 3500) * inflation_1992_2024
 
     # Primary coolant(i):  1.85 is due to inflation%the CPI scaling of 1.71 comes from:
     # https://www.bls.gov/data/inflation_calculator.htm scaled relative to 1992 dollars (despite 2003 publication date)
@@ -1020,9 +1026,8 @@ def compute_2202_main_and_secondary_coolant(inputs: Inputs, data: Data) -> Templ
 def compute_2203_auxilary_cooling(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.3  Auxiliary cooling
     OUT = data.cas2203
-    # the CPI scaling of 2.02 comes from: https://www.bls.gov/data/inflation_calculator.htm
-    # scaled relative to 1992 dollars (despite 2003 publication date)
-    OUT.C220300 = M_USD(1.10 * 1e-3 * float(inputs.basic.n_mod) * data.power_table.p_th * 2.02)
+    # Auxiliary cooling systems
+    OUT.C220300 = M_USD(1.10 * 1e-3 * float(inputs.basic.n_mod) * data.power_table.p_th * inflation_1992_2024)
     OUT.template_file = CAS_220300_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
@@ -1035,9 +1040,10 @@ def compute_2204_radwaste(data: Data) -> TemplateProvider:
     # Cost Category 22.4 Radwaste
     OUT = data.cas2204
     # Radioactive waste treatment
-    # the CPI scaling of 1.96 comes from: https://www.bls.gov/data/inflation_calculator.htm
-    # scaled relative to 1992 dollars (despite 2003 publication date)
-    OUT.C220400 = M_USD(1.96 * 1e-3 * data.power_table.p_th * 2.02)
+    # base cost of 1.96M from Alexeeva, V., Molloy, B., Beestermoeller, R., Black, G., Bradish, D., Cameron, R.,
+    #   Keppler, J.H., Rothwell, G., Urso, M.E., Colakoglu, I. and Emeric, J., 2018. Measuring Employment Generated
+    #   by the Nuclear Power Sector (No. NEA--7204). Organisation for Economic Co-Operation and Development.
+    OUT.C220400 = M_USD(1.96 * 1e-3 * data.power_table.p_th * inflation_1992_2024)
     OUT.template_file = CAS_220400_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
@@ -1051,13 +1057,14 @@ def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data) -> Templa
     IN = inputs.fuel_handling
     OUT = data.cas2205
 
-    # TODO where do these constants come from?
-    OUT.C2205010ITER = M_USD(20.465 * IN.inflation)
-    OUT.C2205020ITER = M_USD(7 * IN.inflation)
-    OUT.C2205030ITER = M_USD(22.511 * IN.inflation)
-    OUT.C2205040ITER = M_USD(9.76 * IN.inflation)
-    OUT.C2205050ITER = M_USD(22.826 * IN.inflation)
-    OUT.C2205060ITER = M_USD(47.542 * IN.inflation)
+    # ITER values from: Waganer, L., 2013. ARIES Cost Account Documentation. [pdf] San Diego: University of California,
+    #   San Diego. Available at: https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf  Pge 90.
+    OUT.C2205010ITER = M_USD(20.465 * inflation_2010_2024)
+    OUT.C2205020ITER = M_USD(7 * inflation_2010_2024)
+    OUT.C2205030ITER = M_USD(22.511 * inflation_2010_2024)
+    OUT.C2205040ITER = M_USD(9.76 * inflation_2010_2024)
+    OUT.C2205050ITER = M_USD(22.826 * inflation_2010_2024)
+    OUT.C2205060ITER = M_USD(47.542 * inflation_2010_2024)
     # ITER inflation cost
     OUT.C22050ITER = M_USD(OUT.C2205010ITER + OUT.C2205020ITER + OUT.C2205030ITER
                            + OUT.C2205040ITER + OUT.C2205050ITER + OUT.C2205060ITER)
@@ -1097,8 +1104,8 @@ def compute_2205_fuel_handling_and_storage(inputs: Inputs, data: Data) -> Templa
 def compute_2206_other_reactor_plant_equipment(data: Data) -> TemplateProvider:
     # Cost Category 22.6 Other Reactor Plant Equipment
     OUT = data.cas2206
-    # From Waganer
-    # TODO what is 11.5 and 0.8?
+    # from Waganer, L., 2013. ARIES Cost Account Documentation. [pdf] San Diego: University of California, San Diego.
+    #   Available at: https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
     OUT.C220600 = M_USD(11.5 * (data.power_table.p_net / 1000) ** 0.8)
 
     OUT.template_file = CAS_220600_TEX
@@ -1112,7 +1119,8 @@ def compute_2206_other_reactor_plant_equipment(data: Data) -> TemplateProvider:
 def compute_2207_instrumentation_and_control(data: Data) -> TemplateProvider:
     # Cost Category 22.7 Instrumentation and Control
     OUT = data.cas2207
-    # TODO where does the 85 come from?
+    # Source: page 576, account 12,
+    # https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
     OUT.C220700 = M_USD(85)
 
     OUT.template_file = CAS_220700_TEX

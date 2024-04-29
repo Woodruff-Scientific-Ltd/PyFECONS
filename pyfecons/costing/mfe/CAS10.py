@@ -21,8 +21,9 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.C120000 = M_USD(10)
 
     # Cost Category 13 – Plant Licensing
-    # https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
-    OUT.C130000 = M_USD(200)
+    # Source: Midpoint of estimation from 'Capital Costs' section of
+    #   https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
+    OUT.C130000 = M_USD(210)
 
     # Cost Category 14 – Plant Permits
     OUT.C140000 = M_USD(5)

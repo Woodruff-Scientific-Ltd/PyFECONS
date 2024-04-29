@@ -7,6 +7,7 @@ CAS_500000_TEX = 'CAS500000.tex'
 
 def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Category 50 Capitalized Supplementary Costs (CSC)
+    # TODO determine cost basis, ask simon
     OUT = data.cas50
 
     # Cost Category 51 – Shipping and Transportation Costs

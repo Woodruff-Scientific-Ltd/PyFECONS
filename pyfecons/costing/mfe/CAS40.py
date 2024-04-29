@@ -10,6 +10,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cas40
     IN = inputs.lsa_levels
 
+    # TODO determine cost basis, ask simon
     OUT.C400000LSA = M_USD(IN.fac_91[IN.lsa - 1] * data.cas20.C200000)
     # TODO explanation for this section? We ignore all costing after this.
     OUT.C400000 = OUT.C400000LSA
