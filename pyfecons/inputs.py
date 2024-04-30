@@ -62,6 +62,10 @@ class PowerTable:
     eta_pin2: Percent = 0.82
     eta_de: Percent = 0.85  # Direct energy conversion efficiency
     p_input: MW = 50  # Input power
+    p_implosion: MW = None  # Implosion laser power
+    p_ignition: MW = None  # Ignition laser power
+    p_target: MW = None  # Power into target factory
+    p_machinery: MW = None  # Power into machinery
 
 
 @dataclass

@@ -7,7 +7,7 @@
         "confinement_type": "SPHERICAL_TOKAMAK",
         "energy_conversion": "DIRECT",
         "fuel_type": "PB11",
-        "p_nrl": 2600.0,
+        "p_nrl": 2500.0,
         "n_mod": 1,
         "am": 1.0,
         "downtime": 1.0,
@@ -20,23 +20,27 @@
         "implosion_frequency": 1.0
     },
     "power_table": {
-        "f_sub": 0.03,
-        "p_cryo": 0.5,
-        "mn": 1.1,
+        "f_sub": 0.01,
+        "p_cryo": 3.5714285714285716,
+        "mn": 1.09,
         "eta_p": 0.5,
         "eta_th": 0.46,
-        "fpcppf": 0.06,
-        "p_trit": 10,
-        "p_house": 4,
+        "fpcppf": 0.01,
+        "p_trit": 6.3,
+        "p_house": 2.142857142857143,
         "p_tfcool": 12.7,
         "p_pfcool": 1,
         "p_tf": 1,
         "p_pf": 1,
         "eta_pin": 0.5,
-        "eta_pin1": 0.18,
-        "eta_pin2": 0.82,
+        "eta_pin1": 0.1,
+        "eta_pin2": 0.1,
         "eta_de": 0.85,
-        "p_input": 50
+        "p_input": 10.1,
+        "p_implosion": 10.0,
+        "p_ignition": 0.1,
+        "p_target": 1.0,
+        "p_machinery": 1.0
     },
     "radial_build": {
         "axis_t": 3,
@@ -94,8 +98,8 @@
         "t_env": 300
     },
     "supplementary_heating": {
-        "nbi_power": 25.0,
-        "icrf_power": 25.0,
+        "nbi_power": 50.0,
+        "icrf_power": 0.0,
         "aries_at": {
             "name": "ARIES-AT",
             "type": "ICRF/LH",
@@ -210,7 +214,6 @@
     },
     "vacuum_system": {
         "learning_credit": 0.5,
-        "inflation_factor": 1.58,
         "spool_ir": 2.25,
         "spool_or": 3.15,
         "door_irb": 6,
@@ -234,7 +237,6 @@
         "nmod": 1
     },
     "fuel_handling": {
-        "inflation": 1.43,
         "learning_curve_credit": 0.8,
         "learning_tenth_of_a_kind": 0.4765098748902245
     },
@@ -289,6 +291,9 @@
             0.0,
             0.0
         ]
+    },
+    "financial": {
+        "capital_recovery_factor": 0.09
     },
     "materials": {
         "FS": {

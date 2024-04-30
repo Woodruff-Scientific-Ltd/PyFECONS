@@ -23,12 +23,12 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.p_loss = MW(OUT.p_th - OUT.p_the - OUT.p_dee)
     OUT.p_pump = MW(IN.fpcppf * OUT.p_the)
     OUT.p_sub = MW(IN.f_sub * OUT.p_the)
-    OUT.qsci = Unknown(basic.p_nrl / IN.p_input)
-    OUT.qeng = Unknown((IN.eta_th * (IN.mn * OUT.p_neutron + OUT.p_pump + IN.p_input) + IN.eta_de * OUT.p_alpha)
-                       / (OUT.p_coils + OUT.p_pump + OUT.p_sub + OUT.p_aux + OUT.p_cool + IN.p_cryo
-                          + IN.p_input / IN.eta_pin))
-    OUT.recfrac = 1 / OUT.qeng
-    OUT.p_net = MW((1 - 1 / OUT.qeng) * OUT.p_et)
+    OUT.q_sci = Unknown(basic.p_nrl / IN.p_input)
+    OUT.q_eng = Unknown((IN.eta_th * (IN.mn * OUT.p_neutron + OUT.p_pump + IN.p_input) + IN.eta_de * OUT.p_alpha)
+                        / (OUT.p_coils + OUT.p_pump + OUT.p_sub + OUT.p_aux + OUT.p_cool + IN.p_cryo
+                           + IN.p_input / IN.eta_pin))
+    OUT.rec_frac = 1 / OUT.q_eng
+    OUT.p_net = MW((1 - 1 / OUT.q_eng) * OUT.p_et)
 
     OUT.template_file = POWER_TABLE_MFE_DT_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
@@ -62,9 +62,9 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'ETAPIN': inputs.power_table.eta_pin,  # Input power wall plug efficiency
         'PINPUT': inputs.power_table.p_input,  # Input power
         # 3. Outputs
-        'QSCI': OUT.qsci,  # Scientific Q
-        'QENG': OUT.qeng,  # Engineering Q
-        'RECFRAC': round(OUT.recfrac, 3),  # Recirculating power fraction
+        'QSCI': OUT.q_sci,  # Scientific Q
+        'QENG': OUT.q_eng,  # Engineering Q
+        'RECFRAC': round(OUT.rec_frac, 3),  # Recirculating power fraction
         'PNET': OUT.p_net,  # Output Power (Net Electric Power)
         # TODO these will be included depending on EnergyConversion type
         # 'ETADE': ETADE,

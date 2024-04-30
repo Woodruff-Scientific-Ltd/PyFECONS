@@ -1,0 +1,62 @@
+%needs packages \usepackage{graphicx}   \usepackage{float} 
+\newpage
+\subsection{Power Accounting Table}
+
+\begin{table}[ht!]								
+\centering								
+\begin{tabular}{|c|p{5cm}|c|c|c|}								
+\hline								
+\textbf{Account}	&	\textbf{Power Account Description}	&	\textbf{Parameter }	&	\textbf{Power}	&	\textbf{Units} \\
+\hline								
+1	&	Output power	&		&		&	\\
+\hline
+1.1	&	Fusion Power	&	$P_{{fusion}}$	&	2500	&	MW \\
+1.2	&	Alpha Power	&	$P_{{\alpha}}$	&	2500	&	MW \\
+1.3	&	Neutron Power	&	$P_{{neutrons}}$	&	0	&	MW \\
+1.4	&	Neutron Energy Multiplier	&	$M_N = P_{{TH}}/P_{{fusion}}$	&	1.1	&	\\
+1.5	&	Pumping power capture efficiency	&	$\eta_{{pump}}$	&	0.5	&	\\
+1.6	&	Thermal Power	&	$P_{{TH}}$	&	2527.3	&	MW \\
+1.7	&	Thermal conversion efficiency	&	$\eta_{{TH}}$	&	0.5	&	\\
+1.8	&	Total (Gross) Electric Power	&	$P_{{ET}}$	&	1162.6	&	MW \\
+1.9	&	Lost Power	&	$P_{{Lost}}$	&	1364.8	&	MW \\
+\hline								
+2	&	Recirculating power	&		&		&	\\
+\hline
+2.1	&	Power into Target Factory 	&	$P_{target}$ &	1	&	MW \\
+2.1.1	&	Machinery	&	$P_{machinery}$	&	1	&	MW \\
+2.2	&	Primary Coolant Pumping Power Fraction	&	$f_{{pump}}$	&	0.0 &	\\
+2.2.1	&	Primary Coolant Pumping Power	&	$P_{{pump}} = f_{{pump}} \cdot P_{{ET}}$	&	11.6	&	MW \\
+2.3	&	Subsystem and Control Fraction	&	$f_{{sub}}$	&	0.0	&	\\
+2.3.1	&	Subsystem and Control Power	&	$P_{{sub}} + P_{{control}} = f_{{sub}} \cdot P_{{ET}}$	&	11.6	&	MW \\
+2.4	&	Auxiliary systems	&	$P_{{aux}} = P_{{t}} + P_{{h}}$	&	8.4	&	MW \\
+2.4.1	&	Tritium Systems	&	$P_{{t}}$	&	6.3	&	MW \\
+2.4.2	&	Housekeeping power	&	$P_{{h}}$	&	2.1	&	MW \\
+2.5.3	&	Cryo vacuum pumping	&	$P_{{p}_c}$	&	3.6	&	MW \\
+2.6.1	& Input power wall plug efficiency implosion &	$\eta_{IN1}$ & 0.1	&	MW \\
+2.6.2	& Input power wall plug efficiency ignition &	$\eta_{IN2}$& 0.1	&	MW \\
+2.6.3	& Input power implosion laser	& $P_{implosion}$	&	10	&	MW \\
+2.6.4	& Input power ignition laser	& $P_{ignition}$	&	0.1	&	MW \\
+\hline								
+3	&	Outputs	&		&		&	\\
+\hline
+3.1	&	Scientific Q	&	$Q = P_{{fusion}}/P_{{IN}}$	&	247.5	&	\\
+3.2	&	Engineering Q	&	$Q_{{E}}$	&	8.5	&	\\
+3.4	&	Output Power (Net Electric Power)	&	$P_{{E}} = (1 - \epsilon) \cdot P_{{ET}}$	&	1025.0	&	MW \\
+\hline								
+\end{tabular}	
+\caption{Power balance for a pulsed IFE system.}
+\label{tab:powerbalance}
+\end{table}
+
+%With certain terms assumed as nominal values and a target recirculating power fraction taken to be $\epsilon$ = 0.20, a fusion power plant design space can be defined in terms of thermal conversion efficiency, $\eta_{TH}$ , and input efficiency, $\eta_{IN}$, in order to display isoquants of the necessary value of fusion 200.00, Q.  This design space is generalized; power terms do not appear explicitly, but once any specific power is selected, all other power terms are determined.  The highest values of $\eta_{IN}$ may be impractical and values of $\eta_{TH}$ approaching 0.60 require advanced Brayton-cycle technology.  The fusion power-plant design space is shown in Fig. \ref{fig:pbal}. With advanced thermal-conversion features \cite{Dabiri1989}, including a Brayton cycle, $\eta_{TH}$ can approach 0.60, or even 0.65 - 0.75 using a direct energy converter. A conventional Rankine thermal cycle should yield $\\eta_{TH}$ in the range 0.40 - 0.45.
+
+
+%\begin{figure}[h!] 
+%\centering
+%\includegraphics[scale=0.6]{Figure3.eps}
+%\caption{Power-Balance design space.}
+%\label{fig:pbal}
+%\end{figure}
+
+
+%Fig \ref{fig:pbal} depicts the design space in terms of $\eta_{IN}$ versus $\eta_{TH}$ for the indicated fixed parameters with recirculating power fraction less that 20 percent. 

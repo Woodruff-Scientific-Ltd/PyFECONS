@@ -4,6 +4,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 from pyfecons.report import CostingData, ReportContent, HydratedTemplate
 from pyfecons.templates import read_template, hydrate_templates
+from pyfecons.costing.ife.PowerBalance import GenerateData as PowerBalanceData
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
@@ -28,7 +29,9 @@ LOCAL_INCLUDED_FILES = {
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data()
-    template_providers = []
+    template_providers = (
+        PowerBalanceData(inputs, data)
+    )
     return CostingData(data, template_providers)
 
 
