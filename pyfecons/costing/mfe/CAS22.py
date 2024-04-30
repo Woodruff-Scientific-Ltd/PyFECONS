@@ -370,6 +370,12 @@ def compute_q_cooling(q_in: float, c_frac: float, t_op: float, t_env: float = 30
     return q_in / cop, cop
 
 
+def compute_q_ohmic(wire_length: float, cu_wire_current: float) -> MW:
+    # Resistance of 3.2 Ohms/1000m see https://www.engineeringtoolbox.com/copper-wire-d_1429.html
+    cures = wire_length * 3.2
+    return w_to_mw(cu_wire_current**2 * cures)
+
+
 def compute_iter_cost_per_MW(coils):
     # Scaling cooling costs from ITER see Serio, L., ITER Organization and Domestic Agencies and Collaborators, 2010,
     # April. Challenges for cryogenics at ITER. In AIP Conference Proceedings (Vol. 1218, No. 1, pp. 651-662).
@@ -383,7 +389,7 @@ def compute_iter_cost_per_MW(coils):
     return iter_cost_per_MW
 
 
-def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, data: Data) -> M_USD:
+def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, properties: MagnetProperties, data: Data) -> M_USD:
     # Neutron heat loading for one coil
     q_in_n = compute_q_in_n(magnet.dz * abs((magnet.r_centre - magnet.dr / 2)), data.power_table.p_neutron,
                             data.cas220101.coil_ir, data.cas220101.axis_ir)
@@ -391,6 +397,8 @@ def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, data: Data) -> M_U
     q_in_struct = compute_q_in_struct(coils, k_steel((coils.t_env + magnet.coil_temp) / 2),
                                       (coils.t_env + magnet.coil_temp) / 2)
     q_in = (q_in_struct + q_in_n)  # total input heat for one coil
+    if magnet.material_type == MagnetMaterialType.COPPER:
+        q_in = q_in + compute_q_ohmic(properties.tape_length, properties.cu_wire_current)
     return M_USD(q_in * compute_iter_cost_per_MW(coils))
 
 
@@ -424,7 +432,7 @@ def compute_hts_cicc_auto_magnet_properties(coils: Coils, magnet: Magnet, data: 
     OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
                               + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
                               + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
 
     OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
     OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
@@ -462,7 +470,7 @@ def compute_hts_cicc_magnet_properties(coils: Coils, magnet: Magnet, data: Data)
     OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
                               + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
                               + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
 
     OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
     OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
@@ -507,7 +515,7 @@ def compute_hts_pancake_magnet_properties(coils: Coils, magnet: Magnet, data: Da
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
     OUT.coil_mass = Kilograms(coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t
                               + OUT.vol_i * coils.i_density)
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
 
     OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
     OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
@@ -548,7 +556,7 @@ def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, data: Data) -
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
     OUT.coil_mass = Kilograms(((OUT.vol_coil - OUT.vol_i) * coils.cu_density) + (OUT.vol_i * coils.i_density))
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
 
     OUT.magnet_struct_cost = M_USD(coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost)
     OUT.magnet_total_cost_individual = M_USD(OUT.magnet_cost + OUT.magnet_struct_cost)
@@ -792,11 +800,9 @@ def compute_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider
     # Neutron heat load on HT Shield
     q_in_n = (compute_q_in_n(load_area_1, p_neutron, build.coil_ir, build.axis_ir)
               + 0.1 * compute_q_in_n(load_area_2, p_neutron, build.coil_ir, build.axis_ir))
-    # TODO can we use the input coils instead of these constants?
-    input_coils = Coils(no_beams=Count(20), beam_cs_area=Meters2(0.15), beam_length=Meters(2))
-    Qinstruct = compute_q_in_struct(input_coils, k_steel((coils.t_env + coils.t_op) / 2),
+    q_in_struct = compute_q_in_struct(coils, k_steel((coils.t_env + coils.t_op) / 2),
                                     (coils.t_env + coils.t_op) / 2)
-    q_in = (Qinstruct + q_in_n)  # total input heat for one coil
+    q_in = (q_in_struct + q_in_n)  # total input heat for one coil
 
     OUT.C22010602 = M_USD(q_in * compute_iter_cost_per_MW(coils))
 
