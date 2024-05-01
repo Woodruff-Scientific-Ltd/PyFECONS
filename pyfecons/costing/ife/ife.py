@@ -7,6 +7,7 @@ from pyfecons.templates import read_template, hydrate_templates
 from pyfecons.costing.ife.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.ife.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.ife.CAS21 import GenerateData as CAS21Data
+from pyfecons.costing.ife.CAS23 import GenerateData as CAS23Data
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
@@ -27,6 +28,7 @@ LOCAL_INCLUDED_FILES = {
     'StandardFigures/costcategories.png': 'costcategories.png',
     'StandardFigures/power.eps': 'power.eps',
     'StandardFigures/siteplan2023.eps': 'siteplan2023.eps',
+    'StandardFigures/TIsketch.eps': 'TIsketch.eps',
 }
 
 
@@ -36,6 +38,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         PowerBalanceData(inputs, data)
         + CAS10Data(inputs, data)
         + CAS21Data(inputs, data)
+        + CAS23Data(inputs, data)
     )
     return CostingData(data, template_providers)
 

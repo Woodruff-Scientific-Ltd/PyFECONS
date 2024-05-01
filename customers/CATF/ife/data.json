@@ -408,11 +408,13 @@
         "C220700": null
     },
     "cas23": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C230000": 293
+        },
+        "template_file": "CAS230000.tex",
+        "tex_path": "Modified/CAS230000.tex",
         "figures": {},
-        "C230000": null
+        "C230000": 292.79602485
     },
     "cas24": {
         "replacements": {},
