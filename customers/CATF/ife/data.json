@@ -417,11 +417,13 @@
         "C230000": 292.79602485
     },
     "cas24": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C240000": 72
+        },
+        "template_file": "CAS240000.tex",
+        "tex_path": "Modified/CAS240000.tex",
         "figures": {},
-        "C240000": null
+        "C240000": 72.1962801
     },
     "cas25": {
         "replacements": {},
