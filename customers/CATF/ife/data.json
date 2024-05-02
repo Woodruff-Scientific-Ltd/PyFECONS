@@ -474,30 +474,32 @@
         "C290000": 0.0
     },
     "cas20": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C200000": 2320
+        },
+        "template_file": "CAS200000.tex",
+        "tex_path": "Modified/CAS200000.tex",
         "figures": {},
-        "C200000": null
+        "C200000": 2320.3478626652254
     },
     "cas30": {
         "replacements": {
             "constructionTime": 6.0,
             "C300000": 235,
-            "C310000LSA": 0,
+            "C310000LSA": 139,
             "C310000XXX": 47,
             "C320000": 118,
-            "C350000LSA": 0,
+            "C350000LSA": 121,
             "C350000XXX": 71
         },
         "template_file": "CAS300000.tex",
         "tex_path": "Modified/CAS300000.tex",
         "figures": {},
-        "C310000LSA": 0.0,
+        "C310000LSA": 139.2208717599135,
         "C310000": 47.053366872802386,
-        "C320000LSA": 0.0,
+        "C320000LSA": 278.441743519827,
         "C320000": 117.63341718200597,
-        "C350000LSA": 0.0,
+        "C350000LSA": 120.65808885859171,
         "C350000": 70.58005030920359,
         "C300000": 235.26683436401194
     },
