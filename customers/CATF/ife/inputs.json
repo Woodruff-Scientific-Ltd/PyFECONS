@@ -61,7 +61,7 @@
     "blanket": {
         "first_wall": "LIQUID_LITHIUM",
         "blanket_type": "FLOWING_LIQUID_FIRST_WALL",
-        "primary_coolant": "LEAD_LITHIUM_PBLI",
+        "primary_coolant": "LITHIUM_LI",
         "secondary_coolant": "WATER",
         "neutron_multiplier": "PB_AS_PART_OF_PBLI",
         "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"

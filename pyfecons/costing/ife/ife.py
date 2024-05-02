@@ -11,6 +11,7 @@ from pyfecons.costing.ife.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.ife.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.ife.CAS25 import GenerateData as CAS25Data
 from pyfecons.costing.ife.CAS26 import GenerateData as CAS26Data
+from pyfecons.costing.ife.CAS27 import GenerateData as CAS27Data
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
@@ -45,6 +46,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         + CAS24Data(inputs, data)
         + CAS25Data(inputs, data)
         + CAS26Data(inputs, data)
+        + CAS27Data(inputs, data)
     )
     return CostingData(data, template_providers)
 

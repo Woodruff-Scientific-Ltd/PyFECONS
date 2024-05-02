@@ -28,7 +28,7 @@ def Generate():
         blanket=Blanket(
             first_wall=BlanketFirstWall.LIQUID_LITHIUM,
             blanket_type=BlanketType.FLOWING_LIQUID_FIRST_WALL,
-            primary_coolant=BlanketPrimaryCoolant.LEAD_LITHIUM_PBLI,
+            primary_coolant=BlanketPrimaryCoolant.LITHIUM_LI,
             secondary_coolant=BlanketSecondaryCoolant.WATER,
             neutron_multiplier=BlanketNeutronMultiplier.PB_AS_PART_OF_PBLI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
