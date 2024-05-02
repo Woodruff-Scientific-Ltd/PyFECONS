@@ -504,16 +504,19 @@
         "C300000": 235.26683436401194
     },
     "cas40": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C400000LSA": 278,
+            "C400000XXX": 278
+        },
+        "template_file": "CAS400000.tex",
+        "tex_path": "Modified/CAS400000.tex",
         "figures": {},
-        "C400000LSA": null,
-        "C400000": null,
-        "C410000": null,
-        "C420000": null,
-        "C430000": null,
-        "C440000": null
+        "C400000LSA": 278.441743519827,
+        "C400000": 278.441743519827,
+        "C410000": 0.0,
+        "C420000": 0.0,
+        "C430000": 0.0,
+        "C440000": 0.0
     },
     "cas50": {
         "replacements": {},
