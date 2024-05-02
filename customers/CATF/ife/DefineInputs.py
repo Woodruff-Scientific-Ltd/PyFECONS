@@ -49,5 +49,8 @@ def Generate():
             p_input=MW(p_implosion + p_ignition),  # Input power
             p_target=MW(1),  # Power into target factory
             p_machinery=MW(1),  # Power into machinery
+        ),
+        lsa_levels=LsaLevels(
+            lsa=2
         )
     )

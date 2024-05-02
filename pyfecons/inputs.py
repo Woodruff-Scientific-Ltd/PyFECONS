@@ -318,7 +318,7 @@ class FuelHandling:
 @dataclass
 class LsaLevels:
     initialized: bool = False
-    lsa: Count = 2
+    lsa: int = 2
     fac_91: list[float] = None
     fac_92: list[float] = None
     fac_93: list[float] = None
