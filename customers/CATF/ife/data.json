@@ -456,11 +456,13 @@
         "C270000": 107.5602
     },
     "cas28": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C280000": 5
+        },
+        "template_file": "CAS280000.tex",
+        "tex_path": "Modified/CAS280000.tex",
         "figures": {},
-        "C280000": null
+        "C280000": 5.0
     },
     "cas29": {
         "replacements": {},
