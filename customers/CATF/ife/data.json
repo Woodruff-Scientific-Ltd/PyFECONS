@@ -561,14 +561,14 @@
         "template_file": null,
         "tex_path": null,
         "figures": {},
-        "C700000": null
+        "C700000": 0
     },
     "cas80": {
         "replacements": {},
         "template_file": null,
         "tex_path": null,
         "figures": {},
-        "C800000": null
+        "C800000": 0
     },
     "cas90": {
         "replacements": {},
@@ -576,15 +576,25 @@
         "tex_path": null,
         "figures": {},
         "C990000": null,
-        "C900000": null
+        "C900000": 0
     },
     "lcoe": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C1000000": 0.0,
+            "C2000000": 0.0,
+            "C900000": 0,
+            "C800000": 0,
+            "C700000": 0,
+            "PNET": 1025.009,
+            "lifeY": 30,
+            "yinflation": 2.5,
+            "PAVAIL": 0.9
+        },
+        "template_file": "LCOE.tex",
+        "tex_path": "Modified/LCOE.tex",
         "figures": {},
-        "C1000000": null,
-        "C2000000": null
+        "C1000000": 0.0,
+        "C2000000": 0.0
     },
     "cost_table": {
         "replacements": {},
