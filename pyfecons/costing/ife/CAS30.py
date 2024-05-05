@@ -1,4 +1,4 @@
-from pyfecons import M_USD
+from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
