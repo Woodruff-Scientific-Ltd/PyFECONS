@@ -542,14 +542,19 @@
         "C500000": 606.7838268233813
     },
     "cas60": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C600000": 896,
+            "C610000": 288,
+            "C630000LSA": 635,
+            "C630000XXX": 609
+        },
+        "template_file": "CAS600000.tex",
+        "tex_path": "Modified/CAS600000.tex",
         "figures": {},
-        "C610000": null,
-        "C630000LSA": null,
-        "C630000": null,
-        "C600000": null
+        "C610000": 287.5,
+        "C630000LSA": 634.8471752252057,
+        "C630000": 608.8553168682977,
+        "C600000": 896.3553168682977
     },
     "cas70": {
         "replacements": {},

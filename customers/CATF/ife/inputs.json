@@ -293,6 +293,8 @@
         ]
     },
     "financial": {
+        "a_c_98": 115.0,
+        "a_power": 1000.0,
         "capital_recovery_factor": 0.09
     },
     "materials": {

@@ -344,6 +344,9 @@ class LsaLevels:
 
 @dataclass
 class Financial:
+    # TODO what are these?
+    a_c_98: Unknown = Unknown(115)
+    a_power: Unknown = Unknown(1000)
     # Capital recovery factor see https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
     capital_recovery_factor: Ratio = 0.09
 
