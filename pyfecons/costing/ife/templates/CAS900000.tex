@@ -1,0 +1,118 @@
+\subsection{Cost Category 90: Annualized Financial Costs (AFC)}
+
+
+Consists of: Capital recovery factor (or constant dollar FCR), $f_{cr}$ multiplied by the total capital cost. This is a function of the cost of money and the period over which the investment must be paid off (see 2019 NETL report \cite{NETL2019a}). In this case, it is the lifetime of the plant, plifetime years, plus the construction time, constructionTime years. Thus, the capital recovery factor is calculated from 
+
+\begin{equation}
+    C(x,N) = \frac{x(1+x)^N}{(1+x)^N-1} = \left[ \sum_{n=1}^N \frac{1}{(1+x)^N}] \right] ^{-1},
+    \label{eq:C}
+\end{equation}
+
+where 
+
+\begin{equation}
+    x = i_cf_c + i_pf_p +(1-t)i_df_d
+\end{equation}
+
+is the effective cost of money. Here, $i_c$ is the rae of return on common stock, $f_c$ is the fraction of capital form common stock, $i_p$ is the rate of return of preferred stock, $f_p$ is the fraction of capital from preferred stock, $i_d$ is the nterest rate on deb, and $f_d$ is the capital from debt. 
+
+From here, the fixed charge rate can be calculated as 
+\begin{equation}
+    f_{cr} = \frac{Ck}{(1-t)} - \frac{td}{(1-t)} + t_p + r,
+\end{equation}
+
+where $C$ is the capital recovery factor (\ref{eq:C}), $k$ is the adjustment for investment tax credit, $t$ is the effective income tax rate, $d$ is the levelized tax depreciation, $t_p$ is the property tax rate and $r$ is the levelized interim replacement cost. For this power plant, see \ref{tab:ec_vals} for values. Applying these calculations to this power plant with a lifetime of plifetime yields $f_{cr} = $ fcr.\\
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{cc|cc}
+    \hline
+      $N$ (plant life)  & plifetime & $t$ (construction period) & constructionTime\\
+       $i_c$  & 0.1 & $t_p$ (property tax rate)& 0\\
+        $i_p$ & 0 & $x_1$ (pre-tax)& 0.073\\
+        $i_d$ & 0.05 & $x$ (post-tax)& 0.065\\
+        $f_c$ & 0.45 & $x_r$ (real)& 0.045\\
+        $f_p$ & 0 & $k$ & 1\\
+        $f_d$ & 0.55 & $C(x,N)$ & 0.077\\
+        $i$ (general inflation) & 0.02 & $C(x_r,N)$ & 0.061\\
+        $e$  (escalation)& 0.02 & $r$ (interim replacement)& 0\\
+        $e_r$ (real escalation) & 0 & $f$ (depreciable fraction of TCC)& 0.881\\
+        $t_s$ (income tax 1) & 0.06 & $d$ (levelized depreciation)& 0.036\\
+        $t_f$ (income tax 2) & 0.21 & $f_{cr}$ & 0.0910\\
+        $t$ (effective income tax) & 0.257 & $f_{cr0}$ & 0.0722\\
+    \hline    
+    \end{tabular}
+    \caption{Values used in calculation of capital recovery factor  $f_{cr}$, the effective cost of money, $x$, and the fixed charge rate, $R$.}
+    \label{tab:ec_vals}
+    \label{tab:my_label}
+\end{table}
+
+By multiplying the capital recovery factor, $f_{cr}$ by the total capital cost, $C_{99}$, the annual capital cost charge is calculated.
+Annualized Financial Costs are \$ C900000 M.
+
+\subsubsection*{Cost Category 91 – Escalation}
+Critical financial concept often used in the planning and analysis of long-term projects, particularly in industries such as energy or construction. This category accounts for the changes in costs over time due to factors like inflation, market dynamics, and changes in labor or material costs. Escalation is the systematic increase in costs over the life of a project. It is distinct from \textit{contingency}, which is used to cover unforeseen costs. Escalation accounts for known, predictable changes in cost such as:
+
+\begin{itemize}
+    \item \textbf{Inflation:} General increase in prices and fall in the purchasing value of money.
+    \item \textbf{Market Fluctuations:} Changes in costs due to supply and demand dynamics.
+    \item \textbf{Labor Cost Changes:} Variations in labor costs due to economic conditions or labor market changes.
+    \item \textbf{Material Cost Variations:} Fluctuations in the cost of raw materials.
+\end{itemize}
+
+In many financial estimates, particularly initial cost assessments, Cost Category 91 is often excluded. This exclusion is typically because:
+
+\begin{enumerate}
+    \item \textbf{Simplification:} To simplify the early stages of financial planning.
+    \item \textbf{Variability:} Due to the unpredictable nature of some escalation factors.
+\end{enumerate}
+
+While often excluded from initial estimates, escalation is crucial in:
+
+\begin{itemize}
+    \item \textbf{Business Plans:} For a realistic long-term financial outlook.
+    \item \textbf{Financing Proposals:} To present a complete picture to potential investors or lenders.
+    \item \textbf{Regulatory-Related Documents:} Where detailed, realistic cost projections are required.
+\end{itemize}
+
+Effective management of Cost Category 91 involves:
+
+\begin{enumerate}
+    \item \textbf{Regular Reassessment:} Continuously updating the project's cost estimates to reflect current economic conditions.
+    \item \textbf{Risk Mitigation:} Developing strategies to mitigate the impact of negative cost escalations.
+    \item \textbf{Informed Decision Making:} Using escalation estimates to make informed financial and strategic decisions.
+\end{enumerate}
+
+
+
+\subsubsection*{Cost Category 92 – Fees}
+This Cost Category primarily encompasses the costs associated with annual fees necessary for the operation of such facilities.  Fees under Cost Category 92 typically include, but are not limited to, costs related to:
+
+\begin{itemize}
+    \item \textbf{Licensed Reactor Processes:} These are fees paid for obtaining and maintaining the licenses required for reactor operation. They cover regulatory compliance and safety standards as set by nuclear regulatory bodies.
+    \item \textbf{Nuclear Operating License Fees:} Fees associated with the acquisition and renewal of operating licenses for nuclear facilities. These are critical for legal and safe operation.
+    \item \textbf{Regulatory Compliance:} Fees related to ensuring compliance with various environmental, safety, and operational regulations.
+    \item \textbf{Inspection and Oversight:} Costs incurred for regular inspections and oversight activities by regulatory authorities to ensure adherence to safety and operational guidelines.
+\end{itemize}
+
+\subsubsection{Cost Category 92 – Fees} is an essential financial Cost Category, especially for nuclear facilities, where regulatory compliance and licensing play a critical role. Proper management and allocation of funds for these fees are vital for uninterrupted and legal operation.
+
+\subsubsection*{Cost Category 93 – Cost of Money}
+The \textbf{cost of money} is akin to the \textit{opportunity cost} of using capital for a specific purpose. When capital is allocated to operating costs, it is an alternative to investing that capital elsewhere. Thus, the cost of money represents the return that this capital could have earned if invested differently.
+\begin{itemize}
+    \item Sources of Capital. Capital for operating costs can be sourced either externally or from within the organization (retained earnings). External financing includes loans, bonds, or other forms of borrowing, incurring interest payments. Retained earnings are internal funds saved and not distributed as dividends, carrying an opportunity cost as these funds could be used elsewhere.
+    \item Impact on Operating Costs. In financial Cost Categorying, the cost of money is considered an \textit{indirect cost} of operating. It reflects the financial charges incurred due to the company's capital structure, including both the direct costs (e.g., interest on loans) and the opportunity costs (e.g., using retained earnings).
+    \item Project Financing and Cost of Capital.  For large-scale projects like nuclear power plants, the cost of money is crucial in project financing. The strategy (debt vs. equity) and the corresponding costs of capital significantly affect the overall project economics.
+    \item Risk and Return Considerations. The cost of money reflects the project's risk profile. Higher-risk projects lead to higher costs of capital, as lenders and investors demand higher returns for increased risks.
+    \item Long-term Implications.  For long-term projects, the cost of money impacts the project's \textit{net present value} (NPV) and \textit{internal rate of return} (IRR). Effective management of the cost of money is essential for the project's long-term financial viability.
+    \item Dynamic Nature.  The cost of money changes with market conditions, economic environment, and the organization's financial health. This necessitates continuous monitoring and reevaluation of financing strategies.
+\end{itemize}
+
+\textbf{In summary}, Cost Category 93 - Cost of Money - encompasses the financial implications of the capital used for operating costs. It includes both direct costs (like interest payments) and indirect costs (like opportunity costs of capital). Proper management of this Cost Category is crucial for the economic feasibility and financial health of large-scale projects.
+
+
+
+
+\subsubsection*{Cost Category 99 – Contingency on Annualized Financial Costs}
+This Cost Category includes an assessment of additional costs necessary to achieve the desired confidence level for the annualized financial costs not to be exceeded, including schedule uncertainties. Not included here.

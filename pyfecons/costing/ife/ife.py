@@ -21,6 +21,7 @@ from pyfecons.costing.ife.CAS50 import GenerateData as CAS50Data
 from pyfecons.costing.ife.CAS60 import GenerateData as CAS60Data
 from pyfecons.costing.ife.CAS70 import GenerateData as CAS70Data
 from pyfecons.costing.ife.CAS80 import GenerateData as CAS80Data
+from pyfecons.costing.ife.CAS90 import GenerateData as CAS90Data
 from pyfecons.costing.ife.LCOE import GenerateData as LCOEData
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
@@ -67,7 +68,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         + CAS60Data(inputs, data)
         + CAS70Data(inputs, data)
         + CAS80Data(inputs, data)
-        # TODO CAS 90
+        + CAS90Data(inputs, data)
         + LCOEData(inputs, data)
     )
     return CostingData(data, template_providers)

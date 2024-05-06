@@ -9,9 +9,6 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.lcoe
     basic = inputs.basic
 
-    # TODO delete these after implementing sections
-    data.cas90.C900000 = 0
-
     # TODO double check the units here
     OUT.C1000000 = M_USD((m_to_usd(data.cas90.C900000) +
                           (m_to_usd(data.cas70.C700000) + m_to_usd(data.cas80.C800000))
