@@ -10,7 +10,6 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     basic = inputs.basic
 
     # TODO delete these after implementing sections
-    data.cas80.C800000 = 0
     data.cas90.C900000 = 0
 
     # TODO double check the units here

@@ -566,11 +566,13 @@
         "C700000": 61.5005370574038
     },
     "cas80": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C800000": 16
+        },
+        "template_file": "CAS800000_DT.tex",
+        "tex_path": "Modified/CAS800000_DT.tex",
         "figures": {},
-        "C800000": 0
+        "C800000": 16.435685526594586
     },
     "cas90": {
         "replacements": {},
@@ -582,10 +584,10 @@
     },
     "lcoe": {
         "replacements": {
-            "C1000000": 15.7,
-            "C2000000": 1.6,
+            "C1000000": 19.9,
+            "C2000000": 2.0,
             "C900000": 0,
-            "C800000": 0,
+            "C800000": 16.4,
             "C700000": 61.5,
             "PNET": 1025.009,
             "lifeY": 30,
@@ -595,8 +597,8 @@
         "template_file": "LCOE.tex",
         "tex_path": "Modified/LCOE.tex",
         "figures": {},
-        "C1000000": 15.731260287212965,
-        "C2000000": 1.5731260287212965
+        "C1000000": 19.935354420184638,
+        "C2000000": 1.9935354420184637
     },
     "cost_table": {
         "replacements": {},
