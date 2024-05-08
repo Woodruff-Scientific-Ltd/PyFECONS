@@ -1,65 +1,34 @@
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.costing.calculations.cost_table_builder import get_cost_values, get_rounded, get_percentage_cost_values, \
+    get_cost_values_inflation, map_keys_to_percentage
 
 CAS_STRUCTURE_TEX = 'CASstructure.tex'
 
 
 def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT = data.cost_table
-    cost_values = {
-        'C100000': data.cas10.C100000,
-        'C200000': data.cas20.C200000,
-        'C210000': data.cas21.C210000,
-        'C220000': data.cas22.C220000,
-        'C220100': data.cas22.C220100,
-        'C220101': data.cas220101.C220101,
-        'C220102': data.cas220102.C220102,
-        'C220103': data.cas220103.C220103,
-        'C220104': data.cas220104.C220104,
-        'C220105': data.cas220105.C220105,
-        'C220106': data.cas220106.C220106,
-        'C220107': data.cas220107.C220107,
-        'C220108': data.cas220108.C220108,
-        'C220109': data.cas220109.C220109,
-        'C220111': data.cas220111.C220111,
-        'C220119': data.cas220119.C220119,
-        'C220200': data.cas2202.C220200,
-        'C220300': data.cas2203.C220300,
-        'C220400': data.cas2204.C220400,
-        'C220500': data.cas2205.C220500,
-        'C220600': data.cas2206.C220600,
-        'C220700': data.cas2207.C220700,
-        'C230000': data.cas23.C230000,
-        'C240000': data.cas24.C240000,
-        'C250000': data.cas25.C250000,
-        'C260000': data.cas26.C260000,
-        'C270000': data.cas27.C270000,
-        'C280000': data.cas28.C280000,
-        'C290000': data.cas29.C290000,
-        'C300000': data.cas30.C300000,
-        'C400000': data.cas40.C400000,
-        'C500000': data.cas50.C500000,
-        'C600000': data.cas60.C600000,
-        'C990000': data.cas90.C990000,
-    }
-    rounded_cost_values = {key: str(round(val, 2)) for key, val in cost_values.items()}
-    percentage_cost_values = {percentage(key): str(round(val / data.cas90.C990000 * 100, 2)) for key, val in cost_values.items()}
+    cost_values = get_cost_values(data)
+    rounded_cost_values = get_rounded(cost_values, 2)
+    percentage_cost_values = get_percentage_cost_values(cost_values, data.cas90.C990000, 2)
 
     # ARIES ST
     # Values from page 148, Najmabadi, F. and Aries Team, 2003. Spherical torus concept as power plants—the ARIES-ST
     #   study. Fusion Engineering and Design, 65(2), pp.143-164.
     # TODO what inflation period is this? Move to conversions.
     inflation_factor = 1.35
-    m30 = data.cas30.C300000/data.cas90.C990000*4479.7
-    m40 = data.cas40.C400000/data.cas90.C990000*4479.7
-    m50 = data.cas50.C500000/data.cas90.C990000*4479.7
-    m60 = data.cas60.C600000/data.cas90.C990000*4479.7
-    m99 = 4479.7+m30+m40+m50+m60
+    # TODO can we name the value 4479.7?
+    m_factor = 4479.7
+    m30 = data.cas30.C300000 / data.cas90.C990000 * m_factor
+    m40 = data.cas40.C400000 / data.cas90.C990000 * m_factor
+    m50 = data.cas50.C500000 / data.cas90.C990000 * m_factor
+    m60 = data.cas60.C600000 / data.cas90.C990000 * m_factor
+    m99 = m_factor + m30 + m40 + m50 + m60
     a_power = 2920  # this is the net electric power - TODO this is not used
 
     aries_st_values = {
         'M100000': 10.6,
-        'M200000': 4479.7,
+        'M200000': m_factor,
         'M210000': 370.8,
         'M220000': 1244.1,
         'M220100': 648.7,
@@ -97,9 +66,9 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'M28': '-',
     }
 
-    aries_st_values_inflation = {key: str(round(val*inflation_factor, 2)) for key, val in aries_st_values.items()}
-    aries_st_percentages = {percentage(key): str(round(val / m99 * 100, 2)) for key, val in aries_st_values.items()}
-    aries_st_empty_percentages = {percentage(key): val for key, val in aries_st_empty_values.items()}
+    aries_st_values_inflation = get_cost_values_inflation(aries_st_values, inflation_factor, 2)
+    aries_st_percentages = get_percentage_cost_values(aries_st_values, m99, 2)
+    aries_st_empty_percentages = map_keys_to_percentage(aries_st_empty_values)
 
     OUT.template_file = CAS_STRUCTURE_TEX
     OUT.tex_path = 'Modified/' + OUT.template_file
@@ -107,7 +76,3 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
                         | aries_st_values_inflation | aries_st_percentages
                         | aries_st_empty_values | aries_st_empty_percentages)
     return [OUT]
-
-
-def percentage(key):
-    return key[0] + '.' + key[1:] + 'pp'

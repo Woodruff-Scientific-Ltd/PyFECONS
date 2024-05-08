@@ -36,7 +36,11 @@
         "eta_pin1": 0.18,
         "eta_pin2": 0.82,
         "eta_de": 0.85,
-        "p_input": 50
+        "p_input": 50,
+        "p_implosion": null,
+        "p_ignition": null,
+        "p_target": null,
+        "p_machinery": null
     },
     "radial_build": {
         "axis_t": 3,
@@ -520,6 +524,8 @@
         ]
     },
     "financial": {
+        "a_c_98": 115.0,
+        "a_power": 1000.0,
         "capital_recovery_factor": 0.09
     },
     "materials": {
