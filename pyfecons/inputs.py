@@ -26,42 +26,42 @@ class CustomerInfo:
 
 @dataclass
 class Basic:
-    reactor_type: ReactorType = ReactorType.IFE
-    confinement_type: ConfinementType = ConfinementType.SPHERICAL_TOKAMAK
-    energy_conversion: EnergyConversion = EnergyConversion.DIRECT
+    reactor_type: ReactorType = None
+    confinement_type: ConfinementType = None
+    energy_conversion: EnergyConversion = None
     fuel_type: FuelType = FuelType.DT
-    p_nrl: MW = 2600.0  # Fusion Power
-    n_mod: Count = 1
-    am: Percent = 1.00
-    downtime: Years = 1
-    construction_time: Years = 6.0
-    plant_lifetime: Years = 30.0  # from end of construction
-    plant_availability: Percent = 0.85  # in Miller 2003 was 0.76
-    noak: bool = True
-    yearly_inflation: Percent = 0.0245
-    time_to_replace: Years = 10
+    p_nrl: MW = None  # Fusion Power
+    n_mod: Count = None
+    am: Percent = None
+    downtime: Years = None
+    construction_time: Years = None
+    plant_lifetime: Years = None  # from end of construction
+    plant_availability: Percent = None  # in Miller 2003 was 0.76
+    noak: bool = None
+    yearly_inflation: Percent = None
+    time_to_replace: Years = None
     implosion_frequency: HZ = None  # Implosion laser driving frequency
 
 
 @dataclass
 class PowerTable:
-    f_sub: Percent = 0.03  # Subsystem and Control Fraction
-    p_cryo: MW = 0.5
-    mn: Ratio = 1.1  # Neutron energy multiplier
-    eta_p: Percent = 0.5  # Pumping power capture efficiency
-    eta_th: Percent = 0.46  # Thermal conversion efficiency
-    fpcppf: Percent = 0.06  # Primary Coolant Pumping Power Fraction
-    p_trit: MW = 10  # Tritium Systems
-    p_house: MW = 4  # Housekeeping power
-    p_tfcool: MW = 12.7  # Solenoid coil cooling
-    p_pfcool: MW = 1  # Mirror coil cooling
-    p_tf: MW = 1  # Power into TF coils
-    p_pf: MW = 1  # Power into PF (equilibrium) coils (TODO - how to handle for HTS?)
-    eta_pin: Percent = 0.5  # Input power wall plug efficiency
-    eta_pin1: Percent = 0.18
-    eta_pin2: Percent = 0.82
-    eta_de: Percent = 0.85  # Direct energy conversion efficiency
-    p_input: MW = 50  # Input power
+    f_sub: Percent = None  # Subsystem and Control Fraction
+    p_cryo: MW = None
+    mn: Ratio = None  # Neutron energy multiplier
+    eta_p: Percent = None  # Pumping power capture efficiency
+    eta_th: Percent = None  # Thermal conversion efficiency
+    fpcppf: Percent = None  # Primary Coolant Pumping Power Fraction
+    p_trit: MW = None  # Tritium Systems
+    p_house: MW = None  # Housekeeping power
+    p_tfcool: MW = None  # Solenoid coil cooling
+    p_pfcool: MW = None  # Mirror coil cooling
+    p_tf: MW = None  # Power into TF coils
+    p_pf: MW = None  # Power into PF (equilibrium) coils (TODO - how to handle for HTS?)
+    eta_pin: Percent = None  # Input power wall plug efficiency
+    eta_pin1: Percent = None
+    eta_pin2: Percent = None
+    eta_de: Percent = None  # Direct energy conversion efficiency
+    p_input: MW = None  # Input power
     p_implosion: MW = None  # Implosion laser power
     p_ignition: MW = None  # Ignition laser power
     p_target: MW = None  # Power into target factory
@@ -72,21 +72,21 @@ class PowerTable:
 class RadialBuild:
     # Radial build inputs
     # Radial thicknesses of concentric components (innermost to outermost)
-    elon = 3  # torus elongation factor
-    axis_t: Meters = 3  # distance from r=0 to plasma central axis - effectively major radius
-    plasma_t: Meters = 1.1  # plasma radial thickness
-    vacuum_t: Meters = 0.1  # vacuum radial thickness
-    firstwall_t: Meters = 0.2  # first wall radial thickness
-    blanket1_t: Meters = 0.8  # blanket radial thickness
-    reflector_t: Meters = 0.2  # reflector radial thickness
-    ht_shield_t: Meters = 0.2  # High-temperature shield radial thickness
-    structure_t: Meters = 0.2  # support structure radial thickness
-    gap1_t: Meters = 0.5  # air gap radial thickness
-    vessel_t: Meters = 0.2  # vacuum vessel wall radial thickness
-    coil_t: Meters = 0.05  # TF coil radial thickness
-    gap2_t: Meters = 0.5  # second air gap radial thickness
-    lt_shield_t: Meters = 0.3  # low-temperature shield radial thickness
-    bioshield_t: Meters = 1  # concrete bioshield radial thickness
+    elon: Ratio = None  # torus elongation factor
+    axis_t: Meters = None  # distance from r=0 to plasma central axis - effectively major radius
+    plasma_t: Meters = None  # plasma radial thickness
+    vacuum_t: Meters = None  # vacuum radial thickness
+    firstwall_t: Meters = None  # first wall radial thickness
+    blanket1_t: Meters = None  # blanket radial thickness
+    reflector_t: Meters = None  # reflector radial thickness
+    ht_shield_t: Meters = None  # High-temperature shield radial thickness
+    structure_t: Meters = None  # support structure radial thickness
+    gap1_t: Meters = None  # air gap radial thickness
+    vessel_t: Meters = None  # vacuum vessel wall radial thickness
+    coil_t: Meters = None  # TF coil radial thickness
+    gap2_t: Meters = None  # second air gap radial thickness
+    lt_shield_t: Meters = None  # low-temperature shield radial thickness
+    bioshield_t: Meters = None  # concrete bioshield radial thickness
 
 
 @dataclass

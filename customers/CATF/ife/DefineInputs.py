@@ -11,6 +11,7 @@ def Generate():
         CustomerInfo(name="Clean Air Task Force"),
         Basic(
             reactor_type=ReactorType.IFE,
+            confinement_type=ConfinementType.LASER_DRIVEN_DIRECT_DRIVE,
             energy_conversion=EnergyConversion.DIRECT,
             fuel_type=FuelType.PB11,
             time_to_replace=Years(10),
