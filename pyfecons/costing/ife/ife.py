@@ -4,6 +4,26 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 from pyfecons.report import CostingData, ReportContent, HydratedTemplate
 from pyfecons.templates import read_template, hydrate_templates
+from pyfecons.costing.ife.PowerBalance import GenerateData as PowerBalanceData
+from pyfecons.costing.ife.CAS10 import GenerateData as CAS10Data
+from pyfecons.costing.ife.CAS21 import GenerateData as CAS21Data
+from pyfecons.costing.ife.CAS23 import GenerateData as CAS23Data
+from pyfecons.costing.ife.CAS24 import GenerateData as CAS24Data
+from pyfecons.costing.ife.CAS25 import GenerateData as CAS25Data
+from pyfecons.costing.ife.CAS26 import GenerateData as CAS26Data
+from pyfecons.costing.ife.CAS27 import GenerateData as CAS27Data
+from pyfecons.costing.ife.CAS28 import GenerateData as CAS28Data
+from pyfecons.costing.ife.CAS29 import GenerateData as CAS29Data
+from pyfecons.costing.ife.CAS20 import GenerateData as CAS20Data
+from pyfecons.costing.ife.CAS30 import GenerateData as CAS30Data
+from pyfecons.costing.ife.CAS40 import GenerateData as CAS40Data
+from pyfecons.costing.ife.CAS50 import GenerateData as CAS50Data
+from pyfecons.costing.ife.CAS60 import GenerateData as CAS60Data
+from pyfecons.costing.ife.CAS70 import GenerateData as CAS70Data
+from pyfecons.costing.ife.CAS80 import GenerateData as CAS80Data
+from pyfecons.costing.ife.CAS90 import GenerateData as CAS90Data
+from pyfecons.costing.ife.CostTable import GenerateData as CostTableData
+from pyfecons.costing.ife.LCOE import GenerateData as LCOEData
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
@@ -23,12 +43,37 @@ LOCAL_INCLUDED_FILES = {
     'additions.bib': 'additions.bib',
     'StandardFigures/costcategories.png': 'costcategories.png',
     'StandardFigures/power.eps': 'power.eps',
+    'StandardFigures/siteplan2023.eps': 'siteplan2023.eps',
+    'StandardFigures/TIsketch.eps': 'TIsketch.eps',
+    'StandardFigures/statista.png': 'statista.png',
 }
 
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data()
-    template_providers = []
+    template_providers = (
+        PowerBalanceData(inputs, data)
+        + CAS10Data(inputs, data)
+        + CAS21Data(inputs, data)
+        + CAS23Data(inputs, data)
+        + CAS24Data(inputs, data)
+        + CAS25Data(inputs, data)
+        + CAS26Data(inputs, data)
+        + CAS27Data(inputs, data)
+        + CAS28Data(inputs, data)
+        + CAS29Data(inputs, data)
+        + CAS20Data(inputs, data)
+        + CAS30Data(inputs, data)
+        + CAS40Data(inputs, data)
+        + CAS50Data(inputs, data)
+        + CAS60Data(inputs, data)
+        + CAS70Data(inputs, data)
+        + CAS80Data(inputs, data)
+        + CAS90Data(inputs, data)
+        + CAS90Data(inputs, data)
+        + CostTableData(inputs, data)
+        + LCOEData(inputs, data)
+    )
     return CostingData(data, template_providers)
 
 

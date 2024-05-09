@@ -9,6 +9,10 @@ def to_m_usd(dollars: Union[float, USD]) -> M_USD:
     return M_USD(dollars / 1e6)
 
 
+def m_to_usd(dollars: Union[float, M_USD]) -> USD:
+    return USD(dollars * 1e6)
+
+
 # cost thousands to millions USD
 def k_to_m_usd(thousands_dollars: Union[float, USD]) -> M_USD:
     return M_USD(thousands_dollars / 1e3)

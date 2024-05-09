@@ -21,7 +21,7 @@ class ConfinementType(Enum):
     # PLASMA_JET = (ReactorType.MIF, 'PLASMA_JET')
     # MIRROR_MIF = (ReactorType.MIF, 'MIRROR_MIF')
     # THETA_PINCH = (ReactorType.MIF, 'THETA_PINCH')
-    # LASER_DRIVEN_DIRECT_DRIVE = (ReactorType.IFE, 'LASER_DRIVEN_DIRECT_DRIVE')
+    LASER_DRIVEN_DIRECT_DRIVE = (ReactorType.IFE, 'LASER_DRIVEN_DIRECT_DRIVE')
     # LASER_DRIVEN_INDIRECT_DRIVE = (ReactorType.IFE, 'LASER_DRIVEN_INDIRECT_DRIVE')
     # FAST_IGNITION = (ReactorType.IFE, 'FAST_IGNITION')
     # IEC = (ReactorType.IFE, 'IEC')
