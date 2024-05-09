@@ -8,6 +8,26 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     # Cost Table
     OUT = data.cost_table
     cost_values = get_cost_values(data)
+    # TODO - delete as CAS22 is implemented
+    cost_values['C220000'] = 0
+    cost_values['C220100'] = 0
+    cost_values['C220101'] = 0
+    cost_values['C220102'] = 0
+    cost_values['C220103'] = 0
+    cost_values['C220104'] = 0
+    cost_values['C220105'] = 0
+    cost_values['C220106'] = 0
+    cost_values['C220107'] = 0
+    cost_values['C220108'] = 0
+    cost_values['C220109'] = 0
+    cost_values['C220111'] = 0
+    cost_values['C220119'] = 0
+    cost_values['C220200'] = 0
+    cost_values['C220300'] = 0
+    cost_values['C220400'] = 0
+    cost_values['C220500'] = 0
+    cost_values['C220600'] = 0
+    cost_values['C220700'] = 0
     rounded_cost_values = get_rounded(cost_values, 1)
     percentage_cost_values = get_percentage_cost_values(cost_values, data.cas90.C990000, 0)
     inflation_factor = 1.35  # TODO move to conversions and do the same in MFE
