@@ -1,12 +1,10 @@
-from pyfecons import Kilograms
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import Kilograms
 
-CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_80(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 80: Annualized Fuel Cost (AFC)
     OUT = data.cas80
 
@@ -24,11 +22,11 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
 
     OUT.C800000 = to_m_usd(c_f)
 
-    OUT.template_file = CAS_800000_DT_TEX
+    OUT.template_file = 'CAS800000_DT.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C800000': round(OUT.C800000, 2),
         'primaryC': inputs.blanket.primary_coolant.display_name,
         'secondaryC': inputs.blanket.secondary_coolant.display_name,
     }
-    return [OUT]
+    return OUT

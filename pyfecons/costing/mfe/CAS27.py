@@ -1,12 +1,10 @@
-from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.enums import BlanketPrimaryCoolant
+from pyfecons.units import M_USD
 
-CAS_270000_TEX = 'CAS270000.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 27 Special Materials
     OUT = data.cas27
     materials = inputs.materials
@@ -41,9 +39,9 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.C275000 = M_USD(0.21 * 1.71)  # Reactor-building cover gas
     OUT.C270000 = M_USD(OUT.C271000 + OUT.C274000 + OUT.C275000)
 
-    OUT.template_file = CAS_270000_TEX
+    OUT.template_file = 'CAS270000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C270000': round(data.cas27.C270000)
     }
-    return [OUT]
+    return OUT

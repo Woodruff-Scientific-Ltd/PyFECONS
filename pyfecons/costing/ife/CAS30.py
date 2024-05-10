@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_30(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 30 Capitalized Indirect Service Costs (CISC)
     IN = inputs.lsa_levels
     OUT = data.cas30
@@ -44,4 +44,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C350000LSA': round(OUT.C350000LSA),
         'C350000XXX': round(OUT.C350000),
     }
-    return [OUT]
+    return OUT

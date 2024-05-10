@@ -4,26 +4,26 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 from pyfecons.report import CostingData, ReportContent, HydratedTemplate
 from pyfecons.templates import read_template, hydrate_templates
-from pyfecons.costing.ife.PowerBalance import GenerateData as PowerBalanceData
-from pyfecons.costing.ife.CAS10 import GenerateData as CAS10Data
-from pyfecons.costing.ife.CAS21 import GenerateData as CAS21Data
-from pyfecons.costing.ife.CAS23 import GenerateData as CAS23Data
-from pyfecons.costing.ife.CAS24 import GenerateData as CAS24Data
-from pyfecons.costing.ife.CAS25 import GenerateData as CAS25Data
-from pyfecons.costing.ife.CAS26 import GenerateData as CAS26Data
-from pyfecons.costing.ife.CAS27 import GenerateData as CAS27Data
-from pyfecons.costing.ife.CAS28 import GenerateData as CAS28Data
-from pyfecons.costing.ife.CAS29 import GenerateData as CAS29Data
-from pyfecons.costing.ife.CAS20 import GenerateData as CAS20Data
-from pyfecons.costing.ife.CAS30 import GenerateData as CAS30Data
-from pyfecons.costing.ife.CAS40 import GenerateData as CAS40Data
-from pyfecons.costing.ife.CAS50 import GenerateData as CAS50Data
-from pyfecons.costing.ife.CAS60 import GenerateData as CAS60Data
-from pyfecons.costing.ife.CAS70 import GenerateData as CAS70Data
-from pyfecons.costing.ife.CAS80 import GenerateData as CAS80Data
-from pyfecons.costing.ife.CAS90 import GenerateData as CAS90Data
-from pyfecons.costing.ife.CostTable import GenerateData as CostTableData
-from pyfecons.costing.ife.LCOE import GenerateData as LCOEData
+from pyfecons.costing.ife.PowerBalance import power_balance
+from pyfecons.costing.ife.CAS10 import cas_10
+from pyfecons.costing.ife.CAS21 import cas_21
+from pyfecons.costing.ife.CAS23 import cas_23
+from pyfecons.costing.ife.CAS24 import cas_24
+from pyfecons.costing.ife.CAS25 import cas_25
+from pyfecons.costing.ife.CAS26 import cas_26
+from pyfecons.costing.ife.CAS27 import cas_27
+from pyfecons.costing.ife.CAS28 import cas_28
+from pyfecons.costing.ife.CAS29 import cas_29
+from pyfecons.costing.ife.CAS20 import cas_20
+from pyfecons.costing.ife.CAS30 import cas_30
+from pyfecons.costing.ife.CAS40 import cas_40
+from pyfecons.costing.ife.CAS50 import cas_50
+from pyfecons.costing.ife.CAS60 import cas_60
+from pyfecons.costing.ife.CAS70 import cas_70
+from pyfecons.costing.ife.CAS80 import cas_80
+from pyfecons.costing.ife.CAS90 import cas_90
+from pyfecons.costing.ife.CostTable import cost_table
+from pyfecons.costing.ife.LCOE import lcoe
 
 TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
@@ -51,29 +51,28 @@ LOCAL_INCLUDED_FILES = {
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data()
-    template_providers = (
-        PowerBalanceData(inputs, data)
-        + CAS10Data(inputs, data)
-        + CAS21Data(inputs, data)
-        + CAS23Data(inputs, data)
-        + CAS24Data(inputs, data)
-        + CAS25Data(inputs, data)
-        + CAS26Data(inputs, data)
-        + CAS27Data(inputs, data)
-        + CAS28Data(inputs, data)
-        + CAS29Data(inputs, data)
-        + CAS20Data(inputs, data)
-        + CAS30Data(inputs, data)
-        + CAS40Data(inputs, data)
-        + CAS50Data(inputs, data)
-        + CAS60Data(inputs, data)
-        + CAS70Data(inputs, data)
-        + CAS80Data(inputs, data)
-        + CAS90Data(inputs, data)
-        + CAS90Data(inputs, data)
-        + CostTableData(inputs, data)
-        + LCOEData(inputs, data)
-    )
+    template_providers = [
+        power_balance(inputs, data),
+        cas_10(inputs, data),
+        cas_21(inputs, data),
+        cas_23(inputs, data),
+        cas_24(inputs, data),
+        cas_25(inputs, data),
+        cas_26(inputs, data),
+        cas_27(inputs, data),
+        cas_28(inputs, data),
+        cas_29(inputs, data),
+        cas_20(inputs, data),
+        cas_30(inputs, data),
+        cas_40(inputs, data),
+        cas_50(inputs, data),
+        cas_60(inputs, data),
+        cas_70(inputs, data),
+        cas_80(inputs, data),
+        cas_90(inputs, data),
+        cost_table(inputs, data),
+        lcoe(inputs, data),
+    ]
     return CostingData(data, template_providers)
 
 

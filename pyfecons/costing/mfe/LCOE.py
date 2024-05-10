@@ -1,11 +1,9 @@
-from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import M_USD
 
-LCOE_TEX = 'LCOE.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def lcoe(inputs: Inputs, data: Data) -> TemplateProvider:
     # LCOE = _____ Cost of Electricity
     OUT = data.lcoe
 
@@ -15,7 +13,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         / (8760 * data.power_table.p_net * (float(inputs.basic.n_mod) * inputs.basic.plant_availability)))
     OUT.C2000000 = M_USD(OUT.C1000000 / 10)
 
-    OUT.template_file = LCOE_TEX
+    OUT.template_file = 'LCOE.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C1000000': round(OUT.C1000000, 1),
@@ -28,4 +26,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'yinflation': 100 * round(inputs.basic.yearly_inflation, 3),
         'PAVAIL': round(inputs.basic.plant_availability, 2),
     }
-    return [OUT]
+    return OUT

@@ -1,12 +1,10 @@
-from pyfecons import FuelType
+from pyfecons.enums import FuelType
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Unknown
 
-POWER_TABLE_MFE_DT_TEX = 'powerTableMFEDT.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def power_balance(inputs: Inputs, data: Data) -> TemplateProvider:
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table
@@ -30,7 +28,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.rec_frac = 1 / OUT.q_eng
     OUT.p_net = MW((1 - 1 / OUT.q_eng) * OUT.p_et)
 
-    OUT.template_file = POWER_TABLE_MFE_DT_TEX
+    OUT.template_file = 'powerTableMFEDT.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         # Ordered by occurrence in template
@@ -70,7 +68,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         # 'ETADE': ETADE,
         # 'PDEE': PDEE,
     }
-    return [OUT]
+    return OUT
 
 
 def compute_p_alpha(p_nrl: MW, fuel_type: FuelType) -> MW:

@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_20(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas20
     # TODO - why are C210000 and C280000 counted twice?
     OUT.C200000 = M_USD(data.cas21.C210000 +
@@ -23,4 +23,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C200000': round(OUT.C200000)
     }
-    return [OUT]
+    return OUT

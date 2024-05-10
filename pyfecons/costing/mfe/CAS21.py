@@ -1,12 +1,10 @@
-from pyfecons import M_USD
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import M_USD
 
-CAS_210000_TEX = 'CAS210000.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
     IN = data.power_table
     OUT = data.cas21
 
@@ -80,7 +78,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
 
     OUT.C210000 = M_USD(OUT.C210000 + OUT.C211900)
 
-    OUT.template_file = CAS_210000_TEX
+    OUT.template_file = 'CAS210000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C210000': str(round(data.cas21.C210000, 1)),
@@ -103,4 +101,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C211700': str(round(data.cas21.C211700, 1)),
         'C211900': str(round(data.cas21.C211900, 1)),  # TODO - not in the template file
     }
-    return [OUT]
+    return OUT

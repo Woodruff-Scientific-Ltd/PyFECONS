@@ -3,7 +3,7 @@ import pandas as pd
 from scipy.interpolate import LinearNDInterpolator
 from sklearn.linear_model import LinearRegression
 
-from pyfecons import Magnet
+from pyfecons.inputs import Magnet
 
 yuhudata = {
     "R_Turns": [31] * 6 + [44] * 6 + [54] * 6 + [63] * 6 + [70] * 6 + [77] * 6 + [83] * 6 + [89] * 6 + [94] * 6,

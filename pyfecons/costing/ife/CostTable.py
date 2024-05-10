@@ -4,7 +4,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Table
     OUT = data.cost_table
     cost_values = get_cost_values(data)
@@ -92,4 +92,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = (rounded_cost_values | percentage_cost_values
                         | life_values_inflation | life_values_percentages
                         | life_values_empty | life_values_empty_percentages)
-    return [OUT]
+    return OUT

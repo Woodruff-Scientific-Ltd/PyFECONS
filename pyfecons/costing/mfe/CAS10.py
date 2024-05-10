@@ -1,12 +1,10 @@
-from pyfecons import M_USD
+import math
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
-import math
-
-CAS_100000_TEX = 'CAS100000.tex'
+from pyfecons.units import M_USD
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_10(inputs: Inputs, data: Data) -> TemplateProvider:
     basic = inputs.basic
     IN = data.power_table
     OUT = data.cas10
@@ -45,7 +43,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.C100000 = M_USD(OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000
                         + OUT.C170000 + OUT.C190000)
 
-    OUT.template_file = CAS_100000_TEX
+    OUT.template_file = 'CAS100000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'Nmod': str(basic.n_mod),
@@ -59,4 +57,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C170000': str(OUT.C170000),
         'C190000': str(OUT.C190000),
     }
-    return [OUT]
+    return OUT
