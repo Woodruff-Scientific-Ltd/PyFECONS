@@ -2,10 +2,8 @@ from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
-CAS_600000_TEX = 'CAS600000.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_60(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas60
     financial = inputs.financial
 
@@ -39,7 +37,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
 
     OUT.C600000 = M_USD(OUT.C630000 + OUT.C610000)
 
-    OUT.template_file = CAS_600000_TEX
+    OUT.template_file = 'CAS600000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C600000': round(OUT.C600000),  # TODO - not in template
@@ -47,4 +45,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C630000LSA': round(OUT.C630000LSA),
         'C630000000': round(OUT.C630000),
     }
-    return [OUT]
+    return OUT

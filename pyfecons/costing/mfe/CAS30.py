@@ -2,10 +2,8 @@ from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
-CAS_300000_TEX = 'CAS300000.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_30(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 30 Capitalized Indirect Service Costs (CISC)
     # TODO determine cost basis, ask simon
     IN = inputs.lsa_levels
@@ -39,7 +37,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
 
     OUT.C300000 = M_USD(OUT.C310000 + OUT.C320000 + OUT.C350000)
 
-    OUT.template_file = CAS_300000_TEX
+    OUT.template_file = 'CAS300000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'constructionTime': round(inputs.basic.construction_time),
@@ -50,4 +48,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C350000LSA': round(OUT.C350000LSA),
         'C350000000': round(OUT.C350000),
     }
-    return [OUT]
+    return OUT

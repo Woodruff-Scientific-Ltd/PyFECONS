@@ -2,10 +2,8 @@ from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
-CAS_200000_TEX = 'CAS200000.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_20(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas20
     # TODO - why are C210000 and C280000 counted twice?
     OUT.C200000 = M_USD(data.cas21.C210000 +
@@ -19,10 +17,10 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
                         data.cas28.C280000 +
                         data.cas28.C280000 +
                         data.cas29.C290000)
-    OUT.template_file = CAS_200000_TEX
+    OUT.template_file = 'CAS200000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C200000': round(data.cas20.C200000)  # TODO - C200000 not in the template
     }
-    return [OUT]
+    return OUT
 
