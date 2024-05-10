@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_29(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 29 Contingency
     OUT = data.cas29
     if inputs.basic.noak:
@@ -17,4 +17,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C290000': round(OUT.C290000)
     }
-    return [OUT]
+    return OUT

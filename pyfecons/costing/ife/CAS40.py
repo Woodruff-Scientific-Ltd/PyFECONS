@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_40(inputs: Inputs, data: Data) -> TemplateProvider:
     IN = inputs.lsa_levels
     OUT = data.cas40
 
@@ -32,4 +32,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'C400000LSA': round(OUT.C400000LSA),
         'C400000XXX': round(OUT.C400000),  # TODO not in template
     }
-    return [OUT]
+    return OUT

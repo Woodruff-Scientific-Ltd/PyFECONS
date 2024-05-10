@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_24(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 24 Electric Plant Equipment
     OUT = data.cas24
     # TODO - where do constants come from?
@@ -14,4 +14,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C240000': round(OUT.C240000)
     }
-    return [OUT]
+    return OUT

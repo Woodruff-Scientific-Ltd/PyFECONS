@@ -3,7 +3,7 @@ from pyfecons.inputs import Inputs
 from pyfecons.units import M_USD
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_26(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 26 Heat Rejection
     OUT = data.cas26
 
@@ -16,4 +16,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C260000': round(OUT.C260000)
     }
-    return [OUT]
+    return OUT

@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_28(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 28 Digital Twin
     OUT = data.cas28
     # In-house cost estimate provided by NtTau Digital LTD
@@ -13,4 +13,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C280000': round(OUT.C280000)
     }
-    return [OUT]
+    return OUT

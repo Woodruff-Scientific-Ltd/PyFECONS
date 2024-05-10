@@ -3,7 +3,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def cas_90(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 90: Annualized Financial Costs (AFC)
     OUT = data.cas90
     financial = inputs.financial
@@ -19,4 +19,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.replacements = {
         'C900000': round(OUT.C900000)
     }
-    return [OUT]
+    return OUT

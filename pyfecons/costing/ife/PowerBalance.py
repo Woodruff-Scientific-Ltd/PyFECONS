@@ -3,10 +3,8 @@ from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Ratio
 
-POWER_TABLE_IFE_DT_TEX = 'powerTableIFEDT.tex'
 
-
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def power_balance(inputs: Inputs, data: Data) -> TemplateProvider:
     # power balance
     # All power values are in MW
     OUT = data.power_table
@@ -35,7 +33,7 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
     OUT.rec_frac = Ratio(1 / OUT.q_eng)
     OUT.p_net = (1 - 1 / OUT.q_eng) * OUT.p_et
 
-    OUT.template_file = POWER_TABLE_IFE_DT_TEX
+    OUT.template_file = 'powerTableIFEDT.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     # TODO round everything by 1
     OUT.replacements = {
@@ -69,4 +67,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'PP': round(OUT.p_pump, 1),
         'PIN': round(IN.p_input, 1),
     }
-    return [OUT]
+    return OUT

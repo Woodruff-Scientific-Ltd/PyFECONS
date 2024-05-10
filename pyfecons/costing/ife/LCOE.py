@@ -4,7 +4,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
 
-def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
+def lcoe(inputs: Inputs, data: Data) -> TemplateProvider:
     # LCOE = Localized Cost of Electricity
     OUT = data.lcoe
     basic = inputs.basic
@@ -29,4 +29,4 @@ def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:
         'yinflation': 100*round(basic.yearly_inflation, 3),
         'PAVAIL': round(basic.plant_availability, 2),
     }
-    return [OUT]
+    return OUT
