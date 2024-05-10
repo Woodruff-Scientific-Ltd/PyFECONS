@@ -1,6 +1,6 @@
-from pyfecons import M_USD
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
+from pyfecons.units import M_USD
 
 
 def GenerateData(inputs: Inputs, data: Data) -> list[TemplateProvider]:

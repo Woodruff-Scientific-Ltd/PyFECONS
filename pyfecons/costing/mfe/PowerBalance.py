@@ -1,4 +1,4 @@
-from pyfecons import FuelType
+from pyfecons.enums import FuelType
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Unknown

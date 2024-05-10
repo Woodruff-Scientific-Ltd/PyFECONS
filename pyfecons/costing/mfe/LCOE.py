@@ -1,6 +1,6 @@
-from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import M_USD
 
 LCOE_TEX = 'LCOE.tex'
 

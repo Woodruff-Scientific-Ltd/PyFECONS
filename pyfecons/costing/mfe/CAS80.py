@@ -1,7 +1,7 @@
-from pyfecons import Kilograms
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import Kilograms
 
 CAS_800000_DT_TEX = 'CAS800000_DT.tex'
 

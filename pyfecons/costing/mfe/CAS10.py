@@ -1,7 +1,8 @@
-from pyfecons import M_USD
+import math
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
-import math
+from pyfecons.units import M_USD
+
 
 CAS_100000_TEX = 'CAS100000.tex'
 

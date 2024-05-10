@@ -1,7 +1,7 @@
-from pyfecons import M_USD
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.enums import BlanketPrimaryCoolant
+from pyfecons.units import M_USD
 
 CAS_270000_TEX = 'CAS270000.tex'
 

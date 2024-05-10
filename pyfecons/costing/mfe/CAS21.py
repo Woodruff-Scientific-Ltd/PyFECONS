@@ -1,7 +1,7 @@
-from pyfecons import M_USD
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import M_USD
 
 CAS_210000_TEX = 'CAS210000.tex'
 

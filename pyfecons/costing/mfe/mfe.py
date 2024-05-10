@@ -5,7 +5,24 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.costing.mfe.PowerBalance import GenerateData as PowerBalanceData
 from pyfecons.costing.mfe.CAS10 import GenerateData as CAS10Data
 from pyfecons.costing.mfe.CAS21 import GenerateData as CAS21Data
-from pyfecons.costing.mfe.CAS22 import GenerateData as CAS22Data
+from pyfecons.costing.mfe.cas22.CAS220101 import cas_220101_reactor_equipment
+from pyfecons.costing.mfe.cas22.CAS220102 import cas_220102_shield
+from pyfecons.costing.mfe.cas22.CAS220103 import cas_220103_coils
+from pyfecons.costing.mfe.cas22.CAS220104 import cas_220104_supplementary_heating
+from pyfecons.costing.mfe.cas22.CAS220105 import cas_220105_primary_structure
+from pyfecons.costing.mfe.cas22.CAS220106 import cas_220106_vacuum_system
+from pyfecons.costing.mfe.cas22.CAS220107 import cas_220107_power_supplies
+from pyfecons.costing.mfe.cas22.CAS220108 import cas_220108_divertor
+from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter
+from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
+from pyfecons.costing.mfe.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
+from pyfecons.costing.mfe.cas22.CAS2202 import cas_2202_main_and_secondary_coolant
+from pyfecons.costing.mfe.cas22.CAS2203 import cas_2203_auxilary_cooling
+from pyfecons.costing.mfe.cas22.CAS2204 import cas_2204_radwaste
+from pyfecons.costing.mfe.cas22.CAS2205 import cas_2205_fuel_handling_and_storage
+from pyfecons.costing.mfe.cas22.CAS2206 import cas_2206_other_reactor_plant_equipment
+from pyfecons.costing.mfe.cas22.CAS2207 import cas_2207_instrumentation_and_control
+from pyfecons.costing.mfe.cas22.CAS22 import cas_2200_reactor_plant_equipment_total
 from pyfecons.costing.mfe.CAS23 import GenerateData as CAS23Data
 from pyfecons.costing.mfe.CAS24 import GenerateData as CAS24Data
 from pyfecons.costing.mfe.CAS25 import GenerateData as CAS25Data
@@ -61,7 +78,26 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
             PowerBalanceData(inputs, data)
             + CAS10Data(inputs, data)
             + CAS21Data(inputs, data)
-            + CAS22Data(inputs, data)
+            + [
+                cas_220101_reactor_equipment(inputs, data),
+                cas_220102_shield(inputs, data),
+                cas_220103_coils(inputs, data),
+                cas_220104_supplementary_heating(inputs, data),
+                cas_220105_primary_structure(inputs, data),
+                cas_220106_vacuum_system(inputs, data),
+                cas_220107_power_supplies(inputs, data),
+                cas_220108_divertor(inputs, data),
+                cas_220109_direct_energy_converter(inputs, data),
+                cas_220111_installation_costs(inputs, data),
+                cas_220119_scheduled_replacement_cost(data),
+                cas_2202_main_and_secondary_coolant(inputs, data),
+                cas_2203_auxilary_cooling(inputs, data),
+                cas_2204_radwaste(data),
+                cas_2205_fuel_handling_and_storage(inputs, data),
+                cas_2206_other_reactor_plant_equipment(data),
+                cas_2207_instrumentation_and_control(data),
+                cas_2200_reactor_plant_equipment_total(inputs, data),
+            ]
             + CAS23Data(inputs, data)
             + CAS24Data(inputs, data)
             + CAS25Data(inputs, data)

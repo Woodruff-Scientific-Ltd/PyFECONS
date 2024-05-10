@@ -1,6 +1,7 @@
-from pyfecons import FuelType, MW, Ratio
+from pyfecons.enums import FuelType
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.units import MW, Ratio
 
 POWER_TABLE_IFE_DT_TEX = 'powerTableIFEDT.tex'
 
