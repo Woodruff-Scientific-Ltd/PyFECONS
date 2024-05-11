@@ -11,7 +11,6 @@ def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO - delete as CAS22 is implemented
     cost_values['C220000'] = 0
     cost_values['C220100'] = 0
-    cost_values['C220101'] = 0
     cost_values['C220102'] = 0
     cost_values['C220103'] = 0
     cost_values['C220104'] = 0

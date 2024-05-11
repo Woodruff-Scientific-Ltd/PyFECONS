@@ -51,6 +51,22 @@ def Generate():
             p_target=MW(1),  # Power into target factory
             p_machinery=MW(1),  # Power into machinery
         ),
+        radial_build=RadialBuild(
+            # Radial thicknesses of concentric components (innermost to outermost)
+            axis_t=Meters(0),  # distance from r=0 to plasma central axis
+            plasma_t=Meters(0.0001),  # plasma radial thickness
+            vacuum_t=Meters(8.48),  # vacuum radial thickness
+            firstwall_t=Meters(0.005),  # first wall radial thickness
+            blanket1_t=Meters(0),  # blanket radial thickness
+            reflector_t=Meters(0.1),  # reflector radial thickness
+            ht_shield_t=Meters(0.1),  # High-temperature shield radial thickness
+            structure_t=Meters(0.2),  # support structure radial thickness
+            gap1_t=Meters(0.5),  # air gap radial thickness
+            vessel_t=Meters(0.2),  # vacuum vessel wall radial thickness
+            gap2_t=Meters(0.5),  # second air gap radial thickness
+            lt_shield_t=Meters(0.3),  # low-temperature shield radial thickness
+            bioshield_t=Meters(1),  # concrete bioshield radial thickness
+        ),
         lsa_levels=LsaLevels(
             lsa=2
         )
