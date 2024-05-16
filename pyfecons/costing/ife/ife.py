@@ -1,4 +1,5 @@
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs import Inputs
 from pyfecons.report import CostingData, ReportContent, HydratedTemplate
@@ -8,6 +9,7 @@ from pyfecons.costing.ife.CAS10 import cas_10
 from pyfecons.costing.ife.CAS21 import cas_21
 from pyfecons.costing.ife.cas22.CAS220101 import cas_220101_reactor_equipment
 from pyfecons.costing.ife.cas22.CAS220102 import cas_220102_shield
+from pyfecons.costing.ife.cas22.CAS220103 import cas_220103_lasers
 from pyfecons.costing.ife.CAS23 import cas_23
 from pyfecons.costing.ife.CAS24 import cas_24
 from pyfecons.costing.ife.CAS25 import cas_25
@@ -47,16 +49,18 @@ LOCAL_INCLUDED_FILES = {
     'StandardFigures/siteplan2023.eps': 'siteplan2023.eps',
     'StandardFigures/TIsketch.eps': 'TIsketch.eps',
     'StandardFigures/statista.png': 'statista.png',
+    'Figures/Bayrmanian2011.png': 'Bayrmanian2011.png',
 }
 
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
-    data = Data()
+    data = Data(reactor_type=ReactorType.IFE)
     template_providers = [
         power_balance(inputs, data),
         cas_10(inputs, data),
         cas_220101_reactor_equipment(inputs, data),
         cas_220102_shield(inputs, data),
+        cas_220103_lasers(inputs, data),
         cas_21(inputs, data),
         cas_23(inputs, data),
         cas_24(inputs, data),

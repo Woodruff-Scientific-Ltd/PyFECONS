@@ -362,6 +362,18 @@ class Financial:
 
 
 @dataclass
+class Lasers:
+    # Learning curve cost or time reduction between first and nth beamlet construction (default 5x)
+    # TODO this is not used
+    beamlet_learning_curve: Ratio = None
+    # Beamlet learning curve coefficient b
+    beamlet_learning_curve_coefficient_b: Ratio = None
+    # NIF Laser energy for scaling (see
+    # https://docs.google.com/spreadsheets/d/1sMNzOweYvZCR1BeCXR4IciHEikYyZ0a11XpnLshR6DU/edit#gid=1102621340
+    # for justification of linear scaling)
+    nif_laser_energy: MJ = None
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default_factory=CustomerInfo)
@@ -370,7 +382,8 @@ class Inputs(SerializableToJSON):
     radial_build: RadialBuild = field(default_factory=RadialBuild)
     shield: Shield = field(default_factory=Shield)
     blanket: Blanket = field(default_factory=Blanket)
-    coils: Coils = field(default_factory=Coils)
+    lasers: Lasers = field(default=None)
+    coils: Coils = field(default=None)
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
     primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
     vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)

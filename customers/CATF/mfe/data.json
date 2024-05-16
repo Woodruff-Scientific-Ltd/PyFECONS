@@ -1,4 +1,5 @@
 {
+    "reactor_type": "MFE",
     "power_table": {
         "replacements": {
             "PNRL": 2600.0,

@@ -1,3 +1,4 @@
+from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.templates import read_template, hydrate_templates, combine_figures
 from pyfecons.inputs import Inputs
@@ -68,7 +69,7 @@ LOCAL_INCLUDED_FILES = {
 }
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
-    data = Data()
+    data = Data(reactor_type=ReactorType.MFE)
     template_providers = [
         power_balance(inputs, data),
         cas_10(inputs, data),

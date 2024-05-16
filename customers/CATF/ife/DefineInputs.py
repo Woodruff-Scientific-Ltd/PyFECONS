@@ -1,3 +1,5 @@
+import numpy as np
+
 from pyfecons.inputs import *
 from pyfecons.enums import *
 from pyfecons.units import *
@@ -73,6 +75,11 @@ def Generate():
             FPCPPFbLi=Ratio(0.1),
             f_W=Ratio(0.00),
             f_BFS=Ratio(0.9),
+        ),
+        lasers=Lasers(
+            beamlet_learning_curve=Ratio(5),
+            beamlet_learning_curve_coefficient_b=Ratio(np.log(1/5) / np.log(288)),
+            nif_laser_energy=MJ(4.7),
         ),
         lsa_levels=LsaLevels(
             lsa=2

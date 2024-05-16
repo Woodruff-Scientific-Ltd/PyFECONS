@@ -73,6 +73,7 @@
         "neutron_multiplier": "BE12TI",
         "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
     },
+    "lasers": null,
     "coils": {
         "magnets": [
             {

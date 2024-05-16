@@ -96,7 +96,14 @@ class Unknown(float):
     def __str__(self):
         return f"{self:.2f}"
 
+
 # Hertz
 class HZ(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Megajoules
+class MJ(float):
     def __str__(self):
         return f"{self:.2f}"

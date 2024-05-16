@@ -1,3 +1,5 @@
+from typing import Union
+
 from pyfecons.inputs import *
 from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
@@ -175,7 +177,7 @@ class CAS220102(TemplateProvider):
 
 
 @dataclass
-class CAS220103(TemplateProvider):
+class CAS220103Coils(TemplateProvider):
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
     no_pf_coils: Count = None
@@ -204,6 +206,11 @@ class CAS220103(TemplateProvider):
     @property
     def pf_coils(self) -> list[MagnetProperties]:
         return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.PF]
+
+
+@dataclass
+class CAS220103Lasers(TemplateProvider):
+    C220103: M_USD = None
 
 
 @dataclass
@@ -474,13 +481,14 @@ class CostTable(TemplateProvider):
 
 @dataclass
 class Data(SerializableToJSON):
+    reactor_type: ReactorType
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
     cas220101: CAS220101 = field(default_factory=CAS220101)
     cas220102: CAS220102 = field(default_factory=CAS220102)
-    cas220103: CAS220103 = field(default_factory=CAS220103)
+    cas220103: Union[CAS220103Coils, CAS220103Lasers] = field(default=None)
     cas220104: CAS220104 = field(default_factory=CAS220104)
     cas220105: CAS220105 = field(default_factory=CAS220105)
     cas220106: CAS220106 = field(default_factory=CAS220106)
@@ -512,3 +520,15 @@ class Data(SerializableToJSON):
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
     cost_table: CostTable = field(default_factory=CostTable)
+
+    def __post_init__(self):
+        if self.cas220103 is None:
+            self.cas220103 = self._initialize_cas220103()
+
+    def _initialize_cas220103(self) -> Union[CAS220103Coils, CAS220103Lasers]:
+        if self.reactor_type == ReactorType.MFE:
+            return CAS220103Coils()
+        elif self.reactor_type == ReactorType.IFE:
+            return CAS220103Lasers()
+        else:  # mif
+            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
