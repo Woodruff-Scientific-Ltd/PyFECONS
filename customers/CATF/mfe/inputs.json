@@ -59,6 +59,12 @@
         "lt_shield_t": 0.3,
         "bioshield_t": 1.0
     },
+    "shield": {
+        "f_SiC": 0.0,
+        "FPCPPFbLi": 0.1,
+        "f_W": 0.0,
+        "f_BFS": 0.9
+    },
     "blanket": {
         "first_wall": "BERYLLIUM",
         "blanket_type": "SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3",

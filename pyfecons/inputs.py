@@ -90,6 +90,15 @@ class RadialBuild:
 
 
 @dataclass
+class Shield:
+    # fractions
+    f_SiC: Ratio = None
+    FPCPPFbLi: Ratio = None
+    f_W: Ratio = None
+    f_BFS: Ratio = None
+
+
+@dataclass
 class Blanket:
     first_wall: BlanketFirstWall = None
     blanket_type: BlanketType = None
@@ -359,6 +368,7 @@ class Inputs(SerializableToJSON):
     basic: Basic = field(default_factory=Basic)
     power_table: PowerTable = field(default_factory=PowerTable)
     radial_build: RadialBuild = field(default_factory=RadialBuild)
+    shield: Shield = field(default_factory=Shield)
     blanket: Blanket = field(default_factory=Blanket)
     coils: Coils = field(default_factory=Coils)
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)

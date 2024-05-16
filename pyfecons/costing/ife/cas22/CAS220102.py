@@ -27,7 +27,8 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     V_HTS_BFS = OUT.V_HTS * shield.f_BFS
 
     # The cost C_22_1_2 is the same as C_HTS
-    OUT.C22010201 = M_USD(round(C_HTS, 1))
+    # TODO what's the *5 for?
+    OUT.C22010201 = M_USD(round(C_HTS * 5, 1))
     OUT.C22010202 = k_to_m_usd(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m)
     OUT.C22010203 = k_to_m_usd(cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m)
     OUT.C22010204 = M_USD(OUT.C22010203 * 0.1)
@@ -36,14 +37,15 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.template_file = 'CAS220102.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
-        'C220102__': round(data.cas220102.C220102),
-        'C22010201': round(data.cas220102.C22010201),
-        'C22010202': round(data.cas220102.C22010202),
-        'C22010203': round(data.cas220102.C22010203),
-        'C22010204': round(data.cas220102.C22010204),
-        'V220102': round(data.cas220102.V_HTS),  # Missing from CAS220102.tex
+        'C22010201': round(OUT.C22010201),
+        'C22010202': round(OUT.C22010202),
+        'C22010203': round(OUT.C22010203),
+        'C22010204': round(OUT.C22010204),
+        'C220102XX': round(OUT.C220102),
+        'V220102': round(OUT.V_HTS),  # TODO not in template
         'primaryC': inputs.blanket.primary_coolant.display_name,
         'VOL9': round(data.cas220101.ht_shield_vol),
-        'VOL11': round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
+        'VOL10': round(data.cas220101.lt_shield_vol),
+        'VOL14': round(data.cas220101.bioshield_vol),  # TODO not in template
     }
     return OUT

@@ -59,6 +59,12 @@
         "lt_shield_t": 0.3,
         "bioshield_t": 1.0
     },
+    "shield": {
+        "f_SiC": 0.0,
+        "FPCPPFbLi": 0.1,
+        "f_W": 0.0,
+        "f_BFS": 0.9
+    },
     "blanket": {
         "first_wall": "LIQUID_LITHIUM",
         "blanket_type": "FLOWING_LIQUID_FIRST_WALL",

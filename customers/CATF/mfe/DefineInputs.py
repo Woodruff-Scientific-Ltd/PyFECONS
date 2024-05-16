@@ -69,6 +69,13 @@ def Generate():
             lt_shield_t = Meters(0.3),
             bioshield_t = Meters(1),
         ),
+        # TODO clarify where shield fractions come from
+        shield=Shield(
+            f_SiC=Ratio(0.00),
+            FPCPPFbLi=Ratio(0.1),
+            f_W=Ratio(0.00),
+            f_BFS=Ratio(0.9),
+        ),
         coils=Coils(magnets=[
             Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), tf_dr, Meters(0.35), Ratio(0), 20, 5),
             Magnet('CS', MagnetType.CS, MagnetMaterialType.HTS_CICC, 1, Meters(0.18), Meters(0), Meters(0.2), Meters(6.3), Ratio(0), 20, 10),

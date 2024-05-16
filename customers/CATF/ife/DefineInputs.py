@@ -5,7 +5,7 @@ from pyfecons.units import *
 
 def Generate():
     p_nrl = MW(2500)  # Fusion Power
-    p_implosion = MW(10) # Implosion laser power
+    p_implosion = MW(10)  # Implosion laser power
     p_ignition = MW(0.1)  # Ignition laser power
     return Inputs(
         CustomerInfo(name="Clean Air Task Force"),
@@ -66,6 +66,13 @@ def Generate():
             gap2_t=Meters(0.5),  # second air gap radial thickness
             lt_shield_t=Meters(0.3),  # low-temperature shield radial thickness
             bioshield_t=Meters(1),  # concrete bioshield radial thickness
+        ),
+        # TODO clarify where shield fractions come from
+        shield=Shield(
+            f_SiC=Ratio(0.00),
+            FPCPPFbLi=Ratio(0.1),
+            f_W=Ratio(0.00),
+            f_BFS=Ratio(0.9),
         ),
         lsa_levels=LsaLevels(
             lsa=2
