@@ -1,5 +1,6 @@
 import os
 import requests
+from importlib import resources
 from urllib.parse import urljoin
 
 
@@ -82,3 +83,11 @@ def base_name(file_path: str) -> str:
 
 def base_name_without_extension(file_path: str) -> str:
     return os.path.splitext(base_name(file_path))[0]
+
+
+def get_local_included_files_map(included_files_path: str, local_included_files: dict[str, str]) -> dict[str, str]:
+    file_map = {}
+    for tex_path, template_file in local_included_files.items():
+        res_path = resources.files(included_files_path).joinpath(template_file)
+        file_map[tex_path] = str(res_path)
+    return file_map

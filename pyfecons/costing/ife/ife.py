@@ -1,6 +1,5 @@
-from importlib import resources
-
 from pyfecons.data import Data, TemplateProvider
+from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs import Inputs
 from pyfecons.report import CostingData, ReportContent, HydratedTemplate
 from pyfecons.templates import read_template, hydrate_templates
@@ -79,16 +78,8 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
 def CreateReportContent(costing_data: CostingData) -> ReportContent:
     document_template = load_document_template()
     hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers)
-    included_files = get_included_files_map()
+    included_files = get_local_included_files_map(INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES)
     return ReportContent(document_template, hydrated_templates, included_files)
-
-
-def get_included_files_map() -> dict[str, str]:
-    file_map = {}
-    for tex_path, template_file in LOCAL_INCLUDED_FILES.items():
-        with resources.path(INCLUDED_FILES_PATH, template_file) as res_path:
-            file_map[tex_path] = str(res_path)
-    return file_map
 
 
 def load_document_template() -> HydratedTemplate:

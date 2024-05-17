@@ -1,4 +1,4 @@
-from pyfecons.helpers import load_remote_included_files, load_github_images
+from pyfecons.helpers import get_local_included_files_map
 from pyfecons.templates import read_template, hydrate_templates, combine_figures
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
@@ -44,33 +44,28 @@ from pyfecons.report import ReportContent, CostingData, HydratedTemplate
 
 TEMPLATES_PATH = 'pyfecons.costing.mfe.templates'
 DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
-BASE_URL = 'https://raw.githubusercontent.com/Woodruff-Scientific-Ltd/PyFECONS/'
-CACHE = 'temp/cache/mfe'
-# GitHub files to include in the tex compilation: tex file path -> remote path
-INCLUDED_FILES = {
-    'ST-SC.bib': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/ST-SC.bib',
-    'additions.bib': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/additions.bib',
-    'glossary.tex': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/glossary.tex',
-    'IEEEtran.bst': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/IEEEtran.bst',
-    'Originals/method.tex': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/method.tex',
-    'Originals/powerBalanceMFEDT.tex': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/powerBalanceMFEDT.tex',
-    'StandardFigures/power.eps': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/power.eps',
-    'Originals/CAS220100_MFE.tex': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/CAS220100_MFE.tex',
-    'StandardFigures/siteplan2023.eps': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/siteplan2023.eps',
-    'StandardFigures/TIsketch.eps': '884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/TIsketch.eps',
-}
-# GitHub images to include in the tex compilation: tex file path -> remote path
-INCLUDED_IMAGES = {
-    'Figures/MFE.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Figures/MFE.png?raw=true',
-    'StandardFigures/WSLTD_logo.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/WSLTD_logo.png?raw=true',
-    'StandardFigures/signature.jpg': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/signature.jpg?raw=true',
-    'StandardFigures/costcategories.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/costcategories.png?raw=true',
-    'StandardFigures/yuhu_cs.pdf': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/yuhu_cs.pdf?raw=true',
-    'Figures/cooling_efficiency.pdf': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Figures/cooling_efficiency.pdf?raw=true',
-    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/steamPbLi-eps-converted-to.pdf?raw=true',
-    'StandardFigures/statista.png': 'https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/StandardFigures/statista.png?raw=true',
-}
+INCLUDED_FILES_PATH = 'pyfecons.costing.mfe.included_files'
 
+LOCAL_INCLUDED_FILES = {
+    'ST-SC.bib': 'ST-SC.bib',
+    'additions.bib': 'additions.bib',
+    'glossary.tex': 'glossary.tex',
+    'IEEEtran.bst': 'IEEEtran.bst',
+    'Originals/CAS220100_MFE.tex': 'Originals/CAS220100_MFE.tex',
+    'Originals/method.tex': 'Originals/method.tex',
+    'Originals/powerBalanceMFEDT.tex': 'Originals/powerBalanceMFEDT.tex',
+    'Figures/cooling_efficiency.pdf': 'Figures/cooling_efficiency.pdf',
+    'Figures/MFE.png': 'Figures/MFE.png',
+    'StandardFigures/TIsketch.eps': 'StandardFigures/TIsketch.eps',
+    'StandardFigures/WSLTD_logo.png': 'StandardFigures/WSLTD_logo.png',
+    'StandardFigures/costcategories.png': 'StandardFigures/costcategories.png',
+    'StandardFigures/power.eps': 'StandardFigures/power.eps',
+    'StandardFigures/signature.jpg': 'StandardFigures/signature.jpg',
+    'StandardFigures/siteplan2023.eps': 'StandardFigures/siteplan2023.eps',
+    'StandardFigures/statista.png': 'StandardFigures/statista.png',
+    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
+    'StandardFigures/yuhu_cs.pdf': 'StandardFigures/yuhu_cs.pdf',
+}
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data()
@@ -128,6 +123,5 @@ def CreateReportContent(costing_data: CostingData) -> ReportContent:
     document_template = load_document_template()
     hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers)
     figures = combine_figures(costing_data.template_providers)
-    included_files = load_remote_included_files(CACHE, BASE_URL, INCLUDED_FILES)
-    included_files = included_files | load_github_images(CACHE, INCLUDED_IMAGES)
+    included_files = get_local_included_files_map(INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES)
     return ReportContent(document_template, hydrated_templates, included_files, figures)
