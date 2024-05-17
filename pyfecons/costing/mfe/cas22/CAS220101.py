@@ -1,13 +1,14 @@
-from io import BytesIO
-
 import numpy as np
+import matplotlib
+from io import BytesIO
 from matplotlib import pyplot as plt
-
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.enums import BlanketFirstWall, BlanketType
 from pyfecons.inputs import Inputs, RadialBuild
 from pyfecons.units import Meters3, Meters, M_USD
+
+matplotlib.use('Agg')
 
 
 def cas_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProvider:
@@ -105,11 +106,9 @@ def cas_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProvider
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER:
         OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li.rho * materials.Li.c_raw * materials.Li.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4:
-        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw
-                                   * materials.Li4SiO4.m)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li4SiO4.rho * materials.Li4SiO4.c_raw * materials.Li4SiO4.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3:
-        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw
-                                   * materials.Li2TiO3.m)
+        OUT.C22010102 = to_m_usd(OUT.blanket1_vol * materials.Li2TiO3.rho * materials.Li2TiO3.c_raw * materials.Li2TiO3.m)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL:
         OUT.C22010102 = M_USD(0)
 
@@ -235,4 +234,5 @@ def plot_radial_build(radial_build: RadialBuild) -> bytes:
     figure_data = BytesIO()
     fig.savefig(figure_data, format='pdf', bbox_inches='tight')
     figure_data.seek(0)
-    return figure_data.getvalue()
+    plt.close(fig)
+    return figure_data.read()
