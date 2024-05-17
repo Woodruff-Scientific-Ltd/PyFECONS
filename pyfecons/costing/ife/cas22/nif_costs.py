@@ -80,3 +80,13 @@ NIF_OPTICS_COSTS = {
     "Elbow mirrors (BK7)": NifOpticsCost(full_system=M_USD(6.471088), beamlet=M_USD(22.3236)),
     "Totals": NifOpticsCost(full_system=M_USD(239.805708), beamlet=M_USD(827.3724))
 }
+
+
+def get_nif_replacements(scaled_costs: dict[str, NifCost]) -> dict[str, str]:
+    replacements = {}
+    for nif_cost in scaled_costs.values():
+        replacements[nif_cost.base_key + 'Procurement'] = str(round(nif_cost.procurement, 1))
+        replacements[nif_cost.base_key + 'Design'] = str(round(nif_cost.design, 1))
+        replacements[nif_cost.base_key + 'Assembly'] = str(round(nif_cost.assembly, 1))
+        replacements[nif_cost.base_key + 'Total'] = str(round(nif_cost.total, 1))
+    return replacements

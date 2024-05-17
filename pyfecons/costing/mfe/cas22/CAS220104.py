@@ -1,4 +1,4 @@
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data, TemplateProvider, CAS220104SupplementaryHeating
 from pyfecons.helpers import safe_round
 from pyfecons.inputs import Inputs
 from pyfecons.units import M_USD
@@ -7,7 +7,9 @@ from pyfecons.units import M_USD
 def cas_220104_supplementary_heating(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.4 Supplementary heating
     IN = inputs.supplementary_heating
-    OUT = data.cas220104
+    OUT: CAS220104SupplementaryHeating = data.cas220104
+    assert isinstance(OUT, CAS220104SupplementaryHeating)
+
     OUT.C22010401 = M_USD(IN.average_nbi.cost_2023 * IN.nbi_power)
     OUT.C22010402 = M_USD(IN.average_icrf.cost_2023 * IN.icrf_power)
     OUT.C220104 = M_USD(OUT.C22010401 + OUT.C22010402)
