@@ -5,7 +5,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='pyfecons',
-    version='0.0.25',
+    version='0.0.26',
     author='nTtau Digital LTD',
     author_email='info@nttaudigital.com',
     description='Library for nTtau PyFECONS costing calculations.',
@@ -22,7 +22,12 @@ setup(
     ],
     python_requires='>=3.9',
     package_data={
-        '': ['*.tex'],
+        '': [
+            'pyfecons/costing/mfe/included_files/**',
+            'pyfecons/costing/mfe/templates/**',
+            'pyfecons/costing/ife/included_files/**',
+            'pyfecons/costing/ife/templates/**',
+        ],
     },
     include_package_data=True,
 )
