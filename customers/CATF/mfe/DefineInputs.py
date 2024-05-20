@@ -88,5 +88,8 @@ def Generate():
             Magnet('PF7', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(3.6), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
             Magnet('PF8', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(2.2), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
         ]),
-        primary_structure=PrimaryStructure(syst_pga=StructurePga.PGA_03, learning_credit=0.5),
+        primary_structure=PrimaryStructure(
+            syst_pga=StructurePga.PGA_03,
+            learning_credit=Ratio(0.5)
+        ),
     )

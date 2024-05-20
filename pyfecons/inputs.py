@@ -244,7 +244,7 @@ class PgaCosts():
 class PrimaryStructure():
     # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
     syst_pga: StructurePga = None
-    learning_credit: float = None
+    learning_credit: Ratio = None
 
     analyze_costs: M_USD = 30
     unit1_seismic_costs: M_USD = 25

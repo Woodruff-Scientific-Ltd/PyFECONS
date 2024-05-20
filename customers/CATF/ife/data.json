@@ -489,13 +489,19 @@
         "C220104": 70.87797522981333
     },
     "cas220105": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C22010501": "164",
+            "C22010502": "214",
+            "C22010500": "378",
+            "systPGA": "0.1",
+            "PNRL": "2500"
+        },
+        "template_file": "CAS220105.tex",
+        "tex_path": "Modified/CAS220105.tex",
         "figures": {},
-        "C22010501": null,
-        "C22010502": null,
-        "C220105": null
+        "C22010501": 164.4096925,
+        "C22010502": 213.81938499999998,
+        "C220105": 378.2290775
     },
     "cas220106": {
         "replacements": {},

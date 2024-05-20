@@ -83,5 +83,9 @@ def Generate():
         ),
         lsa_levels=LsaLevels(
             lsa=2
-        )
+        ),
+        primary_structure=PrimaryStructure(
+            syst_pga=StructurePga.PGA_01,
+            learning_credit=Ratio(0.5)
+        ),
     )

@@ -168,8 +168,8 @@
         }
     },
     "primary_structure": {
-        "syst_pga": null,
-        "learning_credit": null,
+        "syst_pga": 0.1,
+        "learning_credit": 0.5,
         "analyze_costs": 30,
         "unit1_seismic_costs": 25,
         "reg_rev_costs": 30,
