@@ -92,4 +92,19 @@ def Generate():
             syst_pga=StructurePga.PGA_03,
             learning_credit=Ratio(0.5)
         ),
+        vacuum_system=VacuumSystem(
+            learning_credit=Ratio(0.5),
+            spool_ir=Meters(2.25),
+            spool_or=Meters(3.15),
+            door_irb=Meters(6),
+            door_orb=Meters(6.25),
+            door_irc=Meters(7.81),
+            door_orc=Meters(8.06),
+            spool_height=Meters(9),
+            # assume 1 second vac rate
+            # cost of 1 vacuum pump, scaled from 1985 dollars
+            cost_pump=USD(40000),
+            # 48 pumps needed for 200^3 system
+            vpump_cap=Meters3(200 / 48)
+        )
     )

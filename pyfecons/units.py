@@ -107,3 +107,9 @@ class HZ(float):
 class MJ(float):
     def __str__(self):
         return f"{self:.2f}"
+
+
+# Temperature Kelvin
+class K(float):
+    def __str__(self):
+        return f"{self:.2f}"

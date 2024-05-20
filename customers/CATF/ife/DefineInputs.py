@@ -88,4 +88,19 @@ def Generate():
             syst_pga=StructurePga.PGA_01,
             learning_credit=Ratio(0.5)
         ),
+        vacuum_system=VacuumSystem(
+            t_cool=K(20),
+            t_env=K(300),
+            ves_mfr=Ratio(10),
+            beam_cs_area=Meters2(0.03),
+            factor_of_safety=Ratio(3),
+            geometry_factor=Ratio(10),
+            beam_length=Meters(5),
+            # assume 1 second vac rate
+            # cost of 1 vacuum pump, scaled from 1985 dollars
+            cost_pump=USD(40000),
+            # 48 pumps needed for 200^3 system
+            # capable of beign pumped by 1 pump
+            vpump_cap=Meters3(200/48)
+        )
     )

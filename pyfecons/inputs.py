@@ -275,24 +275,43 @@ class VacuumSystem:
     # 22.1.6.1 Vacuum Vessel
 
     # Scaling parameters INPUTS
-    learning_credit: Ratio = 0.5
+    learning_credit: Ratio = None
 
     # Reference values for scaling
     # TODO confirm these units
-    spool_ir: Meters = 2.25
-    spool_or: Meters = 3.15
-    door_irb: Meters = 6
-    door_orb: Meters = 6.25
-    door_irc: Meters = 7.81
-    door_orc: Meters = 8.06
-    spool_height: Meters = 9
+    spool_ir: Meters = None
+    spool_or: Meters = None
+    door_irb: Meters = None
+    door_orb: Meters = None
+    door_irc: Meters = None
+    door_orc: Meters = None
+    spool_height: Meters = None
 
     # VACUUM PUMPING 22.1.6.3
-    # assume 1 second vac rate
-    # cost of 1 vacuum pump, scaled from 1985 dollars
-    cost_pump: float = 40000
-    # 48 pumps needed for 200^3 system
-    vpump_cap: float = 200 / 48  # m^3 capable of being pumped by 1 pump
+    cost_pump: USD = None
+    # m^3 capable of being pumped by 1 pump
+    vpump_cap: Meters3 = None
+
+    # Temperature inputs
+    # Target temperature of vacuum vessel
+    t_cool: K = None
+    # Temperature of environment exterior to vacuum vessel (to be pumped from)
+    t_env: K = None
+
+    # vessel construction manufacturing factor
+    ves_mfr: Ratio = None
+
+    # Support beams
+    # cross-sectional area of single steel I beam, order of magnitude estimate, depends on specific beam,
+    # see https://www.engineersedge.com/standard_material/Steel_ibeam_properties.htm
+    beam_cs_area: Meters2 = None
+    # Engineering factor of safety
+    factor_of_safety: Ratio = None
+    # geometry factor for uneven force distribution
+    geometry_factor: Ratio = None
+    # average support beam length
+    beam_length: Meters = None
+
 
 
 @dataclass
