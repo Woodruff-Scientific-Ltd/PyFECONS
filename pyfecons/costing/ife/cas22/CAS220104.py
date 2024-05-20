@@ -8,7 +8,7 @@ def cas_220104_ignition_lasers(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT: CAS220104IgnitionLasers = data.cas220104
     assert isinstance(OUT, CAS220104IgnitionLasers)
 
-    scaled_costs = get_nif_scaled_costs(inputs.power_table.p_implosion, inputs.lasers)
+    scaled_costs = get_nif_scaled_costs(inputs.power_table.p_ignition, inputs.lasers)
     replacements = get_nif_replacements(scaled_costs)
 
     replacements['C220103'] = str(round(data.cas220103.C220103))
