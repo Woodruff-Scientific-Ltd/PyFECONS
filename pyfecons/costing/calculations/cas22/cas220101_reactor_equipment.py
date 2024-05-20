@@ -1,14 +1,15 @@
+import matplotlib
 from io import BytesIO
 from typing import Dict
-
 from matplotlib import pyplot as plt
-
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType
 from pyfecons.inputs import RadialBuild, Blanket
 from pyfecons.materials import Materials, Material
 from pyfecons.units import M_USD
+
+matplotlib.use('Agg')
 
 
 def compute_inner_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101):
@@ -138,7 +139,8 @@ def plot_radial_build(reactor_type: ReactorType, radial_build: RadialBuild) -> b
     figure_data = BytesIO()
     fig.savefig(figure_data, format='pdf', bbox_inches='tight')
     figure_data.seek(0)
-    return figure_data.getvalue()
+    plt.close(fig)
+    return figure_data.read()
 
 
 def compute_220101_replacements(reactor_type: ReactorType, blanket: Blanket,
