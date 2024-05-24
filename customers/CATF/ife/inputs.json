@@ -215,7 +215,13 @@
     },
     "power_supplies": {
         "learning_credit": 0.5,
-        "cost_per_watt": 1
+        "cost_per_watt": 1.0,
+        "p_compress": 1.0,
+        "cap_temp": 60.0,
+        "cap_temp_ambient": 20.0,
+        "cap_temp_delta": 30.0,
+        "cap_voltage": 20000.0,
+        "cap_l1": 50000.0
     },
     "direct_energy_converter": {
         "system_power": 1,

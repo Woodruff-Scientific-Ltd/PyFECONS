@@ -106,5 +106,10 @@ def Generate():
             cost_pump=USD(40000),
             # 48 pumps needed for 200^3 system
             vpump_cap=Meters3(200 / 48)
+        ),
+        power_supplies=PowerSupplies(
+            learning_credit=Ratio(0.5),
+            # $1/W power supply industry rule of thumb
+            cost_per_watt=USD_W(1),
         )
     )

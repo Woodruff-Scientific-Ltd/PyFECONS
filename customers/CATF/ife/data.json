@@ -587,13 +587,20 @@
         }
     },
     "cas220107": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
-        "figures": {},
-        "C22010701": null,
-        "C22010702": null,
-        "C220107": null
+        "replacements": {
+            "C22010700": 1349,
+            "C22010701": 1,
+            "C22010702": 1348,
+            "PNRL": 2500
+        },
+        "template_file": "CAS220107_IFE.tex",
+        "tex_path": "Modified/CAS220107_IFE.tex",
+        "figures": {
+            "Figures/cap_derate.pdf": ""
+        },
+        "C22010701": 1.0,
+        "C22010702": 1348.0,
+        "C220107": 1349.0
     },
     "cas220108": {
         "replacements": {},

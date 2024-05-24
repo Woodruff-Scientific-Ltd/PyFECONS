@@ -102,5 +102,16 @@ def Generate():
             # 48 pumps needed for 200^3 system
             # capable of beign pumped by 1 pump
             vpump_cap=Meters3(200/48)
-        )
+        ),
+        power_supplies=PowerSupplies(
+            # 1$/W power supply rule of thumb
+            cost_per_watt=USD_W(1),
+            p_compress=Unknown(1),
+            learning_credit=Ratio(0.5),
+            cap_temp=K(60),
+            cap_temp_ambient=K(20),
+            cap_temp_delta=K(30),
+            cap_voltage=V(20000),
+            cap_l1=Unknown(50000),
+        ),
     )

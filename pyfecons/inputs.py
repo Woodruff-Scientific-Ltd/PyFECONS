@@ -313,11 +313,16 @@ class VacuumSystem:
     beam_length: Meters = None
 
 
-
 @dataclass
 class PowerSupplies:
-    learning_credit: Unknown = 0.5
-    cost_per_watt: Unknown = 1  # $1/W power supply industry rule of thumb
+    learning_credit: Ratio = None
+    cost_per_watt: USD_W = None
+    p_compress: Unknown = None
+    cap_temp: K = None  # max temp rating of the film capacitor
+    cap_temp_ambient: K = None  # ambient temperature of the application
+    cap_temp_delta: K = None  # temperature rise due to ripple current
+    cap_voltage: V = None  # rated voltage of capacitor
+    cap_l1: Unknown = None  # load life rating of the film capacitor
 
 
 @dataclass

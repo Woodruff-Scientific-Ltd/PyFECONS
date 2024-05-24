@@ -13,6 +13,7 @@ from pyfecons.costing.ife.cas22.CAS220103 import cas_220103_lasers
 from pyfecons.costing.ife.cas22.CAS220104 import cas_220104_ignition_lasers
 from pyfecons.costing.ife.cas22.CAS220105 import cas_220105_primary_structure
 from pyfecons.costing.ife.cas22.CAS220106 import cas_220106_vacuum_system
+from pyfecons.costing.ife.cas22.CAS220107 import cas_220107_power_supplies
 from pyfecons.costing.ife.CAS23 import cas_23
 from pyfecons.costing.ife.CAS24 import cas_24
 from pyfecons.costing.ife.CAS25 import cas_25
@@ -67,6 +68,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_220104_ignition_lasers(inputs, data),
         cas_220105_primary_structure(inputs, data),
         cas_220106_vacuum_system(inputs, data),
+        cas_220107_power_supplies(inputs, data),
         cas_21(inputs, data),
         cas_23(inputs, data),
         cas_24(inputs, data),
