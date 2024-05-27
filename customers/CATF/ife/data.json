@@ -686,11 +686,13 @@
         "C220111": 57.599999999999994
     },
     "cas220119": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C220119": "0"
+        },
+        "template_file": "CAS220119.tex",
+        "tex_path": "Modified/CAS220119.tex",
         "figures": {},
-        "C220119": null
+        "C220119": 0.0
     },
     "cas2202": {
         "replacements": {},

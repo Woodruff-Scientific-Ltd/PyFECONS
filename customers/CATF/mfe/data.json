@@ -1122,7 +1122,7 @@
     },
     "cas220119": {
         "replacements": {
-            "C220119": "0.00"
+            "C220119": "0"
         },
         "template_file": "CAS220119.tex",
         "tex_path": "Modified/CAS220119.tex",
