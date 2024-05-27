@@ -292,6 +292,9 @@
         "a_power": 1000.0,
         "capital_recovery_factor": 0.09
     },
+    "target_factory": {
+        "learning_credit": 0.8
+    },
     "materials": {
         "FS": {
             "name": "Ferritic Steel",

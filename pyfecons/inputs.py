@@ -397,6 +397,12 @@ class Lasers:
     # for justification of linear scaling)
     nif_laser_energy: MJ = None
 
+
+@dataclass
+class TargetFactory:
+    learning_credit: Ratio = field(default=None)
+
+
 @dataclass
 class Inputs(SerializableToJSON):
     # User inputs
@@ -417,6 +423,7 @@ class Inputs(SerializableToJSON):
     fuel_handling: FuelHandling = field(default_factory=FuelHandling)
     lsa_levels: LsaLevels = field(default_factory=LsaLevels)
     financial: Financial = field(default_factory=Financial)
+    target_factory: TargetFactory = field(default=None)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

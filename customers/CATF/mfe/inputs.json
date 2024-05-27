@@ -472,7 +472,13 @@
     },
     "power_supplies": {
         "learning_credit": 0.5,
-        "cost_per_watt": 1
+        "cost_per_watt": 1.0,
+        "p_compress": null,
+        "cap_temp": null,
+        "cap_temp_ambient": null,
+        "cap_temp_delta": null,
+        "cap_voltage": null,
+        "cap_l1": null
     },
     "direct_energy_converter": {
         "system_power": 1,
@@ -543,6 +549,7 @@
         "a_power": 1000.0,
         "capital_recovery_factor": 0.09
     },
+    "target_factory": null,
     "materials": {
         "FS": {
             "name": "Ferritic Steel",

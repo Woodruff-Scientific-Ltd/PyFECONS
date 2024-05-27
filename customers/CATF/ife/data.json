@@ -603,20 +603,26 @@
         "C220107": 1349.0
     },
     "cas220108": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
-        "figures": {},
-        "C220108": null,
-        "divertor_maj_rad": null,
-        "divertor_min_rad": null,
-        "divertor_thickness_z": null,
-        "divertor_thickness_r": null,
-        "divertor_material": null,
-        "divertor_vol": null,
-        "divertor_mass": null,
-        "divertor_mat_cost": null,
-        "divertor_cost": null
+        "replacements": {
+            "C220108": 0,
+            "cvdDiamondAblatorCosts": "256.3 & 41323.2 & 27.4 & 74.4 & 5.7 & 34.5 & 6.4 & 0.1",
+            "dtFillCosts": "58.4 & 1904.5 & 0.0 & 72.3 & 5.6 & 4.2 & 1.5 & 0.0",
+            "hohlraumPressCosts": "4.1 & 697.0 & 0.0 & 3.9 & 0.3 & 0.8 & 0.1 & 0.0",
+            "tentAssyCosts": "15.4 & 582.2 & 0.0 & 1.7 & 0.1 & 0.6 & 0.4 & 0.0",
+            "hohlraumCapsuleAssy": "86.1 & 2066.4 & 0.0 & 2.2 & 0.2 & 2.6 & 2.2 & 0.0",
+            "lehWindowAttach": "93.3 & 2992.0 & 0.0 & 93.1 & 7.2 & 3.2 & 2.3 & 0.0",
+            "dtIceForm": "1.0 & 27.7 & 0.6 & 2.3 & 0.2 & 0.4 & 0.0 & 0.0",
+            "recoverAndRecycle": "None & None & None & None & None & None & None & 0.0",
+            "facilityManagementCosts": "None & 2050.0 & None & 0.5 & 0.0 & 0.1 & 6.4 & 0.0",
+            "totalProcess": "514.6 & 51643.0 & 28.0 & 250.5 & 19.2 & 46.3 & 19.3 & 0.2",
+            "addMaterial": "None & None & None & None & None & None & None & 0.0"
+        },
+        "template_file": "CAS220108_IFE.tex",
+        "tex_path": "Modified/CAS220108_IFE.tex",
+        "figures": {
+            "Figures/targetPFR.pdf": ""
+        },
+        "C220108": 0.00025051872307089605
     },
     "cas220109": {
         "replacements": {},

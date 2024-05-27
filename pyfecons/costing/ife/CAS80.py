@@ -1,5 +1,5 @@
 from pyfecons.costing.calculations.interpolation import interpolate_data, get_interpolated_value
-from pyfecons.costing.ife.constants import yearlytcost_pfr_coords
+from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 

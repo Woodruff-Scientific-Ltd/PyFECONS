@@ -114,4 +114,7 @@ def Generate():
             cap_voltage=V(20000),
             cap_l1=Unknown(50000),
         ),
+        target_factory=TargetFactory(
+            learning_credit=Ratio(0.8)
+        )
     )
