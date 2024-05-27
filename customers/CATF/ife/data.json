@@ -675,11 +675,15 @@
         }
     },
     "cas220111": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C220111": "57.60",
+            "constructionTime": 6,
+            "billingRate": 1600
+        },
+        "template_file": "CAS220111.tex",
+        "tex_path": "Modified/CAS220111.tex",
         "figures": {},
-        "C220111": null
+        "C220111": 57.599999999999994
     },
     "cas220119": {
         "replacements": {},

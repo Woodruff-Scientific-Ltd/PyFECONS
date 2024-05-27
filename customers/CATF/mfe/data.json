@@ -1112,7 +1112,8 @@
     "cas220111": {
         "replacements": {
             "C220111": "89.76",
-            "constructionTime": 6
+            "constructionTime": 6,
+            "billingRate": 1600
         },
         "template_file": "CAS220111.tex",
         "tex_path": "Modified/CAS220111.tex",

@@ -121,4 +121,7 @@ def Generate():
             system_power=Unknown(1),
             flux_limit=Unknown(2),
         ),
+        installation=Installation(
+            labor_rate=USD(1600)
+        ),
     )

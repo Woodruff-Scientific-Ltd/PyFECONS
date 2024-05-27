@@ -485,8 +485,7 @@
         "flux_limit": 2.0
     },
     "installation": {
-        "labor_rate": 0.0016,
-        "nmod": 1
+        "labor_rate": 1600.0
     },
     "fuel_handling": {
         "learning_curve_credit": 0.8,
