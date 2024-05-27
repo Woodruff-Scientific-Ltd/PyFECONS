@@ -625,13 +625,54 @@
         "C220108": 0.00025051872307089605
     },
     "cas220109": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "expandertank": "5.7",
+            "expandercoilandneutrontrapcoil": "11.7",
+            "convertoegatevalve": "0.0",
+            "neutrontrapshielding": "0.4",
+            "vacuumsystem": "5.7",
+            "gridsystem": "9.5",
+            "heatcollectionsystem": "2.1",
+            "electricaleqpmt": "4.6",
+            "costperunit": "39.6",
+            "totaldeunitcost": "158.0",
+            "engineering15percent": "23.7",
+            "contingency15percent": "0.0",
+            "totaldecost": "261.0",
+            "C220109": "0.00"
+        },
+        "template_file": "CAS220109.tex",
+        "tex_path": "Modified/CAS220109.tex",
         "figures": {},
-        "C220109": null,
-        "costs": null,
-        "scaled_costs": null
+        "C220109": 0.0,
+        "costs": {
+            "expandertank": 16.0,
+            "expandercoilandneutrontrapcoil": 33.0,
+            "convertoegatevalve": 0.1,
+            "neutrontrapshielding": 1.0,
+            "vacuumsystem": 16.0,
+            "gridsystem": 27.0,
+            "heatcollectionsystem": 6.0,
+            "electricaleqpmt": 13.0,
+            "costperunit": 112.0,
+            "totaldeunitcost": 447.0,
+            "engineering15percent": 67.0,
+            "contingency15percent": 0.0
+        },
+        "scaled_costs": {
+            "expandertank": 5.656854249492379,
+            "expandercoilandneutrontrapcoil": 11.66726188957803,
+            "convertoegatevalve": 0.03535533905932737,
+            "neutrontrapshielding": 0.3535533905932737,
+            "vacuumsystem": 5.656854249492379,
+            "gridsystem": 9.545941546018389,
+            "heatcollectionsystem": 2.121320343559642,
+            "electricaleqpmt": 4.596194077712558,
+            "costperunit": 39.597979746446654,
+            "totaldeunitcost": 158.03836559519334,
+            "engineering15percent": 23.688077169749338,
+            "contingency15percent": 0.0
+        }
     },
     "cas220111": {
         "replacements": {},

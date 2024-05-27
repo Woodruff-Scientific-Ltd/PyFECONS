@@ -111,5 +111,9 @@ def Generate():
             learning_credit=Ratio(0.5),
             # $1/W power supply industry rule of thumb
             cost_per_watt=USD_W(1),
-        )
+        ),
+        direct_energy_converter=DirectEnergyConverter(
+            system_power=Unknown(1),
+            flux_limit=Unknown(2),
+        ),
     )

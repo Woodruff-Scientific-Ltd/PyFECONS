@@ -116,5 +116,9 @@ def Generate():
         ),
         target_factory=TargetFactory(
             learning_credit=Ratio(0.8)
-        )
+        ),
+        direct_energy_converter=DirectEnergyConverter(
+            system_power=Unknown(1),
+            flux_limit=Unknown(2),
+        ),
     )

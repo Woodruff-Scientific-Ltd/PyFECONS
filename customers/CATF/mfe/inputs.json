@@ -481,8 +481,8 @@
         "cap_l1": null
     },
     "direct_energy_converter": {
-        "system_power": 1,
-        "flux_limit": 2
+        "system_power": 1.0,
+        "flux_limit": 2.0
     },
     "installation": {
         "labor_rate": 0.0016,

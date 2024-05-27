@@ -327,8 +327,8 @@ class PowerSupplies:
 
 @dataclass
 class DirectEnergyConverter:
-    system_power: Unknown = 1
-    flux_limit: Unknown = 2
+    system_power: Unknown = None
+    flux_limit: Unknown = None
 
 
 @dataclass
