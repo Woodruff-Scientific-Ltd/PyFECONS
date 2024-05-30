@@ -22,6 +22,7 @@ from pyfecons.costing.ife.cas22.CAS220200 import cas_2202_main_and_secondary_coo
 from pyfecons.costing.ife.cas22.CAS220300 import cas_2203_auxilary_cooling
 from pyfecons.costing.ife.cas22.CAS220400 import cas_2204_radwaste
 from pyfecons.costing.ife.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
+from pyfecons.costing.ife.cas22.CAS220600 import cas_2206_other_reactor_plant_equipment
 from pyfecons.costing.ife.CAS23 import cas_23
 from pyfecons.costing.ife.CAS24 import cas_24
 from pyfecons.costing.ife.CAS25 import cas_25
@@ -86,6 +87,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_2203_auxilary_cooling(inputs, data),
         cas_2204_radwaste(data),
         cas_2205_fuel_handling_and_storage(inputs, data),
+        cas_2206_other_reactor_plant_equipment(data),
         cas_21(inputs, data),
         cas_23(inputs, data),
         cas_24(inputs, data),
