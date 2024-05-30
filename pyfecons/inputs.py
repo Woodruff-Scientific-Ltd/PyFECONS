@@ -21,7 +21,7 @@ from pyfecons.serializable import SerializableToJSON
 
 @dataclass
 class CustomerInfo:
-    name: str = ''
+    name: str
 
 
 @dataclass
@@ -348,8 +348,8 @@ class FuelHandling:
 
 @dataclass
 class LsaLevels:
+    lsa: int
     initialized: bool = False
-    lsa: int = 2
     fac_91: list[float] = None
     fac_92: list[float] = None
     fac_93: list[float] = None
@@ -404,22 +404,24 @@ class TargetFactory:
 @dataclass
 class Inputs(SerializableToJSON):
     # User inputs
-    customer_info: CustomerInfo = field(default_factory=CustomerInfo)
-    basic: Basic = field(default_factory=Basic)
-    power_table: PowerTable = field(default_factory=PowerTable)
-    radial_build: RadialBuild = field(default_factory=RadialBuild)
-    shield: Shield = field(default_factory=Shield)
-    blanket: Blanket = field(default_factory=Blanket)
+    customer_info: CustomerInfo = field(default=None)
+    basic: Basic = field(default=None)
+    power_table: PowerTable = field(default=None)
+    radial_build: RadialBuild = field(default=None)
+    shield: Shield = field(default=None)
+    blanket: Blanket = field(default=None)
     lasers: Lasers = field(default=None)
     coils: Coils = field(default=None)
+    # TODO is this really an input? if not move to calculation class
     supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
-    primary_structure: PrimaryStructure = field(default_factory=PrimaryStructure)
-    vacuum_system: VacuumSystem = field(default_factory=VacuumSystem)
-    power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
-    direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
-    installation: Installation = field(default_factory=Installation)
+    primary_structure: PrimaryStructure = field(default=None)
+    vacuum_system: VacuumSystem = field(default=None)
+    power_supplies: PowerSupplies = field(default=None)
+    direct_energy_converter: DirectEnergyConverter = field(default=None)
+    installation: Installation = field(default=None)
     fuel_handling: FuelHandling = field(default=None)
-    lsa_levels: LsaLevels = field(default_factory=LsaLevels)
+    lsa_levels: LsaLevels = field(default=None)
+    # TODO is this really an input? if not move to calculation class
     financial: Financial = field(default_factory=Financial)
     target_factory: TargetFactory = field(default=None)
 

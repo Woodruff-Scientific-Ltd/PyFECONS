@@ -235,8 +235,8 @@
         "learning_tenth_of_a_kind": 0.4765098748902245
     },
     "lsa_levels": {
-        "initialized": true,
         "lsa": 2,
+        "initialized": true,
         "fac_91": [
             0.113,
             0.12,
