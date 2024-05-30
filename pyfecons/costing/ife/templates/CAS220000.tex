@@ -1,0 +1,42 @@
+%12/7/2023 need an iteration or two
+
+\subsection{Cost Category 22: Heat Island Plant Equipment}
+
+This category is most dependent on the heat island technology being considered, because the sub-account descriptions and costs depend heavily on the coolant used and whether the subsystems are factory-produced or constructed onsite. \\
+
+For the mechanical components, costs are determined by making a CAD drawing of the components  and determining the volume of the component.  The following equation is then used to determine 
+component costs from the volumes: $\Sigma_{i} C_{i} = V_{i}  \rho_{i}c_{i}$, where $\rho$ is  the mass density in kg/m$^{3}$ and $c_{i}$ is the cost per unit mass in \$/kg (see Table \ref{tab:materials})  with manufacturing factor applied.
+
+\begin{table}[h!]
+\centering
+\resizebox{0.7\linewidth}{!}{%
+\begin{tabular}{lccccc}
+\hline
+Material & \(\rho\) (kg/$m^{3}$) & \(c_{\text{raw}}\) (\$/kg or \$/kAm) & Manufacturing Factor & \(\sigma\) (MPa)& \(c\) (\$/kg or \$/kAm)\\
+\hline
+FS & FSrho & FScraw & FSm & FSsigma & \\
+Pb & Pbrho & Pbcraw & Pbm & & \\
+Li$_4$SiO$_4$ & Li4SiO4rho & Li4SiO4craw & Li4SiO4m & & \\
+Flibe & Fliberho & & & & Flibec \\
+W & Wrho & Wcraw & Wm & & \\
+Li & Lirho & Licraw & Lim & & \\
+BFS & BFSrho & BFScraw & BFSm & & \\
+PbLi & PbLirho & & & & PbLic \\
+SiC & SiCrho & SiCcraw & SiCm & & \\
+Inconel & Inconelrho & Inconelcraw & Inconelm & & \\
+Cu & Curho & Cucraw & Cum & & \\
+Polyimide & Polyimiderho & Polyimidecraw & Polyimidem & & \\
+YBCO & YBCOrho & & & & YBCOc \\
+Concrete & Concreterho & Concretecraw & Concretem & & \\
+SS316 & SS316rho & SS316craw & SS316m & SS316sigma & \\
+Nb$_3$Sn & & & & & Nb3Snc \\
+Incoloy & Incoloyrho & Incoloycraw & Incoloym & & \\
+GdBCO & & & & & \\
+He & & & & & \\
+NbTi & & & & & \\
+\hline
+\end{tabular}}
+\caption{Properties of materials used in fusion reactors.}
+\label{tab:materials}
+\end{table}
+
