@@ -712,11 +712,13 @@
         "C220200": 204.09482577897285
     },
     "cas2203": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C220300": "6.3"
+        },
+        "template_file": "CAS220300.tex",
+        "tex_path": "Modified/CAS220300.tex",
         "figures": {},
-        "C220300": null
+        "C220300": 6.2829920999999995
     },
     "cas2204": {
         "replacements": {},
