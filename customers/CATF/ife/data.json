@@ -695,14 +695,21 @@
         "C220119": 0.0
     },
     "cas2202": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C220200": 204,
+            "C220201": 170,
+            "C220202": 34,
+            "C220203": 0,
+            "primaryC": "Lithium (Li)",
+            "secondaryC": "Water"
+        },
+        "template_file": "CAS220200_DT.tex",
+        "tex_path": "Modified/CAS220200_DT.tex",
         "figures": {},
-        "C220201": null,
-        "C220202": null,
-        "C220203": null,
-        "C220200": null
+        "C220201": 170.15148585881718,
+        "C220202": 33.94333992015566,
+        "C220203": 0.0,
+        "C220200": 204.09482577897285
     },
     "cas2203": {
         "replacements": {},

@@ -18,6 +18,7 @@ from pyfecons.costing.ife.cas22.CAS220108 import cas_220108_target_factory
 from pyfecons.costing.ife.cas22.CAS220109 import cas_220109_direct_energy_converter
 from pyfecons.costing.ife.cas22.CAS220111 import cas_220111_installation_costs
 from pyfecons.costing.ife.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
+from pyfecons.costing.ife.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
 from pyfecons.costing.ife.CAS23 import cas_23
 from pyfecons.costing.ife.CAS24 import cas_24
 from pyfecons.costing.ife.CAS25 import cas_25
@@ -58,6 +59,7 @@ LOCAL_INCLUDED_FILES = {
     'StandardFigures/TIsketch.eps': 'TIsketch.eps',
     'StandardFigures/statista.png': 'statista.png',
     'Figures/Bayrmanian2011.png': 'Bayrmanian2011.png',
+    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
 }
 
 
@@ -77,6 +79,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_220109_direct_energy_converter(inputs, data),
         cas_220111_installation_costs(inputs, data),
         cas_220119_scheduled_replacement_cost(data),
+        cas_2202_main_and_secondary_coolant(inputs, data),
         cas_21(inputs, data),
         cas_23(inputs, data),
         cas_24(inputs, data),
