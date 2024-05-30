@@ -96,8 +96,7 @@
                 "mfr_factor": 5,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "CS",
@@ -119,8 +118,7 @@
                 "mfr_factor": 10,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF1",
@@ -142,8 +140,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF2",
@@ -165,8 +162,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF3",
@@ -188,8 +184,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF4",
@@ -211,8 +206,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF5",
@@ -234,8 +228,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF6",
@@ -257,8 +250,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF7",
@@ -280,8 +272,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": true,
                 "auto_cicc_b": 5.0,
-                "auto_cicc_r": 5.0,
-                "structFactor": 1
+                "auto_cicc_r": 5.0
             },
             {
                 "name": "PF8",
@@ -303,8 +294,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": true,
                 "auto_cicc_b": 5.0,
-                "auto_cicc_r": 5.0,
-                "structFactor": 1
+                "auto_cicc_r": 5.0
             }
         ],
         "struct_factor": 0.5,

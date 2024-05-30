@@ -391,8 +391,7 @@
                     "mfr_factor": 5,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 0.09896016858807848,
                 "cs_area": 0.0875,
@@ -443,8 +442,7 @@
                     "mfr_factor": 10,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 1.42502642766833,
                 "cs_area": 1.26,
@@ -495,8 +493,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 0.7577521480458582,
                 "cs_area": 0.18,
@@ -547,8 +544,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 1.017876019763093,
                 "cs_area": 0.18,
@@ -599,8 +595,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 2.412743157956961,
                 "cs_area": 0.3,
@@ -651,8 +646,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 4.742548269859152,
                 "cs_area": 0.27749999999999997,
@@ -703,8 +697,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 22.178387497282504,
                 "cs_area": 0.666,
@@ -755,8 +748,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": false,
                     "auto_cicc_b": null,
-                    "auto_cicc_r": null,
-                    "structFactor": 1
+                    "auto_cicc_r": null
                 },
                 "vol_coil": 58.68495076905734,
                 "cs_area": 1.0,
@@ -807,8 +799,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": true,
                     "auto_cicc_b": 5.0,
-                    "auto_cicc_r": 5.0,
-                    "structFactor": 1
+                    "auto_cicc_r": 5.0
                 },
                 "vol_coil": 80.08704639092629,
                 "cs_area": 1.3646947870177575,
@@ -859,8 +850,7 @@
                     "mfr_factor": 2,
                     "auto_cicc": true,
                     "auto_cicc_b": 5.0,
-                    "auto_cicc_r": 5.0,
-                    "structFactor": 1
+                    "auto_cicc_r": 5.0
                 },
                 "vol_coil": 80.08704639092629,
                 "cs_area": 1.3646947870177575,
