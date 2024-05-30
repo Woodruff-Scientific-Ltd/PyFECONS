@@ -1157,7 +1157,7 @@
     },
     "cas2204": {
         "replacements": {
-            "C220400": "10.63"
+            "C220400": 10.6
         },
         "template_file": "CAS220400.tex",
         "tex_path": "Modified/CAS220400.tex",
