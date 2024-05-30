@@ -44,29 +44,30 @@ from pyfecons.costing.mfe.CostTable import cost_table
 from pyfecons.report import ReportContent, CostingData, HydratedTemplate
 
 TEMPLATES_PATH = 'pyfecons.costing.mfe.templates'
-DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 INCLUDED_FILES_PATH = 'pyfecons.costing.mfe.included_files'
+DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 
-LOCAL_INCLUDED_FILES = {
-    'ST-SC.bib': 'ST-SC.bib',
-    'additions.bib': 'additions.bib',
-    'glossary.tex': 'glossary.tex',
-    'IEEEtran.bst': 'IEEEtran.bst',
-    'Figures/cooling_efficiency.pdf': 'Figures/cooling_efficiency.pdf',
-    'Figures/MFE.png': 'Figures/MFE.png',
-    'Originals/CAS220100_MFE.tex': 'Originals/CAS220100_MFE.tex',
-    'Originals/method.tex': 'Originals/method.tex',
-    'Originals/powerBalanceMFEDT.tex': 'Originals/powerBalanceMFEDT.tex',
-    'StandardFigures/TIsketch.eps': 'StandardFigures/TIsketch.eps',
-    'StandardFigures/WSLTD_logo.png': 'StandardFigures/WSLTD_logo.png',
-    'StandardFigures/costcategories.png': 'StandardFigures/costcategories.png',
-    'StandardFigures/power.eps': 'StandardFigures/power.eps',
-    'StandardFigures/signature.jpg': 'StandardFigures/signature.jpg',
-    'StandardFigures/siteplan2023.eps': 'StandardFigures/siteplan2023.eps',
-    'StandardFigures/statista.png': 'StandardFigures/statista.png',
-    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
-    'StandardFigures/yuhu_cs.pdf': 'StandardFigures/yuhu_cs.pdf',
-}
+# list representing latex_path in included_files directory
+LOCAL_INCLUDED_FILES = [
+    'additions.bib',
+    'glossary.tex',
+    'IEEEtran.bst',
+    'ST-SC.bib',
+    'Figures/cooling_efficiency.pdf',
+    'Figures/MFE.png',
+    'Originals/CAS220100_MFE.tex',
+    'Originals/method.tex',
+    'Originals/powerBalanceMFEDT.tex',
+    'StandardFigures/TIsketch.eps',
+    'StandardFigures/WSLTD_logo.png',
+    'StandardFigures/costcategories.png',
+    'StandardFigures/power.eps',
+    'StandardFigures/signature.jpg',
+    'StandardFigures/siteplan2023.eps',
+    'StandardFigures/statista.png',
+    'StandardFigures/steamPbLi-eps-converted-to.pdf',
+    'StandardFigures/yuhu_cs.pdf',
+]
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
     data = Data(reactor_type=ReactorType.MFE)

@@ -47,26 +47,26 @@ TEMPLATES_PATH = 'pyfecons.costing.ife.templates'
 INCLUDED_FILES_PATH = 'pyfecons.costing.ife.included_files'
 DOCUMENT_TEMPLATE='Costing_ARPA-E_IFE_Modified.tex'
 
-# map of latex_path -> included_file_name
-LOCAL_INCLUDED_FILES = {
-    'additions.bib': 'additions.bib',
-    'glossary.tex': 'glossary.tex',
-    'IEEEtran.bst': 'IEEEtran.bst',
-    'ST-SC.bib': 'ST-SC.bib',
-    'Figures/Bayrmanian2011.png': 'Figures/Bayrmanian2011.png',
-    'Figures/FastIgnition.png': 'Figures/FastIgnition.png',
-    'Originals/CAS220100_IFE.tex': 'Originals/CAS220100_IFE.tex',
-    'Originals/method.tex': 'Originals/method.tex',
-    'Originals/powerBalanceIFEDT.tex': 'Originals/powerBalanceIFEDT.tex',
-    'StandardFigures/costcategories.png': 'StandardFigures/costcategories.png',
-    'StandardFigures/power.eps': 'StandardFigures/power.eps',
-    'StandardFigures/signature.jpg': 'StandardFigures/signature.jpg',
-    'StandardFigures/siteplan2023.eps': 'StandardFigures/siteplan2023.eps',
-    'StandardFigures/statista.png': 'StandardFigures/statista.png',
-    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
-    'StandardFigures/TIsketch.eps': 'StandardFigures/TIsketch.eps',
-    'StandardFigures/WSLTD_logo.png': 'StandardFigures/WSLTD_logo.png',
-}
+# list representing latex_path in included_files directory
+LOCAL_INCLUDED_FILES = [
+    'additions.bib',
+    'glossary.tex',
+    'IEEEtran.bst',
+    'ST-SC.bib',
+    'Figures/Bayrmanian2011.png',
+    'Figures/FastIgnition.png',
+    'Originals/CAS220100_IFE.tex',
+    'Originals/method.tex',
+    'Originals/powerBalanceIFEDT.tex',
+    'StandardFigures/costcategories.png',
+    'StandardFigures/power.eps',
+    'StandardFigures/signature.jpg',
+    'StandardFigures/siteplan2023.eps',
+    'StandardFigures/statista.png',
+    'StandardFigures/steamPbLi-eps-converted-to.pdf',
+    'StandardFigures/TIsketch.eps',
+    'StandardFigures/WSLTD_logo.png',
+]
 
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
