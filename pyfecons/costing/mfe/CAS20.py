@@ -20,7 +20,7 @@ def cas_20(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.template_file = 'CAS200000.tex'
     OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
-        'C200000': round(data.cas20.C200000)  # TODO - C200000 not in the template
+        'C200000': round(OUT.C200000)  # TODO - not in the template
     }
     return OUT
 
