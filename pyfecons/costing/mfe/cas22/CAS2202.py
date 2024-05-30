@@ -1,4 +1,4 @@
-from pyfecons.costing.calculations.cas22.cas220200_coolant_costs import compute_primary_coolant_costs, \
+from pyfecons.costing.calculations.cas22.cas220200_coolant import compute_primary_coolant_costs, \
     compute_intermediate_coolant_costs, compute_secondary_coolant_costs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs

@@ -1,4 +1,4 @@
-from pyfecons.costing.calculations.cas22.cas220111_installation_costs import compute_installation_costs
+from pyfecons.costing.calculations.cas22.cas220111_installation import compute_installation_costs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
