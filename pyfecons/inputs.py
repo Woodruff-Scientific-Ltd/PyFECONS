@@ -339,7 +339,7 @@ class Installation:
 
 @dataclass
 class FuelHandling:
-    learning_curve_credit: Ratio = 0.8
+    learning_curve_credit: Ratio
     learning_tenth_of_a_kind: Ratio = None
 
     def __post_init__(self):
@@ -419,7 +419,7 @@ class Inputs(SerializableToJSON):
     power_supplies: PowerSupplies = field(default_factory=PowerSupplies)
     direct_energy_converter: DirectEnergyConverter = field(default_factory=DirectEnergyConverter)
     installation: Installation = field(default_factory=Installation)
-    fuel_handling: FuelHandling = field(default_factory=FuelHandling)
+    fuel_handling: FuelHandling = field(default=None)
     lsa_levels: LsaLevels = field(default_factory=LsaLevels)
     financial: Financial = field(default_factory=Financial)
     target_factory: TargetFactory = field(default=None)

@@ -119,4 +119,7 @@ def Generate():
         installation=Installation(
             labor_rate=USD(1600)
         ),
+        fuel_handling=FuelHandling(
+            learning_curve_credit=Ratio(0.8)
+        ),
     )
