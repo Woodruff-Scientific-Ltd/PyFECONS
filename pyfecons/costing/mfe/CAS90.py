@@ -14,7 +14,6 @@ def cas_90(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C900000 = M_USD(inputs.financial.capital_recovery_factor * OUT.C990000)
 
     OUT.template_file = 'CAS900000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C900000': round(data.cas90.C900000)
     }

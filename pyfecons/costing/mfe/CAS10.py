@@ -44,7 +44,6 @@ def cas_10(inputs: Inputs, data: Data) -> TemplateProvider:
                         + OUT.C170000 + OUT.C190000)
 
     OUT.template_file = 'CAS100000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'Nmod': str(basic.n_mod),
         'C100000': str(OUT.C100000),

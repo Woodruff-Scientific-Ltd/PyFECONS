@@ -44,20 +44,26 @@
     },
     "radial_build": {
         "elon": null,
-        "axis_t": null,
-        "plasma_t": null,
-        "vacuum_t": null,
-        "firstwall_t": null,
-        "blanket1_t": null,
-        "reflector_t": null,
-        "ht_shield_t": null,
-        "structure_t": null,
-        "gap1_t": null,
-        "vessel_t": null,
+        "axis_t": 0.0,
+        "plasma_t": 0.0001,
+        "vacuum_t": 8.48,
+        "firstwall_t": 0.005,
+        "blanket1_t": 0.0,
+        "reflector_t": 0.1,
+        "ht_shield_t": 0.1,
+        "structure_t": 0.2,
+        "gap1_t": 0.5,
+        "vessel_t": 0.2,
         "coil_t": null,
-        "gap2_t": null,
-        "lt_shield_t": null,
-        "bioshield_t": null
+        "gap2_t": 0.5,
+        "lt_shield_t": 0.3,
+        "bioshield_t": 1.0
+    },
+    "shield": {
+        "f_SiC": 0.0,
+        "FPCPPFbLi": 0.1,
+        "f_W": 0.0,
+        "f_BFS": 0.9
     },
     "blanket": {
         "first_wall": "LIQUID_LITHIUM",
@@ -67,37 +73,12 @@
         "neutron_multiplier": "PB_AS_PART_OF_PBLI",
         "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
     },
-    "coils": {
-        "magnets": [],
-        "struct_factor": 0.5,
-        "tape_w": 0.004,
-        "tape_t": 0.00013,
-        "j_tape_ybco": 150,
-        "m_cost_ybco": 50,
-        "m_cost_ss": 5,
-        "m_cost_cu": 10.3,
-        "rebco_density": 6350,
-        "cu_density": 7900,
-        "ss_density": 7900,
-        "mfr_factor": 3,
-        "cable_w": 0.014,
-        "cable_h": 0.017,
-        "frac_cs_cu_yuhu": 0.307,
-        "frac_cs_ss_yuhu": 0.257,
-        "frac_cs_sc_yuhu": 0.257,
-        "tot_cs_area_yuhu": 0.000238,
-        "m_cost_i": 20,
-        "i_density": 3000,
-        "turns_p": 18,
-        "max_cu_current": 20.0,
-        "cu_wire_d": 0.0033,
-        "c_frac": 0.1,
-        "no_beams": 20,
-        "beam_length": 1.5,
-        "beam_cs_area": 0.25,
-        "t_op": 4,
-        "t_env": 300
+    "lasers": {
+        "beamlet_learning_curve": 5.0,
+        "beamlet_learning_curve_coefficient_b": -0.2842043341251542,
+        "nif_laser_energy": 4.7
     },
+    "coils": null,
     "supplementary_heating": {
         "nbi_power": 50.0,
         "icrf_power": 0.0,
@@ -187,8 +168,8 @@
         }
     },
     "primary_structure": {
-        "syst_pga": null,
-        "learning_credit": null,
+        "syst_pga": 0.1,
+        "learning_credit": 0.5,
         "analyze_costs": 30,
         "unit1_seismic_costs": 25,
         "reg_rev_costs": 30,
@@ -214,36 +195,48 @@
         }
     },
     "vacuum_system": {
-        "learning_credit": 0.5,
-        "spool_ir": 2.25,
-        "spool_or": 3.15,
-        "door_irb": 6,
-        "door_orb": 6.25,
-        "door_irc": 7.81,
-        "door_orc": 8.06,
-        "spool_height": 9,
-        "cost_pump": 40000,
-        "vpump_cap": 4.166666666666667
+        "learning_credit": null,
+        "spool_ir": null,
+        "spool_or": null,
+        "door_irb": null,
+        "door_orb": null,
+        "door_irc": null,
+        "door_orc": null,
+        "spool_height": null,
+        "cost_pump": 40000.0,
+        "vpump_cap": 4.166666666666667,
+        "t_cool": 20.0,
+        "t_env": 300.0,
+        "ves_mfr": 10.0,
+        "beam_cs_area": 0.03,
+        "factor_of_safety": 3.0,
+        "geometry_factor": 10.0,
+        "beam_length": 5.0
     },
     "power_supplies": {
         "learning_credit": 0.5,
-        "cost_per_watt": 1
+        "cost_per_watt": 1.0,
+        "p_compress": 1.0,
+        "cap_temp": 60.0,
+        "cap_temp_ambient": 20.0,
+        "cap_temp_delta": 30.0,
+        "cap_voltage": 20000.0,
+        "cap_l1": 50000.0
     },
     "direct_energy_converter": {
-        "system_power": 1,
-        "flux_limit": 2
+        "system_power": 1.0,
+        "flux_limit": 2.0
     },
     "installation": {
-        "labor_rate": 0.0016,
-        "nmod": 1
+        "labor_rate": 1600.0
     },
     "fuel_handling": {
         "learning_curve_credit": 0.8,
         "learning_tenth_of_a_kind": 0.4765098748902245
     },
     "lsa_levels": {
-        "initialized": true,
         "lsa": 2,
+        "initialized": true,
         "fac_91": [
             0.113,
             0.12,
@@ -297,6 +290,9 @@
         "a_c_98": 115.0,
         "a_power": 1000.0,
         "capital_recovery_factor": 0.09
+    },
+    "target_factory": {
+        "learning_credit": 0.8
     },
     "materials": {
         "FS": {

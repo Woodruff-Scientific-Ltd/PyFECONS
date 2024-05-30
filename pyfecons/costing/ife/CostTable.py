@@ -11,7 +11,6 @@ def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO - delete as CAS22 is implemented
     cost_values['C220000'] = 0
     cost_values['C220100'] = 0
-    cost_values['C220101'] = 0
     cost_values['C220102'] = 0
     cost_values['C220103'] = 0
     cost_values['C220104'] = 0
@@ -88,7 +87,6 @@ def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     life_values_empty_percentages = map_keys_to_percentage(life_values_empty)
 
     OUT.template_file = 'CASstructure.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = (rounded_cost_values | percentage_cost_values
                         | life_values_inflation | life_values_percentages
                         | life_values_empty | life_values_empty_percentages)

@@ -69,6 +69,13 @@ def Generate():
             lt_shield_t = Meters(0.3),
             bioshield_t = Meters(1),
         ),
+        # TODO clarify where shield fractions come from
+        shield=Shield(
+            f_SiC=Ratio(0.00),
+            FPCPPFbLi=Ratio(0.1),
+            f_W=Ratio(0.00),
+            f_BFS=Ratio(0.9),
+        ),
         coils=Coils(magnets=[
             Magnet('TF', MagnetType.TF, MagnetMaterialType.HTS_CICC, 12, Meters(0.18), Meters(0), tf_dr, Meters(0.35), Ratio(0), 20, 5),
             Magnet('CS', MagnetType.CS, MagnetMaterialType.HTS_CICC, 1, Meters(0.18), Meters(0), Meters(0.2), Meters(6.3), Ratio(0), 20, 10),
@@ -81,5 +88,41 @@ def Generate():
             Magnet('PF7', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(3.6), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
             Magnet('PF8', MagnetType.PF, MagnetMaterialType.HTS_CICC, 2, Meters(9.34), Meters(2.2), Meters(1), Meters(1), Ratio(0), 20, 2, True, Meters(5), Meters(5)),
         ]),
-        primary_structure=PrimaryStructure(syst_pga=StructurePga.PGA_03, learning_credit=0.5),
+        lsa_levels=LsaLevels(
+            lsa=2
+        ),
+        primary_structure=PrimaryStructure(
+            syst_pga=StructurePga.PGA_03,
+            learning_credit=Ratio(0.5)
+        ),
+        vacuum_system=VacuumSystem(
+            learning_credit=Ratio(0.5),
+            spool_ir=Meters(2.25),
+            spool_or=Meters(3.15),
+            door_irb=Meters(6),
+            door_orb=Meters(6.25),
+            door_irc=Meters(7.81),
+            door_orc=Meters(8.06),
+            spool_height=Meters(9),
+            # assume 1 second vac rate
+            # cost of 1 vacuum pump, scaled from 1985 dollars
+            cost_pump=USD(40000),
+            # 48 pumps needed for 200^3 system
+            vpump_cap=Meters3(200 / 48)
+        ),
+        power_supplies=PowerSupplies(
+            learning_credit=Ratio(0.5),
+            # $1/W power supply industry rule of thumb
+            cost_per_watt=USD_W(1),
+        ),
+        direct_energy_converter=DirectEnergyConverter(
+            system_power=Unknown(1),
+            flux_limit=Unknown(2),
+        ),
+        installation=Installation(
+            labor_rate=USD(1600)
+        ),
+        fuel_handling=FuelHandling(
+            learning_curve_credit=Ratio(0.8)
+        ),
     )

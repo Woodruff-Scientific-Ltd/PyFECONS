@@ -1,3 +1,4 @@
+from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.templates import read_template, hydrate_templates, combine_figures
 from pyfecons.inputs import Inputs
@@ -16,12 +17,12 @@ from pyfecons.costing.mfe.cas22.CAS220108 import cas_220108_divertor
 from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter
 from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
 from pyfecons.costing.mfe.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
-from pyfecons.costing.mfe.cas22.CAS2202 import cas_2202_main_and_secondary_coolant
-from pyfecons.costing.mfe.cas22.CAS2203 import cas_2203_auxilary_cooling
-from pyfecons.costing.mfe.cas22.CAS2204 import cas_2204_radwaste
-from pyfecons.costing.mfe.cas22.CAS2205 import cas_2205_fuel_handling_and_storage
-from pyfecons.costing.mfe.cas22.CAS2206 import cas_2206_other_reactor_plant_equipment
-from pyfecons.costing.mfe.cas22.CAS2207 import cas_2207_instrumentation_and_control
+from pyfecons.costing.mfe.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
+from pyfecons.costing.mfe.cas22.CAS220300 import cas_2203_auxilary_cooling
+from pyfecons.costing.mfe.cas22.CAS220400 import cas_2204_radwaste
+from pyfecons.costing.mfe.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
+from pyfecons.costing.mfe.cas22.CAS220600 import cas_2206_other_reactor_plant_equipment
+from pyfecons.costing.mfe.cas22.CAS220700 import cas_2207_instrumentation_and_control
 from pyfecons.costing.mfe.cas22.CAS22 import cas_2200_reactor_plant_equipment_total
 from pyfecons.costing.mfe.CAS23 import cas_23
 from pyfecons.costing.mfe.CAS24 import cas_24
@@ -43,32 +44,33 @@ from pyfecons.costing.mfe.CostTable import cost_table
 from pyfecons.report import ReportContent, CostingData, HydratedTemplate
 
 TEMPLATES_PATH = 'pyfecons.costing.mfe.templates'
-DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 INCLUDED_FILES_PATH = 'pyfecons.costing.mfe.included_files'
+DOCUMENT_TEMPLATE = 'Costing_ARPA-E_MFE_Modified.tex'
 
-LOCAL_INCLUDED_FILES = {
-    'ST-SC.bib': 'ST-SC.bib',
-    'additions.bib': 'additions.bib',
-    'glossary.tex': 'glossary.tex',
-    'IEEEtran.bst': 'IEEEtran.bst',
-    'Originals/CAS220100_MFE.tex': 'Originals/CAS220100_MFE.tex',
-    'Originals/method.tex': 'Originals/method.tex',
-    'Originals/powerBalanceMFEDT.tex': 'Originals/powerBalanceMFEDT.tex',
-    'Figures/cooling_efficiency.pdf': 'Figures/cooling_efficiency.pdf',
-    'Figures/MFE.png': 'Figures/MFE.png',
-    'StandardFigures/TIsketch.eps': 'StandardFigures/TIsketch.eps',
-    'StandardFigures/WSLTD_logo.png': 'StandardFigures/WSLTD_logo.png',
-    'StandardFigures/costcategories.png': 'StandardFigures/costcategories.png',
-    'StandardFigures/power.eps': 'StandardFigures/power.eps',
-    'StandardFigures/signature.jpg': 'StandardFigures/signature.jpg',
-    'StandardFigures/siteplan2023.eps': 'StandardFigures/siteplan2023.eps',
-    'StandardFigures/statista.png': 'StandardFigures/statista.png',
-    'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
-    'StandardFigures/yuhu_cs.pdf': 'StandardFigures/yuhu_cs.pdf',
-}
+# list representing latex_path in included_files directory
+LOCAL_INCLUDED_FILES = [
+    'additions.bib',
+    'glossary.tex',
+    'IEEEtran.bst',
+    'ST-SC.bib',
+    'Figures/cooling_efficiency.pdf',
+    'Figures/MFE.png',
+    'Originals/CAS220100_MFE.tex',
+    'Originals/method.tex',
+    'Originals/powerBalanceMFEDT.tex',
+    'StandardFigures/TIsketch.eps',
+    'StandardFigures/WSLTD_logo.png',
+    'StandardFigures/costcategories.png',
+    'StandardFigures/power.eps',
+    'StandardFigures/signature.jpg',
+    'StandardFigures/siteplan2023.eps',
+    'StandardFigures/statista.png',
+    'StandardFigures/steamPbLi-eps-converted-to.pdf',
+    'StandardFigures/yuhu_cs.pdf',
+]
 
 def GenerateCostingData(inputs: Inputs) -> CostingData:
-    data = Data()
+    data = Data(reactor_type=ReactorType.MFE)
     template_providers = [
         power_balance(inputs, data),
         cas_10(inputs, data),

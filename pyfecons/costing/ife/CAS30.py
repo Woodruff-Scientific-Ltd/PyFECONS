@@ -34,7 +34,6 @@ def cas_30(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C300000 = M_USD(OUT.C310000 + OUT.C320000 + OUT.C350000)
 
     OUT.template_file = 'CAS300000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'constructionTime': basic.construction_time,
         'C300000': round(OUT.C300000), # TODO not in template

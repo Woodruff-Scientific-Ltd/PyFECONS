@@ -1,3 +1,5 @@
+from typing import Union
+
 from pyfecons.inputs import *
 from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
@@ -7,9 +9,21 @@ from pyfecons.serializable import SerializableToJSON
 class TemplateProvider:
     replacements: dict[str, str] = field(default_factory=dict)
     template_file: str = None
-    tex_path: str = None
     # latex path -> image bytes
     figures: dict[str, bytes] = field(default_factory=dict)
+    _tex_path: str = None
+
+    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
+    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
+    @property
+    def tex_path(self) -> str:
+        if self._tex_path is None:
+            return 'Modified/' + self.template_file
+        return self._tex_path
+
+    @tex_path.setter
+    def tex_path(self, value):
+        self._tex_path = value
 
 
 @dataclass
@@ -175,7 +189,7 @@ class CAS220102(TemplateProvider):
 
 
 @dataclass
-class CAS220103(TemplateProvider):
+class CAS220103Coils(TemplateProvider):
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
     no_pf_coils: Count = None
@@ -207,10 +221,20 @@ class CAS220103(TemplateProvider):
 
 
 @dataclass
-class CAS220104(TemplateProvider):
+class CAS220103Lasers(TemplateProvider):
+    C220103: M_USD = None
+
+
+@dataclass
+class CAS220104SupplementaryHeating(TemplateProvider):
     # 22.1.4 Supplementary heating
     C22010401: M_USD = None
     C22010402: M_USD = None
+    C220104: M_USD = None
+
+
+@dataclass
+class CAS220104IgnitionLasers(TemplateProvider):
     C220104: M_USD = None
 
 
@@ -266,7 +290,7 @@ class CAS220107(TemplateProvider):
 
 
 @dataclass
-class CAS220108(TemplateProvider):
+class CAS220108Divertor(TemplateProvider):
     # 22.1.8 Divertor
     C220108: M_USD = None
     divertor_maj_rad: Meters = None
@@ -278,6 +302,11 @@ class CAS220108(TemplateProvider):
     divertor_mass: Kilograms = None
     divertor_mat_cost: M_USD = None
     divertor_cost: M_USD = None
+
+
+@dataclass
+class CAS220108TargetFactory(TemplateProvider):
+    C220108: M_USD = None
 
 
 @dataclass
@@ -474,18 +503,19 @@ class CostTable(TemplateProvider):
 
 @dataclass
 class Data(SerializableToJSON):
+    reactor_type: ReactorType
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
     cas22: CAS22 = field(default_factory=CAS22)
     cas220101: CAS220101 = field(default_factory=CAS220101)
     cas220102: CAS220102 = field(default_factory=CAS220102)
-    cas220103: CAS220103 = field(default_factory=CAS220103)
-    cas220104: CAS220104 = field(default_factory=CAS220104)
+    cas220103: Union[CAS220103Coils, CAS220103Lasers] = field(default=None)
+    cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers] = field(default=None)
     cas220105: CAS220105 = field(default_factory=CAS220105)
     cas220106: CAS220106 = field(default_factory=CAS220106)
     cas220107: CAS220107 = field(default_factory=CAS220107)
-    cas220108: CAS220108 = field(default_factory=CAS220108)
+    cas220108: Union[CAS220108Divertor, CAS220108TargetFactory] = field(default=None)
     cas220109: CAS220109 = field(default_factory=CAS220109)
     cas220111: CAS220111 = field(default_factory=CAS220111)
     cas220119: CAS220119 = field(default_factory=CAS220119)
@@ -512,3 +542,35 @@ class Data(SerializableToJSON):
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
     cost_table: CostTable = field(default_factory=CostTable)
+
+    def __post_init__(self):
+        if self.cas220103 is None:
+            self.cas220103 = self._initialize_cas220103()
+        if self.cas220104 is None:
+            self.cas220104 = self._initialize_cas220104()
+        if self.cas220108 is None:
+            self.cas220108 = self._initialize_cas220108()
+
+    def _initialize_cas220103(self) -> Union[CAS220103Coils, CAS220103Lasers]:
+        if self.reactor_type == ReactorType.MFE:
+            return CAS220103Coils()
+        elif self.reactor_type == ReactorType.IFE:
+            return CAS220103Lasers()
+        else:  # mif
+            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+
+    def _initialize_cas220104(self) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers]:
+        if self.reactor_type == ReactorType.MFE:
+            return CAS220104SupplementaryHeating()
+        elif self.reactor_type == ReactorType.IFE:
+            return CAS220104IgnitionLasers()
+        else:  # mif
+            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+
+    def _initialize_cas220108(self) -> Union[CAS220108Divertor, CAS220108TargetFactory]:
+        if self.reactor_type == ReactorType.MFE:
+            return CAS220108Divertor()
+        elif self.reactor_type == ReactorType.IFE:
+            return CAS220108TargetFactory()
+        else:  # mif
+            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")

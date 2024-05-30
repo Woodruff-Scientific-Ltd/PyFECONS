@@ -1,13 +1,14 @@
 import numpy as np
 
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data, TemplateProvider, CAS220108Divertor
 from pyfecons.inputs import Inputs
 from pyfecons.units import Meters, Meters3, Kilograms, M_USD
 
 
 def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
-    OUT = data.cas220108
+    OUT: CAS220108Divertor = data.cas220108
+    assert isinstance(OUT, CAS220108Divertor)
 
     # 22.1.8 Divertor
     # Simple volumetric calculation based on reactor geometry, user input, and tungsten material
@@ -31,7 +32,6 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C220108 = to_m_usd(OUT.divertor_cost)
 
     OUT.template_file = 'CAS220108_MFE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220108': round(OUT.C220108),
         # All of these are not in the templateo

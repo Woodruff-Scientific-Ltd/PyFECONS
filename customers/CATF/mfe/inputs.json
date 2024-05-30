@@ -59,6 +59,12 @@
         "lt_shield_t": 0.3,
         "bioshield_t": 1.0
     },
+    "shield": {
+        "f_SiC": 0.0,
+        "FPCPPFbLi": 0.1,
+        "f_W": 0.0,
+        "f_BFS": 0.9
+    },
     "blanket": {
         "first_wall": "BERYLLIUM",
         "blanket_type": "SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3",
@@ -67,6 +73,7 @@
         "neutron_multiplier": "BE12TI",
         "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
     },
+    "lasers": null,
     "coils": {
         "magnets": [
             {
@@ -89,8 +96,7 @@
                 "mfr_factor": 5,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "CS",
@@ -112,8 +118,7 @@
                 "mfr_factor": 10,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF1",
@@ -135,8 +140,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF2",
@@ -158,8 +162,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF3",
@@ -181,8 +184,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF4",
@@ -204,8 +206,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF5",
@@ -227,8 +228,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF6",
@@ -250,8 +250,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": false,
                 "auto_cicc_b": null,
-                "auto_cicc_r": null,
-                "structFactor": 1
+                "auto_cicc_r": null
             },
             {
                 "name": "PF7",
@@ -273,8 +272,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": true,
                 "auto_cicc_b": 5.0,
-                "auto_cicc_r": 5.0,
-                "structFactor": 1
+                "auto_cicc_r": 5.0
             },
             {
                 "name": "PF8",
@@ -296,8 +294,7 @@
                 "mfr_factor": 2,
                 "auto_cicc": true,
                 "auto_cicc_b": 5.0,
-                "auto_cicc_r": 5.0,
-                "structFactor": 1
+                "auto_cicc_r": 5.0
             }
         ],
         "struct_factor": 0.5,
@@ -448,33 +445,45 @@
         "learning_credit": 0.5,
         "spool_ir": 2.25,
         "spool_or": 3.15,
-        "door_irb": 6,
+        "door_irb": 6.0,
         "door_orb": 6.25,
         "door_irc": 7.81,
         "door_orc": 8.06,
-        "spool_height": 9,
-        "cost_pump": 40000,
-        "vpump_cap": 4.166666666666667
+        "spool_height": 9.0,
+        "cost_pump": 40000.0,
+        "vpump_cap": 4.166666666666667,
+        "t_cool": null,
+        "t_env": null,
+        "ves_mfr": null,
+        "beam_cs_area": null,
+        "factor_of_safety": null,
+        "geometry_factor": null,
+        "beam_length": null
     },
     "power_supplies": {
         "learning_credit": 0.5,
-        "cost_per_watt": 1
+        "cost_per_watt": 1.0,
+        "p_compress": null,
+        "cap_temp": null,
+        "cap_temp_ambient": null,
+        "cap_temp_delta": null,
+        "cap_voltage": null,
+        "cap_l1": null
     },
     "direct_energy_converter": {
-        "system_power": 1,
-        "flux_limit": 2
+        "system_power": 1.0,
+        "flux_limit": 2.0
     },
     "installation": {
-        "labor_rate": 0.0016,
-        "nmod": 1
+        "labor_rate": 1600.0
     },
     "fuel_handling": {
         "learning_curve_credit": 0.8,
         "learning_tenth_of_a_kind": 0.4765098748902245
     },
     "lsa_levels": {
-        "initialized": true,
         "lsa": 2,
+        "initialized": true,
         "fac_91": [
             0.113,
             0.12,
@@ -529,6 +538,7 @@
         "a_power": 1000.0,
         "capital_recovery_factor": 0.09
     },
+    "target_factory": null,
     "materials": {
         "FS": {
             "name": "Ferritic Steel",

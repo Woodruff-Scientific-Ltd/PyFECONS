@@ -1,5 +1,5 @@
 from pyfecons.costing.calculations.interpolation import interpolate_data, get_interpolated_value
-from pyfecons.costing.ife.constants import yearlytcost_pfr_coords
+from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
@@ -13,7 +13,6 @@ def cas_80(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C800000 = get_interpolated_value(yearly_cost_interpolation, inputs.basic.implosion_frequency)
 
     OUT.template_file = 'CAS800000_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C800000': round(OUT.C800000)
     }

@@ -3,34 +3,35 @@ from dataclasses import is_dataclass, asdict
 from enum import Enum
 
 
-# This is needed because our custom json serializer is not handling lists correctly
+# Custom JSON encoder for specific object types
 class PyfeconsEncoder(json.JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, Enum):
-            # Check if the enum has a 'display_name' attribute
+        if hasattr(obj, 'toDict') and callable(getattr(obj, 'toDict')):
+            return obj.toDict()
+        elif isinstance(obj, Enum):
             if hasattr(obj, 'display_name'):
                 return {"value": obj.value, "display_name": obj.display_name}
             else:
                 return obj.value  # Return just the value if there's no 'display_name'
         elif isinstance(obj, bytes):
             return ''
-        # Let the base class default method raise the TypeError for other types
         return json.JSONEncoder.default(self, obj)
 
 
-class SerializableToJSON():
-
+# Base class for serializable objects
+class SerializableToJSON:
     def toDict(self):
         inputsDict = {}
         for attr_name, attr_value in self.__dict__.items():
-            # Check if the attribute is an instance of a custom class (not a built-in type)
-            inputsDict[attr_name] = self._attributesToDict(attr_value)
+            if not attr_name.startswith("_"):
+                inputsDict[attr_name] = self._attributesToDict(attr_value)
         return inputsDict
 
     @staticmethod
     def _attributesToDict(obj):
         if is_dataclass(obj):
-            return {key: SerializableToJSON._attributesToDict(value) for key, value in asdict(obj).items()}
+            return {key: SerializableToJSON._attributesToDict(value)
+                    for key, value in asdict(obj).items() if not key.startswith("_")}
         elif isinstance(obj, Enum):
             return obj.value
         elif type(obj) in [int, float, str, list, dict, tuple, set]:

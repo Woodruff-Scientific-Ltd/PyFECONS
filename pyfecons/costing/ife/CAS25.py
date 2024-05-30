@@ -12,7 +12,6 @@ def cas_25(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C250000 = M_USD(float(inputs.basic.n_mod) * data.power_table.p_et * 0.038 * 1.15)
 
     OUT.template_file = 'CAS250000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C250000': round(OUT.C250000)
     }

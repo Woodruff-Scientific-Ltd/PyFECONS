@@ -85,9 +85,9 @@ def base_name_without_extension(file_path: str) -> str:
     return os.path.splitext(base_name(file_path))[0]
 
 
-def get_local_included_files_map(included_files_path: str, local_included_files: dict[str, str]) -> dict[str, str]:
+def get_local_included_files_map(included_files_path: str, local_included_files: list[str]) -> dict[str, str]:
     file_map = {}
-    for tex_path, template_file in local_included_files.items():
-        res_path = resources.files(included_files_path).joinpath(template_file)
+    for tex_path in local_included_files:
+        res_path = resources.files(included_files_path).joinpath(tex_path)
         file_map[tex_path] = str(res_path)
     return file_map

@@ -39,7 +39,6 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # TODO script references CAS270000_MIF_DT.tex, which template should we use?
     OUT.template_file = 'CAS270000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C270000': round(OUT.C270000)
     }

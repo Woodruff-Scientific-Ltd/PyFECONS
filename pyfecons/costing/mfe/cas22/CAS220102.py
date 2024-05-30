@@ -9,26 +9,22 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas220102
     cas220101 = data.cas220101
     materials = inputs.materials
-
-    # Define the fractions
-    f_SiC = 0.00  # TODO - why is this 0? It invalidates the SiC material contribution
-    FPCPPFbLi = 0.1
-    f_W = 0.00  # TODO - why is this 0? It invalidates the W material contribution
-    f_BFS = 0.9
+    shield = inputs.shield
 
     # Retrieve the volume of HTS from the reactor_volumes dictionary
     OUT.V_HTS = round(cas220101.ht_shield_vol, 1)
 
     # Calculate the cost for HTS
     C_HTS = round(OUT.V_HTS * (
-            materials.SiC.rho * materials.SiC.c_raw * materials.SiC.m * f_SiC +
-            materials.PbLi.rho * materials.PbLi.c * FPCPPFbLi +
-            materials.W.rho * materials.W.c_raw * materials.W.m * f_W +
-            materials.BFS.rho * materials.BFS.c_raw * materials.BFS.m * f_BFS
+            materials.SiC.rho * materials.SiC.c_raw * materials.SiC.m * shield.f_SiC +
+            materials.PbLi.rho * materials.PbLi.c * shield.FPCPPFbLi +
+            materials.W.rho * materials.W.c_raw * materials.W.m * shield.f_W +
+            materials.BFS.rho * materials.BFS.c_raw * materials.BFS.m * shield.f_BFS
     ) / 1e6, 1)
 
     # Volume of HTShield that is BFS
-    V_HTS_BFS = OUT.V_HTS * f_BFS
+    # TODO this is unused
+    V_HTS_BFS = OUT.V_HTS * shield.f_BFS
 
     # The cost C_22_1_2 is the same as C_HTS
     OUT.C22010201 = M_USD(round(C_HTS, 1))
@@ -38,7 +34,6 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
 
     OUT.template_file = 'CAS220102.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220102__': round(data.cas220102.C220102),
         'C22010201': round(data.cas220102.C22010201),

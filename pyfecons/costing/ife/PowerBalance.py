@@ -34,7 +34,6 @@ def power_balance(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.p_net = (1 - 1 / OUT.q_eng) * OUT.p_et
 
     OUT.template_file = 'powerTableIFEDT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     # TODO round everything by 1
     OUT.replacements = {
         'PNRL': round(p_nrl, 1),

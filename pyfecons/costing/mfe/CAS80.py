@@ -23,7 +23,6 @@ def cas_80(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C800000 = to_m_usd(c_f)
 
     OUT.template_file = 'CAS800000_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C800000': round(OUT.C800000, 2),
         'primaryC': inputs.blanket.primary_coolant.display_name,

@@ -96,7 +96,32 @@ class Unknown(float):
     def __str__(self):
         return f"{self:.2f}"
 
+
 # Hertz
 class HZ(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Megajoules
+class MJ(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Temperature Kelvin
+class K(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# USD per W
+class USD_W(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Voltage
+class V(float):
     def __str__(self):
         return f"{self:.2f}"

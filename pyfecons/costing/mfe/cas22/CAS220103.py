@@ -5,7 +5,7 @@ import numpy as np
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import YuhuHtsCiccExtrapolation
 from pyfecons.costing.calculations.conversions import w_to_mw, to_m_usd
 from pyfecons.costing.calculations.thermal import k_steel, compute_q_in_struct, compute_q_in_n, compute_iter_cost_per_MW
-from pyfecons.data import Data, TemplateProvider, MagnetProperties
+from pyfecons.data import Data, TemplateProvider, MagnetProperties, CAS220103Coils
 from pyfecons.enums import MagnetMaterialType
 from pyfecons.inputs import Inputs, Coils, Magnet
 from pyfecons.units import M_USD, Count, MW, Turns, Meters2, MA, Amperes, Meters3, Kilometers, Kilograms, Meters
@@ -14,7 +14,8 @@ from pyfecons.units import M_USD, Count, MW, Turns, Meters2, MA, Amperes, Meters
 def cas_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.3: Coils
     IN = inputs.coils
-    OUT = data.cas220103
+    OUT: CAS220103Coils = data.cas220103
+    assert isinstance(OUT, CAS220103Coils)
 
     OUT.magnet_properties = [compute_magnet_properties(IN, magnet, data) for magnet in IN.magnets]
 
@@ -34,7 +35,6 @@ def cas_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.no_pf_pairs = Count(OUT.no_pf_coils / 2)
 
     OUT.template_file = 'CAS220103_MFE_DT_tokamak.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220103__': str(OUT.C220103),
         'C22010301': str(OUT.C22010301),
