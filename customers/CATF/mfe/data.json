@@ -1212,7 +1212,7 @@
     },
     "cas2207": {
         "replacements": {
-            "C220700": "85.00"
+            "C220700": 85
         },
         "template_file": "CAS220700.tex",
         "tex_path": "Modified/CAS220700.tex",

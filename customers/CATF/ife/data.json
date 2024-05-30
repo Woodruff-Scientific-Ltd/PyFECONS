@@ -776,11 +776,13 @@
         "C220600": 11.729512615232263
     },
     "cas2207": {
-        "replacements": {},
-        "template_file": null,
-        "tex_path": null,
+        "replacements": {
+            "C220700": 85
+        },
+        "template_file": "CAS220700.tex",
+        "tex_path": "Modified/CAS220700.tex",
         "figures": {},
-        "C220700": null
+        "C220700": 85.0
     },
     "cas23": {
         "replacements": {
