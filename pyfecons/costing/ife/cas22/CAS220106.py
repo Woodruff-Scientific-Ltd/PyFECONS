@@ -46,7 +46,6 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
 
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
     OUT.template_file = 'CAS220106_IFE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010601': round(OUT.C22010601),
         'C22010602': round(OUT.C22010602),

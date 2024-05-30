@@ -15,7 +15,6 @@ def cas_220103_lasers(inputs: Inputs, data: Data) -> TemplateProvider:
     replacements['C220103'] = str(round(OUT.C220103))
 
     OUT.template_file = 'CAS220103_IFE_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = replacements
     return OUT
 

@@ -8,7 +8,6 @@ def cas_2203_auxilary_cooling(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas2203
     OUT.C220300 = compute_auxilary_coolant_costs(inputs.basic.n_mod, data.power_table.p_th)
     OUT.template_file = 'CAS220300.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220300': str(round(OUT.C220300, 1))
     }

@@ -11,6 +11,5 @@ def cas_2205_fuel_handling_and_storage(inputs: Inputs, data: Data) -> TemplatePr
     OUT = compute_fuel_handling_and_storage_costs(IN, OUT)
 
     OUT.template_file = 'CAS220500_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = compute_replacements(IN, OUT)
     return OUT

@@ -19,7 +19,6 @@ def cas_220109_direct_energy_converter(inputs: Inputs, data: Data) -> TemplatePr
     OUT.C220109 = M_USD(0)
 
     OUT.template_file = 'CAS220109.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = get_replacements(OUT)
     return OUT
 

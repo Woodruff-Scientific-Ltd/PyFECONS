@@ -17,7 +17,6 @@ def cas_220104_ignition_lasers(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO missing value for C22010402 in template
 
     OUT.template_file = 'CAS220104_IFE_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = replacements
     return OUT
 

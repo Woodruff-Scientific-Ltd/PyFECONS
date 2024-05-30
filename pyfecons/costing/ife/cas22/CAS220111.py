@@ -11,7 +11,6 @@ def cas_220111_installation_costs(inputs: Inputs, data: Data) -> TemplateProvide
 
     OUT.C220111 = compute_installation_costs(IN.labor_rate, basic.construction_time, basic.n_mod, data.cas220101.axis_ir)
     OUT.template_file = 'CAS220111.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220111': str(OUT.C220111),
         'constructionTime': round(basic.construction_time),

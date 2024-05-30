@@ -87,7 +87,6 @@ def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     life_values_empty_percentages = map_keys_to_percentage(life_values_empty)
 
     OUT.template_file = 'CASstructure.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = (rounded_cost_values | percentage_cost_values
                         | life_values_inflation | life_values_percentages
                         | life_values_empty | life_values_empty_percentages)

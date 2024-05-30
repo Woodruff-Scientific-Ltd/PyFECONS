@@ -32,7 +32,6 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C220108 = to_m_usd(OUT.divertor_cost)
 
     OUT.template_file = 'CAS220108_MFE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220108': round(OUT.C220108),
         # All of these are not in the templateo

@@ -9,7 +9,6 @@ def cas_28(inputs: Inputs, data: Data) -> TemplateProvider:
     # In-house cost estimate provided by NtTau Digital LTD
     OUT.C280000 = M_USD(5)
     OUT.template_file = 'CAS280000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C280000': round(OUT.C280000)
     }

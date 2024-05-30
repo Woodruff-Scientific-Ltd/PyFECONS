@@ -37,7 +37,6 @@ def cas_50(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C500000 = M_USD(OUT.C510000 + OUT.C520000 + OUT.C530000 + OUT.C540000 + OUT.C550000 + OUT.C580000 + OUT.C590000)
 
     OUT.template_file = 'CAS500000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C500000': round(OUT.C500000),  # TODO - not in template
         'C510000': round(OUT.C510000),

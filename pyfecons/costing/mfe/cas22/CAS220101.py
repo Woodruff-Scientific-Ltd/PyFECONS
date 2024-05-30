@@ -35,7 +35,6 @@ def cas_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProvider
     OUT.figures['Figures/radial_build.pdf'] = plot_radial_build(reactor_type, IN)
 
     OUT.template_file = 'CAS220101_MFE_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = compute_220101_replacements(reactor_type, blanket, IN, OUT)
     return OUT
 

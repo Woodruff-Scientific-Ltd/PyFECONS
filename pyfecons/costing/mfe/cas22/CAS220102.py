@@ -34,7 +34,6 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
 
     OUT.template_file = 'CAS220102.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220102__': round(data.cas220102.C220102),
         'C22010201': round(data.cas220102.C22010201),

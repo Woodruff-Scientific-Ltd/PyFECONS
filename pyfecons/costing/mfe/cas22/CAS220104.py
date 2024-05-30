@@ -21,7 +21,6 @@ def cas_220104_supplementary_heating(inputs: Inputs, data: Data) -> TemplateProv
     ])
 
     OUT.template_file = 'CAS220104_MFE_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010401': str(round(OUT.C22010401, 3)),
         'C22010402': str(round(OUT.C22010402, 3)),

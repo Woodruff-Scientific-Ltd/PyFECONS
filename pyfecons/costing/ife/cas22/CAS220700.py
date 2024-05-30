@@ -8,7 +8,6 @@ def cas_2207_instrumentation_and_control(data: Data) -> TemplateProvider:
     OUT = data.cas2207
     OUT.C220700 = compute_instrumentation_and_control_costs()
     OUT.template_file = 'CAS220700.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220700': round(data.cas2207.C220700)
     }

@@ -15,7 +15,6 @@ def cas_220105_primary_structure(inputs: Inputs, data: Data) -> TemplateProvider
     # total cost calculation
     OUT.C220105 = M_USD(OUT.C22010501 + OUT.C22010502)
     OUT.template_file = 'CAS220105.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010501': str(round(OUT.C22010501)),
         'C22010502': str(round(OUT.C22010502)),

@@ -195,7 +195,6 @@ def cas_220108_target_factory(inputs: Inputs, data: Data) -> TemplateProvider:
 
     OUT.figures['Figures/targetPFR.pdf'] = plot_target_pfr()
     OUT.template_file = 'CAS220108_IFE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220108': round(OUT.C220108),
         'cvdDiamondAblatorCosts': target_factory_costs['CVD diamond ablator'].cost_row,

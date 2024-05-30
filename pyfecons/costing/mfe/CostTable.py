@@ -69,7 +69,6 @@ def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
     aries_st_empty_percentages = map_keys_to_percentage(aries_st_empty_values)
 
     OUT.template_file = 'CASstructure.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = (rounded_cost_values | percentage_cost_values
                         | aries_st_values_inflation | aries_st_percentages
                         | aries_st_empty_values | aries_st_empty_percentages)

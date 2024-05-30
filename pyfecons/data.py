@@ -9,9 +9,21 @@ from pyfecons.serializable import SerializableToJSON
 class TemplateProvider:
     replacements: dict[str, str] = field(default_factory=dict)
     template_file: str = None
-    tex_path: str = None
     # latex path -> image bytes
     figures: dict[str, bytes] = field(default_factory=dict)
+    _tex_path: str = None
+
+    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
+    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
+    @property
+    def tex_path(self) -> str:
+        if self._tex_path is None:
+            return 'Modified/' + self.template_file
+        return self._tex_path
+
+    @tex_path.setter
+    def tex_path(self, value):
+        self._tex_path = value
 
 
 @dataclass

@@ -12,7 +12,6 @@ def cas_24(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C240000 = M_USD(float(inputs.basic.n_mod) * data.power_table.p_et * 0.054 * inflation_factor_2019_2024)
 
     OUT.template_file = 'CAS240000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C240000': round(OUT.C240000, 1)
     }

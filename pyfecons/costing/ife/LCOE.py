@@ -17,7 +17,6 @@ def lcoe(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C2000000 = M_USD(OUT.C1000000 / 10)
 
     OUT.template_file = 'LCOE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C1000000': round(OUT.C1000000, 1),
         'C2000000': round(OUT.C2000000, 1),

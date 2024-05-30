@@ -35,7 +35,6 @@ def cas_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.no_pf_pairs = Count(OUT.no_pf_coils / 2)
 
     OUT.template_file = 'CAS220103_MFE_DT_tokamak.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220103__': str(OUT.C220103),
         'C22010301': str(OUT.C22010301),

@@ -15,7 +15,6 @@ def cas_2202_main_and_secondary_coolant(inputs: Inputs, data: Data) -> TemplateP
     OUT.C220200 = M_USD(OUT.C220201 + OUT.C220202 + OUT.C220203)
 
     OUT.template_file = 'CAS220200_DT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C220200': round(OUT.C220200),
         'C220201': round(OUT.C220201),

@@ -29,7 +29,6 @@ def power_balance(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.p_net = MW((1 - 1 / OUT.q_eng) * OUT.p_et)
 
     OUT.template_file = 'powerTableMFEDT.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         # Ordered by occurrence in template
         # 1. Output power

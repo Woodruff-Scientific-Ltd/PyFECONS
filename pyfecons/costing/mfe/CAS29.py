@@ -20,7 +20,6 @@ def cas_29(inputs: Inputs, data: Data) -> TemplateProvider:
                                    + data.cas28.C280000))
 
     OUT.template_file = 'CAS290000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C290000': round(data.cas29.C290000)
     }

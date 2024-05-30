@@ -9,6 +9,5 @@ def cas_2200_reactor_plant_equipment_total(inputs: Inputs, data: Data) -> Templa
     OUT = data.cas22
     OUT = compute_total_costs(OUT, data)
     OUT.template_file = 'CAS220000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = compute_replacements(inputs, data)
     return OUT

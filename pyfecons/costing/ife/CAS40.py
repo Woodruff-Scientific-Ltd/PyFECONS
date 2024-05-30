@@ -27,7 +27,6 @@ def cas_40(inputs: Inputs, data: Data) -> TemplateProvider:
     # C400000 = C410000 + C420000 + C430000 + C440000
 
     OUT.template_file = 'CAS400000.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C400000LSA': round(OUT.C400000LSA),
         'C400000XXX': round(OUT.C400000),  # TODO not in template

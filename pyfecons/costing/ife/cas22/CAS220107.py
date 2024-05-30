@@ -32,7 +32,6 @@ def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.figures['Figures/cap_derate.pdf'] = generate_cap_derate_figure(IN, basic.implosion_frequency)
 
     OUT.template_file = 'CAS220107_IFE.tex'
-    OUT.tex_path = 'Modified/' + OUT.template_file
     OUT.replacements = {
         'C22010700': round(OUT.C220107),
         'C22010701': round(OUT.C22010701),  # TODO not in template
