@@ -49,23 +49,23 @@ DOCUMENT_TEMPLATE='Costing_ARPA-E_IFE_Modified.tex'
 
 # map of latex_path -> included_file_name
 LOCAL_INCLUDED_FILES = {
-    'StandardFigures/WSLTD_logo.png': 'WSLTD_logo.png',
-    'Figures/FastIgnition.png': 'FastIgnition.png',
-    'StandardFigures/signature.jpg': 'signature.jpg',
-    'Originals/method.tex': 'method.tex',
-    'Originals/powerBalanceIFEDT.tex': 'powerBalanceIFEDT.tex',
-    'Originals/CAS220100_IFE.tex': 'CAS220100_IFE.tex',
+    'additions.bib': 'additions.bib',
     'glossary.tex': 'glossary.tex',
     'IEEEtran.bst': 'IEEEtran.bst',
     'ST-SC.bib': 'ST-SC.bib',
-    'additions.bib': 'additions.bib',
-    'StandardFigures/costcategories.png': 'costcategories.png',
-    'StandardFigures/power.eps': 'power.eps',
-    'StandardFigures/siteplan2023.eps': 'siteplan2023.eps',
-    'StandardFigures/TIsketch.eps': 'TIsketch.eps',
-    'StandardFigures/statista.png': 'statista.png',
-    'Figures/Bayrmanian2011.png': 'Bayrmanian2011.png',
+    'Figures/Bayrmanian2011.png': 'Figures/Bayrmanian2011.png',
+    'Figures/FastIgnition.png': 'Figures/FastIgnition.png',
+    'Originals/CAS220100_IFE.tex': 'Originals/CAS220100_IFE.tex',
+    'Originals/method.tex': 'Originals/method.tex',
+    'Originals/powerBalanceIFEDT.tex': 'Originals/powerBalanceIFEDT.tex',
+    'StandardFigures/costcategories.png': 'StandardFigures/costcategories.png',
+    'StandardFigures/power.eps': 'StandardFigures/power.eps',
+    'StandardFigures/signature.jpg': 'StandardFigures/signature.jpg',
+    'StandardFigures/siteplan2023.eps': 'StandardFigures/siteplan2023.eps',
+    'StandardFigures/statista.png': 'StandardFigures/statista.png',
     'StandardFigures/steamPbLi-eps-converted-to.pdf': 'StandardFigures/steamPbLi-eps-converted-to.pdf',
+    'StandardFigures/TIsketch.eps': 'StandardFigures/TIsketch.eps',
+    'StandardFigures/WSLTD_logo.png': 'StandardFigures/WSLTD_logo.png',
 }
 
 
