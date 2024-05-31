@@ -3,3 +3,9 @@ __pycache__/
 venv/
 .idea/
 temp/
+
+# Ignore everything in Customers/
+customers/**
+
+# Do not ignore CATF/
+!customers/CATF/
