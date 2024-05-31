@@ -510,12 +510,12 @@ class Data(SerializableToJSON):
     cas22: CAS22 = field(default_factory=CAS22)
     cas220101: CAS220101 = field(default_factory=CAS220101)
     cas220102: CAS220102 = field(default_factory=CAS220102)
-    cas220103: Union[CAS220103Coils, CAS220103Lasers] = field(default=None)
-    cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers] = field(default=None)
+    cas220103: Union[CAS220103Coils, CAS220103Lasers, None] = field(default=None)
+    cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers, None] = field(default=None)
     cas220105: CAS220105 = field(default_factory=CAS220105)
     cas220106: CAS220106 = field(default_factory=CAS220106)
     cas220107: CAS220107 = field(default_factory=CAS220107)
-    cas220108: Union[CAS220108Divertor, CAS220108TargetFactory] = field(default=None)
+    cas220108: Union[CAS220108Divertor, CAS220108TargetFactory, None] = field(default=None)
     cas220109: CAS220109 = field(default_factory=CAS220109)
     cas220111: CAS220111 = field(default_factory=CAS220111)
     cas220119: CAS220119 = field(default_factory=CAS220119)
@@ -551,26 +551,32 @@ class Data(SerializableToJSON):
         if self.cas220108 is None:
             self.cas220108 = self._initialize_cas220108()
 
-    def _initialize_cas220103(self) -> Union[CAS220103Coils, CAS220103Lasers]:
+    def _initialize_cas220103(self) -> Union[CAS220103Coils, CAS220103Lasers, None]:
         if self.reactor_type == ReactorType.MFE:
             return CAS220103Coils()
         elif self.reactor_type == ReactorType.IFE:
             return CAS220103Lasers()
-        else:  # mif
-            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+        elif self.reactor_type == ReactorType.MIF:
+            return None
+        else:
+            raise ValueError("Invalid reactor type.")
 
-    def _initialize_cas220104(self) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers]:
+    def _initialize_cas220104(self) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers, None]:
         if self.reactor_type == ReactorType.MFE:
             return CAS220104SupplementaryHeating()
         elif self.reactor_type == ReactorType.IFE:
             return CAS220104IgnitionLasers()
-        else:  # mif
-            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+        elif self.reactor_type == ReactorType.MIF:
+            return None
+        else:
+            raise ValueError("Invalid reactor type.")
 
-    def _initialize_cas220108(self) -> Union[CAS220108Divertor, CAS220108TargetFactory]:
+    def _initialize_cas220108(self) -> Union[CAS220108Divertor, CAS220108TargetFactory, None]:
         if self.reactor_type == ReactorType.MFE:
             return CAS220108Divertor()
         elif self.reactor_type == ReactorType.IFE:
             return CAS220108TargetFactory()
-        else:  # mif
-            raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+        elif self.reactor_type == ReactorType.MIF:
+            return None
+        else:
+            raise ValueError("Invalid reactor type.")

@@ -10,6 +10,8 @@ from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingDa
 from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
 from pyfecons.costing.ife.ife import GenerateCostingData as GenerateIfeCostingData
 from pyfecons.costing.ife.ife import CreateReportContent as CreateIfeReport
+from pyfecons.costing.mif.mif import GenerateCostingData as GenerateMifCostingData
+from pyfecons.costing.mif.mif import CreateReportContent as CreateMifReport
 from pyfecons.report import ReportContent, FinalReport, CostingData
 
 
@@ -19,7 +21,7 @@ def RunCosting(inputs: Inputs) -> CostingData:
     elif inputs.basic.reactor_type == ReactorType.IFE:
         return GenerateIfeCostingData(inputs)
     elif inputs.basic.reactor_type == ReactorType.MIF:
-        raise NotImplementedError()
+        return GenerateMifCostingData(inputs)
     raise ValueError('Invalid basic reactor type')
 
 
@@ -35,7 +37,7 @@ def CreateReportContent(inputs: Inputs, costing_data: CostingData) -> ReportCont
     elif inputs.basic.reactor_type == ReactorType.IFE:
         return CreateIfeReport(costing_data)
     elif inputs.basic.reactor_type == ReactorType.MIF:
-        raise NotImplementedError()
+        return CreateMifReport(costing_data)
     raise ValueError('Invalid basic reactor type')
 
 

@@ -1,0 +1,307 @@
+{
+    "customer_info": {
+        "name": "Clean Air Task Force"
+    },
+    "basic": {
+        "reactor_type": "MIF",
+        "confinement_type": "MIRROR_MIF",
+        "energy_conversion": "DIRECT",
+        "fuel_type": "DT",
+        "p_nrl": 2600.0,
+        "n_mod": 1,
+        "am": 1.0,
+        "downtime": 1.0,
+        "construction_time": 3.0,
+        "plant_lifetime": 30.0,
+        "plant_availability": 0.85,
+        "noak": null,
+        "yearly_inflation": 0.0245,
+        "time_to_replace": 10.0,
+        "implosion_frequency": null
+    },
+    "power_table": null,
+    "radial_build": null,
+    "shield": null,
+    "blanket": null,
+    "lasers": null,
+    "coils": null,
+    "supplementary_heating": {
+        "nbi_power": 50.0,
+        "icrf_power": 0.0,
+        "aries_at": {
+            "name": "ARIES-AT",
+            "type": "ICRF/LH",
+            "power": 37.441,
+            "cost_2009": 1.67,
+            "cost_2023": 2.3881
+        },
+        "aries_i_a": {
+            "name": "ARIES-I",
+            "type": "ICRF/LH",
+            "power": 96.707,
+            "cost_2009": 1.87,
+            "cost_2023": 2.6741
+        },
+        "aries_i_b": {
+            "name": "ARIES-I'",
+            "type": "ICRF/LH",
+            "power": 202.5,
+            "cost_2009": 1.96,
+            "cost_2023": 2.8028
+        },
+        "aries_rs": {
+            "name": "ARIES-RS",
+            "type": "ICRF/LH/HFFW",
+            "power": 80.773,
+            "cost_2009": 3.09,
+            "cost_2023": 4.4187
+        },
+        "aries_iv": {
+            "name": "ARIES-IV",
+            "type": "ICRF/LH",
+            "power": 68.0,
+            "cost_2009": 4.35,
+            "cost_2023": 6.2205
+        },
+        "aries_ii": {
+            "name": "ARIES-II",
+            "type": "ICRF/LH",
+            "power": 66.1,
+            "cost_2009": 4.47,
+            "cost_2023": 6.3921
+        },
+        "aries_iii_a": {
+            "name": "ARIES-III'",
+            "type": "NBI",
+            "power": 163.2,
+            "cost_2009": 4.93,
+            "cost_2023": 7.0499
+        },
+        "aries_iii_b": {
+            "name": "ARIES-III",
+            "type": "NBI",
+            "power": 172.0,
+            "cost_2009": 4.95,
+            "cost_2023": 7.0785
+        },
+        "iter": {
+            "name": "ITER",
+            "type": "ICRF",
+            "power": 5.5,
+            "cost_2009": null,
+            "cost_2023": 7.865
+        },
+        "average": {
+            "name": "Average",
+            "type": null,
+            "power": 110.840125,
+            "cost_2009": 3.643333333,
+            "cost_2023": 5.209966667
+        },
+        "average_icrf": {
+            "name": "Average (ICRF)",
+            "type": null,
+            "power": 91.92016667,
+            "cost_2009": 2.901666667,
+            "cost_2023": 4.149383333
+        },
+        "average_nbi": {
+            "name": "Average (NBI)",
+            "type": null,
+            "power": 167.6,
+            "cost_2009": 4.94,
+            "cost_2023": 7.0642
+        }
+    },
+    "primary_structure": null,
+    "vacuum_system": null,
+    "power_supplies": null,
+    "direct_energy_converter": null,
+    "installation": null,
+    "fuel_handling": null,
+    "lsa_levels": null,
+    "financial": {
+        "a_c_98": 115.0,
+        "a_power": 1000.0,
+        "capital_recovery_factor": 0.09
+    },
+    "target_factory": null,
+    "materials": {
+        "FS": {
+            "name": "Ferritic Steel",
+            "rho": 7470,
+            "c": null,
+            "c_raw": 10,
+            "m": 3,
+            "sigma": 450
+        },
+        "Pb": {
+            "name": "Lead",
+            "rho": 9400,
+            "c": null,
+            "c_raw": 2.4,
+            "m": 1.5,
+            "sigma": null
+        },
+        "Li4SiO4": {
+            "name": "Lithium Silicate",
+            "rho": 2390,
+            "c": null,
+            "c_raw": 1,
+            "m": 2,
+            "sigma": null
+        },
+        "FliBe": {
+            "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
+            "rho": 1900,
+            "c": 40,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "W": {
+            "name": "Tungsten",
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "Li": {
+            "name": "Lithium",
+            "rho": 534,
+            "c": null,
+            "c_raw": 70,
+            "m": 1.5,
+            "sigma": null
+        },
+        "BFS": {
+            "name": "BFS",
+            "rho": 7800,
+            "c": null,
+            "c_raw": 30,
+            "m": 2,
+            "sigma": null
+        },
+        "SiC": {
+            "name": "Silicon Carbide",
+            "rho": 3200,
+            "c": null,
+            "c_raw": 14.49,
+            "m": 3,
+            "sigma": null
+        },
+        "Inconel": {
+            "name": "Inconel",
+            "rho": 8440,
+            "c": null,
+            "c_raw": 46,
+            "m": 3,
+            "sigma": null
+        },
+        "Cu": {
+            "name": "Copper",
+            "rho": 7300,
+            "c": null,
+            "c_raw": 10.2,
+            "m": 3,
+            "sigma": null
+        },
+        "Polyimide": {
+            "name": "Polyimide",
+            "rho": 1430,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "YBCO": {
+            "name": "Yttrium Barium Copper Oxide (YBa2Cu3O7)",
+            "rho": 6200,
+            "c": 55,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Concrete": {
+            "name": "Concrete",
+            "rho": 2300,
+            "c": null,
+            "c_raw": 0.52,
+            "m": 2,
+            "sigma": null
+        },
+        "SS316": {
+            "name": "Stainless Steel 316",
+            "rho": 7860,
+            "c": null,
+            "c_raw": 2,
+            "m": 2,
+            "sigma": 900
+        },
+        "Nb3Sn": {
+            "name": "Niobium-Tin (Nb3Sn)",
+            "rho": null,
+            "c": 5,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Incoloy": {
+            "name": "Incoloy",
+            "rho": 8170,
+            "c": null,
+            "c_raw": 4,
+            "m": 2,
+            "sigma": null
+        },
+        "GdBCO": {
+            "name": "Gadolinium Barium Copper Oxide",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "He": {
+            "name": "Helium",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "NbTi": {
+            "name": "Niobium-Titanium",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Be": {
+            "name": "Beryllium",
+            "rho": 1850,
+            "c": null,
+            "c_raw": 5750,
+            "m": 3,
+            "sigma": null
+        },
+        "Li2TiO3": {
+            "name": "Lithium Titanate",
+            "rho": 3430,
+            "c": null,
+            "c_raw": 1297.05,
+            "m": 3,
+            "sigma": null
+        },
+        "PbLi": {
+            "name": "Lead (Pb) and Lithium (Li) Eutectic Alloy",
+            "rho": 8594.0,
+            "c": 12.818181818181818,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        }
+    }
+}

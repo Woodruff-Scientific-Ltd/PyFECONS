@@ -1,0 +1,108 @@
+\documentclass[english,aps]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{alltt}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{multirow}
+\makeatletter
+\usepackage{babel}
+\usepackage{hyperref}
+\hypersetup{%
+  colorlinks = true,
+  linkcolor  = black
+}
+\makeatother
+%\pagestyle{fancy}
+\title{MIF Concept\\ Proprietary Report} 
+\author{S. Woodruff, A. Higginbottom}
+\date{\today}
+\begin{document}
+\maketitle
+\maketitle
+\begin{figure}[t!] 
+\centering 
+\includegraphics[scale=0.5]{StandardFigures/WSLTD_logo.png} 
+\label{fig:logo} 
+\end{figure} 
+\begin{figure}[h!] 
+\centering 
+\includegraphics[scale=0.7]{{Figures/FrontMatter.eps}} 
+\caption{MIF Fusion Energy System} 
+\label{fig:render} 
+\end{figure} 
+\newpage 
+\textbf{Foreword} \\ 
+ 
+In the last several years, Woodruff Scientific has maintained an active interest in the costing analysis for fusion energy systems, collaborating with many in the field, and publishing a series of papers on this topic starting in 2011 with basic community consensus on the `Path to Market' for fusion energy systems, outlining the constraints placed on any energy technology as it moves towards commercialization in terms of timeline and available capital, and market demand for smaller, more modular units \cite{Woodruff2012}.  We followed up this analysis with a specific embodiment of a compact modular fusion power core that could be developed privately \cite{Woodruff2015}, working in the context of an IAEA Coordinated Research Project on compact fusion neutron sources and developing a costing model based on the ARIES methodology.  In 2017, we found support from ARPA-E to further develop our costing model in collaboration with Bechtel \cite{Bechtel2017}.  For that costing study, we considered 4 of the concepts that were supported by ARPA-E under the ALPHA program, and worked with PIs in each organization to develop basic radial builds of the 4 fusion power cores, based on prior art, and then performed cost analysis with the Balance of Plant and tritium systems analysis provided by Bechtel, but based predominantly on historical studies.  In 2018 Woodruff organized a workshop for the IAEA on private fusion enterprises \cite{IAEA2018}, and the commercialization path for fusion, with contributions from most major private fusion institutions and provided a summary of the cost modeling underway.\\ 
+ 
+In 2019 ARPA-E revisited the 2017 costing analysis in the light of new costing paradigms developed by Ingersoll and Foss at Lucid Catalyst \cite{MIT2018} \cite{EON2018}, addressing every assumption in the Cost Accounting Structure (CAS), calculating  an updated \$/kW for most CAS outside of the fusion power core (drawing in particular on the DOE NETL report \cite{JamesCorrespondingAuthor2019}). The 2019 ARPA-E study revisited the analysis using the code developed for the four concepts, touching on most of the recommendations of the prior study and obtaining review by leading experts in the field.  The costing was revisited in 2020 to extend to all ARPA-E supported fusion concepts, and the final version was started in 2023 to be released publicly.  This study captures the most recent thinking and brings together all our understanding of best costing methodologies uncovered in the couse of the ARPA-E work.\\ 
+
+\begin{figure}[h!] 
+\includegraphics[scale=0.55]{{StandardFigures/signature.jpg}}
+\label{fig:signature} 
+\end{figure}
+
+
+Simon Woodruff \\
+
+President \\
+
+Woodruff Scientific LTD
+
+\newpage
+\tableofcontents
+\newpage 
+\input{Originals/method.tex}
+\input{Originals/powerBalanceMIFDT.tex}
+%\input{Modified/powerTableMIFDT.tex}
+%\input{Modified/CAS100000.tex}
+%\input{Modified/CAS200000.tex}
+%\input{Modified/CAS210000.tex}
+%\input{Modified/CAS220000.tex}
+\input{Originals/CAS220100_MIF.tex}
+%\input{Modified/CAS220101_MIF_DT.tex}
+%\input{Modified/CAS220102.tex}
+%\input{Modified/CAS220103_MIF_DT_mirror.tex}
+%\input{Modified/CAS220104_MIF_DT.tex}
+%\input{Modified/CAS220105.tex}
+%\input{Modified/CAS220106_MIF.tex}
+%\input{Modified/CAS220107_MIF.tex}
+%\input{Modified/CAS220108_MIF.tex}
+%\input{Modified/CAS220109.tex}
+%\input{Modified/CAS220111.tex}
+%\input{Modified/CAS220119.tex}
+%\input{Modified/CAS220200_DT.tex}
+%\input{Modified/CAS220300.tex}
+%\input{Modified/CAS220400.tex}
+%\input{Modified/CAS220500_DT.tex}
+%\input{Modified/CAS220600.tex}
+%\input{Modified/CAS220700.tex}
+%\input{Modified/CAS230000.tex}
+%\input{Modified/CAS240000.tex}
+%\input{Modified/CAS250000.tex}
+%\input{Modified/CAS260000.tex}
+%\input{Modified/CAS270000.tex}
+%\input{Modified/CAS280000.tex}
+%\input{Modified/CAS290000.tex}
+%\input{Modified/CAS300000.tex}
+%\input{Modified/CAS400000.tex}
+%\input{Modified/CAS500000.tex}
+%\input{Modified/CAS600000.tex}
+%\input{Modified/CASstructure.tex}
+%\input{Modified/LCOE.tex}
+
+
+
+\newpage 
+  \appendix
+  \newpage 
+\input{glossary.tex}
+  \newpage 
+\section{Bibliography} 
+\bibliographystyle{IEEEtran.bst} 
+\bibliography{ST-SC.bib,additions.bib}
+\end{document} 
