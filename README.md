@@ -1,85 +1,117 @@
 # PyCosting
-It's PyFecons, but with a different name.
+PyFECONs is a general fusion costing analysis tool derived from 
+[ARPAE-PyFECONS](https://github.com/Woodruff-Scientific-Ltd/ARPAE-PyFECONS) scripts. The library has two purposes:
 
-# Using this library
+(1) Perform costing calculations for MFE, IFE, and MIF reactor concepts
 
-## Dependency Management
+(2) Generate a comprehensive report with the cost analysis.
 
-The library should work out of the box on linux python virtual environment. 
 
-Because of OS specific dependencies, in order to use PyFECONs on Mac M1 (and Windows?) you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
+## Running the costing code
 
-If your system requires conda, then you will need to copy and paste the [environment.yml](https://github.com/nTtau/PyFECONS/blob/main/environment.yml) file to your project and add your project's dependencies.
+Follow the steps below for [Installing Dependencies](#installing-dependencies) with conda or pyvenv + pip.
 
-## Pip
+Create a new customer folder in the customers/ directory. CATF is the example customer.
+
+Create a subdirectory in the customer folder for each reactor type ife/, mfe, or mif/, you'll see examples in CATF/.
+
+Copy and paste the DefineInputs.py for the given reactor type and update the parameters to your specification.
+
+Then you can run the script in the top level PyFECONs directory:
+```bash
+python3 RunCostingForCustomer.py REACTOR_TYPE CUSTOMER_FOLDER
+```
+
+An example run for CATF mfe:
+```bash
+python3 RunCostingForCustomer.py mfe CATF
+```
+
+This will use inputs from `customers/CATF/mfe/DefineInputs.py` file, output assets to `customers/CATF/mfe/outputs/`,
+and create a copy of the inputs `input.json` and outputs `data.json`.
+
+
+## Importing PyFECONs into your project
+
+### Pip
 
 To import pyfecons version `X.Y.Z` into your pip project:
 
 ```
-pip install pyfecons @ git+ssh://git@github.com/nTtau/PyFECONS.git@X.Y.Z
+pip install pyfecons @ git+ssh://git@github.com/Woodruff-Scientific-Ltd/PyFECONS.git@X.Y.Z
 ```
 
-## Conda
+### Conda
 
 To import pyfecons version `X.Y.Z` into your conda project, add the following to `environment.yml`:
 ```
+...
 - pip:
-  - --upgrade git+https://github.com/nTtau/PyFECONS.git@X.Y.Z
+  - --upgrade git+https://github.com/Woodruff-Scientific-Ltd/PyFECONS.git@X.Y.Z
 ```
 
-Unfortunately, due to the OS specific dependencies of [cadquery](https://github.com/CadQuery/cadquery), it's impossible to support an independent library that works pip virtual environments.
+## Contributing to this Library
 
-## Making changes
+### Managing dependencies
+
+Please add new dependencies to the `environment.yml` -pip array and duplicate these to `requirements.txt` file.
+
+### Making changes
 
 Please use [git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell) and create pull requests for approval when making changes.
 
-## Updating the library version
+### Updating the library version
 
 We need to update the library version number in `setup.py` when making changes. We are using `MAJOR.MINOR.PATCH` version number system.
 * `MAJOR` - increment when significant structure of the library has changed or new feature is introduced.
 * `MINOR` - increment when library has changed enough that UI changes are required (i.e. introduce new inputs or outputs).
 * `PATCH` - increment when changes are pushed, but UI would not need to be updated (i.e. changes to calculations, templates, but not to inputs or outputs)
 
-## Creating a Github release
+### Creating a Github release
 
 After code is updated and merged to main, if the version has changed you'll need to create a new release.
 Please follow the [Github Instructions](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 to create a release matching the merged version number. This is important for the webapp to manage updates and changes.
 
-## Installing LaTeX
-We are using native LaTeX to compile the pdf. You'll need to have `pdflatex` and `bibtex` installed and working on your system. Here's an unverified [guide](https://github.com/James-Yu/LaTeX-Workshop/wiki/Install) recommending TexLive.
-
-### Mac
-
-Simply use `brew install mactex`.
-
-### Linux
-
-```
-sudo apt-get update
-sudo apt-get install texlive texlive-font-utils
-```
-
-### Windows
-
-TODO
-
-## Creating a key pair
+### Creating a key pair
 ```bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
 cat ~/.ssh/your_file.pub
 ```
 Add to GitHub keys.
 
-# Installing dependencies
 
-Most dependency management is done with python virtual environment and pip. LaTeX will need to be installed outside the environment. cadquery works on linux with pip, but requires conda to work on Mac M1. `requirements.txt` is the main dependency file, but replicated to `environment.yml` to be used by conda for M1.
+## Installing Dependencies
+
+The library should work out of the box on linux with a python virtual environment and pip.
+
+Because of OS specific dependencies, in order to use PyFECONs on Mac M1 (and Windows?) you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
 
 TODO verify dependencies on Windows. For now consider using conda.
 
-## Python Virtual Environment
+### Installing LaTeX
 
-Linux and deployment server.
+LaTeX is an external dependency to the library since installation varies widely by OS.
+
+Mac:
+```bash
+brew install --cask mactex
+```
+
+Linux:
+```
+sudo apt install texlive-latex-extra
+```
+
+Windows
+```
+TODO
+```
+
+
+### Python Virtual Environment
+
+Preferred dependency management should work on linux machines.
 
 ```bash
 # remove existing environment (on clean up)
@@ -95,12 +127,10 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Conda Virtual Environment
+### Conda Virtual Environment
 
 [Conda](https://docs.conda.io/en/latest/) package management is needed for local development on Mac M1 due to 
 incompatibility of [cadquery](https://github.com/CadQuery/cadquery and pip.
-
-### Conda Installation
 
 Follow the Miniconda [Quick command line install](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
 instructions.
@@ -115,89 +145,24 @@ Don't forget to init your shell with:
 ~/miniconda3/bin/conda init bash
 ```
 
-### Creating the Conda environment
-
-You'll only need to do this once or every time after deleting the environment.
-
-```bash
+Conda Commands
+```
+# create environment - only need to do this once or every time after deleting the environment 
 conda env create -f environment.yml
-```
 
-### Listing Conda environments
-
-```bash
+# list environments
 conda env list
-```
 
-You should see the `pyfecons` environment when created successfully.
-
-### Activating the Conda environment
-
-You'll need to do this fer every new shell.
-
-```bash
+# activate pyfecons environment
 conda activate pyfecons
-```
 
-If this throws an error saying activate command is missing, you have a problem with your conda installation or didn't
-run the init command.
-
-
-### Updating the Conda environment
-
-You'll need to do this when you add or remove a package from the environment.yml file:
-
-```bash
+# updating conda environment (after adidng or removing dependencies)
 conda env update -f environment.yml
-```
 
-### Deactivating the Conda environment
-
-You'll need to do this only to detach from the Conda environment in the current shell:
-
-```bash
+# deactivating the Conda environment
 conda deactivate
-```
 
-### Deleting the Conda environment
-
-You'll need to do this only if you want to reinstall your environment to ensure a working environment.yml file.
-
-```bash
+# delete environment - to reinstall fresh 
 conda env remove -n pyfecons
-```
-
-### Managing dependencies
-
-Please add new dependencies to the `environment.yml` -pip array and duplicate these to `requirements.txt` file.
-
-## Installing LaTeX
-
-LaTeX is an external dependency to the library since installation varies widely by OS.
-
-### Mac
-
-```bash
-brew install --cask mactex
-```
-
-### Linux
 
 ```
-sudo apt install texlive-latex-extra
-```
-
-### Windows
-
-TODO
-
-## Running the costing code
-
-With an environment set up correctly, run the following command to execute the costing code:
-
-```bash
-python3 RunCostingForCustomer.py "CATF"
-```
-
-Which, working from the `customers/CATF/` folder, will take inputs from the `DefineInputs.py` file and
-output `inputs.json`, `data.json`, and `output/` processed template files.
