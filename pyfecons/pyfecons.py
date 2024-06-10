@@ -51,14 +51,14 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
         # Write top level document file
         document_tex = report_content.document_template.template_provider.template_file
         document_output_path = os.path.join(temp_dir, document_tex)
-        with open(document_output_path, 'w') as template_file:
+        with open(document_output_path, 'w', encoding='utf-8') as template_file:
             template_file.write(report_content.document_template.contents)
 
         # Write hydrated templates to tex compile directory
         for hydrated_template in report_content.hydrated_templates:
             output_path = os.path.join(temp_dir, hydrated_template.template_provider.tex_path)
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, 'w') as template_file:
+            with open(output_path, 'w', encoding='utf-8') as template_file:
                 template_file.write(hydrated_template.contents)
 
         # Write figures to tex compile directory
@@ -84,7 +84,7 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
         subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
         subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
 
-        with open(document_tex, 'r') as latex_file:
+        with open(document_tex, 'r', encoding='utf-8') as latex_file:
             tex_content = latex_file.read()
         with open(document_base_name + '.pdf', 'rb') as pdf_file:
             pdf_content = pdf_file.read()

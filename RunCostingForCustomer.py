@@ -64,7 +64,7 @@ except TypeError as e:
 
 inputDict = inputs.toDict()
 # Write the inputs to a json file in the customer's folder
-with open(f"{customer_folder}/inputs.json", "w") as file:
+with open(f"{customer_folder}/inputs.json", "w", encoding='utf-8') as file:
     inputJSONstring = json.dumps(inputDict, indent=4, cls=PyfeconsEncoder)
     file.write(inputJSONstring)
 
@@ -86,7 +86,7 @@ dataDict = costing_data.data.toDict()
 
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
-with open(f"{customer_folder}/data.json", "w") as file:
+with open(f"{customer_folder}/data.json", "w", encoding='utf-8') as file:
     dataJSONstring = json.dumps(dataDict, indent=4, cls=PyfeconsEncoder)
     file.write(dataJSONstring)
 
@@ -123,10 +123,10 @@ print(f"Existing contents of {output_dir} have been deleted.")
 
 # a dictionary with keys = name of file, value = contents
 # Write the data to files in the customer's folder
-with open(f"{customer_folder}/output/{report_content.document_template.template_provider.template_file}", "w") as file:
+with open(f"{customer_folder}/output/{report_content.document_template.template_provider.template_file}", "w", encoding='utf-8') as file:
     file.write(report_content.document_template.contents)
 for hydrated_template in report_content.hydrated_templates:
-    with open(f"{customer_folder}/output/{hydrated_template.template_provider.template_file}", "w") as file:
+    with open(f"{customer_folder}/output/{hydrated_template.template_provider.template_file}", "w", encoding='utf-8') as file:
         file.write(hydrated_template.contents)
 for tex_path, figure_bytes in report_content.figures.items():
     output_file = f'{customer_folder}/output/{tex_path}'
@@ -139,7 +139,7 @@ print(f"Costing run completed for {customer_name}. Data saved to {customer_folde
 
 # create final pdf output
 final_report = RenderFinalReport(report_content)
-with open(f"{customer_folder}/output/report.tex", "w") as file:
+with open(f"{customer_folder}/output/report.tex", "w", encoding='utf-8') as file:
     file.write(final_report.report_tex)
 with open(f"{customer_folder}/output/report.pdf", "wb") as file:
     file.write(final_report.report_pdf)
