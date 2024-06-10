@@ -21,10 +21,6 @@ if reactor_type not in ['mfe', 'ife', 'mif']:
     print("Invalid REACTOR_TYPE: should be mfe, ife, or mif")
     sys.exit(1)
 
-if reactor_type == 'mif':
-    print('REACTOR_TYPE mif not yet implemented...')
-    sys.exit(1)
-
 
 # Check if the customer folder exists
 customer_folder = f"customers/{customer_name}/{reactor_type}"
