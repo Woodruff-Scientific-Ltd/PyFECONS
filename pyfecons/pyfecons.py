@@ -79,10 +79,10 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
 
         document_base_name = base_name_without_extension(document_tex)
         args = {'stdout': subprocess.DEVNULL, 'stderr': subprocess.DEVNULL} if hide_output else {}
-        subprocess.run(['pdflatex', document_tex], check=True, **args)
+        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
         subprocess.run(['bibtex', document_base_name], check=True, **args)
-        subprocess.run(['pdflatex', document_tex], check=True, **args)
-        subprocess.run(['pdflatex', document_tex], check=True, **args)
+        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
+        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
 
         with open(document_tex, 'r') as latex_file:
             tex_content = latex_file.read()
