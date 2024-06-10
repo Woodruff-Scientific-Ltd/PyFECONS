@@ -4,7 +4,7 @@ from pyfecons.report import TemplateProvider, HydratedTemplate
 
 def read_template(templates_path: str, template_file: str) -> str:
     with resources.path(templates_path, template_file) as template_path:
-        with open(template_path, 'r') as file:
+        with open(template_path, 'r', encoding='utf-8') as file:
             return file.read()
 
 
