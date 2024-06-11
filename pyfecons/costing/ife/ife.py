@@ -1,9 +1,11 @@
-from pyfecons.data import Data, TemplateProvider
+from typing import Optional
+
+from pyfecons.data import Data
 from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs import Inputs
-from pyfecons.report import CostingData, ReportContent, HydratedTemplate
-from pyfecons.templates import read_template, hydrate_templates, combine_figures
+from pyfecons.report import CostingData, ReportContent, ReportOverrides
+from pyfecons.templates import hydrate_templates, combine_figures, load_document_template
 from pyfecons.costing.ife.PowerBalance import power_balance
 from pyfecons.costing.ife.CAS10 import cas_10
 from pyfecons.costing.ife.CAS21 import cas_21
@@ -114,16 +116,10 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
     return CostingData(data, template_providers)
 
 
-def CreateReportContent(costing_data: CostingData) -> ReportContent:
-    document_template = load_document_template()
-    hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers)
+def CreateReportContent(costing_data: CostingData,
+                        overrides: Optional[ReportOverrides] = None) -> ReportContent:
+    document_template = load_document_template(TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides)
+    hydrated_templates = hydrate_templates(TEMPLATES_PATH, costing_data.template_providers, overrides)
     figures = combine_figures(costing_data.template_providers)
-    included_files = get_local_included_files_map(INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES)
+    included_files = get_local_included_files_map(INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides)
     return ReportContent(document_template, hydrated_templates, included_files, figures)
-
-
-def load_document_template() -> HydratedTemplate:
-    return HydratedTemplate(
-        TemplateProvider(template_file=DOCUMENT_TEMPLATE),
-        read_template(TEMPLATES_PATH, DOCUMENT_TEMPLATE)
-    )
