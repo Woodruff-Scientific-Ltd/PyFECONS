@@ -3,6 +3,7 @@ import os
 import json
 import shutil
 
+from pyfecons.helpers import load_customer_overrides
 from pyfecons.serializable import PyfeconsEncoder
 
 #################
@@ -101,8 +102,11 @@ with open(f"{customer_folder}/data.json", "w", encoding='utf-8') as file:
 # HYDRATE THE TEMPLATES #
 #########################
 
+overrides = load_customer_overrides(customer_folder)
+
 # fill in the templates and copy them to the customer's folder
-report_content = CreateReportContent(inputs, costing_data)
+report_content = CreateReportContent(inputs, costing_data, overrides)
+
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory

@@ -2,6 +2,8 @@ import os
 import requests
 from importlib import resources
 from urllib.parse import urljoin
+from typing import Optional
+from pyfecons.report import ReportOverrides
 
 
 def safe_round(value, digits):
@@ -85,9 +87,44 @@ def base_name_without_extension(file_path: str) -> str:
     return os.path.splitext(base_name(file_path))[0]
 
 
-def get_local_included_files_map(included_files_path: str, local_included_files: list[str]) -> dict[str, str]:
+def get_local_included_files_map(included_files_path: str, local_included_files: list[str],
+                                 overrides: Optional[ReportOverrides] = None) -> dict[str, str]:
     file_map = {}
     for tex_path in local_included_files:
-        res_path = resources.files(included_files_path).joinpath(tex_path)
-        file_map[tex_path] = str(res_path)
+        included_file_path = get_included_file_path(included_files_path, tex_path, overrides)
+        file_map[tex_path] = included_file_path
     return file_map
+
+
+def get_included_file_path(included_files_path: str, tex_path: str,
+                           overrides: Optional[ReportOverrides] = None) -> str:
+    if overrides is not None and tex_path in overrides.included_files.keys():
+        return overrides.included_files[tex_path]
+    else:
+        return str(resources.files(included_files_path).joinpath(tex_path))
+
+
+def load_customer_overrides(customer_dir: str) -> ReportOverrides:
+    overrides = ReportOverrides()
+
+    included_files_dir = os.path.join(customer_dir, 'included_files')
+    templates_dir = os.path.join(customer_dir, 'templates')
+
+    # Process included_files
+    if os.path.exists(included_files_dir):
+        for root, _, files in os.walk(included_files_dir):
+            for file in files:
+                file_path = os.path.join(root, file)
+                relative_path = os.path.relpath(file_path, included_files_dir)
+                absolute_path = os.path.abspath(file_path)
+                overrides.included_files[relative_path] = absolute_path
+
+    # Process templates
+    if os.path.exists(templates_dir):
+        for file in os.listdir(templates_dir):
+            file_path = os.path.join(templates_dir, file)
+            if os.path.isfile(file_path):
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    overrides.templates[file] = f.read()
+
+    return overrides
