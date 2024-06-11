@@ -133,7 +133,6 @@ def plot_radial_build(reactor_type: ReactorType, radial_build: RadialBuild) -> b
 
     # Show the plot
     plt.tight_layout()
-    # plt.show()
 
     # save figure
     figure_data = BytesIO()

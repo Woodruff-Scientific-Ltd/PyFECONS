@@ -90,7 +90,6 @@ def generate_cap_derate_figure(IN: PowerSupplies, implosion_frequency: HZ) -> by
 
     # Show updated plots
     plt.tight_layout()
-    plt.show()
 
     # Plotting the stacked bar graph
     # Adjust the figsize to get the desired aspect ratio
