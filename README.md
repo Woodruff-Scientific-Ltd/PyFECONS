@@ -30,6 +30,19 @@ python3 RunCostingForCustomer.py mfe CATF
 This will use inputs from `customers/CATF/mfe/DefineInputs.py` file, output assets to `customers/CATF/mfe/outputs/`,
 and create a copy of the inputs `input.json` and outputs `data.json`.
 
+### Customer Custom Templates
+
+You can override the library templates in `pyfecons/costing/REACTOR_TYPE/templates` folder by adding a template of the
+exact same file name to the `customers/CUSTOMER_NAME/REACTOR_TYPE/templates` directory. The costing code will use
+files in the `customers/` directory before the library with the same substitutions.
+
+### Customer Custom Included Files
+
+You can override the library included files in `pyfecons/costing/REACTOR_TYPE/included_files` folder by adding a
+template of the exact same file name to the `customers/CUSTOMER_NAME/REACTOR_TYPE/included_files` directory.
+The costing code will use  files in the `customers/` directory before the library with the same substitutions. NB you
+must have the file in the same directory structure relative to `included_files/`.
+I.e. `customers/CATF/ife/included_files/StandardFigures/WSLTD_logo.png`.
 
 ## Importing PyFECONs into your project
 
@@ -87,8 +100,6 @@ The library should work out of the box on linux with a python virtual environmen
 
 Because of OS specific dependencies, in order to use PyFECONs on Mac M1 (and Windows?) you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
 
-TODO verify dependencies on Windows. For now consider using conda.
-
 ### Installing LaTeX
 
 LaTeX is an external dependency to the library since installation varies widely by OS.
@@ -111,8 +122,9 @@ TODO
 
 ### Python Virtual Environment
 
-Preferred dependency management should work on linux machines.
+Preferred dependency management for Linux and Windows.
 
+Linux Commands
 ```bash
 # remove existing environment (on clean up)
 rm -rf venv
@@ -122,6 +134,21 @@ python3 -m venv venv
 
 # activate virtual environment (on new terminal)
 source venv/bin/activate
+
+# install dependencies (on new environment or after changes)
+pip install -r requirements.txt
+```
+
+Windows Commands
+```bash
+# remove existing environment (on clean up)
+rm -rf venv
+
+# create virtual environment (on new environment)
+python3 -m venv venv
+
+# activate virtual environment (on new shell)
+venv\Scripts\activate
 
 # install dependencies (on new environment or after changes)
 pip install -r requirements.txt
