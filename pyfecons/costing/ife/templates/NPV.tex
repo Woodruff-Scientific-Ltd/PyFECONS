@@ -1,0 +1,16 @@
+\subsection{Net Present Value (NPV)}
+
+Net present value, (NPV) is defined as 'the present value of the cash flows at the required rate of return of your project compared to your initial investment' \cite{gallo2014refresher}. Mathematically, this is
+
+\begin{equation}
+    \mbox{NPV} = \sum_{n=1}^N \frac{FV}{(1+d)^n},
+\end{equation}
+
+ where $FV$ is the projected cash flow for each year, $d$ is the discount rate, and $n$ is the number of periods out the cash flow is from the present. For the purposes of this analysis, the cash flow out consists of the sum of the costs in \ref{tab:lcoe}, and the cash flow in is given by the LCOE for the year, assuming an availability of 90\%. Thus, the NPV
+
+ \begin{equation}
+     \mbox{NPV} = \sum_{n=1}^N \frac{C_{AC}+ C_{SCR}+ C_{OM} +C_F - (LCOE + C_{DD})P_Ep_a \times 8760 }{(1+d)^n}.
+ \end{equation}
+
+%NPV variable name for octave replacement is NPV_
+For a discount rate of DiscountRate\%, this yields an NPV of NPVval, or a return of approximately NPVfrac \% compared to the total capital cost.

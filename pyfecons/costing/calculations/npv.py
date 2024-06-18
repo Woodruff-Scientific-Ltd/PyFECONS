@@ -21,8 +21,8 @@ def calculate_npv(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.npv = npv
     OUT.template_file = 'NPV.tex'
     OUT.replacements = {
-        'NPVval': OUT.npv,
-        'DiscountRate': inputs.npv.discount_rate*100  # Multiplied by 100 for percentage
+        'NPVval': round(OUT.npv, 2),
+        'DiscountRate': round(inputs.npv.discount_rate*100, 2)  # Multiplied by 100 for percentage
     }
 
     return OUT

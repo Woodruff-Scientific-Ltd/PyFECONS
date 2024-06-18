@@ -1133,5 +1133,14 @@
         },
         "template_file": "CASstructure.tex",
         "figures": {}
+    },
+    "npv": {
+        "replacements": {
+            "NPVval": -22835651463.29,
+            "DiscountRate": 8.0
+        },
+        "template_file": "NPV.tex",
+        "figures": {},
+        "npv": -22835651463.289886
     }
 }
