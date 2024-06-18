@@ -402,6 +402,12 @@ class TargetFactory:
 
 
 @dataclass
+class NpvInput:
+    # Financial discount rate (interest rate for short term loans)
+    discount_rate: Percent = field(default=None)
+
+
+@dataclass
 class Inputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default=None)
@@ -424,6 +430,7 @@ class Inputs(SerializableToJSON):
     # TODO is this really an input? if not move to calculation class
     financial: Financial = field(default_factory=Financial)
     target_factory: TargetFactory = field(default=None)
+    npv: NpvInput = field(default=None)
 
     # Library inputs
     materials: Materials = field(default_factory=Materials)

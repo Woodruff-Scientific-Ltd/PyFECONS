@@ -294,6 +294,9 @@
     "target_factory": {
         "learning_credit": 0.8
     },
+    "npv": {
+        "discount_rate": 0.08
+    },
     "materials": {
         "FS": {
             "name": "Ferritic Steel",

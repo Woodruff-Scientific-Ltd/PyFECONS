@@ -502,6 +502,11 @@ class CostTable(TemplateProvider):
 
 
 @dataclass
+class NPV(TemplateProvider):
+    npv: M_USD = None
+
+
+@dataclass
 class Data(SerializableToJSON):
     reactor_type: ReactorType
     power_table: PowerTable = field(default_factory=PowerTable)
@@ -542,6 +547,7 @@ class Data(SerializableToJSON):
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
     cost_table: CostTable = field(default_factory=CostTable)
+    npv: NPV = field(default_factory=NPV)
 
     def __post_init__(self):
         if self.cas220103 is None:

@@ -43,6 +43,7 @@ from pyfecons.costing.mfe.CAS80 import cas_80
 from pyfecons.costing.mfe.CAS90 import cas_90
 from pyfecons.costing.mfe.LCOE import lcoe
 from pyfecons.costing.mfe.CostTable import cost_table
+from pyfecons.costing.calculations.npv import calculate_npv
 from pyfecons.report import ReportContent, CostingData, ReportOverrides
 
 TEMPLATES_PATH = 'pyfecons.costing.mfe.templates'
@@ -112,6 +113,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_90(inputs, data),
         lcoe(inputs, data),
         cost_table(inputs, data),
+        calculate_npv(inputs, data),
     ]
     return CostingData(data, template_providers)
 
