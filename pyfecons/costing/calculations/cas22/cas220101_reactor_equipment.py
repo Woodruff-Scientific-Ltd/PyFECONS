@@ -3,16 +3,93 @@ from io import BytesIO
 from typing import Dict
 from matplotlib import pyplot as plt
 from pyfecons.costing.calculations.conversions import to_m_usd
+from pyfecons.costing.calculations.volume import calc_volume_ring, calc_volume_torus, calc_volume_sphere
 from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType
 from pyfecons.inputs import RadialBuild, Blanket
 from pyfecons.materials import Materials, Material
-from pyfecons.units import M_USD
+from pyfecons.units import M_USD, Meters3
+
+materials = Materials()
 
 matplotlib.use('Agg')
 
 
-def compute_inner_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101):
+def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket,
+                                    radial_build: RadialBuild) -> CAS220101:
+    IN = radial_build
+    OUT = CAS220101()
+    OUT = compute_inner_radii(reactor_type, IN, OUT)
+    OUT = compute_outer_radii(reactor_type, IN, OUT)
+
+    if reactor_type == ReactorType.MFE:
+        OUT = compute_volume_mfe(IN, OUT)
+        # must be cylindrical in all cases
+        OUT.gap2_vol = calc_volume_ring(IN.axis_t, IN.gap2_t + OUT.gap2_ir, OUT.gap2_ir)
+        # Updated bioshield volume
+        OUT.bioshield_vol = calc_volume_ring(IN.axis_t, IN.bioshield_t + OUT.bioshield_ir, OUT.bioshield_ir)
+    elif reactor_type == ReactorType.IFE:
+        OUT = compute_volume_ife(OUT)
+    else:
+        raise ValueError(f'Unsupported reactor type {reactor_type}')
+
+    OUT.C22010101 = compute_first_wall_costs(blanket, OUT)
+    OUT.C22010102 = compute_blanket_costs(blanket, OUT)
+
+    # Total cost of blanket and first wall
+    OUT.C220101 = M_USD(OUT.C22010101 + OUT.C22010102)
+    return OUT
+
+
+def compute_volume_mfe(IN: RadialBuild, OUT: CAS220101) -> CAS220101:
+    OUT.axis_vol = 0.0
+    OUT.plasma_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.plasma_ir, IN.plasma_t) - OUT.axis_vol)
+    OUT.vacuum_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.vacuum_ir, IN.vacuum_t)
+                             - sum([OUT.plasma_vol, OUT.axis_vol]))
+    OUT.firstwall_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.firstwall_ir, IN.firstwall_t)
+                                - sum([OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.blanket1_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.blanket1_ir, IN.blanket1_t)
+                               - sum([OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.reflector_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.reflector_ir, IN.reflector_t)
+                                - sum([OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol,
+                                       OUT.axis_vol]))
+    OUT.ht_shield_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.ht_shield_ir, IN.ht_shield_t)
+                                - sum([OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.structure_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.structure_ir, IN.structure_t)
+                                - sum([OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.gap1_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.gap1_ir, IN.gap1_t)
+                           - sum([OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol,
+                                  OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.vessel_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.vessel_ir, IN.vessel_t)
+                             - sum([OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol,
+                                    OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.lt_shield_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.lt_shield_ir, IN.lt_shield_t)
+                                - sum([OUT.vessel_vol, OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol,
+                                       OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol,
+                                       OUT.plasma_vol, OUT.axis_vol]))
+    OUT.coil_vol = Meters3(calc_volume_torus(IN.axis_t, OUT.coil_ir, IN.coil_t) * 0.5)
+    return OUT
+
+
+def compute_volume_ife(OUT: CAS220101) -> CAS220101:
+    OUT.axis_vol = calc_volume_sphere(OUT.axis_ir, OUT.axis_or)
+    OUT.plasma_vol = calc_volume_sphere(OUT.plasma_ir, OUT.plasma_or)
+    OUT.vacuum_vol = calc_volume_sphere(OUT.vacuum_ir, OUT.vacuum_or)
+    OUT.firstwall_vol = calc_volume_sphere(OUT.firstwall_ir, OUT.firstwall_or)
+    OUT.blanket1_vol = calc_volume_sphere(OUT.blanket1_ir, OUT.blanket1_or)
+    OUT.reflector_vol = calc_volume_sphere(OUT.reflector_ir, OUT.reflector_or)
+    OUT.ht_shield_vol = calc_volume_sphere(OUT.ht_shield_ir, OUT.ht_shield_or)
+    OUT.structure_vol = calc_volume_sphere(OUT.structure_ir, OUT.structure_or)
+    OUT.gap1_vol = calc_volume_sphere(OUT.gap1_ir, OUT.gap1_or)
+    OUT.vessel_vol = calc_volume_sphere(OUT.vessel_ir, OUT.vessel_or)
+    OUT.lt_shield_vol = calc_volume_sphere(OUT.lt_shield_ir, OUT.lt_shield_or)
+    OUT.gap2_vol = calc_volume_sphere(OUT.gap2_ir, OUT.gap2_or)
+    OUT.bioshield_vol = calc_volume_sphere(OUT.bioshield_ir, OUT.bioshield_or)
+    return OUT
+
+def compute_inner_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101) -> CAS220101:
     # Inner radii
     OUT.axis_ir = IN.axis_t
     OUT.plasma_ir = OUT.axis_ir
@@ -33,9 +110,10 @@ def compute_inner_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS2201
         OUT.gap2_ir = OUT.lt_shield_ir + IN.lt_shield_t # Adjusted gap2 inner radius directly after lt_shield
 
     OUT.bioshield_ir = OUT.gap2_ir + IN.gap2_t  # Adjusted bioshield inner radius
+    return OUT
 
 
-def compute_outer_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101):
+def compute_outer_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101) -> CAS220101:
     # Outer radii
     OUT.axis_or = OUT.axis_ir + IN.axis_t
     OUT.plasma_or = OUT.plasma_ir + IN.plasma_t
@@ -54,9 +132,10 @@ def compute_outer_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS2201
 
     OUT.gap2_or = OUT.gap2_ir + IN.gap2_t  # Adjusted gap2 outer radius directly after lt_shield
     OUT.bioshield_or = OUT.bioshield_ir + IN.bioshield_t  # Adjusted bioshield outer radius
+    return OUT
 
 
-def compute_first_wall_costs(blanket: Blanket, materials: Materials, OUT: CAS220101) -> M_USD:
+def compute_first_wall_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # First wall
     if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
         return compute_material_cost(OUT.firstwall_vol, materials.W)
@@ -69,7 +148,7 @@ def compute_first_wall_costs(blanket: Blanket, materials: Materials, OUT: CAS220
     raise f'Unknown first wall type {blanket.first_wall}'
 
 
-def compute_blanket_costs(blanket: Blanket, materials: Materials, OUT: CAS220101) -> M_USD:
+def compute_blanket_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # Blanket
     if blanket.blanket_type == BlanketType.FLOWING_LIQUID_FIRST_WALL:
         return compute_material_cost(OUT.blanket1_vol, materials.Li)
