@@ -119,10 +119,15 @@ Windows
 TODO
 ```
 
+### Python 3
+
+Library is tested working with Python 3.9 (3.9.19).
+
+We recommend [pyenv](https://github.com/pyenv/pyenv) for Python version management.
 
 ### Python Virtual Environment
 
-Preferred dependency management for Linux and Windows.
+Preferred dependency management.
 
 Linux Commands
 ```bash
@@ -158,6 +163,9 @@ pip install -r requirements.txt
 
 [Conda](https://docs.conda.io/en/latest/) package management is needed for local development on Mac M1 due to 
 incompatibility of [cadquery](https://github.com/CadQuery/cadquery and pip.
+
+NB we are not using cadquery anymore so Conda is no longer a requirement for Mac M1. If we add back complicated
+dependencies this may change in the future.
 
 Follow the Miniconda [Quick command line install](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
 instructions.
