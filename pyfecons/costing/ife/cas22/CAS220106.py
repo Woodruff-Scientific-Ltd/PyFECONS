@@ -3,7 +3,10 @@ import numpy as np
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
+from pyfecons.materials import Materials
 from pyfecons.units import Meters3, M_USD
+
+materials = Materials()
 
 
 def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
@@ -12,7 +15,6 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT = data.cas220106
     build = data.cas220101
     IN = inputs.vacuum_system
-    materials = inputs.materials
 
     # Calculate mass and cost
     material_volume = build.vessel_vol

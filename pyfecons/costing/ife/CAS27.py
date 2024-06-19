@@ -1,14 +1,16 @@
+from pyfecons.materials import Materials
 from pyfecons.units import M_USD
 from pyfecons.enums import BlanketPrimaryCoolant
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
+
+materials = Materials()
 
 
 def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 27 Special Materials
     OUT = data.cas27
     blanket = inputs.blanket
-    materials = inputs.materials
 
     # Select the coolant and calculate C_27_1
     C_27_1 = 0

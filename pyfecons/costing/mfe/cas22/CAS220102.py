@@ -1,14 +1,16 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
+from pyfecons.materials import Materials
 from pyfecons.units import M_USD
+
+materials = Materials()
 
 
 def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.2: Shield
     OUT = data.cas220102
     cas220101 = data.cas220101
-    materials = inputs.materials
     shield = inputs.shield
 
     # Retrieve the volume of HTS from the reactor_volumes dictionary

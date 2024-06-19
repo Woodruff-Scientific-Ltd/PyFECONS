@@ -95,7 +95,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_2205_fuel_handling_and_storage(inputs, data),
         cas_2206_other_reactor_plant_equipment(data),
         cas_2207_instrumentation_and_control(data),
-        cas_2200_reactor_plant_equipment_total(inputs, data),
+        cas_2200_reactor_plant_equipment_total(data),
         cas_23(inputs, data),
         cas_24(inputs, data),
         cas_25(inputs, data),

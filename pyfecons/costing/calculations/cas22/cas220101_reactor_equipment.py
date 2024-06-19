@@ -10,10 +10,12 @@ from pyfecons.inputs import RadialBuild, Blanket
 from pyfecons.materials import Materials, Material
 from pyfecons.units import M_USD, Meters3
 
+materials = Materials()
+
 matplotlib.use('Agg')
 
 
-def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket, materials: Materials,
+def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket,
                                     radial_build: RadialBuild) -> CAS220101:
     IN = radial_build
     OUT = CAS220101()
@@ -31,8 +33,8 @@ def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket,
     else:
         raise ValueError(f'Unsupported reactor type {reactor_type}')
 
-    OUT.C22010101 = compute_first_wall_costs(blanket, materials, OUT)
-    OUT.C22010102 = compute_blanket_costs(blanket, materials, OUT)
+    OUT.C22010101 = compute_first_wall_costs(blanket, OUT)
+    OUT.C22010102 = compute_blanket_costs(blanket, OUT)
 
     # Total cost of blanket and first wall
     OUT.C220101 = M_USD(OUT.C22010101 + OUT.C22010102)
@@ -133,7 +135,7 @@ def compute_outer_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS2201
     return OUT
 
 
-def compute_first_wall_costs(blanket: Blanket, materials: Materials, OUT: CAS220101) -> M_USD:
+def compute_first_wall_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # First wall
     if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
         return compute_material_cost(OUT.firstwall_vol, materials.W)
@@ -146,7 +148,7 @@ def compute_first_wall_costs(blanket: Blanket, materials: Materials, OUT: CAS220
     raise f'Unknown first wall type {blanket.first_wall}'
 
 
-def compute_blanket_costs(blanket: Blanket, materials: Materials, OUT: CAS220101) -> M_USD:
+def compute_blanket_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # Blanket
     if blanket.blanket_type == BlanketType.FLOWING_LIQUID_FIRST_WALL:
         return compute_material_cost(OUT.blanket1_vol, materials.Li)
