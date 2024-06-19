@@ -1,6 +1,5 @@
 from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import compute_total_costs, \
     compute_replacements
-from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 
 
