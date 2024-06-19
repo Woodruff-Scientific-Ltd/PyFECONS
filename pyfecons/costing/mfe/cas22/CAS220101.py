@@ -1,6 +1,5 @@
-from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (plot_radial_build,
-                                                                             compute_220101_replacements,
-                                                                             compute_reactor_equipment_costs)
+from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import plot_radial_build, \
+    compute_220101_replacements, compute_reactor_equipment_costs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 

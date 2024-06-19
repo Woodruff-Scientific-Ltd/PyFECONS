@@ -3,7 +3,7 @@ from io import BytesIO
 from typing import Dict
 from matplotlib import pyplot as plt
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.costing.calculations.volume import calc_volume_ring, calc_volume_torus
+from pyfecons.costing.calculations.volume import calc_volume_ring, calc_volume_torus, calc_volume_sphere
 from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType
 from pyfecons.inputs import RadialBuild, Blanket
@@ -19,12 +19,17 @@ def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket,
     OUT = CAS220101()
     compute_inner_radii(reactor_type, IN, OUT)
     compute_outer_radii(reactor_type, IN, OUT)
-    compute_volume(IN, OUT)
 
-    # must be cylindrical in all cases
-    OUT.gap2_vol = calc_volume_ring(IN.axis_t, IN.gap2_t + OUT.gap2_ir, OUT.gap2_ir)
-    # Updated bioshield volume
-    OUT.bioshield_vol = calc_volume_ring(IN.axis_t, IN.bioshield_t + OUT.bioshield_ir, OUT.bioshield_ir)
+    if reactor_type == ReactorType.MFE:
+        compute_volume_mfe(IN, OUT)
+        # must be cylindrical in all cases
+        OUT.gap2_vol = calc_volume_ring(IN.axis_t, IN.gap2_t + OUT.gap2_ir, OUT.gap2_ir)
+        # Updated bioshield volume
+        OUT.bioshield_vol = calc_volume_ring(IN.axis_t, IN.bioshield_t + OUT.bioshield_ir, OUT.bioshield_ir)
+    elif reactor_type == ReactorType.IFE:
+        compute_volume_ife(OUT)
+    else:
+        raise ValueError(f'Unsupported reactor type {reactor_type}')
 
     OUT.C22010101 = compute_first_wall_costs(blanket, materials, OUT)
     OUT.C22010102 = compute_blanket_costs(blanket, materials, OUT)
@@ -34,7 +39,7 @@ def compute_reactor_equipment_costs(reactor_type: ReactorType, blanket: Blanket,
     return OUT
 
 
-def compute_volume(IN: RadialBuild, OUT: CAS220101) -> None:
+def compute_volume_mfe(IN: RadialBuild, OUT: CAS220101) -> None:
     OUT.axis_vol = 0.0
     OUT.plasma_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.plasma_ir, IN.plasma_t) - OUT.axis_vol)
     OUT.vacuum_vol = Meters3(IN.elon * calc_volume_torus(IN.axis_t, OUT.vacuum_ir, IN.vacuum_t)
@@ -64,6 +69,21 @@ def compute_volume(IN: RadialBuild, OUT: CAS220101) -> None:
                                        OUT.plasma_vol, OUT.axis_vol]))
     OUT.coil_vol = Meters3(calc_volume_torus(IN.axis_t, OUT.coil_ir, IN.coil_t) * 0.5)
 
+
+def compute_volume_ife(OUT: CAS220101) -> None:
+    OUT.axis_vol = calc_volume_sphere(OUT.axis_ir, OUT.axis_or)
+    OUT.plasma_vol = calc_volume_sphere(OUT.plasma_ir, OUT.plasma_or)
+    OUT.vacuum_vol = calc_volume_sphere(OUT.vacuum_ir, OUT.vacuum_or)
+    OUT.firstwall_vol = calc_volume_sphere(OUT.firstwall_ir, OUT.firstwall_or)
+    OUT.blanket1_vol = calc_volume_sphere(OUT.blanket1_ir, OUT.blanket1_or)
+    OUT.reflector_vol = calc_volume_sphere(OUT.reflector_ir, OUT.reflector_or)
+    OUT.ht_shield_vol = calc_volume_sphere(OUT.ht_shield_ir, OUT.ht_shield_or)
+    OUT.structure_vol = calc_volume_sphere(OUT.structure_ir, OUT.structure_or)
+    OUT.gap1_vol = calc_volume_sphere(OUT.gap1_ir, OUT.gap1_or)
+    OUT.vessel_vol = calc_volume_sphere(OUT.vessel_ir, OUT.vessel_or)
+    OUT.lt_shield_vol = calc_volume_sphere(OUT.lt_shield_ir, OUT.lt_shield_or)
+    OUT.gap2_vol = calc_volume_sphere(OUT.gap2_ir, OUT.gap2_or)
+    OUT.bioshield_vol = calc_volume_sphere(OUT.bioshield_ir, OUT.bioshield_or)
 
 def compute_inner_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101):
     # Inner radii
