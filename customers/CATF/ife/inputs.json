@@ -44,6 +44,7 @@
     },
     "radial_build": {
         "elon": null,
+        "chamber_length": null,
         "axis_t": 0.0,
         "plasma_t": 0.0001,
         "vacuum_t": 8.48,

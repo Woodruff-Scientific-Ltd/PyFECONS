@@ -71,8 +71,9 @@ class PowerTable:
 @dataclass
 class RadialBuild:
     # Radial build inputs
-    # Radial thicknesses of concentric components (innermost to outermost)
     elon: Ratio = None  # torus elongation factor
+    chamber_length: Meters = None  # chamber length
+    # Radial thicknesses of concentric components (innermost to outermost)
     axis_t: Meters = None  # distance from r=0 to plasma central axis - effectively major radius
     plasma_t: Meters = None  # plasma radial thickness
     vacuum_t: Meters = None  # vacuum radial thickness

@@ -6,7 +6,7 @@ def calc_volume_sphere(inner: float, outer: float) -> float:
     return 4/3 * np.pi * (outer**3 - inner**3)
 
 
-def calc_volume_ring(height: float, outer: float, inner: float) -> float:
+def calc_volume_ring(height: float, inner: float, outer: float) -> float:
     return Meters3(height * np.pi * (outer ** 2 - inner ** 2))
 
 
