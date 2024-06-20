@@ -12,7 +12,7 @@ class ConfinementType(Enum):
     SPHERICAL_TOKAMAK = (ReactorType.MFE, 'SPHERICAL_TOKAMAK')
     # CONVENTIONAL_TOKAMAK = (ReactorType.MFE, 'CONVENTIONAL_TOKAMAK')
     # COMPACT_TOKAMAK = (ReactorType.MFE, 'COMPACT_TOKAMAK')
-    # MAGNETIC_MIRROR = (ReactorType.MFE, 'MAGNETIC_MIRROR')
+    MAGNETIC_MIRROR = (ReactorType.MFE, 'MAGNETIC_MIRROR')
     # SPHEROMAK = (ReactorType.MFE, 'SPHEROMAK')
     # RFP = (ReactorType.MFE, 'RFP')
     # FRC = (ReactorType.MFE, 'FRC')

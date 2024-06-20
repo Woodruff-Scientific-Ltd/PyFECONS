@@ -60,7 +60,7 @@ To import pyfecons version `X.Y.Z` into your conda project, add the following to
 ```
 ...
 - pip:
-  - --upgrade git+https://github.com/Woodruff-Scientific-Ltd/PyFECONS.git@X.Y.Z
+  - pyfecons @ git+ssh://git@github.com/Woodruff-Scientific-Ltd/PyFECONS.git@X.Y.Z
 ```
 
 ## Contributing to this Library
@@ -201,3 +201,13 @@ conda deactivate
 conda env remove -n pyfecons
 
 ```
+
+## Tests
+
+You can run the unit tests with
+
+```
+python -m unittest pyfecons/tests/*
+```
+
+These are more of demonstration tests of what's implemented rather than testing the code works at a fine detail.
