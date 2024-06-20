@@ -201,3 +201,13 @@ conda deactivate
 conda env remove -n pyfecons
 
 ```
+
+## Tests
+
+You can run the unit tests with
+
+```
+python -m unittest pyfecons/tests/*
+```
+
+These are more of demonstration tests of what's implemented rather than testing the code works at a fine detail.
