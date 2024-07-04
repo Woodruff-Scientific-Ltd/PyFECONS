@@ -1,0 +1,14 @@
+bayesm/
+bayesm*
+RcppArmadillo/
+RcppArmadillo*
+
+data/
+out/
+
+# R Files
+r.Rproj
+.Rproj.user
+.RData
+.Rhistory
+results.rdata
