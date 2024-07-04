@@ -1,0 +1,31 @@
+name: r_env
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - r-base=4.2.3
+  - r-essentials
+  - r-devtools
+  - r-ggplot2
+  - r-dplyr
+  - r-tidyr
+  - r-readr
+  - r-purrr
+  - r-tibble
+  - r-stringr
+  - r-forcats
+  - r-knitr
+  - r-rmarkdown
+  - r-shiny
+  - r-xml2
+  - r-roxygen2
+  - r-pkgdown
+  - r-rversions
+  - r-urlchecker
+  - r-arm
+  - r-openxlsx=4.2.5.2
+  - r-e1071=1.7_11
+  - r-plotly=4.10.4
+#  - r-bayesm  # not available for Mac M1 arm - need to run ./env-install-mac-m1-packages.sh
+#  - r-kmisc  # not in conda-forge - need to run ./run.R
+#  - r-fGarch  # not available for Mac M1 arm - need to run ./run.R
