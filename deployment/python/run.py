@@ -7,10 +7,10 @@ typeChars = pd.read_csv("out/sim_data.csv", index_col='type')
 currentGen = pd.read_csv("out/currentGen.csv")
 totalEnergy = pd.read_csv("out/totalEnergy.csv")
 totalCapacity = pd.read_csv("out/totalCapacity.csv")
-results_file = "simulation_results.csv"
-summary_file = "simulation_summary.csv"
 
 # Set simulation parameters
+results_file = "out/simulation_results.csv"
+summary_file = "out/simulation_summary.csv"
 START_YEAR = 2014
 END_YEAR = 2050
 PERCENT_FUSION = 0.25

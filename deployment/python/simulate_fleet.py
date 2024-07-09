@@ -1,13 +1,6 @@
 import pandas as pd
 import numpy as np
-import psutil
-import os
-from utils import energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, kgToGTons, mav, s_curve
-
-
-def log_memory_usage(step):
-    process = psutil.Process(os.getpid())
-    print(f"Memory usage at {step}: {process.memory_info().rss / 1024 ** 2:.2f} MB")
+from utils import energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, kgToGTons, mav, s_curve, log_memory_usage
 
 
 def simulatePlants(
@@ -28,66 +21,67 @@ def simulatePlants(
         EV_addition=0,  # addition of EV to add electricity demand
         EV_scenario="BAU",  # which column to use in EV scenario
 ):
-    fleet_t = initial_fleet.copy()
-    results = []
-    summary = pd.DataFrame(columns=['totalCapacityAfterRetirement', 'totalEnergyAfterRetirement',
-                                    'newFusionAdditions', 'totalEnergyAfterAdding'])
+    # Initialize summary DataFrame with years as index
+    summary = pd.DataFrame(index=range(start_year, end_year + 1), columns=[
+        'totalCapacityAfterRetirement', 'totalEnergyAfterRetirement',
+        'newFusionAdditions', 'totalEnergyAfterAdding'
+    ])
 
     for year in range(start_year, end_year + 1):
         print(f"Running year: {year}")
 
         # Simulate plant operations and get results
-        fleet_t, summary = simulate_year(fleet_t, summary, typeChars, year, afterYear, percent_fusion, percent_CCS)
-        result = fleet_t.copy()
-        result['year'] = year
-        results.append(result)
+        fleet_t, summary = simulate_year(initial_fleet, summary, typeChars, year, afterYear, percent_fusion, percent_CCS)
 
-        log_memory_usage(f"year {year}")
-
-    # Concatenate all yearly results
-    final_results = pd.concat(results, ignore_index=True)
+        # Debug memory usage
+        # log_memory_usage(f"year {year}")
 
     print("Ending simulation")
-    return final_results, summary
+    return fleet_t, summary
 
 
 def simulate_year(fleet_t, summary, typeChars, year, afterYear, percent_fusion, percent_CCS):
     # Example logic for updating fleet and calculating metrics
     # (this is placeholder logic and should be replaced with actual simulation steps)
 
+    # Convert fleet_t to structured numpy arrays
+    fleet_dtype = [('type', 'U20'), ('capacity', float), ('startYear', int),
+                   ('age', int), ('energy', float), ('carbonOutput', float),
+                   ('long', float), ('lat', float), ('expRet', float)]
+
+    fleet_struct = np.zeros(fleet_t.shape[0], dtype=fleet_dtype)
+    for col in fleet_t.columns:
+        fleet_struct[col] = fleet_t[col].values
+
     # Assume retirement happens based on some condition, e.g., age
-    retiring_plants = fleet_t[fleet_t['age'] > 30]  # Example condition
-    fleet_t = fleet_t[fleet_t['age'] <= 30]
+    retiring_mask = fleet_struct['age'] > 30
+    fleet_struct = fleet_struct[~retiring_mask]
 
     # Update the age of plants
-    fleet_t.loc[:, 'age'] += 1
-
-    missing_types = set(fleet_t['type']) - set(typeChars.index)
-    if missing_types:
-        print("Missing types in typeChars:", missing_types)
-        raise ValueError(f"Missing types in typeChars: {missing_types}")
+    fleet_struct['age'] += 1
 
     # Calculate energy and capacity after retirement
-    fleet_t.loc[:, 'energy'] = capacityMWToEnergyTWh(fleet_t, typeChars)
-    fleet_t.loc[:, 'carbonOutput'] = energyTWhToCarbonOutputKG(fleet_t, typeChars, percent_CCS)
+    fleet_struct['energy'] = capacityMWToEnergyTWh(fleet_struct['capacity'], fleet_struct['type'], typeChars)
+    fleet_struct['carbonOutput'] = energyTWhToCarbonOutputKG(fleet_struct['energy'], fleet_struct['type'], typeChars, percent_CCS)
 
-    summary.at[year, 'totalCapacityAfterRetirement'] = fleet_t['capacity'].sum()
-    summary.at[year, 'totalEnergyAfterRetirement'] = fleet_t['energy'].sum()
+    summary.at[year, 'totalCapacityAfterRetirement'] = np.sum(fleet_struct['capacity'])
+    summary.at[year, 'totalEnergyAfterRetirement'] = np.sum(fleet_struct['energy'])
 
-    # Example of adding new fusion plants (simplified logic)
+    # Add new fusion plants if applicable
+    new_fusion_capacity = 0
     if year >= afterYear:
-        new_fusion_capacity = fleet_t['capacity'].sum() * percent_fusion
-        new_plants = pd.DataFrame({
-            'type': ['NuclearFusion'] * len(fleet_t),
-            'capacity': new_fusion_capacity / len(fleet_t),
-            'age': [0] * len(fleet_t),
-            'energy': new_fusion_capacity * 8760  # Simplified example
-        })
-        fleet_t = pd.concat([fleet_t, new_plants], ignore_index=True)
-    else:
-        new_fusion_capacity = 0
+        new_fusion_capacity = np.sum(fleet_struct['capacity']) * percent_fusion
+        new_plants = np.zeros(fleet_struct.shape[0], dtype=fleet_dtype)
+        new_plants['type'] = 'NuclearFusion'
+        new_plants['capacity'] = new_fusion_capacity / fleet_struct.shape[0]
+        new_plants['age'] = 0
+        new_plants['energy'] = new_fusion_capacity * 8760  # Simplified example
+        fleet_struct = np.concatenate([fleet_struct, new_plants])
 
     summary.at[year, 'newFusionAdditions'] = new_fusion_capacity
-    summary.at[year, 'totalEnergyAfterAdding'] = fleet_t['energy'].sum()
+    summary.at[year, 'totalEnergyAfterAdding'] = np.sum(fleet_struct['energy'])
+
+    # Convert structured array back to DataFrame for final output
+    fleet_t = pd.DataFrame(fleet_struct)
 
     return fleet_t, summary

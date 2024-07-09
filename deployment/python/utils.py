@@ -1,27 +1,21 @@
+import os
+import psutil
 import numpy as np
 from scipy.ndimage import uniform_filter1d
 import matplotlib.pyplot as plt
 
 
-def energyTWhToCarbonOutputKG(fleet_t, typeChars, percent_CCS):
-    # Align indices and calculate carbon output
-    BTUFuel = typeChars.loc[fleet_t['type'], 'BTUFuel/kWhelec'].values
-    kgCO2 = typeChars.loc[fleet_t['type'], 'kgCO2perMMBTU'].values
-    carbon = (fleet_t['energy'].values * BTUFuel * kgCO2 * 10 ** (-6) * 10 ** 9)
+def energyTWhToCarbonOutputKG(fleet_energy, fleet_type, typeChars, percent_CCS):
+    BTUFuel = np.array([typeChars.loc[t, 'BTUFuel/kWhelec'] for t in fleet_type])
+    kgCO2 = np.array([typeChars.loc[t, 'kgCO2perMMBTU'] for t in fleet_type])
+    carbon = (fleet_energy * BTUFuel * kgCO2 * 10 ** (-6) * 10 ** 9)
     carbon *= (1 - percent_CCS)
-
-    # Adjust for initial carbon
-    birthAdd = (fleet_t['age'] == 1).values
-    initialCarbon = typeChars.loc[fleet_t['type'][birthAdd], 'initialCarbonPerMW'].values
-    capacity = fleet_t['capacity'][birthAdd].values
-    carbon[birthAdd] += initialCarbon * capacity
-
     return carbon
 
 
-def capacityMWToEnergyTWh(fleet_t, typeChars):
-    cap_factors = typeChars.loc[fleet_t['type'], 'CapFactor'].values
-    return fleet_t['capacity'].values * cap_factors * 8760 / (10 ** 2 * 10 ** 6)
+def capacityMWToEnergyTWh(fleet_capacity, fleet_type, typeChars):
+    cap_factors = np.array([typeChars.loc[t, 'CapFactor'] for t in fleet_type])
+    return fleet_capacity * cap_factors * 8760 / (10 ** 2 * 10 ** 6)
 
 
 def kgToGTons(kgs):
@@ -67,3 +61,8 @@ def plot_s_curves():
     plt.xlabel("Time")
     plt.legend()
     plt.show()
+
+
+def log_memory_usage(message):
+    process = psutil.Process(os.getpid())
+    print(f"Memory usage at {message}: {process.memory_info().rss / 1024 ** 2:.2f} MB")
