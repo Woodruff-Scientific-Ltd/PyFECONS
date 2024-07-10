@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 from simulate_fleet import simulatePlants
 
 # Load the necessary data

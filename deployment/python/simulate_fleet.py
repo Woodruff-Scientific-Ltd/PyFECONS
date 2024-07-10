@@ -2,8 +2,7 @@ import pandas as pd
 import numpy as np
 from plotnine import ggplot, aes, geom_polygon
 from sklearn.linear_model import LinearRegression
-from utils import (energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, kgToGTons,
-                   s_curve, log_memory_usage, get_usa_maps)
+from utils import energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, s_curve, log_memory_usage, get_usa_maps
 
 
 def simulatePlants(
