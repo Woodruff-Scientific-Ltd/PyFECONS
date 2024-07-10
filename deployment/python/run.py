@@ -7,6 +7,7 @@ typeChars = pd.read_csv("out/sim_data.csv", index_col='type')
 currentGen = pd.read_csv("out/currentGen.csv")
 totalEnergy = pd.read_csv("out/totalEnergy.csv")
 totalCapacity = pd.read_csv("out/totalCapacity.csv")
+addCapDiffProp = pd.read_csv("out/addCapDiffProp.csv", index_col=0)
 
 # Set simulation parameters
 results_file = "out/simulation_results.csv"
@@ -24,7 +25,7 @@ results, summary = simulatePlants(
     start_year=START_YEAR,
     end_year=END_YEAR,
     percent_fusion=PERCENT_FUSION,
-    addCapDiffProp=None,
+    addCapDiffProp=addCapDiffProp,
     totalEnergy=totalEnergy,
     totalCapacity=totalCapacity,
     toReplace="all",

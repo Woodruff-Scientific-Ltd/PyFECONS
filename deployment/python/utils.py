@@ -1,8 +1,12 @@
 import os
 import psutil
 import numpy as np
+import geopandas as gpd
 from scipy.ndimage import uniform_filter1d
 import matplotlib.pyplot as plt
+
+# Path to the downloaded Natural Earth data
+shapefile_path = "data/us_geo/us_counties.shp"
 
 
 def energyTWhToCarbonOutputKG(fleet_energy, fleet_type, typeChars, percent_CCS):
@@ -66,3 +70,15 @@ def plot_s_curves():
 def log_memory_usage(message):
     process = psutil.Process(os.getpid())
     print(f"Memory usage at {message}: {process.memory_info().rss / 1024 ** 2:.2f} MB")
+
+
+def get_usa_maps():
+    # Load map data for the USA
+    usaMap = gpd.read_file(shapefile_path)
+    usaMap['locCode'] = usaMap['STUSPS'].str.lower() + ',' + usaMap['NAME'].str.lower()
+
+
+    # Create a lookup table with unique location codes
+    usaMap2 = usaMap.drop_duplicates(subset='locCode').set_index('locCode')
+
+    return usaMap, usaMap2

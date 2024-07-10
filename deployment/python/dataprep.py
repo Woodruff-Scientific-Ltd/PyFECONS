@@ -11,13 +11,7 @@
 import pandas as pd
 import numpy as np
 from scipy.stats import skewnorm
-from scipy.stats import norm
-import geopandas as gpd
-
-from utils import state_abbrev
-
-# Path to the downloaded Natural Earth data
-shapefile_path = "data/us_geo/us_counties.shp"
+from utils import get_usa_maps
 
 # change this directory as needed
 # os.chdir("/Users/lucas.spangher/Documents/ARPA-E Files/PowerPlantModel")
@@ -214,9 +208,7 @@ currentGen['locCode'] = currentGen['state'].str.lower() + ',' + currentGen['coun
 # Standardize naming for "st" to "st."
 currentGen['locCode'] = currentGen['locCode'].str.replace('st ', 'st. ')
 
-# Load map data for the USA
-usaMap = gpd.read_file(shapefile_path)
-usaMap['locCode'] = usaMap['STUSPS'].str.lower() + ',' + usaMap['NAME'].str.lower()
+usaMap, usaMap2 = get_usa_maps()
 
 # Manual mapping for remaining mismatched locations
 manual_mapping = {
@@ -264,9 +256,6 @@ mismatched_locs = currentGen.loc[~currentGen['locCode'].isin(usaMap['locCode']),
 if len(mismatched_locs) > 0:
     print("Number of mismatched location codes after mapping:", len(mismatched_locs))
     print("Mismatched location codes after mapping:\n", mismatched_locs.head(20))
-
-# Create a lookup table with unique location codes
-usaMap2 = usaMap.drop_duplicates(subset='locCode').set_index('locCode')
 
 # Set lat and long values
 currentGen = currentGen.set_index('locCode')
@@ -383,3 +372,6 @@ typeChars.to_csv("out/sim_data.csv")
 currentGen.to_csv("out/currentGen.csv", index=False)
 totalEnergy.to_csv("out/totalEnergy.csv", index=False)
 totalCapacity.to_csv("out/totalCapacity.csv", index=False)
+addCapDiffProp = addCapDiffProp.sort_index()
+addCapDiffProp.index.name = "year"
+addCapDiffProp.to_csv("out/addCapDiffProp.csv")
