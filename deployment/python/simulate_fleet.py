@@ -2,7 +2,8 @@ import pandas as pd
 import numpy as np
 from plotnine import ggplot, aes, geom_polygon
 from sklearn.linear_model import LinearRegression
-from utils import energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, s_curve, log_memory_usage, get_usa_maps
+from utils import (energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, s_curve, log_memory_usage,
+                   get_usa_maps, kgToGTons, rsnorm)
 
 
 def simulatePlants(
@@ -76,13 +77,13 @@ def simulatePlants(
         print(f"Running year: {year}")
 
         # Simulate plant operations and get results
-        fleet_t, summary = simulate_year(fleet_t, summary, typeChars, year, afterYear, percent_fusion, percent_CCS)
+        fleet_t, summary = simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF, year, afterYear, percent_fusion, percent_CCS, usaMap2)
 
+        # Debugging statements
         # Print DataFrame shapes to check for unexpected growth or decay
-        print(f"Shape of fleet_t at year {year}: {fleet_t.shape}")
-
-        # Debug memory usage
-        log_memory_usage(f"year {year}")
+        # print(f"Shape of fleet_t at year {year}: {fleet_t.shape}")
+        # Print memory usage
+        # log_memory_usage(f"year {year}")
 
 
     # Convert structured array back to DataFrame for final output
@@ -181,15 +182,15 @@ def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, 
 
     # Variable for weighted Carbon factor. Numeric vector.
     yearlyWeightedCF = addWeightedCF.to_numpy().dot(CFs.to_numpy())
+    yearlyWeightedCF = pd.Series(yearlyWeightedCF, index=addWeightedCF.index)
 
     # First output generation
     summary['demandGrowth'] = np.maximum(0, np.diff(totalCapacity['capacity'], prepend=0))
 
-
     # Fleet0 is the initial fleet but is later updated in the for-loop
     fleet_dtype = [('type', 'U20'), ('capacity', float), ('startYear', int), ('age', int),
                    ('energy', float), ('carbonOutput', float), ('long', float), ('lat', float),
-                   ('expRet', float), ('seqNum', int), ('isNew', bool)]
+                   ('expRet', float), ('seqNum', int), ('isNew', bool), ('isFusion', bool), ('locCode', 'U25')]
 
     fleet_t = np.zeros(fleet0.shape[0], dtype=fleet_dtype)
     for col in fleet0.columns:
@@ -205,46 +206,111 @@ def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, 
     return fleet_t, summary, yearlyWeightedCF, p
 
 
-def simulate_year(fleet_t, summary, typeChars, year, afterYear, percent_fusion, percent_CCS):
-    # Example logic for updating fleet and calculating metrics
-    # (this is placeholder logic and should be replaced with actual simulation steps)
-
-    # Assume retirement happens based on some condition, e.g., age
-    retiring_mask = fleet_t['age'] > 30
-    fleet_t = fleet_t[~retiring_mask]
-
-    # Update the age of plants
+def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF, year, afterYear, percent_fusion, percent_CCS, usaMap2):
+    # Age the plants
     fleet_t['age'] += 1
 
-    # Calculate energy and capacity after retirement
+    # Calculate energy
     fleet_t['energy'] = capacityMWToEnergyTWh(fleet_t['capacity'], fleet_t['type'], typeChars)
-    fleet_t['carbonOutput'] = energyTWhToCarbonOutputKG(fleet_t['energy'], fleet_t['type'], typeChars, percent_CCS)
 
-    summary.at[year, 'totalCapacityAfterRetirement'] = np.sum(fleet_t['capacity'])
-    summary.at[year, 'totalEnergyAfterRetirement'] = np.sum(fleet_t['energy'])
+    # Calculate carbon output
+    fleet_t['carbonOutput'] = energyTWhToCarbonOutputKG(fleet_t['energy'], fleet_t['type'], typeChars, percent_CCS if year > afterYear else 0)
 
-    # Add new fusion plants if applicable
-    new_fusion_capacity = 0
-    if year >= afterYear:
-        new_fusion_capacity = np.sum(fleet_t['capacity']) * percent_fusion
+    # Identify fusion plants
+    fleet_t['isFusion'] = fleet_t['type'] == 'NuclearFusion'
 
-        if new_fusion_capacity > 0 and fleet_t.shape[0] > 0:
-            # Determine the number of new plants to add
-            avg_capacity_per_plant = new_fusion_capacity / fleet_t.shape[0]
-            num_new_plants = max(1, int(new_fusion_capacity / avg_capacity_per_plant))
+    # Identify plants to retire
+    retiring_indices = np.where(fleet_t['age'] > fleet_t['expRet'])[0]
+    retiring_plants = fleet_t[retiring_indices]
 
-            new_plants = np.zeros(num_new_plants, dtype=fleet_t.dtype)
-            new_plants['type'] = 'NuclearFusion'
-            new_plants['capacity'] = new_fusion_capacity / num_new_plants
-            new_plants['age'] = 0
-            new_plants['energy'] = new_fusion_capacity * 8760  # Simplified example
+    # Record summaries in the output DataFrame
+    summary.loc[year, 'NGCCDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'NGCC']['capacity'])
+    summary.loc[year, 'WindDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'Wind']['capacity'])
+    summary.loc[year, 'NuclearDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'Nuclear']['capacity'])
+    summary.loc[year, 'PetroleumDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'Petroleum']['capacity'])
+    summary.loc[year, 'NGSTDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'NGST']['capacity'])
+    summary.loc[year, 'NGCTDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'NGCT']['capacity'])
+    summary.loc[year, 'PVDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'PV']['capacity'])
+    summary.loc[year, 'HydroDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'Hydroelectric']['capacity'])
+    summary.loc[year, 'CoalDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'Coal']['capacity'])
+    summary.loc[year, 'fusionDearth'] = np.sum(retiring_plants[retiring_plants['type'] == 'NuclearFusion']['capacity'])
+    summary.loc[year, 'replacementRetirements'] = np.sum(retiring_plants['capacity'])
 
-            print(f"Year {year}: fleet_struct before adding new entries: {fleet_t.shape}")
-            print(f"Year {year}: new entries: {new_plants.shape}")
-            fleet_struct = np.concatenate([fleet_t, new_plants])
-            print(f"Year {year}: fleet_struct after adding new entries: {fleet_struct.shape}")
+    # Remove retiring plants from the fleet
+    remaining_indices = np.setdiff1d(np.arange(fleet_t.shape[0]), np.where(retiring_indices)[0])
+    fleet_t1 = fleet_t[remaining_indices]
 
-    summary.at[year, 'newFusionAdditions'] = new_fusion_capacity
-    summary.at[year, 'totalEnergyAfterAdding'] = np.sum(fleet_t['energy'])
+    # Calculate dearth
+    current_energy = np.sum(fleet_t1['energy'])
+    energy_t = totalEnergy.loc[totalEnergy['year'] == year, 'EnergyBillkWh'].values[0]
+    dearth_t_energy = energy_t - current_energy
+    dearth_t_cap = (dearth_t_energy / (yearlyWeightedCF.loc[year] * 10**-2 * 8760)) * 10**6
+    current_cap = np.sum(fleet_t1['capacity']) / 10**3
+
+    # Record summaries in the output DataFrame
+    summary.loc[year, 'dearth_t_cap'] = dearth_t_cap
+    summary.loc[year, 'dearth_t_energy'] = dearth_t_energy
+    summary.loc[year, 'totalCapacityAfterRetirement'] = current_cap
+    summary.loc[year, 'totalEnergyAfterRetirement'] = current_energy
+    summary.loc[year, 'NGCCGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'NGCC']['capacity'])
+    summary.loc[year, 'WindGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'Wind']['capacity'])
+    summary.loc[year, 'NuclearGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'Nuclear']['capacity'])
+    summary.loc[year, 'PetroleumGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'Petroleum']['capacity'])
+    summary.loc[year, 'NGSTGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'NGST']['capacity'])
+    summary.loc[year, 'PVGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'PV']['capacity'])
+    summary.loc[year, 'HydroGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'Hydroelectric']['capacity'])
+    summary.loc[year, 'CoalGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'Coal']['capacity'])
+    summary.loc[year, 'NGCTGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'NGCT']['capacity'])
+    summary.loc[year, 'fusionGrowth'] = np.sum(fleet_t1[fleet_t1['type'] == 'NuclearFusion']['capacity'])
+    summary.loc[year, 'carbonIntensity'] = np.sum(fleet_t['carbonOutput']) / (np.sum(fleet_t['energy']) * 10**9)
+    summary.loc[year, 'totalCarbon'] = np.sum(kgToGTons(fleet_t['carbonOutput']))
+    summary.loc[year, 'newCap'] = np.sum(fleet_t1[fleet_t1['isNew']]['capacity']) / 10**3
+    summary.loc[year, 'totalPlants'] = len(fleet_t)
+
+    # Generate new plants to meet the dearth proportional to AEO's additions
+    new_plants = np.zeros(0, dtype=fleet_t.dtype)
+    dearth_types = dearth_t_cap * addCapDiffProp.loc[year]
+    num_plants_types = (dearth_types / typeChars.loc[dearth_types.index, 'AvgCapacityMW']).round().astype(int)
+    num_plants_types[num_plants_types < 0] = 0
+
+    summary.loc[year, 'plantsAdded'] = num_plants_types.sum()
+
+    if num_plants_types.sum() > 0:
+        new_plants = np.zeros(num_plants_types.sum(), dtype=fleet_t.dtype)
+        new_plants['type'] = np.repeat(num_plants_types.index, num_plants_types.values)
+        new_plants['capacity'] = np.maximum(np.random.normal(typeChars.loc[new_plants['type'], 'AvgCapacityMW'].values,
+                                                             typeChars.loc[new_plants['type'], 'StdDevCapacityMW'].values), 2)
+        new_plants['locCode'] = np.random.choice(retiring_plants['locCode'], len(new_plants), replace=True)
+        new_plants['age'] = 1
+        new_plants['startYear'] = year
+        new_plants['seqNum'] = np.arange(fleet_t['seqNum'].max() + 1, fleet_t['seqNum'].max() + 1 + len(new_plants))
+        new_plants['expRet'] = rsnorm(len(new_plants),
+                                      mean=typeChars.loc[new_plants['type'], 'AvgRetAge'].values,
+                                      sd=typeChars.loc[new_plants['type'], 'StdDevRetAge'].values,
+                                      xi=typeChars.loc[new_plants['type'], 'skewness'].values)
+        new_plants['energy'] = capacityMWToEnergyTWh(new_plants['capacity'], new_plants['type'], typeChars)
+        new_plants['carbonOutput'] = energyTWhToCarbonOutputKG(new_plants['energy'], new_plants['type'], typeChars, percent_CCS if year > afterYear else 0)
+
+        for _ in range(5):
+            to_change = np.isnan(new_plants['expRet']) | (new_plants['expRet'] < new_plants['age'])
+            new_plants['expRet'][to_change] = rsnorm(to_change.sum(),
+                                                     mean=typeChars.loc[new_plants['type'][to_change], 'AvgRetAge'].values,
+                                                     sd=typeChars.loc[new_plants['type'][to_change], 'StdDevRetAge'].values,
+                                                     xi=typeChars.loc[new_plants['type'][to_change], 'skewness'].values)
+
+        nuclear_types = np.isin(new_plants['type'], ['Nuclear', 'NuclearFusion'])
+        new_plants['expRet'][nuclear_types] = np.random.binomial(1, 0.5, nuclear_types.sum()) * 20 + 40
+        new_plants['long'] = usaMap2.loc[new_plants['locCode'], 'long'].values + np.random.normal(0, 0.05, len(new_plants))
+        new_plants['lat'] = usaMap2.loc[new_plants['locCode'], 'lat'].values + np.random.normal(0, 0.05, len(new_plants))
+        new_plants['isFusion'] = new_plants['type'] == 'NuclearFusion'
+        new_plants['isNew'] = True
+
+        # Add new plants into the existing fleet
+        fleet_t = np.concatenate((fleet_t1, new_plants))
+
+    summary.loc[year, 'newFusionAdditions'] = np.sum(new_plants[new_plants['type'] == 'NuclearFusion']['capacity'])
+    summary.loc[year, 'totalEnergyAfterAdding'] = np.sum(fleet_t['energy'])
+
+    fleet_t['isFusion'] = fleet_t['type'] == 'NuclearFusion'
 
     return fleet_t, summary

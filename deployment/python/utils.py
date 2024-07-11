@@ -3,6 +3,7 @@ import psutil
 import numpy as np
 import geopandas as gpd
 from scipy.ndimage import uniform_filter1d
+from scipy.stats import skewnorm
 import matplotlib.pyplot as plt
 
 # Path to the downloaded Natural Earth data
@@ -77,8 +78,29 @@ def get_usa_maps():
     usaMap = gpd.read_file(shapefile_path)
     usaMap['locCode'] = usaMap['STUSPS'].str.lower() + ',' + usaMap['NAME'].str.lower()
 
+    # Reproject to a suitable projected CRS (e.g., EPSG:3857)
+    usaMap = usaMap.to_crs(epsg=3857)
 
     # Create a lookup table with unique location codes
     usaMap2 = usaMap.drop_duplicates(subset='locCode').set_index('locCode')
+    usaMap2['long'] = usaMap2['geometry'].centroid.x
+    usaMap2['lat'] = usaMap2['geometry'].centroid.y
 
     return usaMap, usaMap2
+
+
+def rsnorm(size, mean, sd, xi):
+    """
+    Generate random numbers from a skew-normal distribution.
+
+    :param size: Number of random numbers to generate.
+    :param mean: Mean of the distribution.
+    :param sd: Standard deviation of the distribution.
+    :param xi: Skewness parameter.
+    :return: Array of random numbers from the skew-normal distribution.
+    """
+    alpha = xi  # skewness parameter
+    loc = mean  # location parameter
+    scale = sd  # scale parameter
+
+    return skewnorm.rvs(a=alpha, loc=loc, scale=scale, size=size)

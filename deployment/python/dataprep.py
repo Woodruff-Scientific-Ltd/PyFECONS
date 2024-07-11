@@ -269,23 +269,13 @@ currentGen['lat'] = currentGen['geometry'].apply(lambda geom: geom.centroid.y) +
 currentGen.drop(columns=['state', 'county', 'geometry'], inplace=True)
 
 # Reset the index
-currentGen = currentGen.reset_index(drop=True)
+currentGen.reset_index(inplace=True, drop=False)
 
 
 print('6. Use the skewed normal distributions of calculated ages to assign')
 ### 6. Use the skewed normal distributions of calculated ages to assign
 ###    expected retirement ages to operating plants
 # -----------------------------------------
-
-# Assign default values to missing data
-default_avg_ret_age = 30
-default_std_dev_ret_age = 10
-default_skewness = 0
-
-# Fill NaN values in typeChars
-typeChars["AvgRetAge"] = typeChars["AvgRetAge"].fillna(default_avg_ret_age)
-typeChars["StdDevRetAge"] = typeChars["StdDevRetAge"].fillna(default_std_dev_ret_age)
-typeChars["skewness"] = typeChars["skewness"].fillna(default_skewness)
 
 # Ensure that StdDevRetAge is positive and set a minimum value for the scale parameter
 typeChars["StdDevRetAge"] = typeChars["StdDevRetAge"].apply(lambda x: x if x > 0 else 0.1)
@@ -365,6 +355,16 @@ totalEnergy = pd.read_excel("data/generators_new.xlsx", sheet_name="Electricity_
 totalEnergy.columns = ["year", "EnergyBillkWh"]
 
 ##########################
+
+# Assign default values to missing data
+default_avg_ret_age = 30
+default_std_dev_ret_age = 10
+default_skewness = 0
+
+# Fill NaN values in typeChars
+typeChars["AvgRetAge"] = typeChars["AvgRetAge"].fillna(default_avg_ret_age)
+typeChars["StdDevRetAge"] = typeChars["StdDevRetAge"].fillna(default_std_dev_ret_age)
+typeChars["skewness"] = typeChars["skewness"].fillna(default_skewness)
 
 # Save all necessary data to the output directory
 typeChars.index.name = "type"
