@@ -35,6 +35,8 @@ results, summary = simulatePlants(
     afterYear=AFTER_YEAR,
     percent_CCS=0,
     T_ADOPT=T_ADOPT,
+    save_graphs=True,
+    graph_output_dir=os.path.join(out_dir, 'graphs')
 )
 
 results.to_csv(results_file, index=False)
