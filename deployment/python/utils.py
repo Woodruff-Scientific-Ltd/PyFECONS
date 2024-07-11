@@ -1,10 +1,13 @@
 import os
+
+import pandas as pd
 import psutil
 import numpy as np
 import geopandas as gpd
+import matplotlib.pyplot as plt
 from scipy.ndimage import uniform_filter1d
 from scipy.stats import skewnorm
-import matplotlib.pyplot as plt
+from plotnine import ggplot, aes, geom_line, scale_color_manual, ggtitle, theme_minimal, scale_x_continuous
 
 # Path to the downloaded Natural Earth data
 shapefile_path = "data/us_geo/us_counties.shp"
@@ -104,3 +107,39 @@ def rsnorm(size, mean, sd, xi):
     scale = sd  # scale parameter
 
     return skewnorm.rvs(a=alpha, loc=loc, scale=scale, size=size)
+
+
+def save_capacity_change_graph(df, start_year=None, end_year=None, output_file=None):
+    # Filter the dataframe for the desired years if provided
+    if start_year is not None:
+        df = df[df['year'] >= start_year]
+    if end_year is not None:
+        df = df[df['year'] <= end_year]
+
+        # Define the color mapping
+    color_mapping = {
+        "NGCCGrowth": "#000000",  # black
+        "WindGrowth": "#0000FF",  # blue
+        "NuclearGrowth": "#5F9EA0",  # cadetblue
+        "PetroleumGrowth": "#FF8C00",  # darkorange1
+        "NGSTGrowth": "#FF1493",  # deeppink
+        "fusionGrowth": "#008000",  # green4
+        "NGCTGrowth": "#9932CC",  # darkorchid
+        "PVGrowth": "#9370DB",  # mediumpurple1
+        "HydroGrowth": "#eea2ad",  # lightpink2
+        "CoalGrowth": "#8b3a3a"   # maroon4
+    }
+
+
+    # Melt the dataframe for plotnine compatibility
+    melted_df = pd.melt(df, id_vars=['year'], value_vars=color_mapping.keys(), var_name='growth_type', value_name='value')
+
+    # Create the plot
+    p = (ggplot(melted_df)
+         + geom_line(aes(x='year', y='value', color='growth_type'))
+         + scale_color_manual(name='', values=color_mapping)
+         + ggtitle("Capacity change by Type of Plant")
+         + theme_minimal())
+
+    if output_file:
+        p.save(output_file)

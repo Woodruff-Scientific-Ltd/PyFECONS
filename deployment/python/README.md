@@ -83,3 +83,14 @@ This command will run all simulations with output to `out/simulate`.
 ```
 python simulation.py
 ```
+
+## Save Capacity Change Graph
+
+There's a script utility for generating the following graph given any simulation_summary.csv.
+
+![Capacity Change Graph](sample_capacity_graph.png)
+
+Run the following (default parameters draw output from `run.py`):
+```
+python --input_csv=SUMMARY_CSV --out_dir=... --filename=... --start_year=... --end_year=...
+```
