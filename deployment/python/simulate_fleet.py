@@ -1,9 +1,15 @@
+import os
+import warnings
+
 import pandas as pd
 import numpy as np
-from plotnine import ggplot, aes, geom_polygon
+from plotnine import (ggplot, aes, geom_polygon, geom_point, theme, ggtitle, labs,
+                      coord_cartesian, geom_bar, theme_void, element_text)
 from sklearn.linear_model import LinearRegression
 from utils import (energyTWhToCarbonOutputKG, capacityMWToEnergyTWh, s_curve, log_memory_usage,
                    get_usa_maps, kgToGTons, rsnorm)
+
+warnings.filterwarnings("ignore", module="plotnine")
 
 
 def simulatePlants(
@@ -23,6 +29,8 @@ def simulatePlants(
         EV_Switch=False,  # Switch to turn on using EV
         EV_addition=0,  # addition of EV to add electricity demand
         EV_scenario="BAU",  # which column to use in EV scenario
+        save_graphs=False,
+        graph_output_dir='out/graphs'
 ):
     print(f"Starting simulation from years {start_year} to {end_year}")
     # checking to make sure percent_fusion is a decimal 0<percent_fusion<1, not 0<percent_fusion<100
@@ -71,14 +79,15 @@ def simulatePlants(
         totalEnergy, totalCapacity, addCapDiffProp, end_year)
     addCapDiffProp, addWeightedCF = set_up_fusion_and_add_to_addCapDiffProp(
         addCapDiffProp, addWeightedCF, afterYear, start_year, T_ADOPT, percent_fusion, toReplace)
-    fleet_t, summary, yearlyWeightedCF, p = miscellaneous_preparation(
-        summary, addWeightedCF, typeChars, totalCapacity, initial_fleet, usaMap)
+    fleet_t, summary, yearlyWeightedCF = miscellaneous_preparation(
+        summary, addWeightedCF, typeChars, totalCapacity, initial_fleet)
 
     for year in range(start_year, end_year + 1):
         print(f"Running year: {year}")
 
         # Simulate plant operations and get results
-        fleet_t, summary = simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF, year, afterYear, percent_fusion, percent_CCS, usaMap2)
+        fleet_t, summary = simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF,
+                                         year, afterYear, percent_fusion, percent_CCS, usaMap2, save_graphs, graph_output_dir)
 
         # Debugging statements
         # Print DataFrame shapes to check for unexpected growth or decay
@@ -178,7 +187,7 @@ def set_up_fusion_and_add_to_addCapDiffProp(addCapDiffProp, addWeightedCF, after
 
 
 ### 3. Miscellaneous preparation ------------
-def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, fleet0, usaMap):
+def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, fleet0):
     # Tidying up some names
     CFs = typeChars.loc[addWeightedCF.columns, "CapFactor"]
     CFs = CFs.fillna(0)
@@ -201,16 +210,12 @@ def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, 
     fleet_t['seqNum'] = np.arange(1, len(fleet_t) + 1)
     fleet_t['isNew'] = False
 
-    # Initialize graph (for making a map movie -- not included in the paper)
-    # Note: Assuming usaMap is a DataFrame containing columns 'long', 'lat', and 'group'
-    # Example: usaMap = pd.DataFrame({'long': ..., 'lat': ..., 'group': ...})
-    p = (ggplot(usaMap, aes(x='long', y='lat')) + geom_polygon(aes(group='group')))
-
-    return fleet_t, summary, yearlyWeightedCF, p
+    return fleet_t, summary, yearlyWeightedCF
 
 
-def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF, year, afterYear, percent_fusion, percent_CCS, usaMap2):
-    # Age the plants
+def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, yearlyWeightedCF, year, afterYear,
+                  percent_fusion, percent_CCS, usaMap2, save_graphs, graph_output_dir):
+    # a. age the plants and calculate energy -------------------------
     fleet_t['age'] += 1
 
     # Calculate energy
@@ -222,7 +227,7 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
     # Identify fusion plants
     fleet_t['isFusion'] = fleet_t['type'] == 'NuclearFusion'
 
-    # Identify plants to retire
+    # b. pick which plants to retire -----------------------------------
     retiring_indices = np.where(fleet_t['age'] > fleet_t['expRet'])[0]
     retiring_plants = fleet_t[retiring_indices]
 
@@ -243,7 +248,7 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
     remaining_indices = np.setdiff1d(np.arange(fleet_t.shape[0]), np.where(retiring_indices)[0])
     fleet_t1 = fleet_t[remaining_indices]
 
-    # Calculate dearth
+    # c. Calculate dearth ------------------------------------------
     current_energy = np.sum(fleet_t1['energy'])
     energy_t = totalEnergy.loc[totalEnergy['year'] == year, 'EnergyBillkWh'].values[0]
     dearth_t_energy = energy_t - current_energy
@@ -270,7 +275,7 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
     summary.loc[year, 'newCap'] = np.sum(fleet_t1[fleet_t1['isNew']]['capacity']) / 10**3
     summary.loc[year, 'totalPlants'] = len(fleet_t)
 
-    # Generate new plants to meet the dearth proportional to AEO's additions
+    # d. Generate new plants based to meet the dearth proportional to AEO's additions
     new_plants = np.zeros(0, dtype=fleet_t.dtype)
     dearth_types = dearth_t_cap * addCapDiffProp.loc[year]
 
@@ -313,7 +318,7 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
         new_plants['isFusion'] = new_plants['type'] == 'NuclearFusion'
         new_plants['isNew'] = True
 
-        # Add new plants into the existing fleet
+        # e. add new plants into existing fleet -----------------------
         fleet_t = np.concatenate((fleet_t1, new_plants))
 
     summary.loc[year, 'newFusionAdditions'] = np.sum(new_plants[new_plants['type'] == 'NuclearFusion']['capacity'])
@@ -321,4 +326,47 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
 
     fleet_t['isFusion'] = fleet_t['type'] == 'NuclearFusion'
 
+    if save_graphs:
+        create_graphs(fleet_t, graph_output_dir, usaMap2, year)
+
     return fleet_t, summary
+
+
+def create_graphs(fleet_t, graph_output_dir, usaMap2, year):
+    plot_data = pd.DataFrame(fleet_t)
+    os.makedirs(graph_output_dir, exist_ok=True)
+
+    # Create carbon output vs. capacity scatter plot
+    g = (ggplot(plot_data[plot_data['carbonOutput'] < 1e+09])
+         + geom_point(aes(x='capacity', y='carbonOutput', color='type'), size=1.5, alpha=0.2)
+         + theme_void()
+         + labs(y="Carbon Output", x="Capacity")
+         + coord_cartesian(xlim=(0, 500), ylim=(0, 1e+09)))
+
+    # Save the scatter plot
+    g.save(os.path.join(graph_output_dir, f"{year}_scatter.png"))
+
+    # Create type distribution bar plot
+    g1 = (ggplot(plot_data[plot_data['carbonOutput'] < 1e+09])
+          + geom_bar(aes(x='type', fill='type'))
+          + theme_void()
+          + labs(x="Type"))
+
+    # Save the bar plot
+    g1.save(os.path.join(graph_output_dir, f"{year}_bar.png"))
+
+    # Initialize the base map plot
+    # Initialize graph (for making a map movie -- not included in the paper)
+    # Note: Assuming usaMap is a DataFrame containing columns 'long', 'lat', and 'group'
+    # Example: usaMap = pd.DataFrame({'long': ..., 'lat': ..., 'group': ...})
+    usaMap2['group'] = usaMap2.index
+    p = (ggplot(usaMap2, aes(x='long', y='lat')) + geom_polygon(aes(group='group')))
+
+    # Create the map plot with power plants
+    p_combined = (p
+                  + geom_point(aes(x='long', y='lat', color='type', size='capacity', shape='isFusion'), data=plot_data, alpha=0.4)
+                  + ggtitle(f"Power Plants in year: {year}")
+                  + theme(text=element_text(size=18)))
+
+    # Save the map plot
+    p_combined.save(os.path.join(graph_output_dir, f"{year}_map.png"))
