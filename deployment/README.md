@@ -6,4 +6,4 @@ _Characterizing fusion market entry via an agent-based power plant fleet model_ 
 
 See the [R Version](r/README.md) for a copy of original code of the paper written in R.
 
-See the [Python Version](r/README.md) for a translation of the code to Python.
+See the [Python Version](python/README.md) for a translation of the code to Python.
