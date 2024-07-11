@@ -24,6 +24,7 @@ def simulatePlants(
         EV_addition=0,  # addition of EV to add electricity demand
         EV_scenario="BAU",  # which column to use in EV scenario
 ):
+    print(f"Starting simulation from years {start_year} to {end_year}")
     # checking to make sure percent_fusion is a decimal 0<percent_fusion<1, not 0<percent_fusion<100
     if percent_fusion > 1:
         percent_fusion=percent_fusion * .01
@@ -95,7 +96,6 @@ def simulatePlants(
 
 #### 1.  extend datasets beyond their ending year (2040)
 def extend_datasets(totalEnergy, totalCapacity, addCapDiffProp, end_year):
-    print('Extending datasets')
     new_years = np.arange(2041, end_year + 1)
     new_years_df = pd.DataFrame({'year': new_years})
 
@@ -136,8 +136,7 @@ def extend_datasets(totalEnergy, totalCapacity, addCapDiffProp, end_year):
 
 #### 2. Set up the fusion variable and adding it into the addCapDiffProp
 def set_up_fusion_and_add_to_addCapDiffProp(addCapDiffProp, addWeightedCF, after_year, start_year, T_ADOPT, percent_fusion, to_replace):
-    print('Setting up s-curve fusion growth')
-    # setting up the s-curve fusion growth
+    # Setting up the s-curve fusion growth
     after_year_ind = after_year - start_year
     percent_fusion = s_curve(T_ADOPT=T_ADOPT, k=percent_fusion, t=(np.arange(1, len(addCapDiffProp) + 1) - after_year_ind))
 
@@ -146,15 +145,21 @@ def set_up_fusion_and_add_to_addCapDiffProp(addCapDiffProp, addWeightedCF, after
     percent_fusion = np.concatenate([np.zeros(after_year_ind - 1), percent_fusion[after_year_ind - 1:]])
     percent_fusion = pd.Series(percent_fusion, index=addCapDiffProp.index)
 
-    # adding in fusion to addCapDiffProp by taking away from the categories that it is supposed to replace
+    # Adding in fusion to addCapDiffProp by taking away from the categories that it is supposed to replace
     if "All" in to_replace or "all" in to_replace:
         addCapDiffProp = addCapDiffProp.mul(1 - percent_fusion, axis=0)
     else:
         temp_inds = addCapDiffProp.columns.isin(to_replace)
         if len(to_replace) == 1:
-            temp_sum = addCapDiffProp.iloc[:, temp_inds]
+            temp_sum = addCapDiffProp.iloc[:, temp_inds].squeeze()
         else:
             temp_sum = addCapDiffProp.iloc[:, temp_inds].sum(axis=1)
+
+        # Align percent_fusion and temp_sum before comparison
+        percent_fusion, temp_sum = percent_fusion.align(temp_sum, join='inner')
+
+        if not percent_fusion.index.equals(temp_sum.index):
+            raise ValueError("Indices of percent_fusion and temp_sum do not match after alignment")
 
         percent_fusion[temp_sum < percent_fusion] = temp_sum[temp_sum < percent_fusion]
         temp_multiple = 1 - percent_fusion / temp_sum
@@ -174,8 +179,6 @@ def set_up_fusion_and_add_to_addCapDiffProp(addCapDiffProp, addWeightedCF, after
 
 ### 3. Miscellaneous preparation ------------
 def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, fleet0, usaMap):
-    print('Miscellaneous preparation')
-
     # Tidying up some names
     CFs = typeChars.loc[addWeightedCF.columns, "CapFactor"]
     CFs = CFs.fillna(0)
@@ -270,7 +273,12 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
     # Generate new plants to meet the dearth proportional to AEO's additions
     new_plants = np.zeros(0, dtype=fleet_t.dtype)
     dearth_types = dearth_t_cap * addCapDiffProp.loc[year]
-    num_plants_types = (dearth_types / typeChars.loc[dearth_types.index, 'AvgCapacityMW']).round().astype(int)
+
+    # Ensure there are no non-finite values before proceeding
+    dearth_types = dearth_types.fillna(0)
+    avg_capacity = typeChars.loc[dearth_types.index, 'AvgCapacityMW'].fillna(1)
+
+    num_plants_types = (dearth_types / avg_capacity).round().astype(int)
     num_plants_types[num_plants_types < 0] = 0
 
     summary.loc[year, 'plantsAdded'] = num_plants_types.sum()

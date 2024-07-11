@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from simulate_fleet import simulatePlants
 
@@ -9,8 +11,10 @@ totalCapacity = pd.read_csv("out/totalCapacity.csv")
 addCapDiffProp = pd.read_csv("out/addCapDiffProp.csv", index_col=0)
 
 # Set simulation parameters
-results_file = "out/simulation_results.csv"
-summary_file = "out/simulation_summary.csv"
+out_dir = "out/run"
+os.makedirs(out_dir, exist_ok=True)
+results_file = os.path.join(out_dir, "simulation_results.csv")
+summary_file = os.path.join(out_dir, "simulation_summary.csv")
 START_YEAR = 2014
 END_YEAR = 2050
 PERCENT_FUSION = 0.25
@@ -34,4 +38,5 @@ results, summary = simulatePlants(
 )
 
 results.to_csv(results_file, index=False)
+summary.index.name = 'year'
 summary.to_csv(summary_file, index=True)

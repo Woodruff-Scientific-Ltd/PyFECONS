@@ -69,8 +69,17 @@ python dataprep.py
 
 ## Simulate
 
-The run.py script demonstrates running a simulation, you can copy and paste this to run different simulations.
+The run.py script demonstrates running one simulation with output to `out/run`, 
+you can copy and paste this to run different simulations.
 
 ```
 python run.py
+```
+
+## Simulation
+
+This command will run all simulations with output to `out/simulate`.
+
+```
+python simulation.py
 ```
