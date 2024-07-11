@@ -1,6 +1,6 @@
 # Fusion Deployment Simulation
 
-This library is a python port of the simulation code originially written in R for the paper
+This library is a python port of the simulation code originally written in R for the paper
 _Characterizing fusion market entry via an agent-based power plant fleet model_ by Spangher, Vitterb, and Umstattda 
 [ARPAE Link](https://arpa-e.energy.gov/technologies/publications/characterizing-fusion-market-entry-agent-based-power-plant-fleet-model).
 
