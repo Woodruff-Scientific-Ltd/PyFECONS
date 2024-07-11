@@ -138,18 +138,17 @@ def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=100):
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
-            currentGen=currentGen,
-            startYear=START_YEAR,
-            endYear=END_YEAR,
-            typeChars=typeChars,
-            totalEnergy=totalEnergy,
+            currentGen,
+            typeChars,
+            start_year=START_YEAR,
+            end_year=END_YEAR,
             addCapDiffProp=addCapDiffProp,
+            totalEnergy=totalEnergy,
             totalCapacity=totalCapacity,
-            usaMap2=usaMap2,
-            percent_fusion=percent_fusion,
             toReplace="all",
             afterYear=afterYear,
-            T_ADOPT=T_ADOPT
+            percent_fusion=percent_fusion,
+            T_ADOPT=T_ADOPT,
         )
         results["element"] = i
         all_runs.append(results)
@@ -166,22 +165,22 @@ average_runs("CA2050_50", 0.5, 2050, 10)
 average_runs("CA2070_10", 0.1, 2070, 10)
 average_runs("CA2070_50", 0.5, 2070, 10)
 
+
 # Sensitivity analysis
 def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=50):
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
-            currentGen=currentGen,
-            startYear=START_YEAR,
-            endYear=END_YEAR,
-            typeChars=typeChars,
-            totalEnergy=totalEnergy,
+            currentGen,
+            typeChars,
+            start_year=START_YEAR,
+            end_year=END_YEAR,
             addCapDiffProp=addCapDiffProp,
+            totalEnergy=totalEnergy,
             totalCapacity=totalCapacity,
-            usaMap2=usaMap2,
-            percent_fusion=percent_fusion,
             toReplace="all",
-            afterYear=afterYear
+            afterYear=afterYear,
+            percent_fusion=percent_fusion,
         )
         results["element"] = i
         all_runs.append(results)
@@ -206,6 +205,7 @@ run_simulation("percent_10_30a", percent_fusion=0.1, toReplace="all", afterYear=
 run_simulation("percent_50_30a", percent_fusion=0.5, toReplace="all", afterYear=2030, T_ADOPT=30)
 run_simulation("percent_99_30a", percent_fusion=0.99, toReplace="all", afterYear=2030, T_ADOPT=30)
 
+
 # Hackathon: Double specific resource categories
 def double_resource(df, category):
     temp_df = df.copy()
@@ -216,6 +216,7 @@ def double_resource(df, category):
     temp_df[other_columns] = temp_df[other_columns] * (1 - doubled_var[:, None])
     temp_df = temp_df.div(temp_df.sum(axis=1), axis=0)
     return temp_df
+
 
 categories = ["Wind", "PV", "Nuclear", "Coal"]
 resource_cases = ["1000", "0100", "0010", "0001", "1100", "1010", "1001", "0110", "0101", "0011", "1110", "1101", "1011", "0111", "1111"]
