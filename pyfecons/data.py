@@ -7,10 +7,13 @@ from pyfecons.serializable import SerializableToJSON
 
 @dataclass
 class TemplateProvider:
+    # template substitutions variable_name -> value
     replacements: dict[str, str] = field(default_factory=dict)
+    # template file name in templates/ directory
     template_file: str = None
     # latex path -> image bytes
     figures: dict[str, bytes] = field(default_factory=dict)
+    # template file path for LaTeX compilation directory (defaults to Modified/{template_file})
     _tex_path: str = None
 
     # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
