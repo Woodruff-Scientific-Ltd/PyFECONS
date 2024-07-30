@@ -1,4 +1,4 @@
-# PyCosting
+# PyFECONs - Python Fusion ECONomicS
 PyFECONs is a general fusion costing analysis tool derived from 
 [ARPAE-PyFECONS](https://github.com/Woodruff-Scientific-Ltd/ARPAE-PyFECONS) scripts. The library has two purposes:
 
@@ -6,10 +6,13 @@ PyFECONs is a general fusion costing analysis tool derived from
 
 (2) Generate a comprehensive report with the cost analysis.
 
+See the [pyfecons](pyfecons/README.md) for an overview of the costing code.
+
+See the [deployment](deployment/README.md) section for the electricity cost analysis.
 
 ## Running the costing code
 
-Follow the steps below for [Installing Dependencies](#installing-dependencies) with conda or pyvenv + pip.
+Follow the steps below for [Installing Dependencies](#installing-dependencies) with pyvenv + pip.
 
 Create a new customer folder in the customers/ directory. CATF is the example customer.
 
