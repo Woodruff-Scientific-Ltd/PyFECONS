@@ -174,7 +174,7 @@ currentGen = pd.DataFrame({
     'state': operable['State'],
     'county': operable['County'],
     'capacity': operable['SummerCapacityMW'],
-    'startYear': operable['OperatingYear'],
+    'year': operable['OperatingYear'],
     'type': operable['Technology'],
     'age': 2014 - operable['OperatingYear']
 })

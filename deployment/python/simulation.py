@@ -134,7 +134,8 @@ for percent_fusion in [0.25, 0.75]:
 run_simulation("marketPenetration_BAU", percent_fusion=0, toReplace="all", afterYear=2070, T_ADOPT=10)
 
 # 10. Average out many runs
-def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=100):
+def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=2):
+    print(f'Running average_runs {prefix} for {num_runs} runs')
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
@@ -167,7 +168,7 @@ average_runs("CA2070_50", 0.5, 2070, 10)
 
 
 # Sensitivity analysis
-def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=50):
+def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=2):
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
