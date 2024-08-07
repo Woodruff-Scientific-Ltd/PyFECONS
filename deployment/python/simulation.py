@@ -188,6 +188,7 @@ average_runs("CA2070_50", 0.5, 2070, 10)
 
 # Sensitivity analysis
 def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=2):
+    print(f'Running sensitivity_analysis {prefix} with {num_runs} runs')
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
@@ -243,6 +244,7 @@ resource_cases = ["1000", "0100", "0010", "0001", "1100", "1010", "1001", "0110"
 
 for cat in categories:
     case_name = f"case_{cat.lower()}"
+    print(f'Running double_resource for case {case_name} ')
     df = double_resource(addCapDiffProp, cat)
     run_simulation(case_name, percent_fusion=0.0000000001, toReplace="all", afterYear=2030, addCapDiffProp=df)
 
@@ -250,6 +252,7 @@ for cat in categories:
 total_df_list = []
 for i, case in enumerate(resource_cases):
     case_name = f"case_{case}"
+    print(f'Saving total_df for case {case_name}')
     df = pd.read_csv(f"{OUT_DIR}/{case_name}.csv")
     df["case"] = i
     df = df[["year", "case", "totalCarbon"]]
