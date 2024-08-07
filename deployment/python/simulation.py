@@ -21,12 +21,13 @@ usaMap, usaMap2 = get_usa_maps()
 # Helper function to run simulations and save results
 def run_simulation(scenario_name, **kwargs):
     print(f'Running simulation {scenario_name}')
+    addCapDiffProp_arg = kwargs.pop('addCapDiffProp', addCapDiffProp)
     results, summary = simulatePlants(
         currentGen,
         typeChars,
         start_year=START_YEAR,
         end_year=END_YEAR,
-        addCapDiffProp=addCapDiffProp,
+        addCapDiffProp=addCapDiffProp_arg,
         totalEnergy=totalEnergy,
         totalCapacity=totalCapacity,
         **kwargs
@@ -234,7 +235,10 @@ def double_resource(df, category):
     doubled_var = np.minimum(1, var_to_double)
     temp_df[category] = doubled_var
     other_columns = temp_df.columns.difference([category])
-    temp_df[other_columns] = temp_df[other_columns] * (1 - doubled_var[:, None])
+
+    # Convert to numpy array for multi-dimensional indexing
+    temp_df[other_columns] = temp_df[other_columns].values * (1 - doubled_var.values[:, None])
+
     temp_df = temp_df.div(temp_df.sum(axis=1), axis=0)
     return temp_df
 
@@ -242,18 +246,20 @@ def double_resource(df, category):
 categories = ["Wind", "PV", "Nuclear", "Coal"]
 resource_cases = ["1000", "0100", "0010", "0001", "1100", "1010", "1001", "0110", "0101", "0011", "1110", "1101", "1011", "0111", "1111"]
 
-for cat in categories:
-    case_name = f"case_{cat.lower()}"
+for category in categories:
+    case_name = f"case_{category.lower()}"
     print(f'Running double_resource for case {case_name} ')
-    df = double_resource(addCapDiffProp, cat)
+    df = double_resource(addCapDiffProp, category)
     run_simulation(case_name, percent_fusion=0.0000000001, toReplace="all", afterYear=2030, addCapDiffProp=df)
 
 # Save total_df
 total_df_list = []
-for i, case in enumerate(resource_cases):
+# TODO figure out the original intention, which used resource_cases but doesn't make sense since
+#  we never ran simulations for that
+for i, case in enumerate(categories):
     case_name = f"case_{case}"
     print(f'Saving total_df for case {case_name}')
-    df = pd.read_csv(f"{OUT_DIR}/{case_name}.csv")
+    df = pd.read_csv(f"{OUT_DIR}/{case_name}_summary.csv")
     df["case"] = i
     df = df[["year", "case", "totalCarbon"]]
     df.rename(columns={"totalCarbon": "GHG"}, inplace=True)
