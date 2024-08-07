@@ -154,9 +154,28 @@ def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=2):
         results["element"] = i
         all_runs.append(results)
 
-    combined_df = pd.concat(all_runs)
-    mean_df = combined_df.groupby("year").mean().reset_index()
-    mean_df.to_csv(f"{OUT_DIR}/{prefix}_mean.csv", index=False)
+    combined_df = pd.concat(all_runs, ignore_index=True)
+
+    # Separate numeric and non-numeric columns
+    numeric_cols = combined_df.select_dtypes(include='number').columns.tolist()
+    non_numeric_cols = combined_df.select_dtypes(exclude='number').columns.tolist()
+
+    # Ensure 'year' is not in numeric_cols to avoid the conflict
+    if 'year' in numeric_cols:
+        numeric_cols.remove('year')
+
+    # Calculate the mean for numeric columns only
+    mean_df = combined_df.groupby("year")[numeric_cols].mean().reset_index()
+
+    # If you need to handle non-numeric columns (e.g., concatenate or take the first value), you can do so here
+    # For now, we will just keep the non-numeric columns from the first run
+    first_run_non_numeric = combined_df.groupby("year")[non_numeric_cols].first().reset_index()
+
+    # Merge numeric and non-numeric DataFrames
+    final_df = pd.merge(mean_df, first_run_non_numeric, on='year', how='left')
+
+    final_df.to_csv(f"{OUT_DIR}/{prefix}_mean.csv", index=False)
+
 
 average_runs("CA2030_10", 0.1, 2030, 10)
 average_runs("CA2030_50", 0.5, 2030, 10)
