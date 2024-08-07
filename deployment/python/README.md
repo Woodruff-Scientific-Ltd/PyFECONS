@@ -4,6 +4,10 @@ This library is a python port of the simulation code originally written in R for
 _Characterizing fusion market entry via an agent-based power plant fleet model_ by Spangher, Vitterb, and Umstattda 
 [ARPAE Link](https://arpa-e.energy.gov/technologies/publications/characterizing-fusion-market-entry-agent-based-power-plant-fleet-model).
 
+## Install Python 3
+
+Navigate to [Python Downloads](https://www.python.org/downloads/) and install at least version 3.9.
+
 ## Install dependencies with pip & venv
 
 We use [python venv]() and [pip]() to manage dependencies.
@@ -92,5 +96,5 @@ There's a script utility for generating the following graph given any simulation
 
 Run the following (default parameters draw output from `run.py`):
 ```
-python --input_csv=SUMMARY_CSV --out_dir=... --filename=... --start_year=... --end_year=...
+python plot_capicity_change.py --input_csv=SUMMARY_CSV --out_dir=... --filename=... --start_year=... --end_year=...
 ```
