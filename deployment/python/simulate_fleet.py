@@ -200,7 +200,7 @@ def miscellaneous_preparation(summary, addWeightedCF, typeChars, totalCapacity, 
     summary['demandGrowth'] = np.maximum(0, np.diff(totalCapacity['capacity'], prepend=0))
 
     # Fleet0 is the initial fleet but is later updated in the for-loop
-    fleet_dtype = [('type', 'U20'), ('capacity', float), ('startYear', int), ('age', int),
+    fleet_dtype = [('type', 'U20'), ('capacity', float), ('year', int), ('age', int),
                    ('energy', float), ('carbonOutput', float), ('long', float), ('lat', float),
                    ('expRet', float), ('seqNum', int), ('isNew', bool), ('isFusion', bool), ('locCode', 'U25')]
 
@@ -295,7 +295,7 @@ def simulate_year(fleet_t, summary, typeChars, totalEnergy, addCapDiffProp, year
                                                              typeChars.loc[new_plants['type'], 'StdDevCapacityMW'].values), 2)
         new_plants['locCode'] = np.random.choice(retiring_plants['locCode'], len(new_plants), replace=True)
         new_plants['age'] = 1
-        new_plants['startYear'] = year
+        new_plants['year'] = year
         new_plants['seqNum'] = np.arange(fleet_t['seqNum'].max() + 1, fleet_t['seqNum'].max() + 1 + len(new_plants))
         new_plants['expRet'] = rsnorm(len(new_plants),
                                       mean=typeChars.loc[new_plants['type'], 'AvgRetAge'].values,

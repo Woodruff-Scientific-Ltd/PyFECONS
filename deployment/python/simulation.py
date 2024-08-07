@@ -134,7 +134,8 @@ for percent_fusion in [0.25, 0.75]:
 run_simulation("marketPenetration_BAU", percent_fusion=0, toReplace="all", afterYear=2070, T_ADOPT=10)
 
 # 10. Average out many runs
-def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=100):
+def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=2):
+    print(f'Running average_runs {prefix} for {num_runs} runs')
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
@@ -153,9 +154,28 @@ def average_runs(prefix, percent_fusion, afterYear, T_ADOPT, num_runs=100):
         results["element"] = i
         all_runs.append(results)
 
-    combined_df = pd.concat(all_runs)
-    mean_df = combined_df.groupby("year").mean().reset_index()
-    mean_df.to_csv(f"{OUT_DIR}/{prefix}_mean.csv", index=False)
+    combined_df = pd.concat(all_runs, ignore_index=True)
+
+    # Separate numeric and non-numeric columns
+    numeric_cols = combined_df.select_dtypes(include='number').columns.tolist()
+    non_numeric_cols = combined_df.select_dtypes(exclude='number').columns.tolist()
+
+    # Ensure 'year' is not in numeric_cols to avoid the conflict
+    if 'year' in numeric_cols:
+        numeric_cols.remove('year')
+
+    # Calculate the mean for numeric columns only
+    mean_df = combined_df.groupby("year")[numeric_cols].mean().reset_index()
+
+    # If you need to handle non-numeric columns (e.g., concatenate or take the first value), you can do so here
+    # For now, we will just keep the non-numeric columns from the first run
+    first_run_non_numeric = combined_df.groupby("year")[non_numeric_cols].first().reset_index()
+
+    # Merge numeric and non-numeric DataFrames
+    final_df = pd.merge(mean_df, first_run_non_numeric, on='year', how='left')
+
+    final_df.to_csv(f"{OUT_DIR}/{prefix}_mean.csv", index=False)
+
 
 average_runs("CA2030_10", 0.1, 2030, 10)
 average_runs("CA2030_50", 0.5, 2030, 10)
@@ -167,7 +187,8 @@ average_runs("CA2070_50", 0.5, 2070, 10)
 
 
 # Sensitivity analysis
-def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=50):
+def sensitivity_analysis(prefix, percent_fusion, afterYear, num_runs=2):
+    print(f'Running sensitivity_analysis {prefix} with {num_runs} runs')
     all_runs = []
     for i in range(num_runs):
         results, _ = simulatePlants(
@@ -223,6 +244,7 @@ resource_cases = ["1000", "0100", "0010", "0001", "1100", "1010", "1001", "0110"
 
 for cat in categories:
     case_name = f"case_{cat.lower()}"
+    print(f'Running double_resource for case {case_name} ')
     df = double_resource(addCapDiffProp, cat)
     run_simulation(case_name, percent_fusion=0.0000000001, toReplace="all", afterYear=2030, addCapDiffProp=df)
 
@@ -230,6 +252,7 @@ for cat in categories:
 total_df_list = []
 for i, case in enumerate(resource_cases):
     case_name = f"case_{case}"
+    print(f'Saving total_df for case {case_name}')
     df = pd.read_csv(f"{OUT_DIR}/{case_name}.csv")
     df["case"] = i
     df = df[["year", "case", "totalCarbon"]]
