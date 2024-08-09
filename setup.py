@@ -5,7 +5,7 @@ with open('requirements.txt', encoding='utf-8') as f:
 
 setup(
     name='pyfecons',
-    version='0.0.33',
+    version='0.0.38',
     author='nTtau Digital LTD',
     author_email='info@nttaudigital.com',
     description='Library for nTtau PyFECONS costing calculations.',
