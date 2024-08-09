@@ -51,7 +51,7 @@ I.e. `customers/CATF/ife/included_files/StandardFigures/WSLTD_logo.png`.
 
 ### Pip
 
-To import pyfecons version `X.Y.Z` into your pip project:
+To import PyFECONs version `X.Y.Z` into your pip project:
 
 ```
 pip install pyfecons @ git+ssh://git@github.com/Woodruff-Scientific-Ltd/PyFECONS.git@X.Y.Z
@@ -59,7 +59,7 @@ pip install pyfecons @ git+ssh://git@github.com/Woodruff-Scientific-Ltd/PyFECONS
 
 ### Conda
 
-To import pyfecons version `X.Y.Z` into your conda project, add the following to `environment.yml`:
+To import PyFECONs version `X.Y.Z` into your conda project, add the following to `environment.yml`:
 ```
 ...
 - pip:
@@ -70,7 +70,7 @@ To import pyfecons version `X.Y.Z` into your conda project, add the following to
 
 ### Managing dependencies
 
-Please add new dependencies to the `environment.yml` -pip array and duplicate these to `requirements.txt` file.
+Please add new dependencies to the `requirements.txt` file.
 
 ### Making changes
 
@@ -89,23 +89,13 @@ After code is updated and merged to main, if the version has changed you'll need
 Please follow the [Github Instructions](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 to create a release matching the merged version number. This is important for the webapp to manage updates and changes.
 
-### Creating a key pair
-```bash
-ssh-keygen -t ed25519 -C "your_email@example.com"
-cat ~/.ssh/your_file.pub
-```
-Add to GitHub keys.
-
-
 ## Installing Dependencies
 
 The library should work out of the box on linux with a python virtual environment and pip.
 
-Because of OS specific dependencies, in order to use PyFECONs on Mac M1 (and Windows?) you'll need to use conda dependency management in your project. See the steps below in the README for setting this up in your environment.
-
 ### Installing LaTeX
 
-LaTeX is an external dependency to the library since installation varies widely by OS.
+LaTeX is an external dependency to the library since installation varies by OS.
 
 Mac:
 ```bash
@@ -124,13 +114,36 @@ TODO
 
 ### Python 3
 
-Library is tested working with Python 3.9 (3.9.19).
+Library is tested working with Python 3.11 (3.11.9).
 
-We recommend [pyenv](https://github.com/pyenv/pyenv) for Python version management.
+We recommend [pyenv](https://github.com/pyenv/pyenv) for Python version management on MacOS / Linux and [pyenv-win](https://github.com/pyenv-win/pyenv-win) for Windows.
+
+Please follow the installation instructions for [MacOS/Linux pyenv](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation) or [Windows pyenv-win](https://github.com/pyenv-win/pyenv-win?tab=readme-ov-file#quick-start).
+
+Example commands for MacOS:
+```
+# install pyenv
+brew install pyenv
+
+# set up shell
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
+echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+
+# install python version
+pyenv install 3.11.9
+
+# optional, set it as global version
+pyenv global 3.11.9
+
+# verify python version
+python3 --version
+```
 
 ### Python Virtual Environment
 
-Preferred dependency management.
+We use [Python venv](https://docs.python.org/3/library/venv.html) for dependency management. Make sure the correct
+python version is enabled when the virtual environment is created (test with `python3 --version`).
 
 Linux Commands
 ```bash
@@ -160,49 +173,6 @@ venv\Scripts\activate
 
 # install dependencies (on new environment or after changes)
 pip install -r requirements.txt
-```
-
-### Conda Virtual Environment
-
-[Conda](https://docs.conda.io/en/latest/) package management is needed for local development on Mac M1 due to 
-incompatibility of [cadquery](https://github.com/CadQuery/cadquery and pip.
-
-NB we are not using cadquery anymore so Conda is no longer a requirement for Mac M1. If we add back complicated
-dependencies this may change in the future.
-
-Follow the Miniconda [Quick command line install](https://docs.anaconda.com/free/miniconda/#quick-command-line-install)
-instructions.
-
-Don't forget to init your shell with:
-
-```bash
-# Mac zshell
-~/miniconda3/bin/conda init zsh
-
-# Or bash
-~/miniconda3/bin/conda init bash
-```
-
-Conda Commands
-```
-# create environment - only need to do this once or every time after deleting the environment 
-conda env create -f environment.yml
-
-# list environments
-conda env list
-
-# activate pyfecons environment
-conda activate pyfecons
-
-# updating conda environment (after adidng or removing dependencies)
-conda env update -f environment.yml
-
-# deactivating the Conda environment
-conda deactivate
-
-# delete environment - to reinstall fresh 
-conda env remove -n pyfecons
-
 ```
 
 ## Tests
