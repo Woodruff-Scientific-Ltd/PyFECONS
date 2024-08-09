@@ -6,12 +6,12 @@ with open('requirements.txt', encoding='utf-8') as f:
 setup(
     name='pyfecons',
     version='0.0.35',
-    author='nTtau Digital LTD',
-    author_email='info@nttaudigital.com',
-    description='Library for nTtau PyFECONS costing calculations.',
+    author='Woodruff Scientific LTD',
+    author_email='info@woodruffscientific.com',
+    description='Library for PyFECONS costing calculations.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/nTtau/PyFECONS',
+    url='https://github.com/Woodruff-Scientific-Ltd/PyFECONS',
     packages=find_packages(),
     install_requires=required,
     classifiers=[
