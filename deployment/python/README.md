@@ -6,9 +6,9 @@ _Characterizing fusion market entry via an agent-based power plant fleet model_ 
 
 All commands in this README should be run in the `PyFECONs/deployment/python/` directory.
 
-## Install Python 3
+## Install Python 3.11
 
-Navigate to [Python Downloads](https://www.python.org/downloads/) and install at least version 3.9.
+Follow the steps in [Installing Python 3.11](../../README.md#installing-python-311). 
 
 ## Install dependencies with pip & venv
 

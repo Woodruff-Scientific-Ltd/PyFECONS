@@ -112,7 +112,7 @@ Windows
 TODO
 ```
 
-### Python 3
+### Installing Python 3.11
 
 Library is tested working with Python 3.11 (3.11.9).
 

@@ -17,9 +17,9 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 3.9',
+        'License :: OSI Approved :: BSD License',
+        'Programming Language :: Python :: 3.11',
     ],
-    python_requires='>=3.9',
+    python_requires='>=3.11',
     include_package_data=True,
 )
