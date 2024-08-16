@@ -1,4 +1,5 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
+from pyfecons.enums import FuelType
 from pyfecons.inputs import Inputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
@@ -15,13 +16,14 @@ def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
     # [1]From NETL reference case B12A
     # [2] Waganer, L.M., 2013. ARIES cost account documentation. San Diego: University of California.
 
+    # 0.5 from lack of Tritium - we don't need so much structure in the containment building.
+    fuel_scaling_factor = 1.0 if inputs.basic.fuel_type == FuelType.DT else 0.5
+
     # 21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
-    # 0.5 comes from use of DD
-    OUT.C210100 = M_USD(k_to_m_usd(268) * IN.p_et * 0.5)
+    OUT.C210100 = M_USD(k_to_m_usd(268) * IN.p_et * fuel_scaling_factor)
 
     # 21.02.00,,Fusion Heat Island Building,Concrete & Steel,. Source: [2], pg 11.
-    # 0.5 comes from use of DD - we don't need so much structure in the containment building.
-    OUT.C210200 = M_USD(k_to_m_usd(186.8) * IN.p_et * 0.5)
+    OUT.C210200 = M_USD(k_to_m_usd(186.8) * IN.p_et * fuel_scaling_factor)
 
     # 21.03.00,,Turbine building,Steel. Source: [1] cost account 14.2, page 134
     OUT.C210300 = M_USD(k_to_m_usd(54.0) * IN.p_et)
@@ -36,8 +38,7 @@ def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C210600 = M_USD(k_to_m_usd(5.4) * IN.p_et)
 
     # 21.07.00,,Hot cell,Concrete & Steel, Source: [1] cost account 14.1, page 134
-    # 0.5 from use of DD
-    OUT.C210700 = M_USD(k_to_m_usd(93.4) * IN.p_et * 0.5)
+    OUT.C210700 = M_USD(k_to_m_usd(93.4) * IN.p_et * fuel_scaling_factor)
 
     # 21.08.00,,Reactor services,Steel frame, Source: scaled from [1] cost account 14.1, page 134
     OUT.C210800 = M_USD(k_to_m_usd(18.7) * IN.p_et)
