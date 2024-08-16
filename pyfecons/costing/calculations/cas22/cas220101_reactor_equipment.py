@@ -3,11 +3,7 @@ from io import BytesIO
 from typing import Dict
 from matplotlib import pyplot as plt
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.costing.calculations.volume import (
-    calc_volume_ring,
-    calc_volume_torus,
-    calc_volume_sphere,
-)
+from pyfecons.costing.calculations.volume import calc_volume_ring, calc_volume_outer_hollow_torus, calc_volume_sphere
 from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
 from pyfecons.inputs import RadialBuild, Blanket
@@ -61,110 +57,33 @@ def compute_reactor_equipment_costs(
 
 def compute_volume_mfe_tokamak(IN: RadialBuild, OUT: CAS220101) -> CAS220101:
     OUT.axis_vol = 0.0
-    OUT.plasma_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.plasma_ir, IN.plasma_t)
-        - OUT.axis_vol
-    )
-    OUT.vacuum_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.vacuum_ir, IN.vacuum_t)
-        - sum([OUT.plasma_vol, OUT.axis_vol])
-    )
-    OUT.firstwall_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.firstwall_ir, IN.firstwall_t)
-        - sum([OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol])
-    )
-    OUT.blanket1_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.blanket1_ir, IN.blanket1_t)
-        - sum([OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol])
-    )
-    OUT.reflector_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.reflector_ir, IN.reflector_t)
-        - sum(
-            [
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.ht_shield_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.ht_shield_ir, IN.ht_shield_t)
-        - sum(
-            [
-                OUT.reflector_vol,
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.structure_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.structure_ir, IN.structure_t)
-        - sum(
-            [
-                OUT.ht_shield_vol,
-                OUT.reflector_vol,
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.gap1_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.gap1_ir, IN.gap1_t)
-        - sum(
-            [
-                OUT.structure_vol,
-                OUT.ht_shield_vol,
-                OUT.reflector_vol,
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.vessel_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.vessel_ir, IN.vessel_t)
-        - sum(
-            [
-                OUT.gap1_vol,
-                OUT.structure_vol,
-                OUT.ht_shield_vol,
-                OUT.reflector_vol,
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.lt_shield_vol = Meters3(
-        IN.elon * calc_volume_torus(IN.axis_t, OUT.lt_shield_ir, IN.lt_shield_t)
-        - sum(
-            [
-                OUT.vessel_vol,
-                OUT.gap1_vol,
-                OUT.structure_vol,
-                OUT.ht_shield_vol,
-                OUT.reflector_vol,
-                OUT.blanket1_vol,
-                OUT.firstwall_vol,
-                OUT.vacuum_vol,
-                OUT.plasma_vol,
-                OUT.axis_vol,
-            ]
-        )
-    )
-    OUT.coil_vol = Meters3(calc_volume_torus(IN.axis_t, OUT.coil_ir, IN.coil_t) * 0.5)
+    OUT.plasma_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.plasma_ir, IN.plasma_t) - OUT.axis_vol)
+    OUT.vacuum_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.vacuum_ir, IN.vacuum_t)
+                             - sum([OUT.plasma_vol, OUT.axis_vol]))
+    OUT.firstwall_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.firstwall_ir, IN.firstwall_t)
+                                - sum([OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.blanket1_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.blanket1_ir, IN.blanket1_t)
+                               - sum([OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.reflector_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.reflector_ir, IN.reflector_t)
+                                - sum([OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol,
+                                       OUT.axis_vol]))
+    OUT.ht_shield_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.ht_shield_ir, IN.ht_shield_t)
+                                - sum([OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.structure_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.structure_ir, IN.structure_t)
+                                - sum([OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol,
+                                       OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.gap1_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.gap1_ir, IN.gap1_t)
+                           - sum([OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol, OUT.blanket1_vol,
+                                  OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.vessel_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.vessel_ir, IN.vessel_t)
+                             - sum([OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol, OUT.reflector_vol,
+                                    OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol, OUT.plasma_vol, OUT.axis_vol]))
+    OUT.lt_shield_vol = Meters3(IN.elon * calc_volume_outer_hollow_torus(IN.axis_t, OUT.lt_shield_ir, IN.lt_shield_t)
+                                - sum([OUT.vessel_vol, OUT.gap1_vol, OUT.structure_vol, OUT.ht_shield_vol,
+                                       OUT.reflector_vol, OUT.blanket1_vol, OUT.firstwall_vol, OUT.vacuum_vol,
+                                       OUT.plasma_vol, OUT.axis_vol]))
+    OUT.coil_vol = Meters3(calc_volume_outer_hollow_torus(IN.axis_t, OUT.coil_ir, IN.coil_t) * 0.5)
     return OUT
 
 
