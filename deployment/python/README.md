@@ -6,9 +6,9 @@ _Characterizing fusion market entry via an agent-based power plant fleet model_ 
 
 All commands in this README should be run in the `PyFECONs/deployment/python/` directory.
 
-## Install Python 3.11
+## Install Python 3.10
 
-Follow the steps in [Installing Python 3.11](../../README.md#installing-python-311). 
+Follow the steps in [Installing Python 3.10](../../README.md#installing-python-310). 
 
 ## Install dependencies with pip & venv
 
@@ -25,11 +25,11 @@ python3 -m venv venv
 # activate virtual environment (on new terminal)
 source venv/bin/activate
 
-# deactivate virtual environment (after activating)
-deactivate
-
 # install dependencies (on new environment or after changes)
 pip install -r requirements.txt
+
+# deactivate virtual environment (after activating)
+deactivate
 ```
 
 Windows Commands

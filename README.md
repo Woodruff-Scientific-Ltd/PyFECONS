@@ -112,9 +112,9 @@ Windows
 TODO
 ```
 
-### Installing Python 3.11
+### Installing Python 3.10
 
-Library is tested working with Python 3.11 (3.11.9).
+Library is tested working with Python 3.10 (3.10.14).
 
 We recommend [pyenv](https://github.com/pyenv/pyenv) for Python version management on MacOS / Linux and [pyenv-win](https://github.com/pyenv-win/pyenv-win) for Windows.
 
@@ -131,10 +131,10 @@ echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.zsh
 echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 
 # install python version
-pyenv install 3.11.9
+pyenv install 3.10
 
 # optional, set it as global version
-pyenv global 3.11.9
+pyenv global 3.10
 
 # verify python version
 python3 --version
