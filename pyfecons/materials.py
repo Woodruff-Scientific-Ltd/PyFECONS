@@ -1,14 +1,16 @@
 from dataclasses import dataclass
 
+from pyfecons.units import KG_M3, USD_M3, USD_KG, Megapascal
+
 
 @dataclass
 class Material:
     name: str = None
-    rho: float = None
-    c: float = None
-    c_raw: float = None
-    m: float = None
-    sigma: int = None
+    rho: KG_M3 = None  # Density
+    c: USD_M3 = None  # Cost per unit volume
+    c_raw: USD_KG = None  # Cost per unit mass
+    m: float = None  # Mass factor or multiplier (unitless) - TODO clarify this unit
+    sigma: Megapascal = None
 
 
 class Materials:
