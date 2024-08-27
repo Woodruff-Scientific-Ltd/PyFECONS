@@ -125,3 +125,27 @@ class USD_W(float):
 class V(float):
     def __str__(self):
         return f"{self:.2f}"
+
+# Density - kg/m^3
+class KG_M3(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Cost per unit volume - USD/m^3
+class USD_M3(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# Cost per unit mass - USD/kg
+class USD_KG(float):
+    def __str__(self):
+        return f"{self:.2f}"
+
+
+# unit of pressure or stress - N/m^2
+class Megapascal(float):
+    def __str__(self):
+        return f"{self:.2f}"
+

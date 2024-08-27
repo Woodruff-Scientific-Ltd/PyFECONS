@@ -572,8 +572,8 @@
             "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
             "rho": 1900,
             "c": 40,
-            "c_raw": null,
-            "m": null,
+            "c_raw": 1000,
+            "m": 1,
             "sigma": null
         },
         "W": {

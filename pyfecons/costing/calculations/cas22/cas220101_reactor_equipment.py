@@ -187,7 +187,7 @@ def compute_blanket_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     raise f'Unknown blanket type {blanket.blanket_type}'
 
 
-def compute_material_cost(volume: float, material: Material) -> M_USD:
+def compute_material_cost(volume: Meters3, material: Material) -> M_USD:
     return to_m_usd(volume * material.rho * material.c_raw * material.m)
 
 
