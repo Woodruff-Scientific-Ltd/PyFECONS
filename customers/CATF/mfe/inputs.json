@@ -544,89 +544,190 @@
         "discount_rate": 0.08
     },
     "materials": {
-        "FS": {
-            "name": "Ferritic Steel",
-            "rho": 7470,
+        "BERYLLIUM": {
+            "name": "Beryllium",
+            "abbr": "Be",
+            "rho": 1850,
             "c": null,
-            "c_raw": 10,
+            "c_raw": 5750,
             "m": 3,
-            "sigma": 450
-        },
-        "Pb": {
-            "name": "Lead",
-            "rho": 9400,
-            "c": null,
-            "c_raw": 2.4,
-            "m": 1.5,
-            "sigma": null
-        },
-        "Li4SiO4": {
-            "name": "Lithium Silicate",
-            "rho": 2390,
-            "c": null,
-            "c_raw": 1,
-            "m": 2,
-            "sigma": null
-        },
-        "FliBe": {
-            "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
-            "rho": 1900,
-            "c": 40,
-            "c_raw": 1000,
-            "m": 1,
-            "sigma": null
-        },
-        "W": {
-            "name": "Tungsten",
-            "rho": 19300,
-            "c": null,
-            "c_raw": 100,
-            "m": 3,
-            "sigma": null
-        },
-        "Li": {
-            "name": "Lithium",
-            "rho": 534,
-            "c": null,
-            "c_raw": 70,
-            "m": 1.5,
             "sigma": null
         },
         "BFS": {
             "name": "BFS",
+            "abbr": "BFS",
             "rho": 7800,
             "c": null,
             "c_raw": 30,
             "m": 2,
             "sigma": null
         },
-        "SiC": {
-            "name": "Silicon Carbide",
-            "rho": 3200,
+        "CONCRETE": {
+            "name": "Concrete",
+            "abbr": "Concrete",
+            "rho": 2300,
             "c": null,
-            "c_raw": 14.49,
-            "m": 3,
+            "c_raw": 0.52,
+            "m": 2,
             "sigma": null
         },
-        "Inconel": {
-            "name": "Inconel",
-            "rho": 8440,
-            "c": null,
-            "c_raw": 46,
-            "m": 3,
-            "sigma": null
-        },
-        "Cu": {
+        "COPPER": {
             "name": "Copper",
+            "abbr": "Cu",
             "rho": 7300,
             "c": null,
             "c_raw": 10.2,
             "m": 3,
             "sigma": null
         },
-        "Polyimide": {
+        "FERRITIC_STEEL": {
+            "name": "Ferritic Steel",
+            "abbr": "FS",
+            "rho": 7470,
+            "c": null,
+            "c_raw": 10,
+            "m": 3,
+            "sigma": 450
+        },
+        "FLIBE": {
+            "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
+            "abbr": "FliBe",
+            "rho": 1900,
+            "c": 40,
+            "c_raw": 1000,
+            "m": 1,
+            "sigma": null
+        },
+        "GDBCO": {
+            "name": "Gadolinium Barium Copper Oxide",
+            "abbr": "GdBCO",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "HELIUM": {
+            "name": "Helium",
+            "abbr": "He",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "INCOLOY": {
+            "name": "Incoloy",
+            "abbr": "Incoloy",
+            "rho": 8170,
+            "c": null,
+            "c_raw": 4,
+            "m": 2,
+            "sigma": null
+        },
+        "INCONEL": {
+            "name": "Inconel",
+            "abbr": "Inconel",
+            "rho": 8440,
+            "c": null,
+            "c_raw": 46,
+            "m": 3,
+            "sigma": null
+        },
+        "LEAD": {
+            "name": "Lead",
+            "abbr": "Pb",
+            "rho": 9400,
+            "c": null,
+            "c_raw": 2.4,
+            "m": 1.5,
+            "sigma": null
+        },
+        "LITHIUM": {
+            "name": "Lithium",
+            "abbr": "Li",
+            "rho": 534,
+            "c": null,
+            "c_raw": 70,
+            "m": 1.5,
+            "sigma": null
+        },
+        "LITHIUM_SILICATE": {
+            "name": "Lithium Silicate",
+            "abbr": "Li4SiO4",
+            "rho": 2390,
+            "c": null,
+            "c_raw": 1,
+            "m": 2,
+            "sigma": null
+        },
+        "LITHIUM_TITANATE": {
+            "name": "Lithium Titanate",
+            "abbr": "Li2TiO3",
+            "rho": 3430,
+            "c": null,
+            "c_raw": 1297.05,
+            "m": 3,
+            "sigma": null
+        },
+        "NB3SN": {
+            "name": "Niobium-Tin",
+            "abbr": "Nb3Sn",
+            "rho": null,
+            "c": 5,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "NBTI": {
+            "name": "Niobium-Titanium",
+            "abbr": "NbTi",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "PBLI": {
+            "name": "Lead (Pb) and Lithium (Li) Eutectic Alloy",
+            "abbr": "PbLi",
+            "rho": 8594.0,
+            "c": 12.818181818181818,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "POLYIMIDE": {
             "name": "Polyimide",
+            "abbr": "Polyimide",
             "rho": 1430,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "SILICON_CARBIDE": {
+            "name": "Silicon Carbide",
+            "abbr": "SiC",
+            "rho": 3200,
+            "c": null,
+            "c_raw": 14.49,
+            "m": 3,
+            "sigma": null
+        },
+        "STAINLESS_STEEL_SS316": {
+            "name": "Stainless Steel 316",
+            "abbr": "SS316",
+            "rho": 7860,
+            "c": null,
+            "c_raw": 2,
+            "m": 2,
+            "sigma": 900
+        },
+        "TUNGSTEN": {
+            "name": "Tungsten",
+            "abbr": "W",
+            "rho": 19300,
             "c": null,
             "c_raw": 100,
             "m": 3,
@@ -634,88 +735,9 @@
         },
         "YBCO": {
             "name": "Yttrium Barium Copper Oxide (YBa2Cu3O7)",
+            "abbr": "YBCO",
             "rho": 6200,
             "c": 55,
-            "c_raw": null,
-            "m": null,
-            "sigma": null
-        },
-        "Concrete": {
-            "name": "Concrete",
-            "rho": 2300,
-            "c": null,
-            "c_raw": 0.52,
-            "m": 2,
-            "sigma": null
-        },
-        "SS316": {
-            "name": "Stainless Steel 316",
-            "rho": 7860,
-            "c": null,
-            "c_raw": 2,
-            "m": 2,
-            "sigma": 900
-        },
-        "Nb3Sn": {
-            "name": "Niobium-Tin (Nb3Sn)",
-            "rho": null,
-            "c": 5,
-            "c_raw": null,
-            "m": null,
-            "sigma": null
-        },
-        "Incoloy": {
-            "name": "Incoloy",
-            "rho": 8170,
-            "c": null,
-            "c_raw": 4,
-            "m": 2,
-            "sigma": null
-        },
-        "GdBCO": {
-            "name": "Gadolinium Barium Copper Oxide",
-            "rho": null,
-            "c": null,
-            "c_raw": null,
-            "m": null,
-            "sigma": null
-        },
-        "He": {
-            "name": "Helium",
-            "rho": null,
-            "c": null,
-            "c_raw": null,
-            "m": null,
-            "sigma": null
-        },
-        "NbTi": {
-            "name": "Niobium-Titanium",
-            "rho": null,
-            "c": null,
-            "c_raw": null,
-            "m": null,
-            "sigma": null
-        },
-        "Be": {
-            "name": "Beryllium",
-            "rho": 1850,
-            "c": null,
-            "c_raw": 5750,
-            "m": 3,
-            "sigma": null
-        },
-        "Li2TiO3": {
-            "name": "Lithium Titanate",
-            "rho": 3430,
-            "c": null,
-            "c_raw": 1297.05,
-            "m": 3,
-            "sigma": null
-        },
-        "PbLi": {
-            "name": "Lead (Pb) and Lithium (Li) Eutectic Alloy",
-            "rho": 8594.0,
-            "c": 12.818181818181818,
             "c_raw": null,
             "m": null,
             "sigma": null
