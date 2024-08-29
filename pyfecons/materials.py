@@ -26,6 +26,7 @@ def _pbli_c(pb: Material, li: Material) -> USD_M3:
 
 
 class Materials:
+    # TODO figure out what material FS is supposed to represent. GPT suggests HT9.
     FERRITIC_STEEL = Material(name="Ferritic Steel", abbr='FS', rho=7470, c_raw=10, m=3, sigma=450)
     LEAD = Material(name="Lead", abbr='Pb', rho=9400, c_raw=2.4, m=1.5)
     LITHIUM_SILICATE = Material(name="Lithium Silicate", abbr='Li4SiO4', rho=2390, c_raw=1, m=2)
@@ -49,3 +50,7 @@ class Materials:
     BERYLLIUM = Material(name="Beryllium", abbr='Be', rho=1850, c_raw=5750, m=3)
     LITHIUM_TITANATE = Material(name="Lithium Titanate", abbr='Li2TiO3', rho=3430, c_raw=1297.05, m=3)
     PBLI = Material(name="Lead (Pb) and Lithium (Li) Eutectic Alloy", abbr='PbLi', rho=_pbli_rho(LEAD, LITHIUM), c=_pbli_c(LEAD, LITHIUM))
+    HT9 = Material(name="Modified 9Cr-1Mo Ferritic-Martensitic Steel", abbr='HT9', rho=7800)
+    MA957 = Material(name="Mechanically Alloyed 14% Chromium Oxide Dispersion Strengthened Ferritic-Martensitic Steel", abbr='MA957', rho=7600)
+    VANADIUM_ALLOY = Material(name="Vanadium Alloy", abbr='V-15Cr-5Ti', rho=6100)
+    TZM = Material(name='Titanium-Zirconium-Molybdenum', abbr='TZM', rho=10200)

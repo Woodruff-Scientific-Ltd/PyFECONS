@@ -371,6 +371,15 @@
             "m": null,
             "sigma": null
         },
+        "HT9": {
+            "name": "Modified 9Cr-1Mo Ferritic-Martensitic Steel",
+            "abbr": "HT9",
+            "rho": 7800,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
         "INCOLOY": {
             "name": "Incoloy",
             "abbr": "Incoloy",
@@ -423,6 +432,15 @@
             "c": null,
             "c_raw": 1297.05,
             "m": 3,
+            "sigma": null
+        },
+        "MA957": {
+            "name": "Mechanically Alloyed 14% Chromium Oxide Dispersion Strengthened Ferritic-Martensitic Steel",
+            "abbr": "MA957",
+            "rho": 7600,
+            "c": null,
+            "c_raw": null,
+            "m": null,
             "sigma": null
         },
         "NB3SN": {
@@ -486,6 +504,24 @@
             "c": null,
             "c_raw": 100,
             "m": 3,
+            "sigma": null
+        },
+        "TZM": {
+            "name": "Titanium-Zirconium-Molybdenum",
+            "abbr": "TZM",
+            "rho": 10200,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "VANADIUM_ALLOY": {
+            "name": "Vanadium Alloy",
+            "abbr": "V-15Cr-5Ti",
+            "rho": 6100,
+            "c": null,
+            "c_raw": null,
+            "m": null,
             "sigma": null
         },
         "YBCO": {
