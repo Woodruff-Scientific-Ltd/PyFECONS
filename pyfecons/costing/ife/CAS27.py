@@ -4,8 +4,6 @@ from pyfecons.enums import BlanketPrimaryCoolant
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 
-materials = Materials()
-
 
 def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 27 Special Materials
@@ -15,13 +13,13 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     # Select the coolant and calculate C_27_1
     C_27_1 = 0
     if blanket.primary_coolant == BlanketPrimaryCoolant.FLIBE:
-        C_27_1 = 1000 * 2130 * materials.FliBe.c / 1e6
+        C_27_1 = 1000 * 2130 * Materials.FLIBE.c / 1e6
     elif blanket.primary_coolant == BlanketPrimaryCoolant.LEAD_LITHIUM_PBLI:
         # TODO should we pull these out into inputs?
         f_6Li = 0.1
         FPCPPFb = 0.9
-        C_27_1 = (materials.Pb.c * FPCPPFb * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
-                  + materials.Li.c * f_6Li * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000) / 1e6
+        C_27_1 = (Materials.LEAD.c * FPCPPFb * data.cas220101.firstwall_vol * Materials.FLIBE.rho * 1000
+                  + Materials.LITHIUM.c * f_6Li * data.cas220101.firstwall_vol * Materials.FLIBE.rho * 1000) / 1e6
     elif blanket.primary_coolant == BlanketPrimaryCoolant.LITHIUM_LI:
         C_27_1 = 1000 * 2130 * 50 / 1e6
     elif blanket.primary_coolant == BlanketPrimaryCoolant.OTHER_EUTECTIC_SALT:

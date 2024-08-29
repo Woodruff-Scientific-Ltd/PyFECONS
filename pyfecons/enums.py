@@ -1,4 +1,5 @@
 from enum import Enum
+from pyfecons.materials import Material, Materials
 
 
 class ReactorType(Enum):
@@ -132,13 +133,13 @@ class BlanketNeutronMultiplier(Enum):
 
 
 class BlanketStructure(Enum):
-    STAINLESS_STEEL_SS = ('STAINLESS_STEEL_SS', 'Stainless Steel (SS)')
-    FERRITIC_MARTENSITIC_STEEL_FMS = ('FERRITIC_MARTENSITIC_STEEL_FMS', 'Ferritic Martensitic Steel (FMS)')
-    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = (
-    'OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL', 'Oxide Dispersion Strengthened Steel (ODS)')
-    VANADIUM = ('VANADIUM', 'Vanadium')
+    STAINLESS_STEEL_SS = ('STAINLESS_STEEL_SS', 'Stainless Steel (SS)', Materials.STAINLESS_STEEL_SS316)
+    FERRITIC_MARTENSITIC_STEEL_FMS = ('FERRITIC_MARTENSITIC_STEEL_FMS', 'Ferritic Martensitic Steel (FMS)', Materials.HT9)
+    OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL = ('OXIDE_DISPERSION_STRENGTHENED_ODS_STEEL', 'Oxide Dispersion Strengthened Steel (ODS)', Materials.MA957)
+    VANADIUM_ALLOY = ('VANADIUM_ALLOY', 'Vanadium Alloy', Materials.VANADIUM_ALLOY)
+    MOLYBDENUM_ALLOY  = ('MOLYBDENUM_ALLOY', 'Molybdenum Alloy', Materials.TZM)
 
-    def __new__(cls, value, display_name):
+    def __new__(cls, value, display_name: str, material: Material):
         obj = object.__new__(cls)
         obj._value_ = value
         obj.display_name = display_name

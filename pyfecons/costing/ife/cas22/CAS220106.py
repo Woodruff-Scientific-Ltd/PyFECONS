@@ -6,8 +6,6 @@ from pyfecons.inputs import Inputs
 from pyfecons.materials import Materials
 from pyfecons.units import Meters3, M_USD
 
-materials = Materials()
-
 
 def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
     # 22.1.6 Vacuum system
@@ -18,9 +16,9 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # Calculate mass and cost
     material_volume = build.vessel_vol
-    mass_struct = material_volume * materials.SS316.rho
+    mass_struct = material_volume * Materials.STAINLESS_STEEL_SS316.rho
     # vessel material cost
-    ves_mat_cost = materials.SS316.c_raw * mass_struct
+    ves_mat_cost = Materials.STAINLESS_STEEL_SS316.c_raw * mass_struct
     # internal volume of the vacuum vessel
     ves_vol = Meters3(4/3 * np.pi * build.vessel_ir**3)
 

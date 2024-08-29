@@ -1026,6 +1026,7 @@
         "divertor_thickness_r": 2.3999999999999986,
         "divertor_material": {
             "name": "Tungsten",
+            "abbr": "W",
             "rho": 19300,
             "c": null,
             "c_raw": 100,
