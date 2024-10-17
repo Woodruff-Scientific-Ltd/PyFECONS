@@ -1,6 +1,8 @@
 import numpy as np
 from pyfecons.costing.calculations.conversions import w_to_mw
-from pyfecons.inputs import Coils
+from pyfecons.data import PowerTable
+from pyfecons.enums import MagnetType
+from pyfecons.inputs import Coils, Magnet, RadialBuild
 from pyfecons.units import MW
 
 
@@ -22,11 +24,19 @@ def compute_q_in_struct(coils: Coils, k: float, t_op: float) -> MW:
     )
 
 
+def compute_q_in_n(magnet: Magnet, power_table: PowerTable, radial_build: RadialBuild):
+    # TODO clarify it's not the formula in collab
+    # load_area = magnet.r_center - radial_build.axis_t
+    load_area = magnet.dz * abs((magnet.r_centre - magnet.dr / 2))
+    q_n_per_coil = compute_q_in_n_per_coil(load_area, power_table.p_neutron, radial_build.axis_t, magnet.dz)
+    if magnet.type == MagnetType.TF:
+        q_n_per_coil = q_n_per_coil * magnet.coil_count
+    return q_n_per_coil
+
+
 # power in from neutron flux, assume 95% is abosrbed in the blanket
 # Neutron heat loading for one coil
-def compute_q_in_n(
-    load_area: float, p_neutron: float, maj_r: float, min_r: float
-) -> float:
+def compute_q_in_n_per_coil(load_area: float, p_neutron: float, maj_r: float, min_r: float) -> float:
     # surface area of torus 4 × π^2 × R × r
     return p_neutron * 0.05 * load_area / (4 * np.pi**2 * (maj_r - min_r))
 

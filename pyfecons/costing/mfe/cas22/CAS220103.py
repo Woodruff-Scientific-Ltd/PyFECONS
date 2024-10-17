@@ -6,13 +6,8 @@ from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import (
     YuhuHtsCiccExtrapolation,
 )
 from pyfecons.costing.calculations.conversions import w_to_mw, to_m_usd
-from pyfecons.costing.calculations.thermal import (
-    k_steel,
-    compute_q_in_struct,
-    compute_q_in_n,
-    compute_iter_cost_per_MW,
-)
-from pyfecons.data import Data, TemplateProvider, MagnetProperties, CAS220103Coils
+from pyfecons.costing.calculations.thermal import k_steel, compute_q_in_struct, compute_q_in_n, compute_iter_cost_per_MW
+from pyfecons.data import Data, TemplateProvider, MagnetProperties, CAS220103Coils, PowerTable
 from pyfecons.enums import MagnetMaterialType, MagnetType
 from pyfecons.inputs import Inputs, Coils, Magnet, RadialBuild
 from pyfecons.units import M_USD, Count, MW, Turns, Meters2, MA, Amperes, Meters3, Kilometers, Kilograms, Meters
@@ -182,16 +177,9 @@ def compute_q_ohmic(wire_length: float, cu_wire_current: float) -> MW:
     return w_to_mw(cu_wire_current**2 * cures)
 
 
-def compute_magnet_cooling_cost(
-    coils: Coils, magnet: Magnet, properties: MagnetProperties, data: Data
-) -> M_USD:
-    # Neutron heat loading for one coil
-    q_in_n = compute_q_in_n(
-        magnet.dz * abs((magnet.r_centre - magnet.dr / 2)),
-        data.power_table.p_neutron,
-        data.cas220101.coil_ir,
-        data.cas220101.axis_ir,
-    )
+def compute_magnet_cooling_cost(coils: Coils, magnet: Magnet, properties: MagnetProperties, power_table: PowerTable, radial_build: RadialBuild) -> M_USD:
+    # Neutron heat loading
+    q_in_n = compute_q_in_n(magnet, power_table, radial_build)
     # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
     q_in_struct = compute_q_in_struct(
         coils,
@@ -239,12 +227,10 @@ def compute_hts_cicc_auto_magnet_properties(coils: Coils, magnet: Magnet, inputs
     OUT.cost_i = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * coils.mfr_factor)
-    OUT.coil_mass = Kilograms(
-        (coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
-        + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
-        + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density)
-    )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
+                              + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
+                              + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data.power_table, inputs.radial_build)
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -290,12 +276,10 @@ def compute_hts_cicc_magnet_properties(coils: Coils, magnet: Magnet, inputs: Inp
     OUT.cost_i = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * coils.mfr_factor)
-    OUT.coil_mass = Kilograms(
-        (coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
-        + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
-        + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density)
-    )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.coil_mass = Kilograms((coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t)
+                              + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
+                              + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data.power_table, inputs.radial_build)
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -353,11 +337,9 @@ def compute_hts_pancake_magnet_properties(coils: Coils, magnet: Magnet, inputs: 
     OUT.cost_ss = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
-    OUT.coil_mass = Kilograms(
-        coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t
-        + OUT.vol_i * coils.i_density
-    )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.coil_mass = Kilograms(coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t
+                              + OUT.vol_i * coils.i_density)
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data.power_table, inputs.radial_build)
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -403,10 +385,8 @@ def compute_copper_magnet_properties(coils: Coils, magnet: Magnet, inputs: Input
     OUT.cost_ss = M_USD(0)
     OUT.tot_mat_cost = M_USD(OUT.cost_sc + OUT.cost_cu + OUT.cost_ss + OUT.cost_i)
     OUT.magnet_cost = M_USD(OUT.tot_mat_cost * magnet.mfr_factor)
-    OUT.coil_mass = Kilograms(
-        ((OUT.vol_coil - OUT.vol_i) * coils.cu_density) + (OUT.vol_i * coils.i_density)
-    )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.coil_mass = Kilograms(((OUT.vol_coil - OUT.vol_i) * coils.cu_density) + (OUT.vol_i * coils.i_density))
+    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data.power_table, inputs.radial_build)
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost

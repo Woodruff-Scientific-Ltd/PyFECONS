@@ -1,12 +1,8 @@
 import numpy as np
 
 from pyfecons.costing.calculations.conversions import inflation_2005_2024, to_m_usd
-from pyfecons.costing.calculations.thermal import (
-    k_steel,
-    compute_q_in_struct,
-    compute_q_in_n,
-    compute_iter_cost_per_MW,
-)
+from pyfecons.costing.calculations.thermal import k_steel, compute_q_in_struct, \
+    compute_iter_cost_per_MW, compute_q_in_n_per_coil
 from pyfecons.data import Data, TemplateProvider, VesselCosts, VesselCost
 from pyfecons.inputs import Inputs
 from pyfecons.units import Kilograms, USD, M_USD
@@ -137,13 +133,11 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
     load_area_2 = calc_torus_sa((build.lt_shield_ir - build.axis_ir), build.axis_ir)
     p_neutron = data.power_table.p_neutron
     # Neutron heat load on HT Shield
-    q_in_n = compute_q_in_n(
-        load_area_1, p_neutron, build.coil_ir, build.axis_ir
-    ) + 0.1 * compute_q_in_n(load_area_2, p_neutron, build.coil_ir, build.axis_ir)
-    q_in_struct = compute_q_in_struct(
-        coils, k_steel((coils.t_env + coils.t_op) / 2), (coils.t_env + coils.t_op) / 2
-    )
-    q_in = q_in_struct + q_in_n  # total input heat for one coil
+    q_in_n = (compute_q_in_n_per_coil(load_area_1, p_neutron, build.coil_ir, build.axis_ir)
+              + 0.1 * compute_q_in_n_per_coil(load_area_2, p_neutron, build.coil_ir, build.axis_ir))
+    q_in_struct = compute_q_in_struct(coils, k_steel((coils.t_env + coils.t_op) / 2),
+                                      (coils.t_env + coils.t_op) / 2)
+    q_in = (q_in_struct + q_in_n)  # total input heat for one coil
 
     OUT.C22010602 = M_USD(q_in * compute_iter_cost_per_MW(coils))
 
