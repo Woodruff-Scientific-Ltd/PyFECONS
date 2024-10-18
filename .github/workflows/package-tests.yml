@@ -1,0 +1,51 @@
+name: Test package
+
+on: [push, pull_request]
+
+jobs:
+  run-python-script-then-tests:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+
+        # Set up Python environment 
+
+        python -m venv venv
+
+        # Install requirements
+
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      
+        # Install LaTeX
+
+        sudo apt install texlive-latex-extra
+        # sudo apt-get install texlive-font-utils
+
+    - name: Install Package
+      run: |
+        source venv/bin/activate
+        pip install -e .
+
+    #- name: Run Tests
+    #  run: |
+    #    pytest tests
+
+    - name: Run costing script
+      run: |
+        source venv/bin/activate
+        python RunCostingForCustomer.py mfe CATF
+
+    - name: Check if report created
+      run: |
+        if [ -f "customers/CATF/mfe/output/report.pdf" ]; then echo "Report created"; else echo "Report not created"; exit 1; fi
