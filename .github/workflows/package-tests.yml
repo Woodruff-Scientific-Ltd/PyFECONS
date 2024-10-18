@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   run-python-script-then-tests:
-  build:
     runs-on: ubuntu-latest
 
     steps:
