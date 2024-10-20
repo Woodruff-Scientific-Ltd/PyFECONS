@@ -1009,20 +1009,22 @@
     },
     "cas220108": {
         "replacements": {
-            "C220108": 133,
+            "C220108": 199,
             "divertorMajRad": 4,
             "divertorMinRad": 1,
             "divertorThicknessZ": 0,
             "divertorMaterial": "Tungsten",
-            "divertorVol": 23,
-            "divertorMass": 442376
+            "divertorVol": 11,
+            "divertorMass": 221188
         },
         "template_file": "CAS220108_MFE.tex",
         "figures": {},
-        "C220108": 132.7129374034226,
+        "C220108": 199.06940610513388,
         "divertor_maj_rad": 3.8,
         "divertor_min_rad": 1.1999999999999993,
-        "divertor_thickness_z": 0.2,
+        "divertor_thickness_z": 0.5,
+        "divertor_complexity_factor": 3.0,
+        "divertor_vol_frac": 0.2,
         "divertor_thickness_r": 2.3999999999999986,
         "divertor_material": {
             "name": "Tungsten",
@@ -1032,10 +1034,10 @@
             "m": 3,
             "sigma": null
         },
-        "divertor_vol": 22.921060000591122,
-        "divertor_mass": 442376.4580114087,
-        "divertor_mat_cost": 44237645.80114087,
-        "divertor_cost": 132712937.4034226
+        "divertor_vol": 11.460530000295561,
+        "divertor_mass": 221188.22900570434,
+        "divertor_mat_cost": 22118822.900570434,
+        "divertor_cost": 199069406.1051339
     },
     "cas220109": {
         "replacements": {
@@ -1384,7 +1386,7 @@
             "C220105": "502.21",
             "C220106": "777.08",
             "C220107": "1003.03",
-            "C220108": "132.71",
+            "C220108": "199.07",
             "C220109": "0.0",
             "C220111": "89.76",
             "C220119": "0.0",
@@ -1418,7 +1420,7 @@
             "C.220105pp": "1.76",
             "C.220106pp": "2.73",
             "C.220107pp": "3.52",
-            "C.220108pp": "0.47",
+            "C.220108pp": "0.7",
             "C.220109pp": "0.0",
             "C.220111pp": "0.32",
             "C.220119pp": "0.0",
