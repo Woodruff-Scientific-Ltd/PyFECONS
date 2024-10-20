@@ -22,16 +22,14 @@ from pyfecons.costing.mfe.cas22.CAS220107 import cas_220107_power_supplies
 from pyfecons.costing.mfe.cas22.CAS220108 import cas_220108_divertor
 from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter
 from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
-from pyfecons.costing.calculations.cas22.cas_220119_scheduled_replacement_cost import \
-    cas_220119_scheduled_replacement_cost
+from pyfecons.costing.calculations.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
 from pyfecons.costing.mfe.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
 from pyfecons.costing.mfe.cas22.CAS220300 import cas_2203_auxilary_cooling
 from pyfecons.costing.mfe.cas22.CAS220400 import cas_2204_radwaste
 from pyfecons.costing.mfe.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
 from pyfecons.costing.mfe.cas22.CAS220600 import cas_2206_other_reactor_plant_equipment
 from pyfecons.costing.mfe.cas22.CAS220700 import cas_2207_instrumentation_and_control
-from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import \
-    cas_2200_reactor_plant_equipment_total
+from pyfecons.costing.calculations.cas22.CAS22 import cas_2200_reactor_plant_equipment_total
 from pyfecons.costing.mfe.CAS23 import cas_23
 from pyfecons.costing.mfe.CAS24 import cas_24
 from pyfecons.costing.mfe.CAS25 import cas_25

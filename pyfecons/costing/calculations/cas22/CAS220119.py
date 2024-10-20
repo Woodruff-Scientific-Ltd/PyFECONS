@@ -1,4 +1,4 @@
-from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import compute_cas2201_total_costs
+from pyfecons.costing.calculations.cas22.CAS22 import compute_cas2201_total_costs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 from pyfecons.units import M_USD
