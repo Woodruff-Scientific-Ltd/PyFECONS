@@ -30,7 +30,8 @@ from pyfecons.costing.ife.cas22.CAS220400 import cas_2204_radwaste
 from pyfecons.costing.ife.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
 from pyfecons.costing.ife.cas22.CAS220600 import cas_2206_other_reactor_plant_equipment
 from pyfecons.costing.ife.cas22.CAS220700 import cas_2207_instrumentation_and_control
-from pyfecons.costing.ife.cas22.CAS22 import cas_2200_reactor_plant_equipment_total
+from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import \
+    cas_2200_reactor_plant_equipment_total
 from pyfecons.costing.ife.CAS23 import cas_23
 from pyfecons.costing.ife.CAS24 import cas_24
 from pyfecons.costing.ife.CAS25 import cas_25
