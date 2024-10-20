@@ -22,7 +22,8 @@ from pyfecons.costing.mfe.cas22.CAS220107 import cas_220107_power_supplies
 from pyfecons.costing.mfe.cas22.CAS220108 import cas_220108_divertor
 from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter
 from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
-from pyfecons.costing.mfe.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
+from pyfecons.costing.calculations.cas22.cas_220119_scheduled_replacement_cost import \
+    cas_220119_scheduled_replacement_cost
 from pyfecons.costing.mfe.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
 from pyfecons.costing.mfe.cas22.CAS220300 import cas_2203_auxilary_cooling
 from pyfecons.costing.mfe.cas22.CAS220400 import cas_2204_radwaste
