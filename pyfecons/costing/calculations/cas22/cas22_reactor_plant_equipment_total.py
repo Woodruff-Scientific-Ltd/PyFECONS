@@ -1,8 +1,17 @@
-from pyfecons.data import CAS22, Data
+from pyfecons.data import CAS22, Data, TemplateProvider
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD
 
 materials = Materials()
+
+
+def cas_2200_reactor_plant_equipment_total(data: Data) -> TemplateProvider:
+    # Reactor Plant Equipment (RPE) total
+    OUT = data.cas22
+    OUT = compute_cas22_total_costs(OUT, data)
+    OUT.template_file = 'CAS220000.tex'
+    OUT.replacements = compute_replacements(data)
+    return OUT
 
 
 def compute_cas2201_total_costs(data: Data) -> M_USD:
