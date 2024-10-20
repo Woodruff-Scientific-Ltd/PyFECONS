@@ -83,7 +83,9 @@ def Generate():
         ),
         lsa_levels=LsaLevels(lsa=2),
         primary_structure=PrimaryStructure(
-            syst_pga=StructurePga.PGA_01, learning_credit=Ratio(0.5)
+            syst_pga=StructurePga.PGA_01,
+            learning_credit=Ratio(0.5),
+            replacement_factor=Ratio(0.1),
         ),
         vacuum_system=VacuumSystem(
             t_cool=K(20),

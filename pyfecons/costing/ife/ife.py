@@ -91,7 +91,7 @@ def GenerateCostingData(inputs: Inputs) -> CostingData:
         cas_220108_target_factory(inputs, data),
         cas_220109_direct_energy_converter(inputs, data),
         cas_220111_installation_costs(inputs, data),
-        cas_220119_scheduled_replacement_cost(data),
+        cas_220119_scheduled_replacement_cost(inputs, data),
         cas_2202_main_and_secondary_coolant(inputs, data),
         cas_2203_auxilary_cooling(inputs, data),
         cas_2204_radwaste(data),

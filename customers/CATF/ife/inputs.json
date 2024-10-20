@@ -171,6 +171,7 @@
     "primary_structure": {
         "syst_pga": 0.1,
         "learning_credit": 0.5,
+        "replacement_factor": 0.1,
         "analyze_costs": 30,
         "unit1_seismic_costs": 25,
         "reg_rev_costs": 30,
