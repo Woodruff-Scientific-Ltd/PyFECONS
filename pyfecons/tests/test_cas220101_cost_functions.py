@@ -37,7 +37,7 @@ class TestCAS220101TotalCost(unittest.TestCase):
         )
         result = compute_cas22_reactor_equipment_total_cost(ReactorType.MFE, ConfinementType.SPHERICAL_TOKAMAK,
                                                             blanket, radial_build)
-        self.assertAlmostEquals(9757.80, result, 2)
+        self.assertAlmostEqual(9757.80, result, 2)
 
     def test_mfe_mirror(self):
         blanket = Blanket(
@@ -67,7 +67,7 @@ class TestCAS220101TotalCost(unittest.TestCase):
         )
         result = compute_cas22_reactor_equipment_total_cost(ReactorType.MFE, ConfinementType.MAGNETIC_MIRROR,
                                                             blanket, radial_build)
-        self.assertAlmostEquals(1217.12, result, 2)
+        self.assertAlmostEqual(1217.12, result, 2)
 
     def test_mfe_mirror_minimal(self):
         blanket = Blanket(
@@ -97,4 +97,4 @@ class TestCAS220101TotalCost(unittest.TestCase):
         )
         result = compute_cas22_reactor_equipment_total_cost(ReactorType.MFE, ConfinementType.MAGNETIC_MIRROR,
                                                             blanket, radial_build)
-        self.assertAlmostEquals(84.315, result, 2)
+        self.assertAlmostEqual(84.315, result, 2)
