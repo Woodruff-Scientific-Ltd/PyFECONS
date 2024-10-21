@@ -105,6 +105,7 @@ brew install --cask mactex
 Linux:
 ```
 sudo apt install texlive-latex-extra
+sudo apt-get install texlive-font-utils
 ```
 
 Windows
