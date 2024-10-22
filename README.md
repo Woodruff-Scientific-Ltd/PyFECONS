@@ -95,7 +95,7 @@ The library should work out of the box on linux with a python virtual environmen
 
 ### Installing LaTeX
 
-LaTeX is an external dependency to the library since installation varies by OS.
+If you want to generate reports, you will need to install some packages for LaTeX - which is an external dependency to the library since installation varies by OS.
 
 Mac:
 ```bash
@@ -105,6 +105,7 @@ brew install --cask mactex
 Linux:
 ```
 sudo apt install texlive-latex-extra
+sudo apt-get install texlive-font-utils
 ```
 
 Windows
