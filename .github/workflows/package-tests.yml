@@ -38,7 +38,7 @@ jobs:
 
     - name: Run Tests
       run: |
-        pytest pyfecons/tests
+        pytest tests
 
     - name: Run costing script
       run: |
