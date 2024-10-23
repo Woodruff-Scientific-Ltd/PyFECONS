@@ -178,10 +178,8 @@ pip install -r requirements.txt
 
 ## Tests
 
-You can run the unit tests with
+Testing is done with [pytest](https://docs.pytest.org/en/stable/). To run them, navigate to this directory and run:
 
 ```
-python -m unittest pyfecons/tests/*
-```
-
-These are more of demonstration tests of what's implemented rather than testing the code works at a fine detail.
+pytest tests/
+``` 

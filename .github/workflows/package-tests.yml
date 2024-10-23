@@ -38,7 +38,8 @@ jobs:
 
     - name: Run Tests
       run: |
-        python3 -m unittest pyfecons/tests/*.py
+        source venv/bin/activate
+        pytest tests
 
     - name: Run costing script
       run: |
