@@ -17,7 +17,7 @@ from pyfecons.inputs import Blanket, RadialBuild
 from pyfecons.units import Ratio, Meters
 
 
-def test_mfe_tokamak():
+def test_mfe_tokamak_cas220101_total_cost():
     blanket = Blanket(
         BlanketFirstWall.BERYLLIUM,
         BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4,
@@ -55,7 +55,7 @@ def test_mfe_tokamak():
     assert pytest.approx(result_cost, rel=1e-2) == expected_result_cost
 
 
-def test_mfe_mirror():
+def test_mfe_mirror_cas220101_total_cost():
     blanket = Blanket(
         BlanketFirstWall.BERYLLIUM,
         BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4,
@@ -90,7 +90,7 @@ def test_mfe_mirror():
     assert pytest.approx(result_cost, rel=1e-2) == expected_result_cost
 
 
-def test_mfe_mirror_minimal():
+def test_mfe_mirror_minimal_cas220101_total_cost():
     blanket = Blanket(
         BlanketFirstWall.BERYLLIUM,
         BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL,
