@@ -1,6 +1,7 @@
 import json
 from dataclasses import is_dataclass, asdict
 from enum import Enum
+from pyfecons.materials import Materials
 
 
 # Custom JSON encoder for specific object types
@@ -34,6 +35,9 @@ class SerializableToJSON:
                     for key, value in asdict(obj).items() if not key.startswith("_")}
         elif isinstance(obj, Enum):
             return obj.value
+        elif isinstance(obj, Materials):
+            return {key: SerializableToJSON._attributesToDict(getattr(obj, key))
+                    for key in dir(obj) if not key.startswith("_") and not callable(getattr(obj, key))}
         elif type(obj) in [int, float, str, list, dict, tuple, set]:
             return obj
         # handle Unit classes which only inherit from one primitive

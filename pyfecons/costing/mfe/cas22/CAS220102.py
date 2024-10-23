@@ -4,8 +4,6 @@ from pyfecons.inputs import Inputs
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD
 
-materials = Materials()
-
 
 def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.2: Shield
@@ -18,10 +16,10 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # Calculate the cost for HTS
     C_HTS = round(OUT.V_HTS * (
-            materials.SiC.rho * materials.SiC.c_raw * materials.SiC.m * shield.f_SiC +
-            materials.PbLi.rho * materials.PbLi.c * shield.FPCPPFbLi +
-            materials.W.rho * materials.W.c_raw * materials.W.m * shield.f_W +
-            materials.BFS.rho * materials.BFS.c_raw * materials.BFS.m * shield.f_BFS
+            Materials.SILICON_CARBIDE.rho * Materials.SILICON_CARBIDE.c_raw * Materials.SILICON_CARBIDE.m * shield.f_SiC +
+            Materials.PBLI.rho * Materials.PBLI.c * shield.FPCPPFbLi +
+            Materials.TUNGSTEN.rho * Materials.TUNGSTEN.c_raw * Materials.TUNGSTEN.m * shield.f_W +
+            Materials.BFS.rho * Materials.BFS.c_raw * Materials.BFS.m * shield.f_BFS
     ) / 1e6, 1)
 
     # Volume of HTShield that is BFS
@@ -30,8 +28,8 @@ def cas_220102_shield(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # The cost C_22_1_2 is the same as C_HTS
     OUT.C22010201 = M_USD(round(C_HTS, 1))
-    OUT.C22010202 = k_to_m_usd(cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m)
-    OUT.C22010203 = k_to_m_usd(cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m)
+    OUT.C22010202 = k_to_m_usd(cas220101.lt_shield_vol * Materials.STAINLESS_STEEL_SS316.c_raw * Materials.STAINLESS_STEEL_SS316.m)
+    OUT.C22010203 = k_to_m_usd(cas220101.bioshield_vol * Materials.STAINLESS_STEEL_SS316.c_raw * Materials.STAINLESS_STEEL_SS316.m)
     OUT.C22010204 = M_USD(OUT.C22010203 * 0.1)
     OUT.C220102 = M_USD(OUT.C22010201 + OUT.C22010202 + OUT.C22010203 + OUT.C22010204)
 

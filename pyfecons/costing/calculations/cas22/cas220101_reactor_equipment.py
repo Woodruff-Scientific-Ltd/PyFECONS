@@ -10,8 +10,6 @@ from pyfecons.inputs import RadialBuild, Blanket
 from pyfecons.materials import Materials, Material
 from pyfecons.units import M_USD, Meters3
 
-materials = Materials()
-
 matplotlib.use('Agg')
 
 
@@ -162,26 +160,26 @@ def compute_outer_radii(reactor_type: ReactorType, IN: RadialBuild, OUT: CAS2201
 def compute_first_wall_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # First wall
     if blanket.first_wall == BlanketFirstWall.TUNGSTEN:
-        return compute_material_cost(OUT.firstwall_vol, materials.W)
+        return compute_material_cost(OUT.firstwall_vol, Materials.TUNGSTEN)
     elif blanket.first_wall == BlanketFirstWall.LIQUID_LITHIUM:
-        return compute_material_cost(OUT.firstwall_vol, materials.Li)
+        return compute_material_cost(OUT.firstwall_vol, Materials.LITHIUM)
     elif blanket.first_wall == BlanketFirstWall.BERYLLIUM:
-        return compute_material_cost(OUT.firstwall_vol, materials.Be)
+        return compute_material_cost(OUT.firstwall_vol, Materials.BERYLLIUM)
     elif blanket.first_wall == BlanketFirstWall.FLIBE:
-        return compute_material_cost(OUT.firstwall_vol, materials.FliBe)
+        return compute_material_cost(OUT.firstwall_vol, Materials.FLIBE)
     raise f'Unknown first wall type {blanket.first_wall}'
 
 
 def compute_blanket_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
     # Blanket
     if blanket.blanket_type == BlanketType.FLOWING_LIQUID_FIRST_WALL:
-        return compute_material_cost(OUT.blanket1_vol, materials.Li)
+        return compute_material_cost(OUT.blanket1_vol, Materials.LITHIUM)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_LIQUID_BREEDER:
-        return compute_material_cost(OUT.blanket1_vol, materials.Li)
+        return compute_material_cost(OUT.blanket1_vol, Materials.LITHIUM)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI4SIO4:
-        return compute_material_cost(OUT.blanket1_vol, materials.Li4SiO4)
+        return compute_material_cost(OUT.blanket1_vol, Materials.LITHIUM_SILICATE)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_WITH_A_SOLID_BREEDER_LI2TIO3:
-        return compute_material_cost(OUT.blanket1_vol, materials.Li2TiO3)
+        return compute_material_cost(OUT.blanket1_vol, Materials.LITHIUM_TITANATE)
     elif blanket.blanket_type == BlanketType.SOLID_FIRST_WALL_NO_BREEDER_ANEUTRONIC_FUEL:
         return M_USD(0)
     raise f'Unknown blanket type {blanket.blanket_type}'

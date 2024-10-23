@@ -6,8 +6,6 @@ from pyfecons.inputs import Inputs
 from pyfecons.materials import Materials
 from pyfecons.units import Meters, Meters3, Kilograms, M_USD
 
-materials = Materials()
-
 
 def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT: CAS220108Divertor = data.cas220108
@@ -23,7 +21,7 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.divertor_thickness_z = Meters(0.2)
     OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
     # TODO does this vary? Should it be an input?
-    OUT.divertor_material = materials.W  # Tungsten
+    OUT.divertor_material = Materials.TUNGSTEN  # Tungsten
 
     # volume of the divertor based on TF coil radius
     OUT.divertor_vol = Meters3(((OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
