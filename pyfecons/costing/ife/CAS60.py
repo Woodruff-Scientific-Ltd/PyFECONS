@@ -11,8 +11,12 @@ def cas_60(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # Cost Category 61 – Escalation - formerly Cost Category 98: Escalation During Construction
     # Escalation during Construction (EDC) Table 3.2-X of Ref. [1]
-    OUT.C610000 = M_USD(float(inputs.basic.n_mod) * inputs.basic.p_nrl
-                        / financial.a_power * financial.a_c_98)
+    OUT.C610000 = M_USD(
+        float(inputs.basic.n_mod)
+        * inputs.basic.p_nrl
+        / financial.a_power
+        * financial.a_c_98
+    )
 
     # Cost Category 63 – Interest During Construction (IDC) formerly cost category 97
     # for inflation rate = 0.05/y (cf. ARIES) and 0.02/y (lower and more modern).  The 0.05/y values check with Table 2.2-XVII p. 2-59 of the ARIES-II/IV report.
@@ -31,11 +35,11 @@ def cas_60(inputs: Inputs, data: Data) -> TemplateProvider:
 
     OUT.C600000 = M_USD(OUT.C630000 + OUT.C610000)
 
-    OUT.template_file = 'CAS600000.tex'
+    OUT.template_file = "CAS600000.tex"
     OUT.replacements = {
-        'C600000': round(OUT.C600000),
-        'C610000': round(OUT.C610000),
-        'C630000LSA': round(OUT.C630000LSA),
-        'C630000XXX': round(OUT.C630000),
+        "C600000": round(OUT.C600000),
+        "C610000": round(OUT.C610000),
+        "C630000LSA": round(OUT.C630000LSA),
+        "C630000XXX": round(OUT.C630000),
     }
     return OUT

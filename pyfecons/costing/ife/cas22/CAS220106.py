@@ -22,7 +22,7 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
     # vessel material cost
     ves_mat_cost = materials.SS316.c_raw * mass_struct
     # internal volume of the vacuum vessel
-    ves_vol = Meters3(4/3 * np.pi * build.vessel_ir**3)
+    ves_vol = Meters3(4 / 3 * np.pi * build.vessel_ir**3)
 
     OUT.C22010601 = to_m_usd(ves_mat_cost * IN.ves_mfr)
 
@@ -44,20 +44,20 @@ def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # ROUGHING PUMP 22.1.6.4
     # from STARFIRE, only 1 needed
-    OUT.C22010604 = M_USD(120000*2.85/1e6)
+    OUT.C22010604 = M_USD(120000 * 2.85 / 1e6)
 
     OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
-    OUT.template_file = 'CAS220106_IFE.tex'
+    OUT.template_file = "CAS220106_IFE.tex"
     OUT.replacements = {
-        'C22010601': round(OUT.C22010601),
-        'C22010602': round(OUT.C22010602),
-        'C22010603': round(OUT.C22010603),
-        'C22010604': round(OUT.C22010604, 2),
-        'C22010600': round(OUT.C220106),
-        'vesvol': round(ves_vol),
-        'materialvolume': round(material_volume),
-        'massstruct': round(mass_struct/1e3),
-        'vesmatcost': round(ves_mat_cost/1e6,1),
-        'vesmfr': round(IN.ves_mfr),
+        "C22010601": round(OUT.C22010601),
+        "C22010602": round(OUT.C22010602),
+        "C22010603": round(OUT.C22010603),
+        "C22010604": round(OUT.C22010604, 2),
+        "C22010600": round(OUT.C220106),
+        "vesvol": round(ves_vol),
+        "materialvolume": round(material_volume),
+        "massstruct": round(mass_struct / 1e3),
+        "vesmatcost": round(ves_mat_cost / 1e6, 1),
+        "vesmfr": round(IN.ves_mfr),
     }
     return OUT

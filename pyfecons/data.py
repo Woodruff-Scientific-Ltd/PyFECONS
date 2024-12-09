@@ -21,7 +21,7 @@ class TemplateProvider:
     @property
     def tex_path(self) -> str:
         if self._tex_path is None:
-            return 'Modified/' + self.template_file
+            return "Modified/" + self.template_file
         return self._tex_path
 
     @tex_path.setter
@@ -212,15 +212,27 @@ class CAS220103Coils(TemplateProvider):
 
     @property
     def tf_coils(self) -> list[MagnetProperties]:
-        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.TF]
+        return [
+            magnet
+            for magnet in self.magnet_properties
+            if magnet.magnet.type == MagnetType.TF
+        ]
 
     @property
     def cs_coils(self) -> list[MagnetProperties]:
-        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.CS]
+        return [
+            magnet
+            for magnet in self.magnet_properties
+            if magnet.magnet.type == MagnetType.CS
+        ]
 
     @property
     def pf_coils(self) -> list[MagnetProperties]:
-        return [magnet for magnet in self.magnet_properties if magnet.magnet.type == MagnetType.PF]
+        return [
+            magnet
+            for magnet in self.magnet_properties
+            if magnet.magnet.type == MagnetType.PF
+        ]
 
 
 @dataclass
@@ -519,7 +531,9 @@ class Data(SerializableToJSON):
     cas220101: CAS220101 = field(default_factory=CAS220101)
     cas220102: CAS220102 = field(default_factory=CAS220102)
     cas220103: Union[CAS220103Coils, CAS220103Lasers] = field(default=None)
-    cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers] = field(default=None)
+    cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers] = field(
+        default=None
+    )
     cas220105: CAS220105 = field(default_factory=CAS220105)
     cas220106: CAS220106 = field(default_factory=CAS220106)
     cas220107: CAS220107 = field(default_factory=CAS220107)
@@ -568,7 +582,9 @@ class Data(SerializableToJSON):
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
 
-    def _initialize_cas220104(self) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers]:
+    def _initialize_cas220104(
+        self,
+    ) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers]:
         if self.reactor_type == ReactorType.MFE:
             return CAS220104SupplementaryHeating()
         elif self.reactor_type == ReactorType.IFE:

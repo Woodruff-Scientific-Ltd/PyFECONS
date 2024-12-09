@@ -1,5 +1,8 @@
 from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
-    get_subsystem_costs, get_scaled_costs, get_replacements)
+    get_subsystem_costs,
+    get_scaled_costs,
+    get_replacements,
+)
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs
 from pyfecons.units import M_USD
@@ -18,7 +21,6 @@ def cas_220109_direct_energy_converter(inputs: Inputs, data: Data) -> TemplatePr
     # TODO why is this zero?
     OUT.C220109 = M_USD(0)
 
-    OUT.template_file = 'CAS220109.tex'
+    OUT.template_file = "CAS220109.tex"
     OUT.replacements = get_replacements(OUT)
     return OUT
-

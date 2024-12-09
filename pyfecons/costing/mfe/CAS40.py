@@ -27,10 +27,10 @@ def cas_40(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # OUT.C400000 = M_USD(OUT.C410000 + OUT.C420000 + OUT.C430000 + OUT.C440000)
 
-    OUT.template_file = 'CAS400000.tex'
+    OUT.template_file = "CAS400000.tex"
     OUT.replacements = {
-        'lsaLevel': IN.lsa,
-        'C400000LSA': round(OUT.C400000LSA),
-        'C400000000': round(OUT.C400000),  # TODO - not in template
+        "lsaLevel": IN.lsa,
+        "C400000LSA": round(OUT.C400000LSA),
+        "C400000000": round(OUT.C400000),  # TODO - not in template
     }
     return OUT

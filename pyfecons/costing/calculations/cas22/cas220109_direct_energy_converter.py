@@ -28,7 +28,9 @@ def get_subsystem_costs(noak: bool) -> dict[str, M_USD]:
     return costs
 
 
-def get_scaled_costs(costs: dict[str, M_USD], IN: DirectEnergyConverter) -> dict[str, M_USD]:
+def get_scaled_costs(
+    costs: dict[str, M_USD], IN: DirectEnergyConverter
+) -> dict[str, M_USD]:
     # Scaling with system size
     def scaled_cost(cost: M_USD) -> M_USD:
         return M_USD(cost * IN.system_power * (1 / math.sqrt(IN.flux_limit)) ** 3)
@@ -37,7 +39,9 @@ def get_scaled_costs(costs: dict[str, M_USD], IN: DirectEnergyConverter) -> dict
 
 
 def get_replacements(OUT: CAS220109) -> dict[str, str]:
-    replacements = {key: str(round(value, 1)) for key, value in OUT.scaled_costs.items()}
-    replacements['totaldecost'] = str(round(sum(OUT.scaled_costs.values()), 1))
-    replacements['C220109'] = str(OUT.C220109)
+    replacements = {
+        key: str(round(value, 1)) for key, value in OUT.scaled_costs.items()
+    }
+    replacements["totaldecost"] = str(round(sum(OUT.scaled_costs.values()), 1))
+    replacements["C220109"] = str(OUT.C220109)
     return replacements

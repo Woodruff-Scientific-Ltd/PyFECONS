@@ -12,10 +12,8 @@ def cas_70(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO what's this C750000? When do we include it?
     # C750000 = 0.1 * (C220000) scheduled replacement costs
 
-    OUT.C700000 = to_m_usd(c_om) # + C750000
+    OUT.C700000 = to_m_usd(c_om)  # + C750000
 
-    OUT.template_file = 'CAS700000.tex'
-    OUT.replacements = {
-        'C700000': round(OUT.C700000)
-    }
+    OUT.template_file = "CAS700000.tex"
+    OUT.replacements = {"C700000": round(OUT.C700000)}
     return OUT

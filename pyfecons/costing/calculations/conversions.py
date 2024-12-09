@@ -5,6 +5,7 @@ from pyfecons.units import USD, M_USD, MW, W
 
 # Unit conversions
 
+
 def to_m_usd(dollars: Union[float, USD]) -> M_USD:
     return M_USD(dollars / 1e6)
 

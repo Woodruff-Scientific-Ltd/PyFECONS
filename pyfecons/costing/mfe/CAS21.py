@@ -70,34 +70,52 @@ def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
     # page 134
     OUT.C211700 = M_USD(k_to_m_usd(27.0) * IN.p_et)
 
-    OUT.C210000 = M_USD(OUT.C210100 + OUT.C210200 + OUT.C210300 + OUT.C210400 + OUT.C210500 + OUT.C210600
-                        + OUT.C210700 + OUT.C210800 + OUT.C210900 + OUT.C211000 + OUT.C211100 + OUT.C211200
-                        + OUT.C211300 + OUT.C211400 + OUT.C211500 + OUT.C211600 + OUT.C211700)
+    OUT.C210000 = M_USD(
+        OUT.C210100
+        + OUT.C210200
+        + OUT.C210300
+        + OUT.C210400
+        + OUT.C210500
+        + OUT.C210600
+        + OUT.C210700
+        + OUT.C210800
+        + OUT.C210900
+        + OUT.C211000
+        + OUT.C211100
+        + OUT.C211200
+        + OUT.C211300
+        + OUT.C211400
+        + OUT.C211500
+        + OUT.C211600
+        + OUT.C211700
+    )
 
-    OUT.C211900 = M_USD(0 if inputs.basic.noak else 0.1 * OUT.C210000)  # 10% contingency
+    OUT.C211900 = M_USD(
+        0 if inputs.basic.noak else 0.1 * OUT.C210000
+    )  # 10% contingency
 
     OUT.C210000 = M_USD(OUT.C210000 + OUT.C211900)
 
-    OUT.template_file = 'CAS210000.tex'
+    OUT.template_file = "CAS210000.tex"
     OUT.replacements = {
-        'C210000': str(round(data.cas21.C210000, 1)),
-        'C210100': str(round(data.cas21.C210100, 1)),
-        'C210200': str(round(data.cas21.C210200, 1)),
-        'C210300': str(round(data.cas21.C210300, 1)),
-        'C210400': str(round(data.cas21.C210400, 1)),
-        'C210500': str(round(data.cas21.C210500, 1)),
-        'C210600': str(round(data.cas21.C210600, 1)),
-        'C210700': str(round(data.cas21.C210700, 1)),
-        'C210800': str(round(data.cas21.C210800, 1)),
-        'C210900': str(round(data.cas21.C210900, 1)),
-        'C211000': str(round(data.cas21.C211000, 1)),
-        'C211100': str(round(data.cas21.C211100, 1)),
-        'C211200': str(round(data.cas21.C211200, 1)),
-        'C211300': str(round(data.cas21.C211300, 1)),
-        'C211400': str(round(data.cas21.C211400, 1)),
-        'C211500': str(round(data.cas21.C211500, 1)),
-        'C211600': str(round(data.cas21.C211600, 1)),
-        'C211700': str(round(data.cas21.C211700, 1)),
-        'C211900': str(round(data.cas21.C211900, 1)),  # TODO - not in the template file
+        "C210000": str(round(data.cas21.C210000, 1)),
+        "C210100": str(round(data.cas21.C210100, 1)),
+        "C210200": str(round(data.cas21.C210200, 1)),
+        "C210300": str(round(data.cas21.C210300, 1)),
+        "C210400": str(round(data.cas21.C210400, 1)),
+        "C210500": str(round(data.cas21.C210500, 1)),
+        "C210600": str(round(data.cas21.C210600, 1)),
+        "C210700": str(round(data.cas21.C210700, 1)),
+        "C210800": str(round(data.cas21.C210800, 1)),
+        "C210900": str(round(data.cas21.C210900, 1)),
+        "C211000": str(round(data.cas21.C211000, 1)),
+        "C211100": str(round(data.cas21.C211100, 1)),
+        "C211200": str(round(data.cas21.C211200, 1)),
+        "C211300": str(round(data.cas21.C211300, 1)),
+        "C211400": str(round(data.cas21.C211400, 1)),
+        "C211500": str(round(data.cas21.C211500, 1)),
+        "C211600": str(round(data.cas21.C211600, 1)),
+        "C211700": str(round(data.cas21.C211700, 1)),
+        "C211900": str(round(data.cas21.C211900, 1)),  # TODO - not in the template file
     }
     return OUT

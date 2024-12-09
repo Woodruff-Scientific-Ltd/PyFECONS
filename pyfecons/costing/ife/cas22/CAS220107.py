@@ -7,7 +7,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs import Inputs, PowerSupplies
 from pyfecons.units import M_USD, HZ
 
-matplotlib.use('Agg')
+matplotlib.use("Agg")
 
 
 def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
@@ -21,7 +21,7 @@ def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # Scaled relative to ITER for a 500MW fusion power system
     # assuming 1kIUA equals $2 M #cost in kIUA
-    OUT.C22010702 = M_USD(269.6 * basic.p_nrl/500 * IN.learning_credit * 2)
+    OUT.C22010702 = M_USD(269.6 * basic.p_nrl / 500 * IN.learning_credit * 2)
     OUT.C220107 = M_USD(OUT.C22010701 + OUT.C22010702)
 
     # TODO - is this ever a value?
@@ -29,14 +29,16 @@ def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
     # C22010702 = 30
     # C220107 = 30
 
-    OUT.figures['Figures/cap_derate.pdf'] = generate_cap_derate_figure(IN, basic.implosion_frequency)
+    OUT.figures["Figures/cap_derate.pdf"] = generate_cap_derate_figure(
+        IN, basic.implosion_frequency
+    )
 
-    OUT.template_file = 'CAS220107_IFE.tex'
+    OUT.template_file = "CAS220107_IFE.tex"
     OUT.replacements = {
-        'C22010700': round(OUT.C220107),
-        'C22010701': round(OUT.C22010701),  # TODO not in template
-        'C22010702': round(OUT.C22010702),  # TODO not in template
-        'PNRL': round(basic.p_nrl),
+        "C22010700": round(OUT.C220107),
+        "C22010701": round(OUT.C22010701),  # TODO not in template
+        "C22010702": round(OUT.C22010702),  # TODO not in template
+        "PNRL": round(basic.p_nrl),
     }
     return OUT
 
@@ -53,7 +55,7 @@ def generate_cap_derate_figure(IN: PowerSupplies, implosion_frequency: HZ) -> by
     # Loop for calculations
     for i in range(100):
         cap_v0[i] = IN.cap_voltage / 100 * (i + 1)  # applied voltage in application
-        cap_l2[i] = IN.cap_l1 * (IN.cap_voltage / cap_v0[i]) ** 7 * 2 ** cap_x
+        cap_l2[i] = IN.cap_l1 * (IN.cap_voltage / cap_v0[i]) ** 7 * 2**cap_x
         cap_cost_fac[i] = 1 / (cap_v0[i] / IN.cap_voltage) ** 2
 
     # TODO this is not used
@@ -65,27 +67,29 @@ def generate_cap_derate_figure(IN: PowerSupplies, implosion_frequency: HZ) -> by
 
     # Lifetime extension factor plot (unchanged)
     plt.subplot(1, 3, 1)
-    plt.semilogy(cap_v0 / IN.cap_voltage, cap_l2 / IN.cap_l1, 'b')
-    plt.title('Lifetime Extension Factor')
-    plt.xlabel('Ratio of applied to rated voltage')
-    plt.ylabel('Lifetime extension factor, L2/L1')
+    plt.semilogy(cap_v0 / IN.cap_voltage, cap_l2 / IN.cap_l1, "b")
+    plt.title("Lifetime Extension Factor")
+    plt.xlabel("Ratio of applied to rated voltage")
+    plt.ylabel("Lifetime extension factor, L2/L1")
     plt.axis([0, 1, 1, 100000])
 
     # Lifetime of bank in years plot (unchanged)
     plt.subplot(1, 3, 2)
-    plt.semilogy(cap_v0 / IN.cap_voltage, cap_l2 / (implosion_frequency * 86000 * 365), 'b')  # Assuming 86000 cycles per year
-    plt.title('Lifetime of Bank in Years')
-    plt.xlabel('Ratio of applied to rated voltage')
-    plt.ylabel(f'Lifetime of bank in years, at {implosion_frequency} Hz')
+    plt.semilogy(
+        cap_v0 / IN.cap_voltage, cap_l2 / (implosion_frequency * 86000 * 365), "b"
+    )  # Assuming 86000 cycles per year
+    plt.title("Lifetime of Bank in Years")
+    plt.xlabel("Ratio of applied to rated voltage")
+    plt.ylabel(f"Lifetime of bank in years, at {implosion_frequency} Hz")
     plt.axis([0, 1, 0.001, 100])
 
     # Bank cost factor plot with specified changes
     plt.subplot(1, 3, 3)
-    plt.plot(cap_v0 / IN.cap_voltage, cap_cost_fac, 'b')  # Changed to blue color
-    plt.title('Bank Cost Factor')
-    plt.xlabel('Ratio of applied to rated voltage')
-    plt.ylabel('Bank cost factor')
-    plt.yscale('linear')  # Changed to linear scale
+    plt.plot(cap_v0 / IN.cap_voltage, cap_cost_fac, "b")  # Changed to blue color
+    plt.title("Bank Cost Factor")
+    plt.xlabel("Ratio of applied to rated voltage")
+    plt.ylabel("Bank cost factor")
+    plt.yscale("linear")  # Changed to linear scale
     plt.axis([0, 1, 1, 100])
 
     # Show updated plots
@@ -97,7 +101,7 @@ def generate_cap_derate_figure(IN: PowerSupplies, implosion_frequency: HZ) -> by
 
     # save figure
     figure_data = BytesIO()
-    fig.savefig(figure_data, format='pdf', bbox_inches='tight')
+    fig.savefig(figure_data, format="pdf", bbox_inches="tight")
     figure_data.seek(0)
     plt.close(fig)
     return figure_data.read()

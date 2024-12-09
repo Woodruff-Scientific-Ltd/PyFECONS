@@ -20,8 +20,18 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
         # TODO should we pull these out into inputs?
         f_6Li = 0.1
         FPCPPFb = 0.9
-        C_27_1 = (materials.Pb.c * FPCPPFb * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
-                  + materials.Li.c * f_6Li * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000) / 1e6
+        C_27_1 = (
+            materials.Pb.c
+            * FPCPPFb
+            * data.cas220101.firstwall_vol
+            * materials.FliBe.rho
+            * 1000
+            + materials.Li.c
+            * f_6Li
+            * data.cas220101.firstwall_vol
+            * materials.FliBe.rho
+            * 1000
+        ) / 1e6
     elif blanket.primary_coolant == BlanketPrimaryCoolant.LITHIUM_LI:
         C_27_1 = 1000 * 2130 * 50 / 1e6
     elif blanket.primary_coolant == BlanketPrimaryCoolant.OTHER_EUTECTIC_SALT:
@@ -40,8 +50,6 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C270000 = M_USD(C_27_1 + C_27_4 + C_27_5)
 
     # TODO script references CAS270000_MIF_DT.tex, which template should we use?
-    OUT.template_file = 'CAS270000.tex'
-    OUT.replacements = {
-        'C270000': round(OUT.C270000)
-    }
+    OUT.template_file = "CAS270000.tex"
+    OUT.replacements = {"C270000": round(OUT.C270000)}
     return OUT

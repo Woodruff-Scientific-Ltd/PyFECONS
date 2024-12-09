@@ -2,7 +2,8 @@ import matplotlib
 from io import BytesIO
 from matplotlib import pyplot as plt
 from pyfecons.costing.calculations.interpolation import interpolate_plot
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 
 
 yearlytcost_pfr_coords = [
@@ -16,7 +17,7 @@ yearlytcost_pfr_coords = [
     [18.954344624447714, 118.04195804195807],
     [20.898379970544916, 129.79020979020981],
     [22.930780559646536, 139.30069930069934],
-    [24.963181148748156, 151.04895104895107]
+    [24.963181148748156, 151.04895104895107],
 ]
 
 pertarget_pfr_coords = [
@@ -30,7 +31,7 @@ pertarget_pfr_coords = [
     [18.968609865470853, 0.19545454545454544],
     [21.031390134529147, 0.19499999999999998],
     [23.00448430493274, 0.1927272727272727],
-    [24.97757847533633, 0.19136363636363635]
+    [24.97757847533633, 0.19136363636363635],
 ]
 
 
@@ -42,14 +43,18 @@ def plot_target_pfr() -> bytes:
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(20, 6))
 
     # Interpolating and plotting for the first set of coordinates
-    interpolate_plot(ax1, coordinates1, 'Yearly Total Cost vs Frequency', 'Yearly cost (M$)')
+    interpolate_plot(
+        ax1, coordinates1, "Yearly Total Cost vs Frequency", "Yearly cost (M$)"
+    )
 
     # Interpolating and plotting for the second set of coordinates
-    interpolate_plot(ax2, coordinates2, 'Per Target Cost vs Frequency', 'Cost per target ($)')
+    interpolate_plot(
+        ax2, coordinates2, "Per Target Cost vs Frequency", "Cost per target ($)"
+    )
 
     # save figure
     figure_data = BytesIO()
-    fig.savefig(figure_data, format='pdf', bbox_inches='tight')
+    fig.savefig(figure_data, format="pdf", bbox_inches="tight")
     figure_data.seek(0)
     plt.close(fig)
     return figure_data.read()

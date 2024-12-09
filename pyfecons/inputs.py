@@ -19,6 +19,7 @@ from pyfecons.serializable import SerializableToJSON
 # The classes within Inputs must maintain their own toDict function
 # In addition, the Inputs class itself maintains its own toDict function that calls upon the sublcasses
 
+
 @dataclass
 class CustomerInfo:
     name: str
@@ -74,7 +75,9 @@ class RadialBuild:
     elon: Ratio = None  # torus elongation factor
     chamber_length: Meters = None  # chamber length
     # Radial thicknesses of concentric components (innermost to outermost)
-    axis_t: Meters = None  # distance from r=0 to plasma central axis - effectively major radius
+    axis_t: Meters = (
+        None  # distance from r=0 to plasma central axis - effectively major radius
+    )
     plasma_t: Meters = None  # plasma radial thickness
     vacuum_t: Meters = None  # vacuum radial thickness
     firstwall_t: Meters = None  # first wall radial thickness
@@ -162,10 +165,18 @@ class Coils:
     # Yuhu CICC HTS cable specifications
     cable_w: Meters = Meters(0.014)  # Cable width in meters
     cable_h: Meters = Meters(0.017)  # Cable height in meters
-    frac_cs_cu_yuhu: float = 0.307  # Fractional cross-sectional area of copper in Yuhu Zhai's cable design
-    frac_cs_ss_yuhu: float = 0.257  # Fractional cross-sectional area of stainless steel in Yuhu Zhai's cable design
-    frac_cs_sc_yuhu: float = 0.257  # Fractional cross-sectional area of REBCO in Yuhu Zhai's cable design
-    tot_cs_area_yuhu: Meters2 = 0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
+    frac_cs_cu_yuhu: float = (
+        0.307  # Fractional cross-sectional area of copper in Yuhu Zhai's cable design
+    )
+    frac_cs_ss_yuhu: float = (
+        0.257  # Fractional cross-sectional area of stainless steel in Yuhu Zhai's cable design
+    )
+    frac_cs_sc_yuhu: float = (
+        0.257  # Fractional cross-sectional area of REBCO in Yuhu Zhai's cable design
+    )
+    tot_cs_area_yuhu: Meters2 = (
+        0.000238  # Total cross-sectional area of Yuhu Zhai's cable design in m^2
+    )
 
     # HTS pancake constants
     m_cost_i: float = 20  # Material cost of insulator in $/kg
@@ -177,7 +188,9 @@ class Coils:
 
     # COOLING 22.1.3.6
     c_frac: float = 0.1
-    no_beams: Count = Count(20)  # number of beams supporting each coil, from the coil to the vessel
+    no_beams: Count = Count(
+        20
+    )  # number of beams supporting each coil, from the coil to the vessel
     beam_length: Meters = Meters(1.5)  # total length of each beam
     beam_cs_area: Meters2 = Meters2(0.25)  # cross-sectional area of each support beam
     t_op: float = 4  # operating temperature of magnets
@@ -199,25 +212,62 @@ class HeatingRef:
 
 @dataclass
 class SupplementaryHeating:
-    #see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
+    # see pg 90 https://cer.ucsd.edu/_files/publications/UCSD-CER-13-01.pdf
     nbi_power: MW = MW(50)
     icrf_power: MW = MW(0)
-    aries_at: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881))
-    aries_i_a: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741))
-    aries_i_b: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028))
-    aries_rs: HeatingRef = field(default_factory=lambda:
-        HeatingRef("ARIES-RS", "ICRF/LH/HFFW", MW(80.773), 3.09, 4.4187))
-    aries_iv: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205))
-    aries_ii: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921))
+    aries_at: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "ARIES-AT", "ICRF/LH", MW(37.441), 1.67, 2.3881
+        )
+    )
+    aries_i_a: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "ARIES-I", "ICRF/LH", MW(96.707), 1.87, 2.6741
+        )
+    )
+    aries_i_b: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "ARIES-I'", "ICRF/LH", MW(202.5), 1.96, 2.8028
+        )
+    )
+    aries_rs: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "ARIES-RS", "ICRF/LH/HFFW", MW(80.773), 3.09, 4.4187
+        )
+    )
+    aries_iv: HeatingRef = field(
+        default_factory=lambda: HeatingRef("ARIES-IV", "ICRF/LH", MW(68), 4.35, 6.2205)
+    )
+    aries_ii: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "ARIES-II", "ICRF/LH", MW(66.1), 4.47, 6.3921
+        )
+    )
     # TODO why are there two ARIES-III?
-    aries_iii_a: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499))
-    aries_iii_b: HeatingRef = field(default_factory=lambda: HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785))
-    iter: HeatingRef = field(default_factory=lambda: HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865))
-    average: HeatingRef = field(default_factory=lambda:
-        HeatingRef("Average", None, MW(110.840125), 3.643333333, 5.209966667))
-    average_icrf: HeatingRef = field(default_factory=lambda:
-        HeatingRef("Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333))
-    average_nbi: HeatingRef = field(default_factory=lambda: HeatingRef("Average (NBI)", None, MW(167.6), 4.94, 7.0642))
+    aries_iii_a: HeatingRef = field(
+        default_factory=lambda: HeatingRef("ARIES-III'", "NBI", MW(163.2), 4.93, 7.0499)
+    )
+    aries_iii_b: HeatingRef = field(
+        default_factory=lambda: HeatingRef("ARIES-III", "NBI", MW(172), 4.95, 7.0785)
+    )
+    iter: HeatingRef = field(
+        default_factory=lambda: HeatingRef("ITER", "ICRF", MW(5.5), None, 7.865)
+    )
+    average: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "Average", None, MW(110.840125), 3.643333333, 5.209966667
+        )
+    )
+    average_icrf: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "Average (ICRF)", None, MW(91.92016667), 2.901666667, 4.149383333
+        )
+    )
+    average_nbi: HeatingRef = field(
+        default_factory=lambda: HeatingRef(
+            "Average (NBI)", None, MW(167.6), 4.94, 7.0642
+        )
+    )
 
     def heating_refs(self):
         return [
@@ -238,13 +288,13 @@ class SupplementaryHeating:
 
 # 22.1.5 primary structure
 @dataclass
-class PgaCosts():
+class PgaCosts:
     eng_costs: M_USD
     fab_costs: M_USD
 
 
 @dataclass
-class PrimaryStructure():
+class PrimaryStructure:
     # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
     syst_pga: StructurePga = None
     learning_credit: Ratio = None
@@ -262,10 +312,18 @@ class PrimaryStructure():
     def __post_init__(self):
         if self.pga_costs_mapping is None:
             self.pga_costs_mapping = {
-                StructurePga.PGA_01.name: PgaCosts(eng_costs=M_USD(115), fab_costs=M_USD(115)),
-                StructurePga.PGA_02.name: PgaCosts(eng_costs=M_USD(125), fab_costs=M_USD(130)),
-                StructurePga.PGA_03.name: PgaCosts(eng_costs=M_USD(140), fab_costs=M_USD(165)),
-                StructurePga.PGA_05.name: PgaCosts(eng_costs=M_USD(160), fab_costs=M_USD(235)),
+                StructurePga.PGA_01.name: PgaCosts(
+                    eng_costs=M_USD(115), fab_costs=M_USD(115)
+                ),
+                StructurePga.PGA_02.name: PgaCosts(
+                    eng_costs=M_USD(125), fab_costs=M_USD(130)
+                ),
+                StructurePga.PGA_03.name: PgaCosts(
+                    eng_costs=M_USD(140), fab_costs=M_USD(165)
+                ),
+                StructurePga.PGA_05.name: PgaCosts(
+                    eng_costs=M_USD(160), fab_costs=M_USD(235)
+                ),
             }
 
     def get_pga_costs(self) -> PgaCosts:
@@ -347,7 +405,9 @@ class FuelHandling:
 
     def __post_init__(self):
         if self.learning_tenth_of_a_kind is None:
-            self.learning_tenth_of_a_kind = Ratio(10 ** (math.log10(self.learning_curve_credit) / math.log10(2)))
+            self.learning_tenth_of_a_kind = Ratio(
+                10 ** (math.log10(self.learning_curve_credit) / math.log10(2))
+            )
 
 
 @dataclass
@@ -369,11 +429,31 @@ class LsaLevels:
             self.fac_91 = [0.1130, 0.1200, 0.1280, 0.1510]  # x TDC [90]
             self.fac_92 = [0.0520, 0.0520, 0.0520, 0.0520]  # x TDC [90]
             self.fac_93 = [0.0520, 0.0600, 0.0640, 0.0870]  # x TDC [90]
-            self.fac_94 = [0.1826, 0.1848, 0.1866, 0.1935]  # applies only to C90, x TDC [90+91+92+93]
+            self.fac_94 = [
+                0.1826,
+                0.1848,
+                0.1866,
+                0.1935,
+            ]  # applies only to C90, x TDC [90+91+92+93]
             self.fac_95 = [0.0000, 0.0000, 0.0000, 0.0000]  # x TDC [90+91+92+93+94]
-            self.fac_96 = [0.2050, 0.2391, 0.2565, 0.2808]  # applied only to C90, x TDC [90+91+92+93+94]
-            self.fac_97 = [0.2651, 0.2736, 0.2787, 0.2915]  # applied only to C90, x TDC [90+91+92+93+94+95+96]
-            self.fac_98 = [0.0000, 0.0000, 0.0000, 0.0000]  # x TDC [90+91+92+93+94+95+96]
+            self.fac_96 = [
+                0.2050,
+                0.2391,
+                0.2565,
+                0.2808,
+            ]  # applied only to C90, x TDC [90+91+92+93+94]
+            self.fac_97 = [
+                0.2651,
+                0.2736,
+                0.2787,
+                0.2915,
+            ]  # applied only to C90, x TDC [90+91+92+93+94+95+96]
+            self.fac_98 = [
+                0.0000,
+                0.0000,
+                0.0000,
+                0.0000,
+            ]  # x TDC [90+91+92+93+94+95+96]
             self.initialized = True
 
 
@@ -423,7 +503,9 @@ class Inputs(SerializableToJSON):
     lasers: Lasers = field(default=None)
     coils: Coils = field(default=None)
     # TODO is this really an input? if not move to calculation class
-    supplementary_heating: SupplementaryHeating = field(default_factory=SupplementaryHeating)
+    supplementary_heating: SupplementaryHeating = field(
+        default_factory=SupplementaryHeating
+    )
     primary_structure: PrimaryStructure = field(default=None)
     vacuum_system: VacuumSystem = field(default=None)
     power_supplies: PowerSupplies = field(default=None)

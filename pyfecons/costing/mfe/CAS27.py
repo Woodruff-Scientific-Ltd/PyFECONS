@@ -19,9 +19,21 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
         # TODO should we pull these out into inputs?
         f_6Li = 0.1
         FPCPPFb = 0.9
-        OUT.C271000 = M_USD((materials.Pb.c * FPCPPFb * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
-                             + materials.Li.c * f_6Li * data.cas220101.firstwall_vol * materials.FliBe.rho * 1000
-                             ) / 1e6)
+        OUT.C271000 = M_USD(
+            (
+                materials.Pb.c
+                * FPCPPFb
+                * data.cas220101.firstwall_vol
+                * materials.FliBe.rho
+                * 1000
+                + materials.Li.c
+                * f_6Li
+                * data.cas220101.firstwall_vol
+                * materials.FliBe.rho
+                * 1000
+            )
+            / 1e6
+        )
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.LITHIUM_LI:
         OUT.C271000 = M_USD(1000 * 2130 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.OTHER_EUTECTIC_SALT:
@@ -29,7 +41,9 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.HELIUM:
         # TODO why 2.13 instead of 2130?
         OUT.C271000 = M_USD(1000 * 2.13 * 50 / 1e6)
-    elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.DUAL_COOLANT_PBLI_AND_HE:
+    elif (
+        inputs.blanket.primary_coolant == BlanketPrimaryCoolant.DUAL_COOLANT_PBLI_AND_HE
+    ):
         # TODO why 2.13 instead of 2130?
         OUT.C271000 = M_USD(1000 * 2.13 * 50 / 1e6)
     elif inputs.blanket.primary_coolant == BlanketPrimaryCoolant.WATER:
@@ -41,8 +55,6 @@ def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C275000 = M_USD(0.21 * 1.71)  # Reactor-building cover gas
     OUT.C270000 = M_USD(OUT.C271000 + OUT.C274000 + OUT.C275000)
 
-    OUT.template_file = 'CAS270000.tex'
-    OUT.replacements = {
-        'C270000': round(data.cas27.C270000)
-    }
+    OUT.template_file = "CAS270000.tex"
+    OUT.replacements = {"C270000": round(data.cas27.C270000)}
     return OUT

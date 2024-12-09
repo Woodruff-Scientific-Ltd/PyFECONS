@@ -126,6 +126,7 @@ class V(float):
     def __str__(self):
         return f"{self:.2f}"
 
+
 # Density - kg/m^3
 class KG_M3(float):
     def __str__(self):
@@ -148,4 +149,3 @@ class USD_KG(float):
 class Megapascal(float):
     def __str__(self):
         return f"{self:.2f}"
-

@@ -1,5 +1,6 @@
 import pyfecons
 
+
 class TemplateException(Exception):
     """General template exception."""
 
