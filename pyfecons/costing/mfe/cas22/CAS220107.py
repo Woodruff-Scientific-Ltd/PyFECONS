@@ -16,11 +16,11 @@ def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C22010702 = M_USD(269.6 * inputs.basic.p_nrl / 500 * IN.learning_credit * 2)
     OUT.C220107 = M_USD(OUT.C22010701 + OUT.C22010702)
 
-    OUT.template_file = 'CAS220107_MFE.tex'
+    OUT.template_file = "CAS220107_MFE.tex"
     OUT.replacements = {
-        'C22010700': round(OUT.C220107),
-        'C22010701': round(OUT.C22010701),
-        'C22010702': round(OUT.C22010702),
-        'PNRL': round(inputs.basic.p_nrl),
+        "C22010700": round(OUT.C220107),
+        "C22010701": round(OUT.C22010701),
+        "C22010702": round(OUT.C22010702),
+        "PNRL": round(inputs.basic.p_nrl),
     }
     return OUT

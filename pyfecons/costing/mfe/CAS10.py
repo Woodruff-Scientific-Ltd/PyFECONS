@@ -13,7 +13,9 @@ def cas_10(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # Cost Category 11: Land and Land Rights
     # TODO - what are the magic numbers 239 and 0.9?
-    OUT.C110000 = M_USD(math.sqrt(basic.n_mod) * (IN.p_neutron / 239 * 0.9 + basic.p_nrl / 239 * 0.9))
+    OUT.C110000 = M_USD(
+        math.sqrt(basic.n_mod) * (IN.p_neutron / 239 * 0.9 + basic.p_nrl / 239 * 0.9)
+    )
 
     # Cost Category 12 – Site Permits
     OUT.C120000 = M_USD(10)
@@ -36,24 +38,44 @@ def cas_10(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.C170000 = M_USD(1)
 
     # Cost Cetegory 19 - Contingency
-    OUT.C190000 = M_USD(0 if basic.noak else
-        0.1 * (OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000 + OUT.C170000))
+    OUT.C190000 = M_USD(
+        0
+        if basic.noak
+        else 0.1
+        * (
+            OUT.C110000
+            + OUT.C120000
+            + OUT.C130000
+            + OUT.C140000
+            + OUT.C150000
+            + OUT.C160000
+            + OUT.C170000
+        )
+    )
 
     # Cost Category 10
-    OUT.C100000 = M_USD(OUT.C110000 + OUT.C120000 + OUT.C130000 + OUT.C140000 + OUT.C150000 + OUT.C160000
-                        + OUT.C170000 + OUT.C190000)
+    OUT.C100000 = M_USD(
+        OUT.C110000
+        + OUT.C120000
+        + OUT.C130000
+        + OUT.C140000
+        + OUT.C150000
+        + OUT.C160000
+        + OUT.C170000
+        + OUT.C190000
+    )
 
-    OUT.template_file = 'CAS100000.tex'
+    OUT.template_file = "CAS100000.tex"
     OUT.replacements = {
-        'Nmod': str(basic.n_mod),
-        'C100000': str(OUT.C100000),
-        'C110000': str(OUT.C110000),
-        'C120000': str(OUT.C120000),
-        'C130000': str(OUT.C130000),
-        'C140000': str(OUT.C140000),
-        'C150000': str(OUT.C150000),
-        'C160000': str(OUT.C160000),
-        'C170000': str(OUT.C170000),
-        'C190000': str(OUT.C190000),
+        "Nmod": str(basic.n_mod),
+        "C100000": str(OUT.C100000),
+        "C110000": str(OUT.C110000),
+        "C120000": str(OUT.C120000),
+        "C130000": str(OUT.C130000),
+        "C140000": str(OUT.C140000),
+        "C150000": str(OUT.C150000),
+        "C160000": str(OUT.C160000),
+        "C170000": str(OUT.C170000),
+        "C190000": str(OUT.C190000),
     }
     return OUT

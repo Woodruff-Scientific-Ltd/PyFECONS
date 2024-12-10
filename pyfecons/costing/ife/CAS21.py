@@ -62,9 +62,25 @@ def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
     # 21.17.00,,Ventilation stack,Steel cylinder & concrete foundation,22.7,,,120,,2019,1.19,
     OUT.C211700 = M_USD(27.0 / 1e3 * p_et)
 
-    OUT.C210000 = M_USD(OUT.C210100 + OUT.C210200 + OUT.C210300 + OUT.C210400 + OUT.C210500 + OUT.C210600
-                        + OUT.C210700 + OUT.C210800 + OUT.C210900 + OUT.C211000 + OUT.C211100 + OUT.C211200
-                        + OUT.C211300 + OUT.C211400 + OUT.C211500 + OUT.C211600 + OUT.C211700)
+    OUT.C210000 = M_USD(
+        OUT.C210100
+        + OUT.C210200
+        + OUT.C210300
+        + OUT.C210400
+        + OUT.C210500
+        + OUT.C210600
+        + OUT.C210700
+        + OUT.C210800
+        + OUT.C210900
+        + OUT.C211000
+        + OUT.C211100
+        + OUT.C211200
+        + OUT.C211300
+        + OUT.C211400
+        + OUT.C211500
+        + OUT.C211600
+        + OUT.C211700
+    )
 
     if inputs.basic.noak:
         OUT.C211900 = M_USD(0)
@@ -73,26 +89,26 @@ def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
 
     OUT.C210000 = M_USD(OUT.C210000 + OUT.C211900)
 
-    OUT.template_file = 'CAS210000.tex'
+    OUT.template_file = "CAS210000.tex"
     OUT.replacements = {
-        'C210000': round(OUT.C210000, 1),
-        'C210100': round(OUT.C210100, 1),
-        'C210200': round(OUT.C210200, 1),
-        'C210300': round(OUT.C210300, 1),
-        'C210400': round(OUT.C210400, 1),
-        'C210500': round(OUT.C210500, 1),
-        'C210600': round(OUT.C210600, 1),
-        'C210700': round(OUT.C210700, 1),
-        'C210800': round(OUT.C210800, 1),
-        'C210900': round(OUT.C210900, 1),
-        'C211000': round(OUT.C211000, 1),
-        'C211100': round(OUT.C211100, 1),
-        'C211200': round(OUT.C211200, 1),
-        'C211300': round(OUT.C211300, 1),
-        'C211400': round(OUT.C211400, 1),
-        'C211500': round(OUT.C211500, 1),
-        'C211600': round(OUT.C211600, 1),
-        'C211700': round(OUT.C211700, 1),
-        'C211900': round(OUT.C211900, 1),
+        "C210000": round(OUT.C210000, 1),
+        "C210100": round(OUT.C210100, 1),
+        "C210200": round(OUT.C210200, 1),
+        "C210300": round(OUT.C210300, 1),
+        "C210400": round(OUT.C210400, 1),
+        "C210500": round(OUT.C210500, 1),
+        "C210600": round(OUT.C210600, 1),
+        "C210700": round(OUT.C210700, 1),
+        "C210800": round(OUT.C210800, 1),
+        "C210900": round(OUT.C210900, 1),
+        "C211000": round(OUT.C211000, 1),
+        "C211100": round(OUT.C211100, 1),
+        "C211200": round(OUT.C211200, 1),
+        "C211300": round(OUT.C211300, 1),
+        "C211400": round(OUT.C211400, 1),
+        "C211500": round(OUT.C211500, 1),
+        "C211600": round(OUT.C211600, 1),
+        "C211700": round(OUT.C211700, 1),
+        "C211900": round(OUT.C211900, 1),
     }
     return OUT

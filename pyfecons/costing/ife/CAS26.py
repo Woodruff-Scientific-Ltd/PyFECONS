@@ -9,10 +9,10 @@ def cas_26(inputs: Inputs, data: Data) -> TemplateProvider:
 
     # heat rejection scaled as NET electric power escalated relative to 2019 dollars to 2026 dollars
     # TODO create inflation variable, what is 0.107?
-    OUT.C260000 = M_USD(float(inputs.basic.n_mod) * data.power_table.p_net * 0.107 * 1.15)
+    OUT.C260000 = M_USD(
+        float(inputs.basic.n_mod) * data.power_table.p_net * 0.107 * 1.15
+    )
 
-    OUT.template_file = 'CAS260000.tex'
-    OUT.replacements = {
-        'C260000': round(OUT.C260000)
-    }
+    OUT.template_file = "CAS260000.tex"
+    OUT.replacements = {"C260000": round(OUT.C260000)}
     return OUT

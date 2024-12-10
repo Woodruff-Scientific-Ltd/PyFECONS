@@ -78,15 +78,12 @@ def Generate():
         ),
         lasers=Lasers(
             beamlet_learning_curve=Ratio(5),
-            beamlet_learning_curve_coefficient_b=Ratio(np.log(1/5) / np.log(288)),
+            beamlet_learning_curve_coefficient_b=Ratio(np.log(1 / 5) / np.log(288)),
             nif_laser_energy=MJ(4.7),
         ),
-        lsa_levels=LsaLevels(
-            lsa=2
-        ),
+        lsa_levels=LsaLevels(lsa=2),
         primary_structure=PrimaryStructure(
-            syst_pga=StructurePga.PGA_01,
-            learning_credit=Ratio(0.5)
+            syst_pga=StructurePga.PGA_01, learning_credit=Ratio(0.5)
         ),
         vacuum_system=VacuumSystem(
             t_cool=K(20),
@@ -101,7 +98,7 @@ def Generate():
             cost_pump=USD(40000),
             # 48 pumps needed for 200^3 system
             # capable of beign pumped by 1 pump
-            vpump_cap=Meters3(200/48)
+            vpump_cap=Meters3(200 / 48),
         ),
         power_supplies=PowerSupplies(
             # 1$/W power supply rule of thumb
@@ -114,20 +111,12 @@ def Generate():
             cap_voltage=V(20000),
             cap_l1=Unknown(50000),
         ),
-        target_factory=TargetFactory(
-            learning_credit=Ratio(0.8)
-        ),
+        target_factory=TargetFactory(learning_credit=Ratio(0.8)),
         direct_energy_converter=DirectEnergyConverter(
             system_power=Unknown(1),
             flux_limit=Unknown(2),
         ),
-        installation=Installation(
-            labor_rate=USD(1600)
-        ),
-        fuel_handling=FuelHandling(
-            learning_curve_credit=Ratio(0.8)
-        ),
-        npv=NpvInput(
-            discount_rate=Percent(0.08)
-        ),
+        installation=Installation(labor_rate=USD(1600)),
+        fuel_handling=FuelHandling(learning_curve_credit=Ratio(0.8)),
+        npv=NpvInput(discount_rate=Percent(0.08)),
     )

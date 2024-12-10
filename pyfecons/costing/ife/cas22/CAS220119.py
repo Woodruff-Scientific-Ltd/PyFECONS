@@ -7,8 +7,6 @@ def cas_220119_scheduled_replacement_cost(data: Data) -> TemplateProvider:
     OUT = data.cas220119
     # TODO will this ever be non-zero?
     OUT.C220119 = M_USD(0)
-    OUT.template_file = 'CAS220119.tex'
-    OUT.replacements = {
-        'C220119': str(round(OUT.C220119))
-    }
+    OUT.template_file = "CAS220119.tex"
+    OUT.replacements = {"C220119": str(round(OUT.C220119))}
     return OUT

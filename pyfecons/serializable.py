@@ -6,15 +6,15 @@ from enum import Enum
 # Custom JSON encoder for specific object types
 class PyfeconsEncoder(json.JSONEncoder):
     def default(self, obj):
-        if hasattr(obj, 'toDict') and callable(getattr(obj, 'toDict')):
+        if hasattr(obj, "toDict") and callable(getattr(obj, "toDict")):
             return obj.toDict()
         elif isinstance(obj, Enum):
-            if hasattr(obj, 'display_name'):
+            if hasattr(obj, "display_name"):
                 return {"value": obj.value, "display_name": obj.display_name}
             else:
                 return obj.value  # Return just the value if there's no 'display_name'
         elif isinstance(obj, bytes):
-            return ''
+            return ""
         return json.JSONEncoder.default(self, obj)
 
 
@@ -30,19 +30,32 @@ class SerializableToJSON:
     @staticmethod
     def _attributesToDict(obj):
         if is_dataclass(obj):
-            return {key: SerializableToJSON._attributesToDict(value)
-                    for key, value in asdict(obj).items() if not key.startswith("_")}
+            return {
+                key: SerializableToJSON._attributesToDict(value)
+                for key, value in asdict(obj).items()
+                if not key.startswith("_")
+            }
         elif isinstance(obj, Enum):
             return obj.value
         elif type(obj) in [int, float, str, list, dict, tuple, set]:
             return obj
         # handle Unit classes which only inherit from one primitive
-        elif (len(obj.__class__.__bases__) > 0
-              and obj.__class__.__bases__[0] in [int, float, str, list, dict, tuple, set]):
+        elif len(obj.__class__.__bases__) > 0 and obj.__class__.__bases__[0] in [
+            int,
+            float,
+            str,
+            list,
+            dict,
+            tuple,
+            set,
+        ]:
             return obj
-        elif hasattr(obj, '__dict__'):
-            return {key: SerializableToJSON._attributesToDict(value)
-                    for key, value in obj.__dict__.items() if not key.startswith('_')}
+        elif hasattr(obj, "__dict__"):
+            return {
+                key: SerializableToJSON._attributesToDict(value)
+                for key, value in obj.__dict__.items()
+                if not key.startswith("_")
+            }
         else:
             return obj
 
@@ -56,7 +69,11 @@ class SerializableToJSON:
                     if is_dataclass(attr.__class__):
                         setattr(instance, attr_name, attr.__class__(**attr_value))
                     else:
-                        setattr(instance, attr_name, cls._dictToAttributes(attr.__class__, attr_value))
+                        setattr(
+                            instance,
+                            attr_name,
+                            cls._dictToAttributes(attr.__class__, attr_value),
+                        )
                 else:
                     setattr(instance, attr_name, attr_value)
         return instance

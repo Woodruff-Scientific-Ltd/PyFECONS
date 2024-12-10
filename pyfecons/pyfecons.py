@@ -20,11 +20,14 @@ def RunCosting(inputs: Inputs) -> CostingData:
         return GenerateIfeCostingData(inputs)
     elif inputs.basic.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
-    raise ValueError('Invalid basic reactor type')
+    raise ValueError("Invalid basic reactor type")
 
 
-def CreateReportContent(inputs: Inputs, costing_data: CostingData
-                        , overrides: Optional[ReportOverrides] = None) -> ReportContent:
+def CreateReportContent(
+    inputs: Inputs,
+    costing_data: CostingData,
+    overrides: Optional[ReportOverrides] = None,
+) -> ReportContent:
     """
     Create report content with given cost calculation inputs and output data.
     :param inputs: The inputs used for cost calculations.
@@ -38,10 +41,12 @@ def CreateReportContent(inputs: Inputs, costing_data: CostingData
         return CreateIfeReport(costing_data, overrides)
     elif inputs.basic.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
-    raise ValueError('Invalid basic reactor type')
+    raise ValueError("Invalid basic reactor type")
 
 
-def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) -> FinalReport:
+def RenderFinalReport(
+    report_content: ReportContent, hide_output: bool = False
+) -> FinalReport:
     """
     Compiles report contents into a final Tex and Pdf report
     :param report_content: from cost calculations
@@ -53,21 +58,23 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
         # Write top level document file
         document_tex = report_content.document_template.template_provider.template_file
         document_output_path = os.path.join(temp_dir, document_tex)
-        with open(document_output_path, 'w', encoding='utf-8') as template_file:
+        with open(document_output_path, "w", encoding="utf-8") as template_file:
             template_file.write(report_content.document_template.contents)
 
         # Write hydrated templates to tex compile directory
         for hydrated_template in report_content.hydrated_templates:
-            output_path = os.path.join(temp_dir, hydrated_template.template_provider.tex_path)
+            output_path = os.path.join(
+                temp_dir, hydrated_template.template_provider.tex_path
+            )
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, 'w', encoding='utf-8') as template_file:
+            with open(output_path, "w", encoding="utf-8") as template_file:
                 template_file.write(hydrated_template.contents)
 
         # Write figures to tex compile directory
         for tex_path, figure_bytes in report_content.figures.items():
             output_path = os.path.join(temp_dir, tex_path)
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, 'wb') as template_file:
+            with open(output_path, "wb") as template_file:
                 template_file.write(figure_bytes)
 
         # Copy included files to tex compile directory
@@ -80,15 +87,25 @@ def RenderFinalReport(report_content: ReportContent, hide_output: bool = False) 
         os.chdir(temp_dir)
 
         document_base_name = base_name_without_extension(document_tex)
-        args = {'stdout': subprocess.DEVNULL, 'stderr': subprocess.DEVNULL} if hide_output else {}
-        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
-        subprocess.run(['bibtex', document_base_name], check=True, **args)
-        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
-        subprocess.run(['pdflatex', '-interaction=nonstopmode', document_tex], check=True, **args)
+        args = (
+            {"stdout": subprocess.DEVNULL, "stderr": subprocess.DEVNULL}
+            if hide_output
+            else {}
+        )
+        subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", document_tex], check=True, **args
+        )
+        subprocess.run(["bibtex", document_base_name], check=True, **args)
+        subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", document_tex], check=True, **args
+        )
+        subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", document_tex], check=True, **args
+        )
 
-        with open(document_tex, 'r', encoding='utf-8') as latex_file:
+        with open(document_tex, "r", encoding="utf-8") as latex_file:
             tex_content = latex_file.read()
-        with open(document_base_name + '.pdf', 'rb') as pdf_file:
+        with open(document_base_name + ".pdf", "rb") as pdf_file:
             pdf_content = pdf_file.read()
 
         os.chdir(original_dir)
