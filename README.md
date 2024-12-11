@@ -185,5 +185,5 @@ pip install -r requirements.txt
 Testing is done with [pytest](https://docs.pytest.org/en/stable/). To run them, navigate to this directory and run:
 
 ```
-pytest tests/
+python -m pytest tests/
 ``` 
