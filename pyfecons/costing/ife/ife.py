@@ -26,7 +26,7 @@ from pyfecons.costing.ife.cas22.CAS220111 import cas_220111_installation_costs
 from pyfecons.costing.calculations.cas22.CAS220119 import cas_220119_scheduled_replacement_cost
 from pyfecons.costing.ife.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
 from pyfecons.costing.ife.cas22.CAS220300 import cas_2203_auxilary_cooling
-from pyfecons.costing.ife.cas22.CAS220400 import cas_2204_radwaste
+from pyfecons.costing.calculations.cas22.cas220400_rad_waste import cas_2204_radwaste
 from pyfecons.costing.ife.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
 from pyfecons.costing.ife.cas22.CAS220600 import cas_2206_other_reactor_plant_equipment
 from pyfecons.costing.ife.cas22.CAS220700 import cas_2207_instrumentation_and_control
