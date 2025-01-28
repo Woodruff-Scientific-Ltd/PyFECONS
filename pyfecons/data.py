@@ -311,7 +311,9 @@ class CAS220108Divertor(TemplateProvider):
     divertor_maj_rad: Meters = None
     divertor_min_rad: Meters = None
     divertor_thickness_z: Meters = None
-    divertor_complexity_factor: Ratio = None  # arbitrary measure of how complicated the divertor design is
+    divertor_complexity_factor: Ratio = (
+        None  # arbitrary measure of how complicated the divertor design is
+    )
     divertor_vol_frac: Ratio = None  # fraction of volume of divertor that is material
     divertor_thickness_r: Meters = None
     divertor_material: Material = None

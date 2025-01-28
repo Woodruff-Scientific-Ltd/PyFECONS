@@ -10,7 +10,9 @@ def calc_volume_ring(height: float, inner: float, outer: float) -> float:
     return Meters3(height * np.pi * (outer**2 - inner**2))
 
 
-def calc_volume_outer_hollow_torus(axis_t: Meters, inner: Meters, thickness: Meters) -> Meters3:
+def calc_volume_outer_hollow_torus(
+    axis_t: Meters, inner: Meters, thickness: Meters
+) -> Meters3:
     """
     Volume of the outer surface of a hollow torus defined by:
 
@@ -22,4 +24,4 @@ def calc_volume_outer_hollow_torus(axis_t: Meters, inner: Meters, thickness: Met
 
         a = inner - axis_t + thickness.
     """
-    return Meters3(2 * np.pi * axis_t * np.pi * (inner - axis_t + thickness)**2)
+    return Meters3(2 * np.pi * axis_t * np.pi * (inner - axis_t + thickness) ** 2)

@@ -9,16 +9,25 @@ def cas_2200_reactor_plant_equipment_total(data: Data) -> TemplateProvider:
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
     OUT = compute_cas22_total_costs(OUT, data)
-    OUT.template_file = 'CAS220000.tex'
+    OUT.template_file = "CAS220000.tex"
     OUT.replacements = compute_replacements(data)
     return OUT
 
 
 def compute_cas2201_total_costs(data: Data) -> M_USD:
-    return M_USD(data.cas220101.C220101 + data.cas220102.C220102 + data.cas220103.C220103
-                 + data.cas220104.C220104 + data.cas220105.C220105 + data.cas220106.C220106
-                 + data.cas220107.C220107 + data.cas220108.C220108 + data.cas220109.C220109
-                 + data.cas220111.C220111 + data.cas220119.C220119)
+    return M_USD(
+        data.cas220101.C220101
+        + data.cas220102.C220102
+        + data.cas220103.C220103
+        + data.cas220104.C220104
+        + data.cas220105.C220105
+        + data.cas220106.C220106
+        + data.cas220107.C220107
+        + data.cas220108.C220108
+        + data.cas220109.C220109
+        + data.cas220111.C220111
+        + data.cas220119.C220119
+    )
 
 
 def compute_cas22_total_costs(OUT: CAS22, data: Data) -> CAS22:

@@ -75,7 +75,9 @@ class RadialBuild:
     elon: Ratio = None  # torus elongation factor
     chamber_length: Meters = None  # chamber length
     # Radial thicknesses of concentric components (innermost to outermost)
-    axis_t: Meters = None   # distance from axis of symmetry at R=0 to the plasma major radius
+    axis_t: Meters = (
+        None  # distance from axis of symmetry at R=0 to the plasma major radius
+    )
     plasma_t: Meters = None  # plasma radial thickness
     vacuum_t: Meters = None  # vacuum radial thickness
     firstwall_t: Meters = None  # first wall radial thickness

@@ -26,12 +26,20 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
     OUT.divertor_material = materials.W
 
-    OUT.divertor_vol = Meters3(((OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
-                                - (OUT.divertor_maj_rad - OUT.divertor_thickness_r) ** 2)
-                               * np.pi * OUT.divertor_thickness_z * OUT.divertor_vol_frac)
+    OUT.divertor_vol = Meters3(
+        (
+            (OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
+            - (OUT.divertor_maj_rad - OUT.divertor_thickness_r) ** 2
+        )
+        * np.pi
+        * OUT.divertor_thickness_z
+        * OUT.divertor_vol_frac
+    )
     OUT.divertor_mass = Kilograms(OUT.divertor_vol * OUT.divertor_material.rho)
     OUT.divertor_mat_cost = M_USD(OUT.divertor_mass * OUT.divertor_material.c_raw)
-    OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m * OUT.divertor_complexity_factor)
+    OUT.divertor_cost = M_USD(
+        OUT.divertor_mat_cost * OUT.divertor_material.m * OUT.divertor_complexity_factor
+    )
     OUT.C220108 = to_m_usd(OUT.divertor_cost)
 
     OUT.template_file = "CAS220108_MFE.tex"
