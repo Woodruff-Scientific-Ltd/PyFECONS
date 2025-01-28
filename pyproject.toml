@@ -1,0 +1,9 @@
+[tool.black]
+extend-exclude = '''
+(
+    pyfecons/costing/mfe/PyCosting_ARPA_E_MFE.ipynb
+    | pyfecons/costing/mfe/pycosting_arpa_e_mfe.py
+    | pyfecons/costing/ife/PyCosting_ARPA_E_IFE2.ipynb
+    | pyfecons/costing/ife/pycosting_arpa_e_ife2.py
+)
+'''
