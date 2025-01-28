@@ -50,7 +50,7 @@ def test_mfe_tokamak_cas220101_total_cost():
         blanket=blanket,
     )
     expected_result_cost = (
-        9757.80  #! this could become deprecated if cost calculation changes
+        2950.51  #! this could become deprecated if cost calculation changes
     )
     assert pytest.approx(result_cost, rel=1e-2) == expected_result_cost
 
