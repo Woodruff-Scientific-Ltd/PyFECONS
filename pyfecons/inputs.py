@@ -76,7 +76,7 @@ class RadialBuild:
     chamber_length: Meters = None  # chamber length
     # Radial thicknesses of concentric components (innermost to outermost)
     axis_t: Meters = (
-        None  # distance from r=0 to plasma central axis - effectively major radius
+        None  # distance from axis of symmetry at R=0 to the plasma major radius
     )
     plasma_t: Meters = None  # plasma radial thickness
     vacuum_t: Meters = None  # vacuum radial thickness
@@ -298,6 +298,8 @@ class PrimaryStructure:
     # PGA stands for peak ground acceleration and increasing values would correlate to an increased risk region.
     syst_pga: StructurePga = None
     learning_credit: Ratio = None
+    # percentage of components replaced over the plant lifetime
+    replacement_factor: Ratio = None
 
     analyze_costs: M_USD = 30
     unit1_seismic_costs: M_USD = 25

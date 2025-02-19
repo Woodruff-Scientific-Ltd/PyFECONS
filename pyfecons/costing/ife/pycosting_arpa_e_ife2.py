@@ -9,7 +9,7 @@ Original file is located at
 # PyFECONS
 """
 
-repo_name = "PyFECONS"
+repo_name = "ARPAE-PyFECONS"
 project = "IFE"
 PAT = 'ENTER PAT HERE'
 gitusername = "GITHUB USERNAME"

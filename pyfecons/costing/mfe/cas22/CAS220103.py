@@ -12,9 +12,15 @@ from pyfecons.costing.calculations.thermal import (
     compute_q_in_n,
     compute_iter_cost_per_MW,
 )
-from pyfecons.data import Data, TemplateProvider, MagnetProperties, CAS220103Coils
-from pyfecons.enums import MagnetMaterialType
-from pyfecons.inputs import Inputs, Coils, Magnet
+from pyfecons.data import (
+    Data,
+    TemplateProvider,
+    MagnetProperties,
+    CAS220103Coils,
+    PowerTable,
+)
+from pyfecons.enums import MagnetMaterialType, MagnetType
+from pyfecons.inputs import Inputs, Coils, Magnet, RadialBuild
 from pyfecons.units import (
     M_USD,
     Count,
@@ -37,7 +43,7 @@ def cas_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
     assert isinstance(OUT, CAS220103Coils)
 
     OUT.magnet_properties = [
-        compute_magnet_properties(IN, magnet, data) for magnet in IN.magnets
+        compute_magnet_properties(IN, magnet, inputs, data) for magnet in IN.magnets
     ]
 
     # Assign calculated totals to variables for .tex file
@@ -197,15 +203,14 @@ def compute_q_ohmic(wire_length: float, cu_wire_current: float) -> MW:
 
 
 def compute_magnet_cooling_cost(
-    coils: Coils, magnet: Magnet, properties: MagnetProperties, data: Data
+    coils: Coils,
+    magnet: Magnet,
+    properties: MagnetProperties,
+    power_table: PowerTable,
+    radial_build: RadialBuild,
 ) -> M_USD:
-    # Neutron heat loading for one coil
-    q_in_n = compute_q_in_n(
-        magnet.dz * abs((magnet.r_centre - magnet.dr / 2)),
-        data.power_table.p_neutron,
-        data.cas220101.coil_ir,
-        data.cas220101.axis_ir,
-    )
+    # Neutron heat loading
+    q_in_n = compute_q_in_n(magnet, power_table, radial_build)
     # For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
     q_in_struct = compute_q_in_struct(
         coils,
@@ -221,7 +226,7 @@ def compute_magnet_cooling_cost(
 
 
 def compute_hts_cicc_auto_magnet_properties(
-    coils: Coils, magnet: Magnet, data: Data
+    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -238,7 +243,7 @@ def compute_hts_cicc_auto_magnet_properties(
     OUT.current_supply = MA(OUT.turns_c * yuhu.cable_current)
     OUT.cable_current = Amperes(yuhu.cable_current)
 
-    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.vol_coil = compute_magnet_volume(OUT, magnet, inputs.radial_build)
     OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
     OUT.max_tape_current = Amperes(yuhu.cable_current / OUT.turns_scs)
     OUT.j_tape = coils.j_tape_ybco
@@ -260,7 +265,9 @@ def compute_hts_cicc_auto_magnet_properties(
         + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
         + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density)
     )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(
+        coils, magnet, OUT, data.power_table, inputs.radial_build
+    )
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -272,7 +279,7 @@ def compute_hts_cicc_auto_magnet_properties(
 
 
 def compute_hts_cicc_magnet_properties(
-    coils: Coils, magnet: Magnet, data: Data
+    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -290,7 +297,7 @@ def compute_hts_cicc_magnet_properties(
     OUT.cs_area = Meters2(magnet.dr * magnet.dz)
     OUT.turns_c = Turns(OUT.cs_area / (coils.cable_w * coils.cable_h))
     OUT.current_supply = MA(OUT.cable_current * OUT.turns_c)
-    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.vol_coil = compute_magnet_volume(OUT, magnet, inputs.radial_build)
 
     OUT.turns_sc_tot = Turns(OUT.turns_scs * OUT.turns_c)
     OUT.tape_length = Kilometers(OUT.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3)
@@ -313,7 +320,9 @@ def compute_hts_cicc_magnet_properties(
         + (coils.frac_cs_cu_yuhu * OUT.vol_coil * coils.cu_density)
         + (coils.frac_cs_ss_yuhu * OUT.vol_coil * coils.ss_density)
     )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(
+        coils, magnet, OUT, data.power_table, inputs.radial_build
+    )
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -325,7 +334,7 @@ def compute_hts_cicc_magnet_properties(
 
 
 def compute_hts_pancake_magnet_properties(
-    coils: Coils, magnet: Magnet, data: Data
+    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -344,7 +353,7 @@ def compute_hts_pancake_magnet_properties(
 
     # in this case the 'cable' is the entire winding
     OUT.cable_current = Amperes(OUT.max_tape_current * OUT.turns_scs)
-    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.vol_coil = compute_magnet_volume(OUT, magnet, inputs.radial_build)
     OUT.turns_c = Turns(0)
     OUT.turns_sc_tot = OUT.turns_scs
     OUT.current_supply = OUT.cable_current
@@ -377,7 +386,9 @@ def compute_hts_pancake_magnet_properties(
         coils.rebco_density * OUT.tape_length * coils.tape_w * coils.tape_t
         + OUT.vol_i * coils.i_density
     )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(
+        coils, magnet, OUT, data.power_table, inputs.radial_build
+    )
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -389,7 +400,7 @@ def compute_hts_pancake_magnet_properties(
 
 
 def compute_copper_magnet_properties(
-    coils: Coils, magnet: Magnet, data: Data
+    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -405,7 +416,7 @@ def compute_copper_magnet_properties(
     )
     OUT.turns_i = Turns(magnet.frac_in * OUT.cs_area / (0.5 * coils.cu_wire_d) ** 2)
 
-    OUT.vol_coil = Meters3(OUT.cs_area * 2 * np.pi * magnet.r_centre)
+    OUT.vol_coil = compute_magnet_volume(OUT, magnet, inputs.radial_build)
     OUT.cu_wire_current = coils.max_cu_current
     OUT.max_tape_current = coils.max_cu_current
     OUT.j_tape = Amperes(coils.max_cu_current / (0.5 * coils.cu_wire_d * 1e3) ** 2)
@@ -428,7 +439,9 @@ def compute_copper_magnet_properties(
     OUT.coil_mass = Kilograms(
         ((OUT.vol_coil - OUT.vol_i) * coils.cu_density) + (OUT.vol_i * coils.i_density)
     )
-    OUT.cooling_cost = compute_magnet_cooling_cost(coils, magnet, OUT, data)
+    OUT.cooling_cost = compute_magnet_cooling_cost(
+        coils, magnet, OUT, data.power_table, inputs.radial_build
+    )
 
     OUT.magnet_struct_cost = M_USD(
         coils.struct_factor * OUT.magnet_cost + OUT.cooling_cost
@@ -440,15 +453,25 @@ def compute_copper_magnet_properties(
 
 
 def compute_magnet_properties(
-    coils: Coils, magnet: Magnet, data: Data
+    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
 ) -> MagnetProperties:
     if magnet.material_type == MagnetMaterialType.HTS_CICC:
         if magnet.auto_cicc:
-            return compute_hts_cicc_auto_magnet_properties(coils, magnet, data)
+            return compute_hts_cicc_auto_magnet_properties(coils, magnet, inputs, data)
         else:
-            return compute_hts_cicc_magnet_properties(coils, magnet, data)
+            return compute_hts_cicc_magnet_properties(coils, magnet, inputs, data)
     elif magnet.material_type == MagnetMaterialType.HTS_PANCAKE:
-        return compute_hts_pancake_magnet_properties(coils, magnet, data)
+        return compute_hts_pancake_magnet_properties(coils, magnet, inputs, data)
     elif magnet.material_type == MagnetMaterialType.COPPER:
-        return compute_copper_magnet_properties(coils, magnet, data)
+        return compute_copper_magnet_properties(coils, magnet, inputs, data)
     raise f"Unrecognized magnet material type {magnet.material_type}"
+
+
+def compute_magnet_volume(
+    properties: MagnetProperties, magnet: Magnet, radial_build: RadialBuild
+) -> Meters3:
+    volume = properties.cs_area * 2 * np.pi * magnet.r_centre
+    if magnet.type == MagnetType.TF:
+        return Meters3(volume * radial_build.elon)
+    else:
+        return Meters3(volume)

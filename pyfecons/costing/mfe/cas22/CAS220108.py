@@ -4,7 +4,7 @@ from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import Data, TemplateProvider, CAS220108Divertor
 from pyfecons.inputs import Inputs
 from pyfecons.materials import Materials
-from pyfecons.units import Meters, Meters3, Kilograms, M_USD
+from pyfecons.units import Meters, Meters3, Kilograms, M_USD, Ratio
 
 materials = Materials()
 
@@ -19,13 +19,13 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
     # TODO confirm this formula
     OUT.divertor_maj_rad = Meters(data.cas220101.coil_ir - data.cas220101.axis_ir)
     OUT.divertor_min_rad = Meters(data.cas220101.firstwall_ir - data.cas220101.axis_ir)
-    # TODO shouldn't 0.2 be a input?
-    OUT.divertor_thickness_z = Meters(0.2)
+    # TODO these should probably be inputs
+    OUT.divertor_thickness_z = Meters(0.5)
+    OUT.divertor_complexity_factor = Ratio(3)
+    OUT.divertor_vol_frac = Ratio(0.2)
     OUT.divertor_thickness_r = Meters(OUT.divertor_min_rad * 2)
-    # TODO does this vary? Should it be an input?
-    OUT.divertor_material = materials.W  # Tungsten
+    OUT.divertor_material = materials.W
 
-    # volume of the divertor based on TF coil radius
     OUT.divertor_vol = Meters3(
         (
             (OUT.divertor_maj_rad + OUT.divertor_thickness_r) ** 2
@@ -33,10 +33,13 @@ def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
         )
         * np.pi
         * OUT.divertor_thickness_z
+        * OUT.divertor_vol_frac
     )
     OUT.divertor_mass = Kilograms(OUT.divertor_vol * OUT.divertor_material.rho)
     OUT.divertor_mat_cost = M_USD(OUT.divertor_mass * OUT.divertor_material.c_raw)
-    OUT.divertor_cost = M_USD(OUT.divertor_mat_cost * OUT.divertor_material.m)
+    OUT.divertor_cost = M_USD(
+        OUT.divertor_mat_cost * OUT.divertor_material.m * OUT.divertor_complexity_factor
+    )
     OUT.C220108 = to_m_usd(OUT.divertor_cost)
 
     OUT.template_file = "CAS220108_MFE.tex"

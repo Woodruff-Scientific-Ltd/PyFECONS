@@ -23,6 +23,11 @@ def w_to_mw(watts: Union[float, W]) -> MW:
     return MW(watts / 1e6)
 
 
+# EUR to USD given rate of Oct 20, 2024
+def eur_to_usd(amount_eur: float) -> float:
+    return 0.920015 * amount_eur
+
+
 # Inflation adjustment, all from https://www.usinflationcalculator.com/
 inflation_1992_2024 = 2.26
 inflation_2005_2024 = 1.58

@@ -9,11 +9,11 @@ Original file is located at
 # PyFECONS
 """
 
-repo_name = "PyFECONS"
+repo_name = "ARPAE-PyFECONS"
 project = "MFE"
-PAT = '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'
-gitusername = "Alex-WSci"
-gitemail ="alex@woodruffscientific.com"
+PAT = 'ENTER PAT HERE'
+gitusername = "GITHUB USERNAME"
+gitemail ="GITHUB EMAIL"
 
 import os
 
@@ -203,6 +203,18 @@ def round_to_2(x):
         # Directly return x for 0 or non-numeric types that don't need rounding
         return x
 
+
+def round_to_3(x):
+    # Ensure x is a float before checking for np.isnan
+    if isinstance(x, float) and np.isnan(x):
+        return np.nan
+    # Process as float for numerical rounding logic
+    elif isinstance(x, (float, int)) and x != 0:
+        return round(float(x), 2 - int(floor(log10(abs(x)))))  # Changed from 1 to 2 here
+    else:
+        # Directly return x for 0 or non-numeric types that don't need rounding
+        return x
+
 #Unit conversions
 dollars_to_millions = 1/1e6
 thousands_to_millions = 1/1e3
@@ -338,14 +350,20 @@ overwrite_variable('CAS100000.tex', 'C190000', round(C190000))
 
 #21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
 
-C210100 = 268*thousands_to_millions * PET * 0.5 # 0.5 comes from use of DD,
+if fuelType == "DT":
+  C210100 = 268*thousands_to_millions * PET #
+else:
+  C210100 = 268*thousands_to_millions * PET * 0.5 # 0.5 comes from lack of Tritium
 
 #21.02.00,,Fusion Heat Island Building,Concrete & Steel,. Source: [2], pg 11.
-C210200 = 186.8*thousands_to_millions * PET * 0.5 # 0.5 comes from use of DD - we don't need so much structure in the containment building.
+if fuelType == "DT":
+  C210200 = 186.8*thousands_to_millions * PET
+else:
+  C210200 = 186.8*thousands_to_millions * PET * 0.5 # 0.5 from lack of Tritium - we don't need so much structure in the containment building.
 
 #21.03.00,,Turbine building,Steel. Source: [1] cost account 14.2, page 134
 
-C210300 = 54.0*thousands_to_millions * PET
+C210300 = 54.0*thousands_to_millions * PET*10
 
 #21.04.00,,Heat exchanger building,Concrete & Steel,Source: [1] cost account 14.2, page 134
 
@@ -361,7 +379,10 @@ C210600 = 5.4*thousands_to_millions * PET
 
 #21.07.00,,Hot cell,Concrete & Steel, Source: [1] cost account 14.1, page 134
 
-C210700 = 93.4*thousands_to_millions * PET * 0.5 # 0.5 from use of DD
+if fuelType == "DT":
+  C210700 = 0.5*C210200 # No existing reference in e.g. coal powerplant construction, use half heat island building
+else:
+  C210700 = 0.5*C210200 * 0.5 # Factor of 0.5 due to fewer precautions needed with lack of Tritium
 
 #21.08.00,,Reactor services,Steel frame, Source: scaled from [1] cost account 14.1, page 134
 
@@ -445,7 +466,7 @@ CALCS
 # Radial build INPUTS
 #Radial thicknesses of concentric components (innermost to outermost)
 elon=3 #torus elongation factor
-axis_t = 3 #[m] distance from r=0 to plasma central axis - effectively major radius
+axis_t = 3 #[m] distance from axis of symmetry at R=0 to the plasma major radius
 plasma_t = 1.1 #[m] plasma radial thickness
 vacuum_t = 0.1 #[m] vacuum radial thickness
 firstwall_t = 0.2 #[m] first wall radial thickness
@@ -493,8 +514,22 @@ gap2_or = gap2_ir + gap2_t
 bioshield_or = bioshield_ir + bioshield_t  # Updated bioshield outer radius
 
 # Volumes for torus
-def calc_volume(inner, outer):
-    return np.pi * axis_t * (inner + outer)**2  #V_tok_b	= pi*L*(a_tok + d)^2 - V_tok_p;
+# Volumes for torus
+def calc_volume(inner, thickness):
+    '''
+    Volume of the outer surface of a hollow torus defined by:
+
+    axis_t = major radius
+    thickness = thickness in minor radius of the hollow torus
+    inner = the "inner radius" of the follow torus on the outboard side.
+
+    so the minor radius "a" of the outer part of the hollow torus is:
+
+        a = inner - axis_t + thickness.
+
+    Note: axis_t is a global variable, not passed as an argument
+    '''
+    return 2 * np.pi * axis_t * np.pi * (inner - axis_t + thickness)**2
 
 
 def calc_torus_sa(r,R):
@@ -586,19 +621,19 @@ fig.savefig(os.path.join(figures_directory, 'radial_build.pdf'), bbox_inches='ti
 #Template hydration
 output_values = {
     'TH14': (bioshield_t, 1), 'RAD14I': (bioshield_ir, 1), 'RAD14O': (bioshield_or, 1), 'VOL14': (bioshield_vol, 1),
-    'TH13': (gap2_t, 1), 'RAD13I': (gap2_or, 1), 'RAD13O': (gap2_or, 1), 'VOL13': (gap2_vol, 1),
-    'TH12': (lt_shield_t, 1), 'RAD12I': (lt_shield_or, 1), 'RAD12O': (lt_shield_or, 1), 'VOL12': (lt_shield_vol, 1),
+    'TH13': (gap2_t, 1), 'RAD13I': (gap2_ir, 1), 'RAD13O': (gap2_or, 1), 'VOL13': (gap2_vol, 1),
+    'TH12': (lt_shield_t, 1), 'RAD12I': (lt_shield_ir, 1), 'RAD12O': (lt_shield_or, 1), 'VOL12': (lt_shield_vol, 1),
     'TH11': (coil_t, 1), 'RAD11I': (coil_ir, 1), 'RAD11O': (coil_or, 1), 'VOL11': (coil_vol, 1),
-    'TH10': (lt_shield_t, 1), 'RAD10I': (lt_shield_or, 1), 'RAD10O': (lt_shield_or, 1), 'VOL10': (lt_shield_vol, 1),
-    'TH9': (ht_shield_t, 1), 'RAD9I': (ht_shield_or, 1), 'RAD9O': (ht_shield_or, 1), 'VOL9': (ht_shield_vol, 1),
-    'TH8': (vessel_t, 1), 'RAD8I': (vessel_or, 1), 'RAD8O': (vessel_or, 1), 'VOL8': (vessel_vol, 1),
-    'TH7': (gap1_t, 1), 'RAD7I': (gap1_or, 1), 'RAD7O': (gap1_or, 1), 'VOL7': (gap1_vol, 1),
-    'TH6': (reflector_t, 1), 'RAD6I': (reflector_or, 1), 'RAD6O': (reflector_or, 1), 'VOL6': (reflector_vol, 1),
-    'TH5': (structure_t, 1), 'RAD5I': (structure_or, 1), 'RAD5O': (structure_or, 1), 'VOL5': (structure_vol, 1),
-    'TH4': (blanket1_t, 1), 'RAD4I': (blanket1_or, 1), 'RAD4O': (blanket1_or, 1), 'VOL4': (blanket1_vol, 1),
-    'TH3': (firstwall_t, 1), 'RAD3I': (firstwall_or, 1), 'RAD3O': (firstwall_or, 1), 'VOL3': (firstwall_vol, 1),
-    'TH2': (vacuum_t, 1), 'RAD2I': (vacuum_or, 1), 'RAD2O': (vacuum_or, 1), 'VOL2': (vacuum_vol, 1),
-    'TH1': (plasma_t, 1), 'RAD1I': (plasma_or, 1), 'RAD1O': (plasma_or, 1), 'VOL1': (plasma_vol, 1),
+    'TH10': (lt_shield_t, 1), 'RAD10I': (lt_shield_ir, 1), 'RAD10O': (lt_shield_or, 1), 'VOL10': (lt_shield_vol, 1),
+    'TH9': (ht_shield_t, 1), 'RAD9I': (ht_shield_ir, 1), 'RAD9O': (ht_shield_or, 1), 'VOL9': (ht_shield_vol, 1),
+    'TH8': (vessel_t, 1), 'RAD8I': (vessel_ir, 1), 'RAD8O': (vessel_or, 1), 'VOL8': (vessel_vol, 1),
+    'TH7': (gap1_t, 1), 'RAD7I': (gap1_ir, 1), 'RAD7O': (gap1_or, 1), 'VOL7': (gap1_vol, 1),
+    'TH6': (reflector_t, 1), 'RAD6I': (reflector_ir, 1), 'RAD6O': (reflector_or, 1), 'VOL6': (reflector_vol, 1),
+    'TH5': (structure_t, 1), 'RAD5I': (structure_ir, 1), 'RAD5O': (structure_or, 1), 'VOL5': (structure_vol, 1),
+    'TH4': (blanket1_t, 1), 'RAD4I': (blanket1_ir, 1), 'RAD4O': (blanket1_or, 1), 'VOL4': (blanket1_vol, 1),
+    'TH3': (firstwall_t, 1), 'RAD3I': (firstwall_ir, 1), 'RAD3O': (firstwall_or, 1), 'VOL3': (firstwall_vol, 1),
+    'TH2': (vacuum_t, 1), 'RAD2I': (vacuum_ir, 1), 'RAD2O': (vacuum_or, 1), 'VOL2': (vacuum_vol, 1),
+    'TH1': (plasma_t, 1), 'RAD1I': (plasma_ir, 1), 'RAD1O': (plasma_or, 1), 'VOL1': (plasma_vol, 1),
     'primaryC': primaryC, 'secondaryC': secondaryC, 'neutronM': neutronM,
     'structure1': structure1, 'firstW': firstW
 }
@@ -609,7 +644,7 @@ copy_file('CAS220101_MFE_DT.tex')
 # Overwriting the placeholders in the .tex file
 for var_name, var_value in output_values.items():
     if isinstance(var_value, tuple):
-        overwrite_variable('CAS220101_MFE_DT.tex', var_name, round(var_value[0], var_value[1]))
+        overwrite_variable('CAS220101_MFE_DT.tex', var_name, round_to_3(var_value[0]))
     elif var_name in ['primaryC', 'secondaryC', 'neutronM', 'structure1', 'firstW']:
         overwrite_variable('CAS220101_MFE_DT.tex', var_name, var_value)
 overwrite_variable('CAS220101_MFE_DT.tex', "C22010101", round_to_2(C22010101))
@@ -647,7 +682,7 @@ C_HTS = round(V_HTS * (
 # Volume of HTShield that is BFS
 V_HTS_BFS = V_HTS * f_BFS
 # The cost C_22_1_2 is the same as C_HTS
-C22010201 = round(C_HTS,1)*5
+C22010201 = round(C_HTS,1)
 C22010202 = lt_shield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]*thousands_to_millions
 C22010203 = bioshield_vol*materials["SS316"]["c_raw"]*materials["SS316"]["m"]*thousands_to_millions
 C22010204 = C22010203*0.1
@@ -666,38 +701,38 @@ overwrite_variable('CAS220102.tex', 'VOL9', round(ht_shield_vol))
 overwrite_variable('CAS220102.tex', 'VOL10', round(lt_shield_vol))
 overwrite_variable('CAS220102.tex', 'VOL14', round(bioshield_vol))
 
+# @title Default title text
 #Cost Category 22.1.3: Coils
 
 # Inputs for the magnets
 """Note that for HTS CICC, the user will be presented with the option of using extrapolation from ,
    in which case the input values for that coil will be overwritten"""
 
-magnetNames=["TF","CS", "PF1","PF2","PF3","PF4","PF5","PF6","PF7","PF8"] #Enter name of each different type of magnet
+magnetNames=["TF","CS", "PF1","PF2","PF3","PF4","PF5","PF6"] #Enter name of each different type of magnet
 magnetCoilCounts = [12,1,2,2,2,2,2,2,2,2] #Number of each of the above duplicate types
 
 #For magnet type enter: "HTS CICC", "HTS Pancake" , "Copper" for each respective magnet
 magnetType = ["HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC","HTS CICC"] #Coil type for each repsective magnet
 #FOR TOKAMAKS: TF, then CS, then PF coils
-rCentreList = [round((coil_ir-axis_ir),1), 0.18, 0.67, 0.9,1.28,2.72,5.3,9.34,9.34,9.34] #[m] radius of each coil
-zCentreList = [0,0, 3.73,4.64,5.55,7.24,7.24,5,3.6,2.2] #[m] vertical coordinates of centre of each coil (r=0)
-dr = [0.25,0.2, 0.3, 0.3,0.5,0.75,1.8,1,1,1] #[m] total coil thickness in r direction (radial)
-dz = [0.35,6.3, 0.6, 0.6,0.6,0.37,0.37,1,1,1] #[m] total coil thickness in z direction (vertical)
-fracIns = [0,0,0,0,0,0,0,0,0,0] #Total fraction of cross-sectional area comprised of insulation (for copper or tape-tape pancake geometry)
-coilTemp = [20,20,20,20,20,20,20,20,20,20]
-mfrFactor =[5,10,2,2,2,2,2,2,2,2] #Manufacturing factor for each coil
+rCentreList = [2.7, 0.565, 0.494, 0.735,1.2750,8.55,8.55,8.55] #[m] radius of each coil
+zCentreList = [0,0, 5.336,6.086,6.961,7,4.65,2.3] #[m] vertical coordinates of centre of each coil (r=0)
+dr = [0.25,0.21,0.32, 0.4, 0.6,0.6,0.6,0.6] #[m] total coil thickness in r direction (radial)
+dz = [0.35,9.812,0.6, 0.7, 0.85,0.9,0.9,0.9] #[m] total coil thickness in z direction (vertical)
+fracIns = [0,0,0,0,0,0,0,0] #Total fraction of cross-sectional area comprised of insulation (for copper or tape-tape pancake geometry)
+coilTemp = [20,20,20,20,20,20,20,20]
+mfrFactor =[5,10,2,2,2,2,2,2] #Manufacturing factor for each coil
 structFactor = 1 # Structural multiplication factor. This is multiplied by the magnet material cost (incl mfr factor) and added to the total
 ######AUTOGEN FOR CICC HTS CABLES ######
-autoCICC = ["n","n","n","n","n","n","n","n","n","n"] #For each magnet, if using HTS CICC, enter "y" to autogen paramters from field and radius, enter "n" to use input lists above
+autoCICC = ["n","n","n","n","n","n","n","n"] #For each magnet, if using HTS CICC, enter "y" to autogen paramters from field and radius, enter "n" to use input lists above
 #BELOW ARE ONLY USED IF THE CORRESPONDING MAGNET HAS "y" IN "autoCICC" LIST
-autoCICC_r = ["5","5","5","5","5","5","5","5","5","5"] #[m] radius of each autogenerated HTS CICC coil
-autoCICC_B = ["5","5","5","5","5","5","5","5","5","5"] #[T] central field of each autogenerated HTS CICC coil
-
+autoCICC_r = ["5","5","5","5","5","5","5","5"] #[m] radius of each autogenerated HTS CICC coil
+autoCICC_B = ["5","5","5","5","5","5","5","5"] #[T] central field of each autogenerated HTS CICC coil
 # Constants
 tapeW = 0.004  #REBCO tape width in meters
 tapeT = 0.00013  # REBCO tape thickness in meters
 jTape = 0 # Current density of the tape in A/mm^2, set in magnetsAll function
 
-mCostYBCO = 50 # Material cost of YBCO tape in $/kAm
+mCostYBCO = 20 # Material cost of YBCO tape in $/kAm
 mCostSS = 5 # Material cost of stainless steel in $/kg
 mCostCu = 10.3 # Material cost of copper in $/kg
 rebcoDensity = 6350 #Density of REBCO tape in kg/m^3 see https://cds.cern.ch/record/2839592/files/2020_04_21_SHiP_SpectrometerMagnet_Bajas.pdf
@@ -821,10 +856,9 @@ def k_steel(T):
 def Qin_struct(no_beams, beam_cs_area, beam_length,k,T_op):
     return k*beam_cs_area*no_beams/beam_length *(T_env-T_op)*W_to_MW
 
-#power in from neutron flux, assume 95% is abosrbed in the blanket
-def Qin_n(load_area,r,R):
-    return PNEUTRON*0.05*load_area/(4*np.pi**2*(r-R))  #surface area  of torus 4 × π^2 × R × r
-
+#power in from neutron flux, assume 99% is abosrbed in the blanket
+def Qin_n(r,R,dz):
+    return PNEUTRON*0.01*(2*np.pi*r*dz)/calc_torus_sa(r,R)  #surface area  of torus 4 × π^2 × R × r, loading on one tf coil
 #cooling power
 C_frac=0.1
 def Q_cooling(Qin, C_frac, T_op, T_env=300):
@@ -868,7 +902,7 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
                cuDensity, ssDensity, fracCsCuYuhu, fracCsSsYuhu, dr,dz,
                rCentre, zCentre, noCoils, mfrFactor, magnetType,fracIns,
                autoCICC,autoCICC_r, autoCICC_B,coilTemp):
-    jTape = 150 #[A] approximate critical current density of YBCO at 18T https://www.sciencedirect.com/science/article/pii/S0011227516303812
+    jTape = 150 #[MA/cm^2] approximate critical current density of YBCO at 18T https://www.sciencedirect.com/science/article/pii/S0011227516303812
     Qintot = 0
     if magnetType == "HTS CICC":
 
@@ -890,7 +924,10 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
         turnsScS = turnsScTot/turnsC #Turns of REBCO in each cable
         currentSupply = turnsC*cableCurrent
 
-        volCoil = csArea*2*np.pi*rCentre
+        if magnetName == "TF":
+          volCoil = csArea*2*np.pi*rCentre*elon
+        else:
+          volCoil = csArea*2*np.pi*rCentre
         tapeLength = turnsScTot * rCentre * 2 * math.pi / 1e3
         maxTapeCurrent = cableCurrent/turnsScS
 
@@ -903,12 +940,24 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
         magCost = totMatCost * mfrFactor
         coilMass = (rebcoDensity*tapeLength*tapeW*tapeT) + (fracCsCuYuhu * volCoil * cuDensity) + (fracCsSsYuhu * volCoil * ssDensity) #mass of the coil in kg
 
-        Qinn = Qin_n(dz*abs((rCentre-dr/2)),coil_ir,axis_ir) #Neutron heat loading for one coil
-        #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-        Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
-        Qin = (Qinstruct+ Qinn)#total input heat for one coil
-        print(Qin)
-        coolingCost = Qin*ITER_cost_per_MW
+
+        if magnetName == "TF":
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz)*magnetCoilCounts #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          print("magnetNames",magnetNames)
+          print("magnetCoilCounts",magnetCoilCounts)
+          coolingCost = Qin*ITER_cost_per_MW
+        else:
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz) #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          print("FAIL")
+          coolingCost = Qin*ITER_cost_per_MW
 
       elif autoCICC == "n":
 
@@ -919,7 +968,10 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
         csArea = dr*dz #cross sectional area of entire coil
         turnsC = csArea / (cableW * cableH) #turns of cable in the coil
         currentSupply = cableCurrent * turnsC #total current supply to the coil
-        volCoil = csArea*2*np.pi*rCentre #volume of the coil
+        if magnetName == "TF":
+          volCoil = csArea*2*np.pi*rCentre*elon
+        else:
+          volCoil = csArea*2*np.pi*rCentre
 
         turnsScTot = turnsScS * turnsC #total turns of REBCO
         tapeLength = turnsScTot * rCentre * 2 * np.pi / 1e3 #total length of REBCO in km
@@ -932,12 +984,22 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
         magCost = totMatCost * mfrFactor
         coilMass = (rebcoDensity*tapeLength*tapeW*tapeT) + (fracCsCuYuhu * volCoil * cuDensity) + (fracCsSsYuhu * volCoil * ssDensity)
 
-        Qinn = Qin_n(dz*(rCentre-dr/2),coil_ir,axis_ir) #Neutron heat loading for one coil
-        #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-        Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
-        Qin = (Qinstruct+ Qinn) #total input heat for one coil
-        print("Qin",Qin)
-        coolingCost = Qin*ITER_cost_per_MW
+        if magnetName == "TF":
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz)*magnetCoilCounts[i] #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          print("magnetNames",magnetNames)
+          print("magnetCoilCounts",magnetCoilCounts)
+          coolingCost = Qin*ITER_cost_per_MW
+        else:
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz) #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          coolingCost = Qin*ITER_cost_per_MW
 
     elif magnetType == "HTS Pancake":
 
@@ -950,7 +1012,10 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       csArea = dr*dz
       turnsScS =  (1-fracIns)*csArea / (tapeW * tapeT)
       cableCurrent = maxTapeCurrent * turnsScS #In this case the 'cable' is the entire winding
-      volCoil = csArea*2*np.pi*rCentre
+      if magnetName == "TF":
+          volCoil = csArea*2*np.pi*rCentre*elon
+      else:
+          volCoil = csArea*2*np.pi*rCentre
       turnsC = np.nan
       turnsScTot = turnsScS
       currentSupply = cableCurrent
@@ -969,13 +1034,22 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       magCost = totMatCost * mfrFactor
       coilMass = (rebcoDensity*tapeLength*tapeW*tapeT) + (volI * Idensity)
 
-      Qinn = Qin_n(dz*(rCentre-dr/2),coil_ir,axis_ir) #Neutron heat loading for one coil
-      #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
-      Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
-
-      Qin = (Qinstruct+ Qinn) #total input heat for one coil
-      coolingCost = Qin*ITER_cost_per_MW
-      print("coolingCost pancake:",coolingCost)
+      if magnetName == "TF":
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz)*magnetCoilCounts[i] #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          print("magnetNames",magnetNames)
+          print("magnetCoilCounts",magnetCoilCounts)
+          coolingCost = Qin*ITER_cost_per_MW
+      else:
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz) #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qin = (Qinstruct+ Qinn)#total input heat for one coil
+          print(Qin)
+          coolingCost = Qin*ITER_cost_per_MW
 
     elif magnetType == "Copper":
 
@@ -990,7 +1064,10 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       turnsScS = (1-fracIns)*csArea / (0.5*cuWireD)**2
       turnsI = fracIns*csArea / (0.5*cuWireD)**2 #turns of (partial?) insulation
 
-      volCoil = csArea*2*np.pi*rCentre
+      if magnetName == "TF":
+          volCoil = csArea*2*np.pi*rCentre*elon
+      else:
+          volCoil = csArea*2*np.pi*rCentre
       cuWireCurrent = maxTapeCurrent = maxCuCurrent #current through each cu_wire [A]
       turnsScTot=  turnsScS
       turnsC = np.nan
@@ -1008,11 +1085,30 @@ def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
       magCost = totMatCost * mfrFactor
       coilMass = ((volCoil - volI)*cuDensity) + (volI * Idensity)
 
-      Qinn = Qin_n(dz*(rCentre-dr/2))
+      Qinn = Qin_n(rCentre-axis_t,axis_t,dz)
       Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength, k_steel((T_env + coilTemp) / 2), (T_env + coilTemp) / 2)
-      Qohmic = Q_ohmic(tapeLength, cuWireCurrent)
-      Qin = (Qinstruct + Qinn + Qohmic)
-      coolingCost = Qin*ITER_cost_per_MW
+
+
+      if magnetName == "TF":
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz)*magnetCoilCounts[i] #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qohmic = Q_ohmic(tapeLength, cuWireCurrent)
+          Qin = (Qinstruct + Qinn + Qohmic)
+          coolingCost = Qin*ITER_cost_per_MW
+          print(Qin)
+          print("magnetNames",magnetNames)
+          print("magnetCoilCounts",magnetCoilCounts)
+          coolingCost = Qin*ITER_cost_per_MW
+      else:
+          Qinn = Qin_n(rCentre-axis_t,axis_t,dz) #Neutron heat loading for one coil
+          #For 1 coil, assume 20 support beams, 5m length, 0.5m^2 cs area, target temp of 20K, env temp of 300 K
+          Qinstruct = Qin_struct(nobeams, beamcsarea, beamlength,k_steel((T_env+coilTemp)/2),(T_env+coilTemp)/2)
+          Qohmic = Q_ohmic(tapeLength, cuWireCurrent)
+          Qin = (Qinstruct + Qinn + Qohmic)
+          coolingCost = Qin*ITER_cost_per_MW
+          print(Qin)
+          coolingCost = Qin*ITER_cost_per_MW
 
     return {
         'volCoil': volCoil,
@@ -1049,6 +1145,7 @@ magnetStructCosts = []
 allMagnetProperties = {}
 variablesToOverwrite = {}
 suffix_variables = {}
+magnetTotalCosts = []
 
 # Calculate magnet properties and costs for each magnet once per iteration
 for i, magnetName in enumerate(magnetNames):
@@ -1075,19 +1172,22 @@ for i, magnetName in enumerate(magnetNames):
     magnetTotalCostsIndividual = magnetTotalCost
     variablesToOverwrite[f'total{magnetName}CostI'] = magnetTotalCost
     variablesToOverwrite[f'total{magnetName}Cost'] = magnetTotalCost * magnetCoilCounts[i]
+    magnetTotalCosts.append(magnetTotalCost * magnetCoilCounts[i])
 
 
     # Accumulate suffix variables for sorting
     for key, value in magnetProperties.items():
         suffix_variables[f"{key}{i+1}"] = value
 
-# Additional totals and calculations
+# Additional totals and calculations - for discussion purposes
 totStructCost = sum(magnetStructCosts)
 totnocoils = sum(magnetCoilCounts)
 nopfcoils = sum(magnetCoilCounts[2:])
 nopfpairs = nopfcoils / 2
-magnetTotalCosts = [totalCost * coilCount for totalCost, coilCount in zip(magnetCosts, magnetCoilCounts)]
 
+print("-----------------------------------------------------------------------")
+print("Total magnet costs: " , magnetTotalCosts)
+print("-----------------------------------------------------------------------")
 # Assign calculated totals to variables for .tex file
 C22010301 = float(magnetTotalCosts[0])  # TF coils
 C22010302 = float(magnetTotalCosts[1])  # CS coils
@@ -1130,15 +1230,15 @@ sorted_suffix_variables = dict(sorted(suffix_variables.items(), key=lambda item:
 variablesToOverwrite.update(sorted_suffix_variables)
 
 # Overwrite each variable in the .tex file
-copy_file('CAS220103_MIF_DT_mirror.tex')
+copy_file('CAS220103_MFE_DT_tokamak.tex')
 for varName, varValue in variablesToOverwrite.items():
     # Check if varValue is a string
     if isinstance(varValue, str):
         # Directly use the string without conversion
-        overwrite_variable('CAS220103_MIF_DT_mirror.tex', varName, varValue)
+        overwrite_variable('CAS220103_MFE_DT_tokamak.tex', varName, varValue)
     else:
         # Assuming non-string values can be converted to float and rounded
-        overwrite_variable('CAS220103_MIF_DT_mirror.tex', varName, round_to_2(float(varValue)))
+        overwrite_variable('CAS220103_MFE_DT_tokamak.tex', varName, round_to_2(float(varValue)))
 
 
 
@@ -1150,7 +1250,7 @@ def updateLatexValues(*lists):
     for listName, listValues in lists:
         varsToUpdate = generateVariableNames(listName, listValues)
         for varName, varValue in varsToUpdate.items():
-            overwrite_variable('CAS220103_MIF_DT_mirror.tex', varName, float(varValue))
+            overwrite_variable('CAS220103_MFE_DT_tokamak.tex', varName, float(varValue))
 
 # Updating the LaTeX document with new values
 updateLatexValues(
@@ -1158,13 +1258,147 @@ updateLatexValues(
     ("zCentre", zCentreList) )
 
 
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010301', round(C22010301))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010302', round(C22010302))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010303', round(C22010303))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010304', round(C22010304))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010305', round(C22010305))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C22010306', round(C22010306))
-overwrite_variable('CAS220103_MIF_DT_mirror.tex', 'C220103', round(C220103))
+print("Total coil cost: ",C220103)
+
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010301', round(C22010301))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010302', round(C22010302))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010303', round(C22010303))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010304', round(C22010304))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010305', round(C22010305))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C22010306', round(C22010306))
+overwrite_variable('CAS220103_MFE_DT_tokamak.tex', 'C220103', round(C220103))
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Modify the magnetsAll function to take jTape as an input parameter
+def magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
+               cuDensity, ssDensity, fracCsCuYuhu, fracCsSsYuhu, dr, dz,
+               rCentre, zCentre, noCoils, mfrFactor, magnetType, fracIns,
+               autoCICC, autoCICC_r, autoCICC_B, coilTemp, jTape):
+
+    if magnetType == "HTS CICC":
+        # As jTape increases, maxTapeCurrent increases, reducing tape length and cost
+        maxTapeCurrent = jTape * tapeW * 1e3 * tapeT * 1e3  # Current in A
+        turnsScS = (cableW * cableH * fracCsScYuhu) / (tapeW * tapeT)  # turns of REBCO in one cable
+        cableCurrent = maxTapeCurrent * turnsScS  # Current per cable
+
+        csArea = dr * dz  # cross-sectional area of entire coil
+        turnsC = csArea / (cableW * cableH)  # turns of cable in the coil
+        currentSupply = cableCurrent * turnsC  # total current supply to the coil
+        volCoil = csArea * 2 * np.pi * rCentre  # volume of the coil
+
+        turnsScTot = turnsScS * turnsC  # total turns of REBCO
+        # As jTape increases, tapeLength decreases
+        tapeLength = turnsScTot * rCentre * 2 * np.pi / 1e3  # total length of REBCO in km
+
+        # Cost should reduce as jTape increases (tapeLength decreases)
+        costSC = maxTapeCurrent / 1e3 * tapeLength * 1e3 * mCostYBCO / 1e6  # total cost of REBCO
+        costCu = fracCsCuYuhu * mCostCu * volCoil * cuDensity / 1e6  # total cost of copper
+        costSS = fracCsSsYuhu * mCostSS * volCoil * ssDensity / 1e6  # total cost of stainless steel
+        costI = np.nan  # total cost of insulation
+        totMatCost = costSC + costCu + costSS
+        magCost = totMatCost * mfrFactor
+        coilMass = (rebcoDensity * tapeLength * tapeW * tapeT) + (fracCsCuYuhu * volCoil * cuDensity) + (fracCsSsYuhu * volCoil * ssDensity)
+
+        # Neutron heat loading for one coil (simplified calculation)
+        Qinn = 0.01 * volCoil
+        Qinstruct = 0.1 * volCoil  # structural heat load (simplified)
+        Qin = abs(Qinstruct + Qinn)  # total input heat for one coil
+        coolingCost = Qin * 0.05  # assuming some cost factor for cooling
+
+    elif magnetType == "HTS Pancake":
+        # Similar logic for HTS Pancake
+        maxTapeCurrent = jTape * tapeW * 1e3 * tapeT * 1e3  # Current in A
+        csArea = dr * dz
+        turnsScS = (1 - fracIns) * csArea / (tapeW * tapeT)
+        cableCurrent = maxTapeCurrent * turnsScS  # total cable current
+        volCoil = csArea * 2 * np.pi * rCentre
+        turnsScTot = turnsScS
+        tapeLength = turnsScS * rCentre * 2 * np.pi / 1e3  # total length of REBCO in km
+
+        # Cost reduces as jTape increases
+        costSC = maxTapeCurrent / 1e3 * tapeLength * 1e3 * mCostYBCO / 1e6
+        costI = 20 * 0.1 * volCoil  # simplified insulation cost
+        totMatCost = costSC + costI
+        magCost = totMatCost * mfrFactor
+        coilMass = rebcoDensity * tapeLength * tapeW * tapeT
+
+        Qinn = 0.01 * volCoil
+        Qinstruct = 0.1 * volCoil  # structural heat load (simplified)
+        Qin = abs(Qinstruct + Qinn)
+        coolingCost = Qin * 0.05  # assuming some cost factor for cooling
+
+    return {
+        'magCost': magCost,
+        'coolingCost': coolingCost,
+        'coilMass': coilMass,
+        'Qin': Qin
+    }
+
+
+# Now, we can loop over different values of jTape and plot C220103 vs jTape
+
+# Define a range of jTape values
+jTape_values = np.linspace(50, 200, 15)  # Adjust the range and step size as needed
+C220103_values = []
+
+# Initialize other constants and variables for calculation
+magnetNames = ["TF", "CS", "PF1", "PF2", "PF3", "PF4", "PF5", "PF6"]
+magnetCoilCounts = [12, 1, 2, 2, 2, 2, 2, 2]
+rCentreList = [3.75, 0.565, 0.494, 0.735, 1.275, 10.55, 10.55, 10.55]
+dr = [0.25, 0.21, 0.32, 0.4, 0.6, 0.6, 0.6, 0.6]
+dz = [0.35, 9.812, 0.6, 0.7, 0.85, 0.9, 0.9, 0.9]
+mfrFactor = [5, 10, 2, 2, 2, 2, 2, 2]
+magnetType = ["HTS CICC", "HTS Pancake", "HTS CICC", "HTS CICC", "HTS CICC", "HTS CICC", "HTS CICC", "HTS CICC"]
+fracIns = [0, 0, 0, 0, 0, 0, 0, 0]
+autoCICC = ["n", "n", "n", "n", "n", "n", "n", "n"]
+autoCICC_r = ["5", "5", "5", "5", "5", "5", "5", "5"]
+autoCICC_B = ["5", "5", "5", "5", "5", "5", "5", "5"]
+coilTemp = [20, 20, 20, 20, 20, 20, 20, 20]
+
+# Loop through different values of jTape
+for jTape in jTape_values:
+    magnetCosts = []
+    C22010306 = 0
+
+    # Calculate magnet properties and costs for each magnet
+    for i, magnetName in enumerate(magnetNames):
+        magnetProperties = magnetsAll(cableW, cableH, tapeW, tapeT, mCostYBCO, mCostSS, mCostCu,
+                                      cuDensity, ssDensity, fracCsCuYuhu, fracCsSsYuhu, dr[i], dz[i],
+                                      rCentreList[i], 0, magnetCoilCounts[i], mfrFactor[i],
+                                      magnetType[i], fracIns[i], autoCICC[i], autoCICC_r[i], autoCICC_B[i], coilTemp[i], jTape)
+
+        magnetCosts.append(magnetProperties['magCost'])
+        C22010306 += magnetProperties['coolingCost']
+
+    # Additional totals and calculations
+    C22010301 = sum([magnetCosts[0]])  # TF coils
+    C22010302 = sum([magnetCosts[1]])  # CS coils
+    C22010303 = sum(magnetCosts[2:])  # PF coils
+    C22010304 = 0.05 * (C22010301 + C22010302 + C22010303)  # Shim coil costs, taken as 5% total primary magnet costs
+    C22010305 = sum([C22010306])  # Cooling cost
+    C220103 = C22010301 + C22010302 + C22010303 + C22010304 + C22010305 + C22010306  # Total cost
+
+    # Store the C220103 value for the current jTape
+    C220103_values.append(C220103)
+
+# Plot the results
+plt.figure(figsize=(10, 6))
+plt.plot(jTape_values, C220103_values, marker='o')
+plt.xlabel('Current Density (A/mm$^2$)')
+plt.ylabel('Total Coil Cost (M USD)')
+plt.title('Total Coil Cost vs Tape Current Density')
+
+# Add vertical lines at jTape = 70 A/mm² and 150 A/mm²
+plt.axvline(x=70, color='red', linestyle='--', label='jTape = 70 A/mm$^2$')
+plt.axvline(x=150, color='blue', linestyle='--', label='jTape = 150 A/mm$^2$')
+
+# Add a legend
+plt.legend()
+
+plt.grid(True)
+plt.show()
 
 #22.1.4 Supplementary heating
 
@@ -1402,28 +1636,31 @@ cost_per_watt = 1 #1$/W power supply industry rule of thumb
 C22010701 = PCOILS*cost_per_watt # (M$) Power supplies for confinement
 
 #Scaled relative to ITER for a 500MW fusion power syste
-lcredit = 0.5# learning credit.
-C22010702 = 269.6 * PNRL/500*lcredit*2 #assuming 1kIUA equals $2 M #cost in kIUA
+lcredit = 0.2# learning credit.
+kIUA = 1552.24*1*1e-3 #kIUA exchange rate as of 11/07/24 in USD
+C22010702 = 269.6 * PNRL/500*lcredit*kIUA
 C220107 = C22010701+C22010702
 
 copy_file('CAS220107_MFE.tex')
 #overwrite_variable('CAS220107_MIF.tex', 'C22010702', round(C22010702))
-overwrite_variable('CAS220107_MFE.tex', 'C220107', round(C220107))
 overwrite_variable('CAS220107_MFE.tex', 'C22010701', round(C22010701))
 overwrite_variable('CAS220107_MFE.tex', 'C22010702', round(C22010702))
+overwrite_variable('CAS220107_MFE.tex', 'C220107', round(C220107))
 overwrite_variable('CAS220107_MFE.tex', 'PNRL', round(PNRL))
 
 #22.1.8 Divertor
 #Simple volumetric calculation based on reactor geometry, user input, and tungsten material properties (see "materials" dictionary)
 divertorMajRad = rCentreList[0]
 divertorMinRad = firstwall_ir-axis_ir
-divertorThicknessZ=0.2 #[m]
+divertorThicknessZ=0.5 #[m]
+divertorComplexityFactor = 3 #Currently arbitrary measure of how complicated the divertor design is
+divertorVolFrac = 0.2 #Fraction of volume of divetor that is material
 divertorThicknessR= divertorMinRad*2#[m]
 divertorMaterial = materials["W"] #Tungsten
-divertorVol = ((divertorMajRad+divertorThicknessR)**2-(divertorMajRad-divertorThicknessR)**2)*np.pi*divertorThicknessZ #volume of the divertor based on TF coil radius
+divertorVol = ((divertorMajRad+divertorThicknessR)**2-(divertorMajRad-divertorThicknessR)**2)*np.pi*divertorThicknessZ*divertorVolFrac #volume of the divertor based on TF coil radius
 divertorMass= divertorVol*divertorMaterial["rho"]
 divertorMatCost=divertorMass*divertorMaterial["c_raw"]
-divertorCost=divertorMatCost*divertorMaterial["m"]
+divertorCost=divertorMatCost*divertorMaterial["m"]*divertorComplexityFactor
 C220108 = divertorCost*dollars_to_millions
 
 copy_file('CAS220108_MFE.tex')
@@ -1505,14 +1742,15 @@ copy_file('CAS220111.tex')
 overwrite_variable('CAS220111.tex', 'C220112', round(C220111))
 overwrite_variable('CAS220111.tex', 'constructionTime', constructionTime)
 
-#Cost category 22.1.19 Scheduled Replacement Cost
-C220119=0
+#Cost category 22.1 total
+C220100 = C220101 + C220102 + C220103 + C220104 + C220105 + C220106 + C220107 +C220108 + C220109 + C220111
 
+#Cost category 22.1.19 Scheduled Replacement Cost
+replacement_factor = 0.1 #i.e. 1 tenth of value of components replaced over the plant lifetime
+C220119= replacement_factor * C220100
 copy_file('CAS220119.tex')
 overwrite_variable('CAS220119.tex', 'C220119', round(C220119))
-
-#Cost category 22.1 total
-C220100 = C220101 + C220102 + C220103 + C220104 + C220105 + C220106 + C220107 +C220108 + C220109 + C220111 +C220119
+C220100 += C220119
 
 #MAIN AND SECONDARY COOLANT Cost Category 22.2
 #C_22_2_1  = 233.9 * (PTH/3500)^0.55; 	#Li(f), PbLi, He:                %Primary coolant(i):
@@ -1542,7 +1780,7 @@ copy_file('CAS220300.tex')
 overwrite_variable('CAS220300.tex', 'C220300', round(C220300,1))
 
 #Cost Category 22.4 Radwaste
-C220400    = round(1.96 * 1e-3 * PTH * inflation_1992_2024  ,1)     	#Radioactive waste treatment
+C220400    = round(1.96 * thousands_to_millions * PTH * inflation_1992_2024  ,1)     	#Radioactive waste treatment
 #base cost of 1.96M from Alexeeva, V., Molloy, B., Beestermoeller, R., Black, G., Bradish, D., Cameron, R., Keppler, J.H., Rothwell, G., Urso, M.E., Colakoglu, I. and Emeric, J., 2018. Measuring Employment Generated by the Nuclear Power Sector (No. NEA--7204). Organisation for Economic Co-Operation and Development.
 copy_file('CAS220400.tex')
 overwrite_variable('CAS220400.tex', 'C220400', C220400)
