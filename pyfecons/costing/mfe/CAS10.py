@@ -1,10 +1,10 @@
 import math
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_10(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
     basic = inputs.basic
     IN = data.power_table
     OUT = data.cas10

@@ -1,17 +1,33 @@
 import numpy as np
 
-from pyfecons.inputs import *
 from pyfecons.enums import *
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.inputs.basic import Basic
+from pyfecons.inputs.blanket import Blanket
+from pyfecons.inputs.customer_info import CustomerInfo
+from pyfecons.inputs.direct_energy_converter import DirectEnergyConverter
+from pyfecons.inputs.fuel_handling import FuelHandling
+from pyfecons.inputs.installation import Installation
+from pyfecons.inputs.lasers import Lasers
+from pyfecons.inputs.lsa_levels import LsaLevels
+from pyfecons.inputs.npv_Input import NpvInput
+from pyfecons.inputs.power_supplies import PowerSupplies
+from pyfecons.inputs.power_table_input import PowerTableInput
+from pyfecons.inputs.primary_structure import PrimaryStructure
+from pyfecons.inputs.radial_build import RadialBuild
+from pyfecons.inputs.shield import Shield
+from pyfecons.inputs.target_factory import TargetFactory
+from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.units import *
 
 
-def Generate():
+def Generate() -> AllInputs:
     p_nrl = MW(2500)  # Fusion Power
     p_implosion = MW(10)  # Implosion laser power
     p_ignition = MW(0.1)  # Ignition laser power
-    return Inputs(
-        CustomerInfo(name="Clean Air Task Force"),
-        Basic(
+    return AllInputs(
+        customer_info=CustomerInfo(name="Clean Air Task Force"),
+        basic=Basic(
             reactor_type=ReactorType.IFE,
             confinement_type=ConfinementType.LASER_DRIVEN_DIRECT_DRIVE,
             energy_conversion=EnergyConversion.DIRECT,
@@ -36,7 +52,7 @@ def Generate():
             neutron_multiplier=BlanketNeutronMultiplier.PB_AS_PART_OF_PBLI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
-        power_table=PowerTable(
+        power_table=PowerTableInput(
             mn=Ratio(1.09),  # Neutron energy multiplier
             eta_p=Percent(0.5),  # Pumping power capture efficiency
             fpcppf=Percent(0.01),  # Primary Coolant Pumping Power Fraction

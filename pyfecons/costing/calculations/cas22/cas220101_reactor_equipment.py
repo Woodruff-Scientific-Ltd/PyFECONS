@@ -10,7 +10,8 @@ from pyfecons.costing.calculations.volume import (
 )
 from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
-from pyfecons.inputs import RadialBuild, Blanket
+from pyfecons.inputs.blanket import Blanket
+from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.materials import Materials, Material
 from pyfecons.units import M_USD, Meters3
 

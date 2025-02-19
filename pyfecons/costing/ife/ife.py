@@ -3,7 +3,7 @@ from typing import Optional
 from pyfecons.data import Data
 from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report import CostingData, ReportContent, ReportOverrides
 from pyfecons.templates import (
     hydrate_templates,
@@ -80,7 +80,7 @@ LOCAL_INCLUDED_FILES = [
 ]
 
 
-def GenerateCostingData(inputs: Inputs) -> CostingData:
+def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = Data(reactor_type=ReactorType.IFE)
     template_providers = [
         power_balance(inputs, data),

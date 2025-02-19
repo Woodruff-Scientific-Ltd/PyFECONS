@@ -2,14 +2,14 @@ import numpy as np
 
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import Data, TemplateProvider, CAS220108Divertor
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.materials import Materials
 from pyfecons.units import Meters, Meters3, Kilograms, M_USD, Ratio
 
 materials = Materials()
 
 
-def cas_220108_divertor(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220108_divertor(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT: CAS220108Divertor = data.cas220108
     assert isinstance(OUT, CAS220108Divertor)
 

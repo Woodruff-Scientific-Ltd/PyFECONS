@@ -6,10 +6,10 @@ from pyfecons.costing.calculations.cost_table_builder import (
     map_keys_to_percentage,
 )
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
+def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Table
     OUT = data.cost_table
     cost_values = get_cost_values(data)

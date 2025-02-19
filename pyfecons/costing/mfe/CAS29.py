@@ -1,9 +1,9 @@
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_29(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_29(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 29 Contingency
     OUT = data.cas29
     if inputs.basic.noak:

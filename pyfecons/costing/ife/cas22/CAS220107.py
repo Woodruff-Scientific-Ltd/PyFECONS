@@ -4,13 +4,13 @@ import matplotlib
 from io import BytesIO
 from matplotlib import pyplot as plt
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs, PowerSupplies
+from pyfecons.inputs.all_inputs import AllInputs, PowerSupplies
 from pyfecons.units import M_USD, HZ
 
 matplotlib.use("Agg")
 
 
-def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220107_power_supplies(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.7 Power supplies
     IN = inputs.power_supplies
     OUT = data.cas220107

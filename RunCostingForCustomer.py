@@ -56,18 +56,15 @@ except AttributeError as e:
 
 # Ensure Generate returns an instance of Input class
 try:
-    from pyfecons.inputs import (
-        Inputs,
-    )  # Adjust this path if Input.py is located elsewhere
-
+    from pyfecons.inputs.all_inputs import (AllInputs)
     inputs = CustomerInputs.Generate()
-    if not isinstance(inputs, Inputs):
+    if not isinstance(inputs, AllInputs):
         raise TypeError(
-            f"Generate function in {customer_folder} must return an instance of Input class."
+            f"Generate function in {customer_folder} must return an instance of AllInput class."
         )
 except TypeError as e:
     print(
-        f"ERROR: Ensure the Generate function in {customer_folder}/DefineInputs.py returns an object of type Inputs."
+        f"ERROR: Ensure the Generate function in {customer_folder}/DefineInputs.py returns an object of type AllInputs."
     )
     sys.exit(1)
 

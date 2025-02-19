@@ -4,10 +4,10 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
     compute_reactor_equipment_costs,
 )
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_220101_reactor_equipment(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220101_reactor_equipment(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.1: Reactor Equipment
     IN = inputs.radial_build
     reactor_type = inputs.basic.reactor_type

@@ -2,14 +2,14 @@ import numpy as np
 
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.materials import Materials
 from pyfecons.units import Meters3, M_USD
 
 materials = Materials()
 
 
-def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.6 Vacuum system
     # 22.1.6.1 Vacuum Vessel
     OUT = data.cas220106

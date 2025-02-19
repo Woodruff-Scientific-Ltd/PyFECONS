@@ -4,7 +4,7 @@ import subprocess
 import tempfile
 from typing import Optional
 from pyfecons.helpers import base_name_without_extension
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.enums import *
 from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingData
 from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
@@ -13,7 +13,7 @@ from pyfecons.costing.ife.ife import CreateReportContent as CreateIfeReport
 from pyfecons.report import ReportContent, FinalReport, CostingData, ReportOverrides
 
 
-def RunCosting(inputs: Inputs) -> CostingData:
+def RunCosting(inputs: AllInputs) -> CostingData:
     if inputs.basic.reactor_type == ReactorType.MFE:
         return GenerateMfeCostingData(inputs)
     elif inputs.basic.reactor_type == ReactorType.IFE:
@@ -24,7 +24,7 @@ def RunCosting(inputs: Inputs) -> CostingData:
 
 
 def CreateReportContent(
-    inputs: Inputs,
+    inputs: AllInputs,
     costing_data: CostingData,
     overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:

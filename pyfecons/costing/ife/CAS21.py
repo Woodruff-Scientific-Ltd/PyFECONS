@@ -1,9 +1,9 @@
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_21(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 21: Buildings
     OUT = data.cas21
     p_et = data.power_table.p_et

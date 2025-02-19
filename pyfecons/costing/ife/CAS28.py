@@ -1,9 +1,9 @@
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_28(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_28(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 28 Digital Twin
     OUT = data.cas28
     # In-house cost estimate provided by NtTau Digital LTD

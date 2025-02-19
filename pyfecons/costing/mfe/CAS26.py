@@ -1,9 +1,9 @@
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_26(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_26(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 26 Heat Rejection
     OUT = data.cas26
     # heat rejection scaled as NET electric power escalated relative to 2019 dollars to 2026 dollars

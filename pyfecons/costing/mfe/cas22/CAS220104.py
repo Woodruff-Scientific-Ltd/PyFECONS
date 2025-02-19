@@ -1,10 +1,10 @@
 from pyfecons.data import Data, TemplateProvider, CAS220104SupplementaryHeating
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_220104_supplementary_heating(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220104_supplementary_heating(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.4 Supplementary heating
     IN = inputs.supplementary_heating
     OUT: CAS220104SupplementaryHeating = data.cas220104

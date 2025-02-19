@@ -4,7 +4,7 @@ from typing import Optional
 from pyfecons.costing.ife.pfr_costs import plot_target_pfr
 from pyfecons.data import Data, TemplateProvider, CAS220108TargetFactory
 from pyfecons.helpers import safe_round
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import Ratio, M_USD
 
 
@@ -48,7 +48,7 @@ class TargetFactoryCost:
         )
 
 
-def cas_220108_target_factory(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220108_target_factory(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.8 Target factory
     IN = inputs.target_factory
     OUT: CAS220108TargetFactory = data.cas220108

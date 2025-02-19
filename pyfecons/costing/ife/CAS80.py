@@ -4,10 +4,10 @@ from pyfecons.costing.calculations.interpolation import (
 )
 from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_80(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_80(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 80: Annualized Fuel Cost (AFC)
     OUT = data.cas80
 

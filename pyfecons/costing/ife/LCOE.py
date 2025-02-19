@@ -1,10 +1,10 @@
 from pyfecons.costing.calculations.conversions import m_to_usd
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def lcoe(inputs: Inputs, data: Data) -> TemplateProvider:
+def lcoe(inputs: AllInputs, data: Data) -> TemplateProvider:
     # LCOE = Localized Cost of Electricity
     OUT = data.lcoe
     basic = inputs.basic

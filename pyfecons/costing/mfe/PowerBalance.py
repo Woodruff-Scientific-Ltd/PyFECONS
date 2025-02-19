@@ -1,10 +1,10 @@
 from pyfecons.enums import FuelType
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import MW, Unknown
 
 
-def power_balance(inputs: Inputs, data: Data) -> TemplateProvider:
+def power_balance(inputs: AllInputs, data: Data) -> TemplateProvider:
     basic = inputs.basic
     IN = inputs.power_table
     OUT = data.power_table

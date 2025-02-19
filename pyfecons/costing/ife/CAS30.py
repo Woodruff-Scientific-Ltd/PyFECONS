@@ -1,9 +1,9 @@
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_30(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_30(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 30 Capitalized Indirect Service Costs (CISC)
     IN = inputs.lsa_levels
     OUT = data.cas30

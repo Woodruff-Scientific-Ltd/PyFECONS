@@ -8,11 +8,11 @@ from pyfecons.costing.calculations.thermal import (
     compute_q_in_n_per_coil,
 )
 from pyfecons.data import Data, TemplateProvider, VesselCosts, VesselCost
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import Kilograms, USD, M_USD
 
 
-def cas_220106_vacuum_system(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.6 Vacuum system
     OUT = data.cas220106
     IN = inputs.vacuum_system

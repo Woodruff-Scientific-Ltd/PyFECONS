@@ -1,4 +1,4 @@
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values,
@@ -9,7 +9,7 @@ from pyfecons.costing.calculations.cost_table_builder import (
 )
 
 
-def cost_table(inputs: Inputs, data: Data) -> TemplateProvider:
+def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT = data.cost_table
     cost_values = get_cost_values(data)
     rounded_cost_values = get_rounded(cost_values, 2)

@@ -4,11 +4,11 @@ from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter impor
     get_replacements,
 )
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_220109_direct_energy_converter(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220109_direct_energy_converter(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.9 Direct Energy Converter
     IN = inputs.direct_energy_converter
     OUT = data.cas220109

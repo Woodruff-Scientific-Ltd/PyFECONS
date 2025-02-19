@@ -20,7 +20,10 @@ from pyfecons.data import (
     PowerTable,
 )
 from pyfecons.enums import MagnetMaterialType, MagnetType
-from pyfecons.inputs import Inputs, Coils, Magnet, RadialBuild
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.inputs.coils import Coils
+from pyfecons.inputs.magnet import Magnet
+from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.units import (
     M_USD,
     Count,
@@ -36,7 +39,7 @@ from pyfecons.units import (
 )
 
 
-def cas_220103_coils(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220103_coils(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.3: Coils
     IN = inputs.coils
     OUT: CAS220103Coils = data.cas220103
@@ -226,7 +229,7 @@ def compute_magnet_cooling_cost(
 
 
 def compute_hts_cicc_auto_magnet_properties(
-    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
+    coils: Coils, magnet: Magnet, inputs: AllInputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -279,7 +282,7 @@ def compute_hts_cicc_auto_magnet_properties(
 
 
 def compute_hts_cicc_magnet_properties(
-    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
+    coils: Coils, magnet: Magnet, inputs: AllInputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -334,7 +337,7 @@ def compute_hts_cicc_magnet_properties(
 
 
 def compute_hts_pancake_magnet_properties(
-    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
+    coils: Coils, magnet: Magnet, inputs: AllInputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -400,7 +403,7 @@ def compute_hts_pancake_magnet_properties(
 
 
 def compute_copper_magnet_properties(
-    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
+    coils: Coils, magnet: Magnet, inputs: AllInputs, data: Data
 ) -> MagnetProperties:
     OUT = MagnetProperties()
     OUT.magnet = magnet
@@ -453,7 +456,7 @@ def compute_copper_magnet_properties(
 
 
 def compute_magnet_properties(
-    coils: Coils, magnet: Magnet, inputs: Inputs, data: Data
+    coils: Coils, magnet: Magnet, inputs: AllInputs, data: Data
 ) -> MagnetProperties:
     if magnet.material_type == MagnetMaterialType.HTS_CICC:
         if magnet.auto_cicc:

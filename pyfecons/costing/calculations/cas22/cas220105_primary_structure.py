@@ -1,5 +1,5 @@
-from pyfecons.inputs import PrimaryStructure
 from pyfecons.data import PowerTable
+from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.units import M_USD, MW, Ratio
 
 

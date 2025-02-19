@@ -1,11 +1,11 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.enums import FuelType
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_21(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_21(inputs: AllInputs, data: Data) -> TemplateProvider:
     IN = data.power_table
     OUT = data.cas21
 

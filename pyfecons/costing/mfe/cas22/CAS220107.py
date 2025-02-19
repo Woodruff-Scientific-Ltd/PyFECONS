@@ -1,10 +1,10 @@
 from pyfecons.costing.calculations.conversions import eur_to_usd
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_220107_power_supplies(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220107_power_supplies(inputs: AllInputs, data: Data) -> TemplateProvider:
     IN = inputs.power_supplies
     OUT = data.cas220107
 

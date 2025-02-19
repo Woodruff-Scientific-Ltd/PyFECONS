@@ -1,4 +1,4 @@
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.enums import BlanketPrimaryCoolant
 from pyfecons.materials import Materials
@@ -7,7 +7,7 @@ from pyfecons.units import M_USD
 materials = Materials()
 
 
-def cas_27(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_27(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 27 Special Materials
     OUT = data.cas27
 

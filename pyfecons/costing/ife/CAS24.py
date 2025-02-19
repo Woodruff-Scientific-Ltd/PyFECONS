@@ -1,9 +1,9 @@
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_24(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_24(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 24 Electric Plant Equipment
     OUT = data.cas24
     # TODO - where do constants come from?

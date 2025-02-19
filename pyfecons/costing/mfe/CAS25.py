@@ -1,10 +1,10 @@
 from pyfecons.costing.calculations.conversions import inflation_factor_2019_2024
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_25(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_25(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 25 Miscellaneous Plant Equipment
     # No cost basis stated
     OUT = data.cas25

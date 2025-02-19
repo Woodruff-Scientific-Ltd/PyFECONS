@@ -1,13 +1,13 @@
 from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def calculate_npv(inputs: Inputs, data: Data) -> TemplateProvider:
+def calculate_npv(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT = data.npv
 
     npv = 0
     CDD = 0  # TODO: figure out what CDD is
-    for n in range(int(inputs.basic.plant_lifetime)):
+    for n in range(inputs.basic.plant_lifetime.__index__()):
         npv += (
             data.cas90.C900000
             + data.cas220119.C220119

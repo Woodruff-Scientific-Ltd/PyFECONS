@@ -7,7 +7,7 @@ from pyfecons.templates import (
     combine_figures,
     load_document_template,
 )
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import power_balance
 from pyfecons.costing.mfe.CAS10 import cas_10
@@ -81,7 +81,7 @@ LOCAL_INCLUDED_FILES = [
 ]
 
 
-def GenerateCostingData(inputs: Inputs) -> CostingData:
+def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = Data(reactor_type=ReactorType.MFE)
     template_providers = [
         power_balance(inputs, data),

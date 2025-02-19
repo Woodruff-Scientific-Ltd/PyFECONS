@@ -1,8 +1,11 @@
+from dataclasses import dataclass, field
 from typing import Union
-
-from pyfecons.inputs import *
+from pyfecons.enums import MagnetType, ReactorType
+from pyfecons.inputs.magnet import Magnet
 from pyfecons.materials import Material
 from pyfecons.serializable import SerializableToJSON
+from pyfecons.units import MW, Unknown, Ratio, M_USD, Meters3, Meters2, Turns, Amperes, MA, Kilometers, \
+    AmperesMillimeters2, Meters, Kilograms, Count, USD
 
 
 @dataclass

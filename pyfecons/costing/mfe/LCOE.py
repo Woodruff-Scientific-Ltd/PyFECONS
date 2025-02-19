@@ -1,9 +1,9 @@
-from pyfecons.inputs import Inputs
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
 
 
-def lcoe(inputs: Inputs, data: Data) -> TemplateProvider:
+def lcoe(inputs: AllInputs, data: Data) -> TemplateProvider:
     # LCOE = _____ Cost of Electricity
     OUT = data.lcoe
 
