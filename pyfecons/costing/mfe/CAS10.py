@@ -1,20 +1,20 @@
 import math
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data, TemplateProvider
 from pyfecons.units import M_USD
+from pyfecons.data import Data, TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 
 
 def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
-    basic = inputs.basic
-    IN = data.power_table
-    OUT = data.cas10
-
     # Cost Category 10: Pre-construction Costs
+    basic = inputs.basic
+    power_table = data.power_table
+    OUT = data.cas10
 
     # Cost Category 11: Land and Land Rights
     # TODO - what are the magic numbers 239 and 0.9?
     OUT.C110000 = M_USD(
-        math.sqrt(basic.n_mod) * (IN.p_neutron / 239 * 0.9 + basic.p_nrl / 239 * 0.9)
+        math.sqrt(basic.n_mod)
+        * (power_table.p_neutron / 239 * 0.9 + basic.p_nrl / 239 * 0.9)
     )
 
     # Cost Category 12 – Site Permits
@@ -22,7 +22,7 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
 
     # Cost Category 13 – Plant Licensing
     # Source: Midpoint of estimation from 'Capital Costs' section of
-    #   https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
+    # https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
     OUT.C130000 = M_USD(210)
 
     # Cost Category 14 – Plant Permits
@@ -37,21 +37,22 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 17 – Other Pre-Construction Costs
     OUT.C170000 = M_USD(1)
 
-    # Cost Cetegory 19 - Contingency
-    OUT.C190000 = M_USD(
-        0
-        if basic.noak
-        else 0.1
-        * (
-            OUT.C110000
-            + OUT.C120000
-            + OUT.C130000
-            + OUT.C140000
-            + OUT.C150000
-            + OUT.C160000
-            + OUT.C170000
+    # Cost Category 19 - Contingency
+    if basic.noak:
+        OUT.C190000 = M_USD(0)
+    else:
+        OUT.C190000 = M_USD(
+            0.1
+            * (
+                OUT.C110000
+                + OUT.C120000
+                + OUT.C130000
+                + OUT.C140000
+                + OUT.C150000
+                + OUT.C160000
+                + OUT.C170000
+            )
         )
-    )
 
     # Cost Category 10
     OUT.C100000 = M_USD(

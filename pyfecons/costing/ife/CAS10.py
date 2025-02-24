@@ -1,5 +1,4 @@
-import numpy as np
-
+import math
 from pyfecons.units import M_USD
 from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
@@ -7,22 +6,24 @@ from pyfecons.inputs.all_inputs import AllInputs
 
 def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 10: Pre-construction Costs
+    basic = inputs.basic
+    power_table = data.power_table
     OUT = data.cas10
-    IN = inputs.basic
 
     # Cost Category 11: Land and Land Rights
-    # TODO where does 239 & 0.9 come from?
+    # TODO - what are the magic numbers 239 and 0.9?
     OUT.C110000 = M_USD(
-        np.sqrt(IN.n_mod)
-        * (data.power_table.p_neutron / 239 * 0.9 + IN.p_nrl / 239 * 0.9)
+        math.sqrt(basic.n_mod)
+        * (power_table.p_neutron / 239 * 0.9 + basic.p_nrl / 239 * 0.9)
     )
 
     # Cost Category 12 – Site Permits
     OUT.C120000 = M_USD(10)
 
     # Cost Category 13 – Plant Licensing
+    # Source: Midpoint of estimation from 'Capital Costs' section of
     # https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
-    OUT.C130000 = M_USD(200)
+    OUT.C130000 = M_USD(210)
 
     # Cost Category 14 – Plant Permits
     OUT.C140000 = M_USD(5)
@@ -36,8 +37,8 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 17 – Other Pre-Construction Costs
     OUT.C170000 = M_USD(1)
 
-    # Cost Cetegory 19 - Contingency
-    if IN.noak:
+    # Cost Category 19 - Contingency
+    if basic.noak:
         OUT.C190000 = M_USD(0)
     else:
         OUT.C190000 = M_USD(
@@ -62,19 +63,20 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
         + OUT.C150000
         + OUT.C160000
         + OUT.C170000
+        + OUT.C190000
     )
 
     OUT.template_file = "CAS100000.tex"
     OUT.replacements = {
-        "Nmod": IN.n_mod,
-        "C100000": round(OUT.C100000),
-        "C110000": round(OUT.C110000),
-        "C120000": round(OUT.C120000),
-        "C130000": round(OUT.C130000),
-        "C140000": round(OUT.C140000),
-        "C150000": round(OUT.C150000),
-        "C160000": round(OUT.C160000),
-        "C170000": round(OUT.C170000),
-        "C190000": round(OUT.C190000),
+        "Nmod": str(basic.n_mod),
+        "C100000": str(OUT.C100000),
+        "C110000": str(OUT.C110000),
+        "C120000": str(OUT.C120000),
+        "C130000": str(OUT.C130000),
+        "C140000": str(OUT.C140000),
+        "C150000": str(OUT.C150000),
+        "C160000": str(OUT.C160000),
+        "C170000": str(OUT.C170000),
+        "C190000": str(OUT.C190000),
     }
     return OUT
