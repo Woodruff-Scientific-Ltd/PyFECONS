@@ -7,7 +7,7 @@ def calculate_npv(inputs: AllInputs, data: Data) -> TemplateProvider:
 
     npv = 0
     CDD = 0  # TODO: figure out what CDD is
-    for n in range(inputs.basic.plant_lifetime.__index__()):
+    for n in range(int(inputs.basic.plant_lifetime)):
         npv += (
             data.cas90.C900000
             + data.cas220119.C220119
