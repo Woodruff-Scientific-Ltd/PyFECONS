@@ -10,7 +10,7 @@ from pyfecons.templates import (
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import power_balance
-from pyfecons.costing.mfe.CAS10 import cas_10
+from pyfecons.costing.calculations.cas10_pre_construction import cas_10_pre_construction_costs
 from pyfecons.costing.mfe.CAS21 import cas_21
 from pyfecons.costing.mfe.cas22.CAS220101 import cas_220101_reactor_equipment
 from pyfecons.costing.mfe.cas22.CAS220102 import cas_220102_shield
@@ -85,7 +85,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = Data(reactor_type=ReactorType.MFE)
     template_providers = [
         power_balance(inputs, data),
-        cas_10(inputs, data),
+        cas_10_pre_construction_costs(inputs, data),
         cas_21(inputs, data),
         cas_220101_reactor_equipment(inputs, data),
         cas_220102_shield(inputs, data),

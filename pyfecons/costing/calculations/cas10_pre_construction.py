@@ -4,7 +4,7 @@ from pyfecons.data import Data, TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_10_pre_construction_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 10: Pre-construction Costs
     basic = inputs.basic
     power_table = data.power_table
@@ -44,13 +44,13 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider:
         OUT.C190000 = M_USD(
             0.1
             * (
-                OUT.C110000
-                + OUT.C120000
-                + OUT.C130000
-                + OUT.C140000
-                + OUT.C150000
-                + OUT.C160000
-                + OUT.C170000
+                    OUT.C110000
+                    + OUT.C120000
+                    + OUT.C130000
+                    + OUT.C140000
+                    + OUT.C150000
+                    + OUT.C160000
+                    + OUT.C170000
             )
         )
 
