@@ -1,5 +1,6 @@
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.enums import BlanketPrimaryCoolant
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD

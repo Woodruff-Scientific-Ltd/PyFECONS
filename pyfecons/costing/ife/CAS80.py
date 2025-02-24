@@ -3,7 +3,8 @@ from pyfecons.costing.calculations.interpolation import (
     get_interpolated_value,
 )
 from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

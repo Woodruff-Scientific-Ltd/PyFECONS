@@ -5,7 +5,8 @@ from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values_inflation,
     map_keys_to_percentage,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

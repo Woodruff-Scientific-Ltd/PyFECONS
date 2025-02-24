@@ -2,7 +2,8 @@ from pyfecons.costing.ife.cas22.nif_costs import (
     get_nif_scaled_costs,
     get_nif_replacements,
 )
-from pyfecons.data import Data, TemplateProvider, CAS220103Lasers
+from pyfecons.data import Data, CAS220103Lasers
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

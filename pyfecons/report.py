@@ -1,16 +1,28 @@
 from dataclasses import dataclass, field
 
-from pyfecons.data import Data, TemplateProvider
-
 
 @dataclass
-class CostingData:
-    data: Data = None
-    template_providers: list[TemplateProvider] = None
+class TemplateProvider:
+    # template substitutions variable_name -> value
+    replacements: dict[str, str] = field(default_factory=dict)
+    # template file name in templates/ directory
+    template_file: str = None
+    # latex path -> image bytes
+    figures: dict[str, bytes] = field(default_factory=dict)
+    # template file path for LaTeX compilation directory (defaults to Modified/{template_file})
+    _tex_path: str = None
 
-    def __post_init__(self):
-        if self.template_providers is None:
-            self.template_providers = []
+    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
+    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
+    @property
+    def tex_path(self) -> str:
+        if self._tex_path is None:
+            return "Modified/" + self.template_file
+        return self._tex_path
+
+    @tex_path.setter
+    def tex_path(self, value):
+        self._tex_path = value
 
 
 @dataclass

@@ -7,7 +7,8 @@ from pyfecons.costing.calculations.thermal import (
     compute_iter_cost_per_MW,
     compute_q_in_n_per_coil,
 )
-from pyfecons.data import Data, TemplateProvider, VesselCosts, VesselCost
+from pyfecons.data import Data, VesselCosts, VesselCost
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import Kilograms, USD, M_USD
 

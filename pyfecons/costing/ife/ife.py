@@ -4,7 +4,8 @@ from pyfecons.data import Data
 from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.report import CostingData, ReportContent, ReportOverrides
+from pyfecons.report import ReportContent, ReportOverrides
+from pyfecons.costing_data import CostingData
 from pyfecons.templates import (
     hydrate_templates,
     combine_figures,

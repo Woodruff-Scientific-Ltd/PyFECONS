@@ -52,7 +52,8 @@ from pyfecons.costing.mfe.CAS90 import cas_90
 from pyfecons.costing.mfe.LCOE import lcoe
 from pyfecons.costing.mfe.CostTable import cost_table
 from pyfecons.costing.calculations.npv import calculate_npv
-from pyfecons.report import ReportContent, CostingData, ReportOverrides
+from pyfecons.report import ReportContent, ReportOverrides
+from pyfecons.costing_data import CostingData
 
 TEMPLATES_PATH = "pyfecons.costing.mfe.templates"
 INCLUDED_FILES_PATH = "pyfecons.costing.mfe.included_files"

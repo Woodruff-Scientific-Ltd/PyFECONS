@@ -3,7 +3,8 @@ from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter impor
     get_scaled_costs,
     get_replacements,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 

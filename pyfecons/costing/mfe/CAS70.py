@@ -1,6 +1,7 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 
 
 def cas_70(inputs: AllInputs, data: Data) -> TemplateProvider:

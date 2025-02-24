@@ -1,5 +1,6 @@
 from pyfecons.costing.calculations.cas22.CAS22 import compute_cas2201_total_costs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 

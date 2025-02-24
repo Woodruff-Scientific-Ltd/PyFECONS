@@ -2,7 +2,8 @@ from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     compute_engineering_costs,
     compute_fabrication_costs,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 

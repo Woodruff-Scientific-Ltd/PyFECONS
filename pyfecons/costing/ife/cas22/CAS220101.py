@@ -3,7 +3,8 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
     compute_220101_replacements,
     compute_reactor_equipment_costs,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

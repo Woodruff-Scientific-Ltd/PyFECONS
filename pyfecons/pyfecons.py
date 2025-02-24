@@ -10,7 +10,8 @@ from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingDa
 from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
 from pyfecons.costing.ife.ife import GenerateCostingData as GenerateIfeCostingData
 from pyfecons.costing.ife.ife import CreateReportContent as CreateIfeReport
-from pyfecons.report import ReportContent, FinalReport, CostingData, ReportOverrides
+from pyfecons.report import ReportContent, FinalReport, ReportOverrides
+from pyfecons.costing_data import CostingData
 
 
 def RunCosting(inputs: AllInputs) -> CostingData:

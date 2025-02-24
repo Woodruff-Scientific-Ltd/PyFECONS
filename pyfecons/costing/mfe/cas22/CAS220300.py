@@ -1,7 +1,8 @@
 from pyfecons.costing.calculations.cas22.cas220300_auxilary_cooling import (
     compute_auxilary_coolant_costs,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

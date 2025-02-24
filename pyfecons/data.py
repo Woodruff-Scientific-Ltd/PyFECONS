@@ -3,33 +3,10 @@ from typing import Union
 from pyfecons.enums import MagnetType, ReactorType
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.materials import Material
+from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import MW, Unknown, Ratio, M_USD, Meters3, Meters2, Turns, Amperes, MA, Kilometers, \
     AmperesMillimeters2, Meters, Kilograms, Count, USD
-
-
-@dataclass
-class TemplateProvider:
-    # template substitutions variable_name -> value
-    replacements: dict[str, str] = field(default_factory=dict)
-    # template file name in templates/ directory
-    template_file: str = None
-    # latex path -> image bytes
-    figures: dict[str, bytes] = field(default_factory=dict)
-    # template file path for LaTeX compilation directory (defaults to Modified/{template_file})
-    _tex_path: str = None
-
-    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
-    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
-    @property
-    def tex_path(self) -> str:
-        if self._tex_path is None:
-            return "Modified/" + self.template_file
-        return self._tex_path
-
-    @tex_path.setter
-    def tex_path(self, value):
-        self._tex_path = value
 
 
 @dataclass

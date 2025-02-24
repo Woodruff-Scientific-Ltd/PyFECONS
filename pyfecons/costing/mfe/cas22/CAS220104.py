@@ -1,4 +1,5 @@
-from pyfecons.data import Data, TemplateProvider, CAS220104SupplementaryHeating
+from pyfecons.data import Data, CAS220104SupplementaryHeating
+from pyfecons.report import TemplateProvider
 from pyfecons.helpers import safe_round
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD

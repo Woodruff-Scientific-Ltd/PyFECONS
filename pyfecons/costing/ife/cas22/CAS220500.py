@@ -2,7 +2,8 @@ from pyfecons.costing.calculations.cas22.cas220500_fuel_handling_and_storage imp
     compute_fuel_handling_and_storage_costs,
     compute_replacements,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 

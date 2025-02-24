@@ -1,7 +1,8 @@
 from pyfecons.costing.calculations.cas22.cas220600_other_plant_equipment import (
     compute_other_plant_equipment_costs,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 
 
 def cas_2206_other_reactor_plant_equipment(data: Data) -> TemplateProvider:

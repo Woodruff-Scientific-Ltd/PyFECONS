@@ -3,7 +3,8 @@ import matplotlib
 
 from io import BytesIO
 from matplotlib import pyplot as plt
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs, PowerSupplies
 from pyfecons.units import M_USD, HZ
 

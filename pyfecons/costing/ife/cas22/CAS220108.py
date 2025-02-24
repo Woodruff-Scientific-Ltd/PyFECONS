@@ -2,7 +2,8 @@ from dataclasses import dataclass
 from typing import Optional
 
 from pyfecons.costing.ife.pfr_costs import plot_target_pfr
-from pyfecons.data import Data, TemplateProvider, CAS220108TargetFactory
+from pyfecons.data import Data, CAS220108TargetFactory
+from pyfecons.report import TemplateProvider
 from pyfecons.helpers import safe_round
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import Ratio, M_USD

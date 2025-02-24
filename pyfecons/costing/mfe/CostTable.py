@@ -1,5 +1,6 @@
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values,
     get_rounded,
