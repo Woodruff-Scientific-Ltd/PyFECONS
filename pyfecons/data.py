@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Union
+
+from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.enums import MagnetType, ReactorType
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.materials import Material
@@ -28,20 +30,6 @@ class PowerTable(TemplateProvider):
     rec_frac: Unknown = None  # Recirculating power fraction
     p_net: MW = None  # Output Power (Net Electric Power)
     gain_e: Ratio = None  # Gain in Electric Power
-
-
-# TODO give sensible defaults are force initialization
-@dataclass
-class CAS10(TemplateProvider):
-    C110000: M_USD = None
-    C120000: M_USD = None
-    C130000: M_USD = None
-    C140000: M_USD = None
-    C150000: M_USD = None
-    C160000: M_USD = None
-    C170000: M_USD = None
-    C190000: M_USD = None
-    C100000: M_USD = None
 
 
 @dataclass
