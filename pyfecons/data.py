@@ -1,35 +1,15 @@
 from dataclasses import dataclass, field
 from typing import Union
 
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.enums import MagnetType, ReactorType
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-from pyfecons.units import MW, Unknown, Ratio, M_USD, Meters3, Meters2, Turns, Amperes, MA, Kilometers, \
+from pyfecons.units import Ratio, M_USD, Meters3, Meters2, Turns, Amperes, MA, Kilometers, \
     AmperesMillimeters2, Meters, Kilograms, Count, USD
-
-
-@dataclass
-class PowerTable(TemplateProvider):
-    p_alpha: MW = None  # Charged particle power
-    p_neutron: MW = None  # Neutron power
-    p_cool: MW = None
-    p_aux: MW = None  # Auxiliary systems
-    p_coils: MW = None
-    p_th: MW = None  # Thermal power
-    p_the: MW = None  # Total thermal electric power
-    p_dee: MW = None
-    p_et: MW = None  # Total (Gross) Electric Power
-    p_loss: MW = None  # Lost Power
-    p_pump: MW = None  # Primary Coolant Pumping Power
-    p_sub: MW = None  # Subsystem and Control Power
-    q_sci: Unknown = None  # Scientific Q
-    q_eng: Unknown = None  # Engineering Q
-    rec_frac: Unknown = None  # Recirculating power fraction
-    p_net: MW = None  # Output Power (Net Electric Power)
-    gain_e: Ratio = None  # Gain in Electric Power
 
 
 @dataclass

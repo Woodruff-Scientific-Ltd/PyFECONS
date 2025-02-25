@@ -16,8 +16,8 @@ from pyfecons.data import (
     Data,
     MagnetProperties,
     CAS220103Coils,
-    PowerTable,
 )
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.report import TemplateProvider
 from pyfecons.enums import MagnetMaterialType, MagnetType
 from pyfecons.inputs.all_inputs import AllInputs

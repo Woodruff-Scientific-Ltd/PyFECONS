@@ -1,5 +1,5 @@
 from pyfecons.enums import FuelType
-from pyfecons.data import PowerTable
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.power_input import PowerInput
 from pyfecons.units import MW, Ratio
