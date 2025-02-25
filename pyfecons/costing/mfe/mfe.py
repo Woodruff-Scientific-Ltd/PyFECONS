@@ -86,7 +86,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = Data(reactor_type=ReactorType.MFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
-    data.cas21 = cas_21_building_costs(inputs, data)
+    data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
     data.cas220101 = cas_220101_reactor_equipment(inputs, data)
     data.cas220102 = cas_220102_shield(inputs, data)
     data.cas220103 = cas_220103_coils(inputs, data)
