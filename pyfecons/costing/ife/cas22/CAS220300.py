@@ -1,11 +1,12 @@
 from pyfecons.costing.calculations.cas22.cas220300_auxilary_cooling import (
     compute_auxilary_coolant_costs,
 )
-from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_2203_auxilary_cooling(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_2203_auxilary_cooling(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.3  Auxiliary cooling
     OUT = data.cas2203
     OUT.C220300 = compute_auxilary_coolant_costs(

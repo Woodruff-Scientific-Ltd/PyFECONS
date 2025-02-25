@@ -3,12 +3,13 @@ from pyfecons.costing.calculations.cas22.cas220200_coolant import (
     compute_intermediate_coolant_costs,
     compute_secondary_coolant_costs,
 )
-from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_2202_main_and_secondary_coolant(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_2202_main_and_secondary_coolant(inputs: AllInputs, data: Data) -> TemplateProvider:
     # MAIN AND SECONDARY COOLANT Cost Category 22.2
     OUT = data.cas2202
     OUT.C220201 = compute_primary_coolant_costs(

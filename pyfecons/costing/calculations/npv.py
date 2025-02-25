@@ -1,8 +1,9 @@
-from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def calculate_npv(inputs: Inputs, data: Data) -> TemplateProvider:
+def calculate_npv(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT = data.npv
 
     npv = 0

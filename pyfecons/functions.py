@@ -2,7 +2,8 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
     compute_reactor_equipment_costs,
 )
 from pyfecons.enums import ReactorType, ConfinementType
-from pyfecons.inputs import Blanket, RadialBuild
+from pyfecons.inputs.blanket import Blanket
+from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.units import M_USD
 
 

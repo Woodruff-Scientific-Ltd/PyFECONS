@@ -2,16 +2,17 @@ from pyfecons.costing.ife.cas22.nif_costs import (
     get_nif_scaled_costs,
     get_nif_replacements,
 )
-from pyfecons.data import Data, TemplateProvider, CAS220104IgnitionLasers
-from pyfecons.inputs import Inputs
+from pyfecons.data import Data, CAS220104IgnitionLasers
+from pyfecons.report import TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_220104_ignition_lasers(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220104_ignition_lasers(inputs: AllInputs, data: Data) -> TemplateProvider:
     # 22.1.4 Ignition laser
     OUT: CAS220104IgnitionLasers = data.cas220104
     assert isinstance(OUT, CAS220104IgnitionLasers)
 
-    scaled_costs = get_nif_scaled_costs(inputs.power_table.p_ignition, inputs.lasers)
+    scaled_costs = get_nif_scaled_costs(inputs.power_input.p_ignition, inputs.lasers)
     replacements = get_nif_replacements(scaled_costs)
 
     replacements["C220103"] = str(round(data.cas220103.C220103))

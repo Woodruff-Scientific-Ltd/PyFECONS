@@ -1,5 +1,6 @@
 from pyfecons.costing.calculations.conversions import inflation_1992_2024, k_to_m_usd
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.units import MW, M_USD
 
 

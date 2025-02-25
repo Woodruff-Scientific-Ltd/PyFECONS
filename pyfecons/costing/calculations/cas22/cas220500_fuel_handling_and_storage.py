@@ -1,6 +1,6 @@
 from pyfecons.costing.calculations.conversions import inflation_2010_2024
 from pyfecons.data import CAS2205
-from pyfecons.inputs import FuelHandling
+from pyfecons.inputs.fuel_handling import FuelHandling
 from pyfecons.units import M_USD
 
 

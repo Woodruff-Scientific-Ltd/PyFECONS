@@ -1,11 +1,12 @@
 from pyfecons.costing.calculations.cas22.cas220111_installation import (
     compute_installation_costs,
 )
-from pyfecons.data import Data, TemplateProvider
-from pyfecons.inputs import Inputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_220111_installation_costs(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_220111_installation_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.11 Installation costs
     IN = inputs.installation
     basic = inputs.basic

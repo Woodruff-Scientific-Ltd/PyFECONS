@@ -1,7 +1,8 @@
 from pyfecons.costing.calculations.cas22.cas220700_instrumentation_and_control import (
     compute_instrumentation_and_control_costs,
 )
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 
 
 def cas_2207_instrumentation_and_control(data: Data) -> TemplateProvider:

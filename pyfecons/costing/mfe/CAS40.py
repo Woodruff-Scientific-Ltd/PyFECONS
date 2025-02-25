@@ -1,9 +1,10 @@
-from pyfecons.inputs import Inputs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_40(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_40(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 40 Capitalized Owner’s Cost (COC)
     OUT = data.cas40
     IN = inputs.lsa_levels

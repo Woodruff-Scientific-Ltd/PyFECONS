@@ -1,67 +1,14 @@
+from dataclasses import dataclass, field
 from typing import Union
 
-from pyfecons.inputs import *
+from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
+from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
+from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-
-
-@dataclass
-class TemplateProvider:
-    # template substitutions variable_name -> value
-    replacements: dict[str, str] = field(default_factory=dict)
-    # template file name in templates/ directory
-    template_file: str = None
-    # latex path -> image bytes
-    figures: dict[str, bytes] = field(default_factory=dict)
-    # template file path for LaTeX compilation directory (defaults to Modified/{template_file})
-    _tex_path: str = None
-
-    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
-    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
-    @property
-    def tex_path(self) -> str:
-        if self._tex_path is None:
-            return "Modified/" + self.template_file
-        return self._tex_path
-
-    @tex_path.setter
-    def tex_path(self, value):
-        self._tex_path = value
-
-
-@dataclass
-class PowerTable(TemplateProvider):
-    p_alpha: MW = None  # Charged particle power
-    p_neutron: MW = None  # Neutron power
-    p_cool: MW = None
-    p_aux: MW = None  # Auxiliary systems
-    p_coils: MW = None
-    p_th: MW = None  # Thermal power
-    p_the: MW = None  # Total thermal electric power
-    p_dee: MW = None
-    p_et: MW = None  # Total (Gross) Electric Power
-    p_loss: MW = None  # Lost Power
-    p_pump: MW = None  # Primary Coolant Pumping Power
-    p_sub: MW = None  # Subsystem and Control Power
-    q_sci: Unknown = None  # Scientific Q
-    q_eng: Unknown = None  # Engineering Q
-    rec_frac: Unknown = None  # Recirculating power fraction
-    p_net: MW = None  # Output Power (Net Electric Power)
-    gain_e: Ratio = None  # Gain in Electric Power
-
-
-# TODO give sensible defaults are force initialization
-@dataclass
-class CAS10(TemplateProvider):
-    C110000: M_USD = None
-    C120000: M_USD = None
-    C130000: M_USD = None
-    C140000: M_USD = None
-    C150000: M_USD = None
-    C160000: M_USD = None
-    C170000: M_USD = None
-    C190000: M_USD = None
-    C100000: M_USD = None
+from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
 
 
 @dataclass
@@ -85,42 +32,6 @@ class CAS21(TemplateProvider):
     C211700: M_USD = None
     C211900: M_USD = None
     C210000: M_USD = None
-
-
-@dataclass
-class MagnetProperties:
-    # input
-    magnet: Magnet = None
-
-    # computed
-    vol_coil: Meters3 = None  # volume of the coil
-    cs_area: Meters2 = None  # cross-sectional area of entire coil
-    turns_c: Turns = None  # turns of cable in the coil
-    cable_current: Amperes = None  # current per cable
-    current_supply: MA = None  # total current supply to the coil
-    turns_sc_tot: Turns = None  # total turns of REBCO
-    turns_scs: Turns = None  # turns of REBCO in one cable
-    tape_length: Kilometers = None  # total length of REBCO in km
-    turns_i: Turns = None  # turns of (partial?) insulation
-    j_tape: AmperesMillimeters2 = None  # approximate critical current density
-    cable_w: Meters = None  # Cable width in meters
-    cable_h: Meters = None  # Cable height in meters
-    # number of pancakes based on total required turns and the number of turns in a reference pancake coil
-    no_p: float = None
-    vol_i: Meters3 = None  # total volume of insulation
-    max_tape_current: Amperes = None  # current
-    cost_sc: M_USD = None  # total cost of REBCO
-    cost_cu: M_USD = None  # total cost of copper
-    cost_ss: M_USD = None  # total cost of stainless steel
-    cost_i: M_USD = None  # total cost of insulation
-    coil_mass: Kilograms = None  # mass of the coil
-    cooling_cost: M_USD = None
-    tot_mat_cost: M_USD = None
-    magnet_cost: M_USD = None
-    magnet_struct_cost: M_USD = None
-    magnet_total_cost_individual: M_USD = None
-    magnet_total_cost: M_USD = None
-    cu_wire_current: Amperes = None  # current through each cu_wire
 
 
 @dataclass
@@ -189,50 +100,6 @@ class CAS220102(TemplateProvider):
     C22010204: M_USD = None
     C220102: M_USD = None
     V_HTS: Meters3 = None
-
-
-@dataclass
-class CAS220103Coils(TemplateProvider):
-    # Cost Category 22.1.3: Coils
-    magnet_properties: list[MagnetProperties] = None
-    no_pf_coils: Count = None
-    no_pf_pairs: Count = None
-    total_struct_cost: M_USD = None
-    C22010301: M_USD = None  # TF coils
-    C22010302: M_USD = None  # CS coils
-    C22010303: M_USD = None  # PF coils
-    C22010304: M_USD = None  # Shim coil costs, taken as 5% total primary magnet costs
-    C22010305: M_USD = None  # Structural cost
-    C22010306: M_USD = None  # Cooling cost
-    C220103: M_USD = None  # Total cost
-
-    def __post_init__(self):
-        if self.magnet_properties is None:
-            self.magnet_properties = []
-
-    @property
-    def tf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.TF
-        ]
-
-    @property
-    def cs_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.CS
-        ]
-
-    @property
-    def pf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.PF
-        ]
 
 
 @dataclass
@@ -603,3 +470,46 @@ class Data(SerializableToJSON):
             return CAS220108TargetFactory()
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+
+    def template_providers(self) -> list[TemplateProvider]:
+        return [
+            self.power_table,
+            self.cas10,
+            self.cas21,
+            self.cas220101,
+            self.cas220102,
+            self.cas220103,
+            self.cas220104,
+            self.cas220105,
+            self.cas220106,
+            self.cas220107,
+            self.cas220108,
+            self.cas220109,
+            self.cas220111,
+            self.cas220119,
+            self.cas2202,
+            self.cas2203,
+            self.cas2204,
+            self.cas2205,
+            self.cas2206,
+            self.cas2207,
+            self.cas22,
+            self.cas23,
+            self.cas24,
+            self.cas25,
+            self.cas26,
+            self.cas27,
+            self.cas28,
+            self.cas29,
+            self.cas20,
+            self.cas30,
+            self.cas40,
+            self.cas50,
+            self.cas60,
+            self.cas70,
+            self.cas80,
+            self.cas90,
+            self.lcoe,
+            self.cost_table,
+            self.npv,
+        ]

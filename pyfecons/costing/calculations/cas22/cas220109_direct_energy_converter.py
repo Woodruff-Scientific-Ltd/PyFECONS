@@ -1,7 +1,7 @@
 import math
 
 from pyfecons.data import CAS220109
-from pyfecons.inputs import DirectEnergyConverter
+from pyfecons.inputs.direct_energy_converter import DirectEnergyConverter
 from pyfecons.units import M_USD
 
 

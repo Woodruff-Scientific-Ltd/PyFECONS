@@ -1,9 +1,10 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.inputs import Inputs
-from pyfecons.data import Data, TemplateProvider
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.data import Data
+from pyfecons.report import TemplateProvider
 
 
-def cas_70(inputs: Inputs, data: Data) -> TemplateProvider:
+def cas_70(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category  70 Annualized O\&M Cost (AOC)
     OUT = data.cas70
 

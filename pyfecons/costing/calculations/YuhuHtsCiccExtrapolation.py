@@ -3,8 +3,9 @@ import pandas as pd
 from scipy.interpolate import LinearNDInterpolator
 from sklearn.linear_model import LinearRegression
 
-from pyfecons.inputs import Magnet
+from pyfecons.inputs.magnet import Magnet
 
+# noinspection PyTypeChecker
 yuhudata = {
     "R_Turns": [31] * 6
     + [44] * 6
