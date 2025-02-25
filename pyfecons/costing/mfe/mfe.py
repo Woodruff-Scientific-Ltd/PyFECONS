@@ -88,7 +88,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
     data.cas220101 = cas_220101_reactor_equipment_costs(inputs.basic, inputs.radial_build, inputs.blanket)
-    data.cas220102 = cas_220102_shield_costs(inputs, data)
+    data.cas220102 = cas_220102_shield_costs(inputs.basic, inputs.shield, inputs.blanket, data.cas220101)
     data.cas220103 = cas_220103_coils(inputs, data)
     data.cas220104 = cas_220104_supplementary_heating(inputs, data)
     data.cas220105 = cas_220105_primary_structure(inputs, data)
