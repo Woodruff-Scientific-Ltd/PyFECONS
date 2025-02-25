@@ -1,4 +1,5 @@
 import matplotlib
+
 from io import BytesIO
 from typing import Dict
 from matplotlib import pyplot as plt
@@ -8,13 +9,12 @@ from pyfecons.costing.calculations.volume import (
     calc_volume_outer_hollow_torus,
     calc_volume_sphere,
 )
-from pyfecons.data import CAS220101, Data
+from pyfecons.data import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.materials import Materials, Material
-from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD, Meters3
 
 materials = Materials()
@@ -22,21 +22,17 @@ materials = Materials()
 matplotlib.use("Agg")
 
 
-def cas_220101_reactor_equipment_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_220101_reactor_equipment_costs(basic: Basic, radial_build: RadialBuild, blanket: Blanket) -> CAS220101:
     # Cost Category 22.1.1: Reactor Equipment
-    IN = inputs.radial_build
-    reactor_type = inputs.basic.reactor_type
-    confinement_type = inputs.basic.confinement_type
-    blanket = inputs.blanket
+    reactor_type = basic.reactor_type
+    confinement_type = basic.confinement_type
 
-    OUT = data.cas220101 = compute_reactor_equipment_costs(
-        reactor_type, confinement_type, blanket, IN
-    )
-    OUT.figures["Figures/radial_build.pdf"] = plot_radial_build(reactor_type, IN)
+    cas220101 = compute_reactor_equipment_costs(reactor_type, confinement_type, blanket, radial_build)
+    cas220101.figures["Figures/radial_build.pdf"] = plot_radial_build(reactor_type, radial_build)
 
-    OUT.template_file = get_template_file(reactor_type)
-    OUT.replacements = compute_220101_replacements(reactor_type, blanket, IN, OUT)
-    return OUT
+    cas220101.template_file = get_template_file(reactor_type)
+    cas220101.replacements = compute_220101_replacements(reactor_type, blanket, radial_build, cas220101)
+    return cas220101
 
 
 def compute_reactor_equipment_costs(
@@ -45,38 +41,37 @@ def compute_reactor_equipment_costs(
     blanket: Blanket,
     radial_build: RadialBuild,
 ) -> CAS220101:
-    IN = radial_build
-    OUT = CAS220101()
-    OUT = compute_inner_radii(reactor_type, IN, OUT)
-    OUT = compute_outer_radii(reactor_type, IN, OUT)
+    cas220101 = CAS220101()
+    cas220101 = compute_inner_radii(reactor_type, radial_build, cas220101)
+    cas220101 = compute_outer_radii(reactor_type, radial_build, cas220101)
 
     if (
         reactor_type == ReactorType.MFE
         and confinement_type == ConfinementType.SPHERICAL_TOKAMAK
     ):
-        OUT = compute_volume_mfe_tokamak(IN, OUT)
+        cas220101 = compute_volume_mfe_tokamak(radial_build, cas220101)
         # must be cylindrical in all cases
-        OUT.gap2_vol = calc_volume_ring(IN.axis_t, OUT.gap2_ir, IN.gap2_t + OUT.gap2_ir)
+        cas220101.gap2_vol = calc_volume_ring(radial_build.axis_t, cas220101.gap2_ir, radial_build.gap2_t + cas220101.gap2_ir)
         # Updated bioshield volume
-        OUT.bioshield_vol = calc_volume_ring(
-            IN.axis_t, OUT.bioshield_ir, IN.bioshield_t + OUT.bioshield_ir
+        cas220101.bioshield_vol = calc_volume_ring(
+            radial_build.axis_t, cas220101.bioshield_ir, radial_build.bioshield_t + cas220101.bioshield_ir
         )
     elif (
         reactor_type == ReactorType.MFE
         and confinement_type == ConfinementType.MAGNETIC_MIRROR
     ):
-        OUT = compute_volume_mfe_mirror(IN, OUT)
+        cas220101 = compute_volume_mfe_mirror(radial_build, cas220101)
     elif reactor_type == ReactorType.IFE:
-        OUT = compute_volume_ife(OUT)
+        cas220101 = compute_volume_ife(cas220101)
     else:
         raise ValueError(f"Unsupported reactor type {reactor_type}")
 
-    OUT.C22010101 = compute_first_wall_costs(blanket, OUT)
-    OUT.C22010102 = compute_blanket_costs(blanket, OUT)
+    cas220101.C22010101 = compute_first_wall_costs(blanket, cas220101)
+    cas220101.C22010102 = compute_blanket_costs(blanket, cas220101)
 
     # Total cost of blanket and first wall
-    OUT.C220101 = M_USD(OUT.C22010101 + OUT.C22010102)
-    return OUT
+    cas220101.C220101 = M_USD(cas220101.C22010101 + cas220101.C22010102)
+    return cas220101
 
 
 def compute_volume_mfe_tokamak(IN: RadialBuild, OUT: CAS220101) -> CAS220101:
