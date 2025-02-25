@@ -11,7 +11,8 @@ from pyfecons.costing.calculations.thermal import (
     compute_q_in_n,
     compute_iter_cost_per_MW,
 )
-from pyfecons.data import MagnetProperties, CAS220103Coils
+from pyfecons.costing.models.magnet_properties import MagnetProperties
+from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.enums import MagnetMaterialType, MagnetType
 from pyfecons.inputs.coils import Coils

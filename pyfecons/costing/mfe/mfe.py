@@ -14,7 +14,7 @@ from pyfecons.costing.calculations.cas10_pre_construction import cas_10_pre_cons
 from pyfecons.costing.calculations.cas21_buildings import cas_21_building_costs
 from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import cas_220101_reactor_equipment_costs
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
-from pyfecons.costing.mfe.cas22.CAS220103 import cas_220103_coils
+from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
 from pyfecons.costing.mfe.cas22.CAS220104 import cas_220104_supplementary_heating
 from pyfecons.costing.mfe.cas22.CAS220105 import cas_220105_primary_structure
 from pyfecons.costing.mfe.cas22.CAS220106 import cas_220106_vacuum_system

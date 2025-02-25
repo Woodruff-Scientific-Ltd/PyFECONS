@@ -3,13 +3,12 @@ from typing import Union
 
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
-from pyfecons.enums import MagnetType, ReactorType
-from pyfecons.inputs.magnet import Magnet
+from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
+from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-from pyfecons.units import Ratio, M_USD, Meters3, Meters2, Turns, Amperes, MA, Kilometers, \
-    AmperesMillimeters2, Meters, Kilograms, Count, USD
+from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
 
 
 @dataclass
@@ -33,42 +32,6 @@ class CAS21(TemplateProvider):
     C211700: M_USD = None
     C211900: M_USD = None
     C210000: M_USD = None
-
-
-@dataclass
-class MagnetProperties:
-    # input
-    magnet: Magnet = None
-
-    # computed
-    vol_coil: Meters3 = None  # volume of the coil
-    cs_area: Meters2 = None  # cross-sectional area of entire coil
-    turns_c: Turns = None  # turns of cable in the coil
-    cable_current: Amperes = None  # current per cable
-    current_supply: MA = None  # total current supply to the coil
-    turns_sc_tot: Turns = None  # total turns of REBCO
-    turns_scs: Turns = None  # turns of REBCO in one cable
-    tape_length: Kilometers = None  # total length of REBCO in km
-    turns_i: Turns = None  # turns of (partial?) insulation
-    j_tape: AmperesMillimeters2 = None  # approximate critical current density
-    cable_w: Meters = None  # Cable width in meters
-    cable_h: Meters = None  # Cable height in meters
-    # number of pancakes based on total required turns and the number of turns in a reference pancake coil
-    no_p: float = None
-    vol_i: Meters3 = None  # total volume of insulation
-    max_tape_current: Amperes = None  # current
-    cost_sc: M_USD = None  # total cost of REBCO
-    cost_cu: M_USD = None  # total cost of copper
-    cost_ss: M_USD = None  # total cost of stainless steel
-    cost_i: M_USD = None  # total cost of insulation
-    coil_mass: Kilograms = None  # mass of the coil
-    cooling_cost: M_USD = None
-    tot_mat_cost: M_USD = None
-    magnet_cost: M_USD = None
-    magnet_struct_cost: M_USD = None
-    magnet_total_cost_individual: M_USD = None
-    magnet_total_cost: M_USD = None
-    cu_wire_current: Amperes = None  # current through each cu_wire
 
 
 @dataclass
@@ -137,50 +100,6 @@ class CAS220102(TemplateProvider):
     C22010204: M_USD = None
     C220102: M_USD = None
     V_HTS: Meters3 = None
-
-
-@dataclass
-class CAS220103Coils(TemplateProvider):
-    # Cost Category 22.1.3: Coils
-    magnet_properties: list[MagnetProperties] = None
-    no_pf_coils: Count = None
-    no_pf_pairs: Count = None
-    total_struct_cost: M_USD = None
-    C22010301: M_USD = None  # TF coils
-    C22010302: M_USD = None  # CS coils
-    C22010303: M_USD = None  # PF coils
-    C22010304: M_USD = None  # Shim coil costs, taken as 5% total primary magnet costs
-    C22010305: M_USD = None  # Structural cost
-    C22010306: M_USD = None  # Cooling cost
-    C220103: M_USD = None  # Total cost
-
-    def __post_init__(self):
-        if self.magnet_properties is None:
-            self.magnet_properties = []
-
-    @property
-    def tf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.TF
-        ]
-
-    @property
-    def cs_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.CS
-        ]
-
-    @property
-    def pf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.PF
-        ]
 
 
 @dataclass
