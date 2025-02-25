@@ -1,10 +1,9 @@
 from dataclasses import dataclass
-
 from pyfecons.units import Percent, MW, Ratio
 
 
 @dataclass
-class PowerTableInput:
+class PowerInput:
     f_sub: Percent = None  # Subsystem and Control Fraction
     p_cryo: MW = None
     mn: Ratio = None  # Neutron energy multiplier

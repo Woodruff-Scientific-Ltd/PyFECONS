@@ -12,7 +12,7 @@ from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.inputs.npv_Input import NpvInput
 from pyfecons.inputs.power_supplies import PowerSupplies
-from pyfecons.inputs.power_table_input import PowerTableInput
+from pyfecons.inputs.power_input import PowerInput
 from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.shield import Shield
@@ -31,7 +31,7 @@ class AllInputs(SerializableToJSON):
     # User inputs
     customer_info: CustomerInfo = field(default=None)
     basic: Basic = field(default=None)
-    power_table: PowerTableInput = field(default=None)
+    power_input: PowerInput = field(default=None)
     radial_build: RadialBuild = field(default=None)
     shield: Shield = field(default=None)
     blanket: Blanket = field(default=None)

@@ -12,7 +12,7 @@ from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.inputs.npv_Input import NpvInput
 from pyfecons.inputs.power_supplies import PowerSupplies
-from pyfecons.inputs.power_table_input import PowerTableInput
+from pyfecons.inputs.power_input import PowerInput
 from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.shield import Shield
@@ -49,7 +49,7 @@ def Generate() -> AllInputs:
             neutron_multiplier=BlanketNeutronMultiplier.BE12TI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
-        power_table=PowerTableInput(
+        power_input=PowerInput(
             f_sub=Percent(0.03),
             p_cryo=MW(0.5),
             mn=Ratio(1.1),

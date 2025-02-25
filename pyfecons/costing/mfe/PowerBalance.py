@@ -1,11 +1,11 @@
 from pyfecons.enums import FuelType
 from pyfecons.data import PowerTable
 from pyfecons.inputs.basic import Basic
-from pyfecons.inputs.power_table_input import PowerTableInput
+from pyfecons.inputs.power_input import PowerInput
 from pyfecons.units import MW, Unknown
 
 
-def power_balance(basic: Basic, power_input: PowerTableInput) -> PowerTable:
+def power_balance(basic: Basic, power_input: PowerInput) -> PowerTable:
     power_table = PowerTable()
     power_table.p_alpha = compute_p_alpha(basic.p_nrl, basic.fuel_type)
     power_table.p_neutron = MW(basic.p_nrl - power_table.p_alpha)

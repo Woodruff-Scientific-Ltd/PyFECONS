@@ -12,7 +12,7 @@ def cas_220103_lasers(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT: CAS220103Lasers = data.cas220103
     assert isinstance(OUT, CAS220103Lasers)
 
-    scaled_costs = get_nif_scaled_costs(inputs.power_table.p_implosion, inputs.lasers)
+    scaled_costs = get_nif_scaled_costs(inputs.power_input.p_implosion, inputs.lasers)
     replacements = get_nif_replacements(scaled_costs)
 
     OUT.C220103 = scaled_costs["22.1.3. Laser"].total

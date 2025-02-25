@@ -1,11 +1,11 @@
 from pyfecons.enums import FuelType
 from pyfecons.data import PowerTable
 from pyfecons.inputs.basic import Basic
-from pyfecons.inputs.power_table_input import PowerTableInput
+from pyfecons.inputs.power_input import PowerInput
 from pyfecons.units import MW, Ratio
 
 
-def power_balance(basic: Basic, power_input: PowerTableInput) -> PowerTable:
+def power_balance(basic: Basic, power_input: PowerInput) -> PowerTable:
     # power balance
     # All power values are in MW
     power_table = PowerTable()
