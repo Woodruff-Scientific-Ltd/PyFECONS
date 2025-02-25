@@ -83,48 +83,46 @@ LOCAL_INCLUDED_FILES = [
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = Data(reactor_type=ReactorType.IFE)
-    template_providers = [
-        power_balance(inputs, data),
-        cas_10_pre_construction_costs(inputs, data),
-        cas_220101_reactor_equipment(inputs, data),
-        cas_220102_shield(inputs, data),
-        cas_220103_lasers(inputs, data),
-        cas_220104_ignition_lasers(inputs, data),
-        cas_220105_primary_structure(inputs, data),
-        cas_220106_vacuum_system(inputs, data),
-        cas_220107_power_supplies(inputs, data),
-        cas_220108_target_factory(inputs, data),
-        cas_220109_direct_energy_converter(inputs, data),
-        cas_220111_installation_costs(inputs, data),
-        cas_220119_scheduled_replacement_cost(inputs, data),
-        cas_2202_main_and_secondary_coolant(inputs, data),
-        cas_2203_auxilary_cooling(inputs, data),
-        cas_2204_radwaste(data),
-        cas_2205_fuel_handling_and_storage(inputs, data),
-        cas_2206_other_reactor_plant_equipment(data),
-        cas_2207_instrumentation_and_control(data),
-        cas_2200_reactor_plant_equipment_total(data),
-        cas_21(inputs, data),
-        cas_23(inputs, data),
-        cas_24(inputs, data),
-        cas_25(inputs, data),
-        cas_26(inputs, data),
-        cas_27(inputs, data),
-        cas_28(inputs, data),
-        cas_29(inputs, data),
-        cas_20(inputs, data),
-        cas_30(inputs, data),
-        cas_40(inputs, data),
-        cas_50(inputs, data),
-        cas_60(inputs, data),
-        cas_70(inputs, data),
-        cas_80(inputs, data),
-        cas_90(inputs, data),
-        cost_table(inputs, data),
-        lcoe(inputs, data),
-        calculate_npv(inputs, data),
-    ]
-    return CostingData(data, template_providers)
+    data.power_table = power_balance(inputs, data)
+    data.cas10 = cas_10_pre_construction_costs(inputs, data)
+    data.cas21 = cas_21(inputs, data)
+    data.cas220101 = cas_220101_reactor_equipment(inputs, data)
+    data.cas220102 = cas_220102_shield(inputs, data)
+    data.cas220103 = cas_220103_lasers(inputs, data)
+    data.cas220104 = cas_220104_ignition_lasers(inputs, data)
+    data.cas220105 = cas_220105_primary_structure(inputs, data)
+    data.cas220106 = cas_220106_vacuum_system(inputs, data)
+    data.cas220107 = cas_220107_power_supplies(inputs, data)
+    data.cas220108 = cas_220108_target_factory(inputs, data)
+    data.cas220109 = cas_220109_direct_energy_converter(inputs, data)
+    data.cas220111 = cas_220111_installation_costs(inputs, data)
+    data.cas220119 = cas_220119_scheduled_replacement_cost(inputs, data)
+    data.cas2202 = cas_2202_main_and_secondary_coolant(inputs, data)
+    data.cas2203 = cas_2203_auxilary_cooling(inputs, data)
+    data.cas2204 = cas_2204_radwaste(data)
+    data.cas2205 = cas_2205_fuel_handling_and_storage(inputs, data)
+    data.cas2206 = cas_2206_other_reactor_plant_equipment(data)
+    data.cas2207 = cas_2207_instrumentation_and_control(data)
+    data.cas22 = cas_2200_reactor_plant_equipment_total(data)
+    data.cas23 = cas_23(inputs, data)
+    data.cas24 = cas_24(inputs, data)
+    data.cas25 = cas_25(inputs, data)
+    data.cas26 = cas_26(inputs, data)
+    data.cas27 = cas_27(inputs, data)
+    data.cas28 = cas_28(inputs, data)
+    data.cas29 = cas_29(inputs, data)
+    data.cas20 = cas_20(inputs, data)
+    data.cas30 = cas_30(inputs, data)
+    data.cas40 = cas_40(inputs, data)
+    data.cas50 = cas_50(inputs, data)
+    data.cas60 = cas_60(inputs, data)
+    data.cas70 = cas_70(inputs, data)
+    data.cas80 = cas_80(inputs, data)
+    data.cas90 = cas_90(inputs, data)
+    data.lcoe = lcoe(inputs, data)
+    data.cost_table = cost_table(inputs, data)
+    data.npv = calculate_npv(inputs, data)
+    return CostingData(data, data.template_providers())
 
 
 def CreateReportContent(
