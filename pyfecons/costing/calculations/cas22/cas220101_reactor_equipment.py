@@ -8,16 +8,35 @@ from pyfecons.costing.calculations.volume import (
     calc_volume_outer_hollow_torus,
     calc_volume_sphere,
 )
-from pyfecons.data import CAS220101
+from pyfecons.data import CAS220101, Data
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.materials import Materials, Material
+from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD, Meters3
 
 materials = Materials()
 
 matplotlib.use("Agg")
+
+
+def cas_220101_reactor_equipment_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+    # Cost Category 22.1.1: Reactor Equipment
+    IN = inputs.radial_build
+    reactor_type = inputs.basic.reactor_type
+    confinement_type = inputs.basic.confinement_type
+    blanket = inputs.blanket
+
+    OUT = data.cas220101 = compute_reactor_equipment_costs(
+        reactor_type, confinement_type, blanket, IN
+    )
+    OUT.figures["Figures/radial_build.pdf"] = plot_radial_build(reactor_type, IN)
+
+    OUT.template_file = get_template_file(reactor_type)
+    OUT.replacements = compute_220101_replacements(reactor_type, blanket, IN, OUT)
+    return OUT
 
 
 def compute_reactor_equipment_costs(
@@ -426,6 +445,14 @@ def plot_radial_build(reactor_type: ReactorType, radial_build: RadialBuild) -> b
     figure_data.seek(0)
     plt.close(fig)
     return figure_data.read()
+
+
+def get_template_file(reactor_type: ReactorType):
+    if reactor_type == ReactorType.MFE:
+        return "CAS220101_MFE_DT.tex"
+    if reactor_type == ReactorType.IFE:
+        return "CAS220101_IFE_DT.tex"
+    raise ValueError(f"Unsupported reactor type {reactor_type}")
 
 
 def compute_220101_replacements(
