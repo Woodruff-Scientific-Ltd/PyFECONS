@@ -10,7 +10,6 @@ def cas_21(inputs: AllInputs, data: Data) -> TemplateProvider:
     p_et = data.power_table.p_et
 
     # Buildings come out to be 470$/kW gross, so if we are looking at a gross power of 1GW, we have:
-    # TODO - reference for constants
 
     # 21.01.00,,Site improvements and facs,,20.7,,,,,2019,1.19,
     OUT.C210100 = M_USD(268 / 1e3 * p_et)
