@@ -1,5 +1,6 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.data import Data
+from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.materials import Materials
@@ -8,11 +9,12 @@ from pyfecons.units import M_USD
 materials = Materials()
 
 
-def cas_220102_shield(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_220102_shield_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 22.1.2: Shield
     OUT = data.cas220102
     cas220101 = data.cas220101
     shield = inputs.shield
+    reactor_type = inputs.basic.reactor_type
 
     # Retrieve the volume of HTS from the reactor_volumes dictionary
     OUT.V_HTS = round(cas220101.ht_shield_vol, 1)
@@ -35,7 +37,9 @@ def cas_220102_shield(inputs: AllInputs, data: Data) -> TemplateProvider:
     V_HTS_BFS = OUT.V_HTS * shield.f_BFS
 
     # The cost C_22_1_2 is the same as C_HTS
-    OUT.C22010201 = M_USD(round(C_HTS, 1))
+    # TODO what's the *5 for?
+    c_hts_scaling = 5.0 if reactor_type == ReactorType.IFE else 1.0
+    OUT.C22010201 = M_USD(round(C_HTS * c_hts_scaling, 1))
     OUT.C22010202 = k_to_m_usd(
         cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m
     )
@@ -47,14 +51,18 @@ def cas_220102_shield(inputs: AllInputs, data: Data) -> TemplateProvider:
 
     OUT.template_file = "CAS220102.tex"
     OUT.replacements = {
-        "C220102__": round(data.cas220102.C220102),
-        "C22010201": round(data.cas220102.C22010201),
-        "C22010202": round(data.cas220102.C22010202),
-        "C22010203": round(data.cas220102.C22010203),
-        "C22010204": round(data.cas220102.C22010204),
-        "V220102": round(data.cas220102.V_HTS),  # Missing from CAS220102.tex
+        "C22010201": round(OUT.C22010201),
+        "C22010202": round(OUT.C22010202),
+        "C22010203": round(OUT.C22010203),
+        "C22010204": round(OUT.C22010204),
+        "C220102XX": round(OUT.C220102),
+        "V220102": round(OUT.V_HTS),  # TODO not in template
         "primaryC": inputs.blanket.primary_coolant.display_name,
         "VOL9": round(data.cas220101.ht_shield_vol),
-        "VOL11": round(data.cas220101.lt_shield_vol),  # Missing from CAS220102.tex
     }
+    if reactor_type == ReactorType.IFE:
+        OUT.replacements["VOL10"] = round(data.cas220101.lt_shield_vol)
+        OUT.replacements["VOL14"] = round(data.cas220101.bioshield_vol)  # TODO not in template
+    if reactor_type == ReactorType.MFE:
+        OUT.replacements["VOL11"] = round(data.cas220101.lt_shield_vol)  # TODO not in template
     return OUT
