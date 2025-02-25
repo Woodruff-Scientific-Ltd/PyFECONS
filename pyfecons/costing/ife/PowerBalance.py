@@ -1,86 +1,85 @@
 from pyfecons.enums import FuelType
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
+from pyfecons.data import PowerTable
+from pyfecons.inputs.basic import Basic
+from pyfecons.inputs.power_table_input import PowerTableInput
 from pyfecons.units import MW, Ratio
 
 
-def power_balance(inputs: AllInputs, data: Data) -> TemplateProvider:
+def power_balance(basic: Basic, power_input: PowerTableInput) -> PowerTable:
     # power balance
     # All power values are in MW
-    OUT = data.power_table
-    IN = inputs.power_table
-    p_nrl = inputs.basic.p_nrl
+    power_table = PowerTable()
+    p_nrl = basic.p_nrl
 
-    if inputs.basic.fuel_type == FuelType.PB11 or FuelType.DD:
-        OUT.p_alpha = p_nrl
-        OUT.p_neutron = MW(0)
+    if basic.fuel_type == FuelType.PB11 or FuelType.DD:
+        power_table.p_alpha = p_nrl
+        power_table.p_neutron = MW(0)
     else:
-        OUT.p_alpha = p_nrl * 3.52 / 17.58
-        OUT.p_neutron = p_nrl - OUT.p_alpha
+        power_table.p_alpha = p_nrl * 3.52 / 17.58
+        power_table.p_neutron = p_nrl - power_table.p_alpha
 
-    OUT.p_aux = MW(IN.p_trit + IN.p_house)
-    OUT.p_th = MW(
-        IN.mn * OUT.p_neutron
-        + OUT.p_alpha
-        + IN.p_input
-        + IN.eta_th
-        * (IN.fpcppf * IN.eta_p + IN.f_sub)
-        * (IN.mn * OUT.p_neutron + OUT.p_alpha)
+    power_table.p_aux = MW(power_input.p_trit + power_input.p_house)
+    power_table.p_th = MW(
+        power_input.mn * power_table.p_neutron
+        + power_table.p_alpha
+        + power_input.p_input
+        + power_input.eta_th
+        * (power_input.fpcppf * power_input.eta_p + power_input.f_sub)
+        * (power_input.mn * power_table.p_neutron + power_table.p_alpha)
     )
-    OUT.p_et = MW(IN.eta_th * OUT.p_th)
-    OUT.p_loss = MW(OUT.p_th - OUT.p_et)
-    OUT.gain_e = Ratio(OUT.p_et / IN.p_input)
-    OUT.p_pump = MW(IN.fpcppf * OUT.p_et)
-    OUT.p_sub = MW(IN.f_sub * OUT.p_et)
-    OUT.q_sci = Ratio(p_nrl / IN.p_input)
-    OUT.q_eng = Ratio(
-        IN.eta_th
-        * (IN.mn * OUT.p_neutron + OUT.p_alpha + OUT.p_pump + IN.p_input)
+    power_table.p_et = MW(power_input.eta_th * power_table.p_th)
+    power_table.p_loss = MW(power_table.p_th - power_table.p_et)
+    power_table.gain_e = Ratio(power_table.p_et / power_input.p_input)
+    power_table.p_pump = MW(power_input.fpcppf * power_table.p_et)
+    power_table.p_sub = MW(power_input.f_sub * power_table.p_et)
+    power_table.q_sci = Ratio(p_nrl / power_input.p_input)
+    power_table.q_eng = Ratio(
+        power_input.eta_th
+        * (power_input.mn * power_table.p_neutron + power_table.p_alpha + power_table.p_pump + power_input.p_input)
         / (
-            IN.p_target
-            + OUT.p_pump
-            + OUT.p_sub
-            + OUT.p_aux
-            + IN.p_cryo
-            + IN.p_implosion / IN.eta_pin1
-            + IN.p_ignition / IN.eta_pin2
+                power_input.p_target
+                + power_table.p_pump
+                + power_table.p_sub
+                + power_table.p_aux
+                + power_input.p_cryo
+                + power_input.p_implosion / power_input.eta_pin1
+                + power_input.p_ignition / power_input.eta_pin2
         )
     )
-    OUT.rec_frac = Ratio(1 / OUT.q_eng)
-    OUT.p_net = (1 - 1 / OUT.q_eng) * OUT.p_et
+    power_table.rec_frac = Ratio(1 / power_table.q_eng)
+    power_table.p_net = (1 - 1 / power_table.q_eng) * power_table.p_et
 
-    OUT.template_file = "powerTableIFEDT.tex"
+    power_table.template_file = "powerTableIFEDT.tex"
     # TODO round everything by 1
-    OUT.replacements = {
+    power_table.replacements = {
         "PNRL": round(p_nrl, 1),
-        "PALPHA": round(OUT.p_alpha, 1),
-        "PNEUTRON": round(OUT.p_neutron, 1),
-        "MN": round(IN.mn, 1),
-        "FPCPPF": round(IN.fpcppf, 1),
-        "FSUB": round(IN.f_sub, 1),
-        "PTRIT": round(IN.p_trit, 1),
-        "PHOUSE": round(IN.p_house, 1),
-        "PAUX": round(OUT.p_aux, 1),
-        "PCRYO": round(IN.p_cryo, 1),
-        "ETAPIN1": round(IN.eta_pin1, 1),
-        "ETAPIN2": round(IN.eta_pin2, 1),
-        "ETAP": round(IN.eta_p, 1),
-        "ETATH": round(IN.eta_th, 1),
-        "PIMPLOSION": round(IN.p_implosion, 1),
-        "PIGNITION": round(IN.p_ignition, 1),
-        "PTH": round(OUT.p_th, 1),
-        "PET": round(OUT.p_et, 1),
-        "PLOSS": round(OUT.p_loss, 1),
-        "GAINE": round(OUT.gain_e, 1),
-        "PTARGET": round(IN.p_target, 1),
-        "PMACHINERY": round(IN.p_machinery, 1),
-        "PSUB": round(OUT.p_sub, 1),
-        "QS": round(OUT.q_sci, 1),
-        "QE": round(OUT.q_eng, 1),
-        "EPSILON": round(OUT.rec_frac, 1),
-        "PNET": round(OUT.p_net, 1),
-        "PP": round(OUT.p_pump, 1),
-        "PIN": round(IN.p_input, 1),
+        "PALPHA": round(power_table.p_alpha, 1),
+        "PNEUTRON": round(power_table.p_neutron, 1),
+        "MN": round(power_input.mn, 1),
+        "FPCPPF": round(power_input.fpcppf, 1),
+        "FSUB": round(power_input.f_sub, 1),
+        "PTRIT": round(power_input.p_trit, 1),
+        "PHOUSE": round(power_input.p_house, 1),
+        "PAUX": round(power_table.p_aux, 1),
+        "PCRYO": round(power_input.p_cryo, 1),
+        "ETAPIN1": round(power_input.eta_pin1, 1),
+        "ETAPIN2": round(power_input.eta_pin2, 1),
+        "ETAP": round(power_input.eta_p, 1),
+        "ETATH": round(power_input.eta_th, 1),
+        "PIMPLOSION": round(power_input.p_implosion, 1),
+        "PIGNITION": round(power_input.p_ignition, 1),
+        "PTH": round(power_table.p_th, 1),
+        "PET": round(power_table.p_et, 1),
+        "PLOSS": round(power_table.p_loss, 1),
+        "GAINE": round(power_table.gain_e, 1),
+        "PTARGET": round(power_input.p_target, 1),
+        "PMACHINERY": round(power_input.p_machinery, 1),
+        "PSUB": round(power_table.p_sub, 1),
+        "QS": round(power_table.q_sci, 1),
+        "QE": round(power_table.q_eng, 1),
+        "EPSILON": round(power_table.rec_frac, 1),
+        "PNET": round(power_table.p_net, 1),
+        "PP": round(power_table.p_pump, 1),
+        "PIN": round(power_input.p_input, 1),
     }
-    return OUT
+    return power_table
