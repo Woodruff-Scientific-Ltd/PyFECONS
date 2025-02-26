@@ -3,6 +3,7 @@ from typing import Union
 
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
 from pyfecons.enums import ReactorType
@@ -90,17 +91,6 @@ class CAS220101(TemplateProvider):
     C22010101: M_USD = None
     C22010102: M_USD = None
     C220101: M_USD = None
-
-
-@dataclass
-class CAS220102(TemplateProvider):
-    # Cost Category 22.1.2: Shield
-    C22010201: M_USD = None
-    C22010202: M_USD = None
-    C22010203: M_USD = None
-    C22010204: M_USD = None
-    C220102: M_USD = None
-    V_HTS: Meters3 = None
 
 
 @dataclass

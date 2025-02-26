@@ -1,5 +1,6 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
-from pyfecons.data import CAS220102, CAS220101
+from pyfecons.data import CAS220101
+from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
