@@ -19,11 +19,15 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
 )
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
 from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
-from pyfecons.costing.mfe.cas22.cas220104_supplementary_heating import cas_220104_supplementary_heating_costs
+from pyfecons.costing.mfe.cas22.cas220104_supplementary_heating import (
+    cas_220104_supplementary_heating_costs,
+)
 from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     cas_220105_primary_structure_costs,
 )
-from pyfecons.costing.mfe.cas22.cas220106_vacuum_system import cas_220106_vacuum_system_costs
+from pyfecons.costing.mfe.cas22.cas220106_vacuum_system import (
+    cas_220106_vacuum_system_costs,
+)
 from pyfecons.costing.mfe.cas22.CAS220107 import cas_220107_power_supplies
 from pyfecons.costing.mfe.cas22.CAS220108 import cas_220108_divertor
 from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter

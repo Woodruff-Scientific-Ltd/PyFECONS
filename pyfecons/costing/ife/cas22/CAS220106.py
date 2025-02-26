@@ -5,13 +5,14 @@ from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.materials import Materials
-from pyfecons.report import TemplateProvider
 from pyfecons.units import Meters3, M_USD
 
 materials = Materials()
 
 
-def cas_220106_vacuum_system_costs(vacuum_system: VacuumSystem, cas220101: CAS220101) -> TemplateProvider:
+def cas_220106_vacuum_system_costs(
+    vacuum_system: VacuumSystem, cas220101: CAS220101
+) -> CAS220106:
     # 22.1.6 Vacuum system
     # 22.1.6.1 Vacuum Vessel
     cas220106 = CAS220106()
@@ -28,7 +29,9 @@ def cas_220106_vacuum_system_costs(vacuum_system: VacuumSystem, cas220101: CAS22
     cas220106.C22010601 = to_m_usd(ves_mat_cost * vacuum_system.ves_mfr)
 
     # Permissible force through one beam. Assuming tensile strength of steel of 420 MPa.
-    beam_force_I = vacuum_system.beam_cs_area * 420 * 1e6 / vacuum_system.factor_of_safety
+    beam_force_I = (
+        vacuum_system.beam_cs_area * 420 * 1e6 / vacuum_system.factor_of_safety
+    )
     # Total number of steel beams required to support vacuum vessel
     # TODO this is unused
     no_beams = mass_struct * 9.81 * vacuum_system.geometry_factor / beam_force_I
@@ -47,7 +50,12 @@ def cas_220106_vacuum_system_costs(vacuum_system: VacuumSystem, cas220101: CAS22
     # from STARFIRE, only 1 needed
     cas220106.C22010604 = M_USD(120000 * 2.85 / 1e6)
 
-    cas220106.C220106 = M_USD(cas220106.C22010601 + cas220106.C22010602 + cas220106.C22010603 + cas220106.C22010604)
+    cas220106.C220106 = M_USD(
+        cas220106.C22010601
+        + cas220106.C22010602
+        + cas220106.C22010603
+        + cas220106.C22010604
+    )
     cas220106.template_file = "CAS220106_IFE.tex"
     cas220106.replacements = {
         "C22010601": round(cas220106.C22010601),
