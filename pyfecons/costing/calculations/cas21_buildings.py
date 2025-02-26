@@ -1,7 +1,7 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.enums import FuelType, ReactorType
-from pyfecons.data import CAS21
+from pyfecons.costing.categories.cas21 import CAS21
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 

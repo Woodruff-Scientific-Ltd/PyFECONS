@@ -3,6 +3,7 @@ from typing import Union
 
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas21 import CAS21
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
@@ -12,29 +13,6 @@ from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
-
-
-@dataclass
-class CAS21(TemplateProvider):
-    C210100: M_USD = None
-    C210200: M_USD = None
-    C210300: M_USD = None
-    C210400: M_USD = None
-    C210500: M_USD = None
-    C210600: M_USD = None
-    C210700: M_USD = None
-    C210800: M_USD = None
-    C210900: M_USD = None
-    C211000: M_USD = None
-    C211100: M_USD = None
-    C211200: M_USD = None
-    C211300: M_USD = None
-    C211400: M_USD = None
-    C211500: M_USD = None
-    C211600: M_USD = None
-    C211700: M_USD = None
-    C211900: M_USD = None
-    C210000: M_USD = None
 
 
 @dataclass
