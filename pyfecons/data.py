@@ -4,6 +4,7 @@ from typing import Union
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
+from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
 from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
@@ -100,11 +101,6 @@ class CAS220102(TemplateProvider):
     C22010204: M_USD = None
     C220102: M_USD = None
     V_HTS: Meters3 = None
-
-
-@dataclass
-class CAS220103Lasers(TemplateProvider):
-    C220103: M_USD = None
 
 
 @dataclass
