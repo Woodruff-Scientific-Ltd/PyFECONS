@@ -9,7 +9,7 @@ from pyfecons.costing.calculations.volume import (
     calc_volume_outer_hollow_torus,
     calc_volume_sphere,
 )
-from pyfecons.data import CAS220101
+from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
