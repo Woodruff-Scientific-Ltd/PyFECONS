@@ -1,5 +1,6 @@
 import numpy as np
 
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_2005_2024, to_m_usd
 from pyfecons.costing.calculations.thermal import (
     k_steel,
@@ -7,17 +8,25 @@ from pyfecons.costing.calculations.thermal import (
     compute_iter_cost_per_MW,
     compute_q_in_n_per_coil,
 )
-from pyfecons.data import Data, VesselCosts, VesselCost
+from pyfecons.costing.categories.cas220101 import CAS220101
+from pyfecons.data import VesselCosts, VesselCost, CAS220106
+from pyfecons.inputs.coils import Coils
+from pyfecons.inputs.radial_build import RadialBuild
+from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import Kilograms, USD, M_USD
 
 
-def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_220106_vacuum_system_costs(
+    vacuum_system: VacuumSystem,
+    radial_build: RadialBuild,
+    coils: Coils,
+    power_table: PowerTable,
+    cas220101: CAS220101,
+) -> TemplateProvider:
     # 22.1.6 Vacuum system
-    OUT = data.cas220106
-    IN = inputs.vacuum_system
-    build = data.cas220101
+    cas220106 = CAS220106()
+    build = cas220101
 
     # 22.1.6.1 Vacuum Vessel
     # from radial build
@@ -26,13 +35,13 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     )  # Spool inner radius (goes around CS)
     syst_doors_ir = build.vessel_ir  # doors inner radius (goes within TF)
     syst_height = (
-        inputs.radial_build.elon * build.vessel_vol / (np.pi * build.vessel_ir**2)
+        radial_build.elon * build.vessel_vol / (np.pi * build.vessel_ir**2)
     )  # System height
 
     # Cost reference from: Lester M. Waganer et al., 2006, Fusion Engineering and Design. URL:
     #   http://qedfusion.org/LIB/REPORT/CONF/ACTsyscodedocs/ASC_FED2_Dragojlovic.pdf
     # TODO figure out why intellij is giving warnings for these assignments
-    OUT.vessel_costs = VesselCosts(
+    cas220106.vessel_costs = VesselCosts(
         spool_assembly=VesselCost(
             name="Spool assembly",
             total_mass=Kilograms(136043),
@@ -68,15 +77,17 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     )
 
     for cost in [
-        OUT.vessel_costs.spool_assembly,
-        OUT.vessel_costs.removable_doors,
-        OUT.vessel_costs.door_frames,
-        OUT.vessel_costs.port_enclosures,
+        cas220106.vessel_costs.spool_assembly,
+        cas220106.vessel_costs.removable_doors,
+        cas220106.vessel_costs.door_frames,
+        cas220106.vessel_costs.port_enclosures,
     ]:
         geometry_factor = (
-            (syst_spool_ir / IN.spool_ir) * (syst_height / IN.spool_height)
+            (syst_spool_ir / vacuum_system.spool_ir)
+            * (syst_height / vacuum_system.spool_height)
             if cost.name == "Spool assembly"
-            else (syst_doors_ir / IN.door_irb) * (syst_height / IN.spool_height)
+            else (syst_doors_ir / vacuum_system.door_irb)
+            * (syst_height / vacuum_system.spool_height)
         )
         cost.total_mass = cost.total_mass * geometry_factor
 
@@ -86,13 +97,13 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
             cost.material_cost = (
                 cost.material_cost
                 * geometry_factor
-                * IN.learning_credit
+                * vacuum_system.learning_credit
                 * inflation_2005_2024
             )
             cost.fabrication_cost = (
                 cost.fabrication_cost
                 * geometry_factor
-                * IN.learning_credit
+                * vacuum_system.learning_credit
                 * inflation_2005_2024
             )
 
@@ -100,27 +111,29 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
         cost.total_cost = cost.material_cost + cost.fabrication_cost
 
         # Summing updated values to "Total"
-        OUT.vessel_costs.total.total_mass += cost.total_mass
-        OUT.vessel_costs.total.material_cost += cost.material_cost
-        OUT.vessel_costs.total.fabrication_cost += cost.fabrication_cost
-        OUT.vessel_costs.total.total_cost += cost.total_mass
+        cas220106.vessel_costs.total.total_mass += cost.total_mass
+        cas220106.vessel_costs.total.material_cost += cost.material_cost
+        cas220106.vessel_costs.total.fabrication_cost += cost.fabrication_cost
+        cas220106.vessel_costs.total.total_cost += cost.total_mass
 
     # Calculate new contingency and prime contractor fee based on updated total cost
-    total_cost = OUT.vessel_costs.total.total_cost
-    OUT.vessel_costs.contingency.total_cost = total_cost * 0.20  # 20%
-    OUT.vessel_costs.prime_contractor_fee.total_cost = total_cost * 0.12  # 12%
+    total_cost = cas220106.vessel_costs.total.total_cost
+    cas220106.vessel_costs.contingency.total_cost = total_cost * 0.20  # 20%
+    cas220106.vessel_costs.prime_contractor_fee.total_cost = total_cost * 0.12  # 12%
 
     # Update the total subsystem cost
-    OUT.vessel_costs.total_subsystem_cost.total_cost = (
+    cas220106.vessel_costs.total_subsystem_cost.total_cost = (
         total_cost
-        + OUT.vessel_costs.contingency.total_cost
-        + OUT.vessel_costs.prime_contractor_fee.total_cost
+        + cas220106.vessel_costs.contingency.total_cost
+        + cas220106.vessel_costs.prime_contractor_fee.total_cost
     )
 
     # Calculate mass and cost
-    OUT.massstruct = OUT.vessel_costs.total.total_mass
-    OUT.vesvol = np.pi * (syst_doors_ir**2 - syst_spool_ir**2) * syst_height
-    OUT.C22010601 = to_m_usd(OUT.vessel_costs.total_subsystem_cost.total_cost)
+    cas220106.massstruct = cas220106.vessel_costs.total.total_mass
+    cas220106.vesvol = np.pi * (syst_doors_ir**2 - syst_spool_ir**2) * syst_height
+    cas220106.C22010601 = to_m_usd(
+        cas220106.vessel_costs.total_subsystem_cost.total_cost
+    )
 
     # COOLING 22.1.3.2
     # INPUTS
@@ -133,10 +146,9 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Scaling cooling costs from ITER see Serio, L., ITER Organization and Domestic Agencies and Collaborators,
     #  2010, April. Challenges for cryogenics at ITER. In AIP Conference Proceedings (Vol. 1218, No. 1, pp. 651-662).
     #  American Institute of Physics.
-    coils = inputs.coils
     load_area_1 = calc_torus_sa((build.ht_shield_ir - build.axis_ir), build.axis_ir)
     load_area_2 = calc_torus_sa((build.lt_shield_ir - build.axis_ir), build.axis_ir)
-    p_neutron = data.power_table.p_neutron
+    p_neutron = power_table.p_neutron
     # Neutron heat load on HT Shield
     q_in_n = compute_q_in_n_per_coil(
         load_area_1, p_neutron, build.coil_ir, build.axis_ir
@@ -148,28 +160,33 @@ def cas_220106_vacuum_system(inputs: AllInputs, data: Data) -> TemplateProvider:
     )
     q_in = q_in_struct + q_in_n  # total input heat for one coil
 
-    OUT.C22010602 = M_USD(q_in * compute_iter_cost_per_MW(coils))
+    cas220106.C22010602 = M_USD(q_in * compute_iter_cost_per_MW(coils))
 
     # VACUUM PUMPING 22.1.6.3
     # Number of vacuum pumps required to pump the full vacuum in 1 second
-    no_vpumps = int(OUT.vesvol / IN.vpump_cap)
-    OUT.C22010603 = to_m_usd(no_vpumps * IN.cost_pump)
+    no_vpumps = int(cas220106.vesvol / vacuum_system.vpump_cap)
+    cas220106.C22010603 = to_m_usd(no_vpumps * vacuum_system.cost_pump)
 
     # ROUGHING PUMP 22.1.6.4
     # from STARFIRE, only 1 needed
     # TODO where do these constants come from?
-    OUT.C22010604 = to_m_usd(120000 * 2.85)
+    cas220106.C22010604 = to_m_usd(120000 * 2.85)
 
-    OUT.C220106 = M_USD(OUT.C22010601 + OUT.C22010602 + OUT.C22010603 + OUT.C22010604)
-    OUT.template_file = "CAS220106_MFE.tex"
-    OUT.replacements = {
-        "C22010601": round(OUT.C22010601),
-        "C22010602": round(OUT.C22010601),
-        "C22010603": round(OUT.C22010603),
-        "C22010604": round(OUT.C22010604),
-        "C22010600": round(OUT.C220106),
-        "vesvol": round(OUT.vesvol),
-        "massstruct": round(OUT.massstruct),
-        "vesmatcost": round(to_m_usd(OUT.vessel_costs.total.material_cost), 1),
+    cas220106.C220106 = M_USD(
+        cas220106.C22010601
+        + cas220106.C22010602
+        + cas220106.C22010603
+        + cas220106.C22010604
+    )
+    cas220106.template_file = "CAS220106_MFE.tex"
+    cas220106.replacements = {
+        "C22010601": round(cas220106.C22010601),
+        "C22010602": round(cas220106.C22010601),
+        "C22010603": round(cas220106.C22010603),
+        "C22010604": round(cas220106.C22010604),
+        "C22010600": round(cas220106.C220106),
+        "vesvol": round(cas220106.vesvol),
+        "massstruct": round(cas220106.massstruct),
+        "vesmatcost": round(to_m_usd(cas220106.vessel_costs.total.material_cost), 1),
     }
-    return OUT
+    return cas220106
