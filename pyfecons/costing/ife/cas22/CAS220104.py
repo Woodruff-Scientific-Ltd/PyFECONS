@@ -3,15 +3,16 @@ from pyfecons.costing.ife.cas22.nif_costs import (
     get_nif_scaled_costs,
     get_nif_replacements,
 )
-from pyfecons.data import CAS220104IgnitionLasers
+from pyfecons.costing.categories.cas220104_ignition_lasers import (
+    CAS220104IgnitionLasers,
+)
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.power_input import PowerInput
-from pyfecons.report import TemplateProvider
 
 
 def cas_220104_ignition_laser_costs(
     power_input: PowerInput, lasers: Lasers, cas220103: CAS220103Lasers
-) -> TemplateProvider:
+) -> CAS220104IgnitionLasers:
     # 22.1.4 Ignition laser
     cas220104 = CAS220104IgnitionLasers()
 

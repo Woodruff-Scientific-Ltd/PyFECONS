@@ -8,6 +8,9 @@ from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
+from pyfecons.costing.categories.cas220104_ignition_lasers import (
+    CAS220104IgnitionLasers,
+)
 from pyfecons.costing.categories.cas220104_supplementary_heating import (
     CAS220104SupplementaryHeating,
 )
@@ -16,11 +19,6 @@ from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
-
-
-@dataclass
-class CAS220104IgnitionLasers(TemplateProvider):
-    C220104: M_USD = None
 
 
 @dataclass
