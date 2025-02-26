@@ -1,4 +1,6 @@
-from pyfecons.costing.categories.cas220104_supplementary_heating import CAS220104SupplementaryHeating
+from pyfecons.costing.categories.cas220104_supplementary_heating import (
+    CAS220104SupplementaryHeating,
+)
 from pyfecons.inputs.supplementary_heating import SupplementaryHeating
 from pyfecons.helpers import safe_round
 from pyfecons.units import M_USD
