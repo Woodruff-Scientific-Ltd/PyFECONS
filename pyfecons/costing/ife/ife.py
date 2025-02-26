@@ -22,7 +22,9 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
 from pyfecons.costing.ife.cas22.cas220103_lasers import cas_220103_laser_costs
 from pyfecons.costing.ife.cas22.CAS220104 import cas_220104_ignition_laser_costs
-from pyfecons.costing.ife.cas22.CAS220105 import cas_220105_primary_structure
+from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
+    cas_220105_primary_structure_costs,
+)
 from pyfecons.costing.ife.cas22.CAS220106 import cas_220106_vacuum_system
 from pyfecons.costing.ife.cas22.CAS220107 import cas_220107_power_supplies
 from pyfecons.costing.ife.cas22.CAS220108 import cas_220108_target_factory
@@ -100,7 +102,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220104 = cas_220104_ignition_laser_costs(
         inputs.power_input, inputs.lasers, data.cas220103
     )
-    data.cas220105 = cas_220105_primary_structure(inputs, data)
+    data.cas220105 = cas_220105_primary_structure_costs(inputs, data)
     data.cas220106 = cas_220106_vacuum_system(inputs, data)
     data.cas220107 = cas_220107_power_supplies(inputs, data)
     data.cas220108 = cas_220108_target_factory(inputs, data)
