@@ -13,7 +13,6 @@ from pyfecons.costing.categories.cas220106 import CAS220106, VesselCost, VesselC
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.vacuum_system import VacuumSystem
-from pyfecons.report import TemplateProvider
 from pyfecons.units import Kilograms, USD, M_USD
 
 
