@@ -19,7 +19,7 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
 )
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
 from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
-from pyfecons.costing.mfe.cas22.CAS220104 import cas_220104_supplementary_heating
+from pyfecons.costing.mfe.cas22.CAS220104 import cas_220104_supplementary_heating_costs
 from pyfecons.costing.mfe.cas22.CAS220105 import cas_220105_primary_structure
 from pyfecons.costing.mfe.cas22.CAS220106 import cas_220106_vacuum_system
 from pyfecons.costing.mfe.cas22.CAS220107 import cas_220107_power_supplies
@@ -100,7 +100,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220103 = cas_220103_coils(
         inputs.coils, inputs.radial_build, data.power_table
     )
-    data.cas220104 = cas_220104_supplementary_heating(inputs, data)
+    data.cas220104 = cas_220104_supplementary_heating_costs(
+        inputs.supplementary_heating
+    )
     data.cas220105 = cas_220105_primary_structure(inputs, data)
     data.cas220106 = cas_220106_vacuum_system(inputs, data)
     data.cas220107 = cas_220107_power_supplies(inputs, data)
