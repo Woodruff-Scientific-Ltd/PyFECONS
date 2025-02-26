@@ -14,19 +14,12 @@ from pyfecons.costing.categories.cas220104_ignition_lasers import (
 from pyfecons.costing.categories.cas220104_supplementary_heating import (
     CAS220104SupplementaryHeating,
 )
+from pyfecons.costing.categories.cas220105 import CAS220105
 from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
-
-
-@dataclass
-class CAS220105(TemplateProvider):
-    # 22.1.5 primary structure
-    C22010501: M_USD = None
-    C22010502: M_USD = None
-    C220105: M_USD = None
 
 
 @dataclass
