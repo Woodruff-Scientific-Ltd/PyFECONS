@@ -9,7 +9,7 @@ from pyfecons.costing.calculations.thermal import (
     compute_q_in_n_per_coil,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.data import VesselCosts, VesselCost, CAS220106
+from pyfecons.costing.categories.cas220106 import CAS220106, VesselCost, VesselCosts
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.vacuum_system import VacuumSystem
@@ -23,7 +23,7 @@ def cas_220106_vacuum_system_costs(
     coils: Coils,
     power_table: PowerTable,
     cas220101: CAS220101,
-) -> TemplateProvider:
+) -> CAS220106:
     # 22.1.6 Vacuum system
     cas220106 = CAS220106()
     build = cas220101

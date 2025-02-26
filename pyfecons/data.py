@@ -15,46 +15,12 @@ from pyfecons.costing.categories.cas220104_supplementary_heating import (
     CAS220104SupplementaryHeating,
 )
 from pyfecons.costing.categories.cas220105 import CAS220105
+from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms, USD
-
-
-@dataclass
-class VesselCost:
-    name: str = None
-    total_mass: Kilograms = 0
-    material_cost: USD = 0
-    fabrication_cost: USD = 0
-    total_cost: USD = 0
-
-
-@dataclass
-class VesselCosts:
-    spool_assembly: VesselCost = field(default_factory=VesselCost)
-    removable_doors: VesselCost = field(default_factory=VesselCost)
-    door_frames: VesselCost = field(default_factory=VesselCost)
-    port_enclosures: VesselCost = field(default_factory=VesselCost)
-    total: VesselCost = field(default_factory=VesselCost)
-    contingency: VesselCost = field(default_factory=VesselCost)
-    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)
-    total_subsystem_cost: VesselCost = field(default_factory=VesselCost)
-
-
-@dataclass
-class CAS220106(TemplateProvider):
-    # 22.1.6 Vacuum system
-    C22010601: M_USD = None
-    C22010602: M_USD = None
-    C22010603: M_USD = None
-    C22010604: M_USD = None
-    C220106: M_USD = None
-    massstruct: float = None
-    vesvol: float = None
-    vesmatcost: float = None
-    vessel_costs: VesselCosts = field(default_factory=VesselCosts)
+from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms
 
 
 @dataclass
