@@ -9,7 +9,9 @@ from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_2202_main_and_secondary_coolant(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_2202_main_and_secondary_coolant(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
     # MAIN AND SECONDARY COOLANT Cost Category 22.2
     OUT = data.cas2202
     OUT.C220201 = compute_primary_coolant_costs(

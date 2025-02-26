@@ -10,9 +10,13 @@ from pyfecons.templates import (
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.costing.mfe.PowerBalance import power_balance
-from pyfecons.costing.calculations.cas10_pre_construction import cas_10_pre_construction_costs
+from pyfecons.costing.calculations.cas10_pre_construction import (
+    cas_10_pre_construction_costs,
+)
 from pyfecons.costing.calculations.cas21_buildings import cas_21_building_costs
-from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import cas_220101_reactor_equipment_costs
+from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
+    cas_220101_reactor_equipment_costs,
+)
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
 from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
 from pyfecons.costing.mfe.cas22.CAS220104 import cas_220104_supplementary_heating
@@ -87,9 +91,15 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
-    data.cas220101 = cas_220101_reactor_equipment_costs(inputs.basic, inputs.radial_build, inputs.blanket)
-    data.cas220102 = cas_220102_shield_costs(inputs.basic, inputs.shield, inputs.blanket, data.cas220101)
-    data.cas220103 = cas_220103_coils(inputs.coils, inputs.radial_build, data.power_table)
+    data.cas220101 = cas_220101_reactor_equipment_costs(
+        inputs.basic, inputs.radial_build, inputs.blanket
+    )
+    data.cas220102 = cas_220102_shield_costs(
+        inputs.basic, inputs.shield, inputs.blanket, data.cas220101
+    )
+    data.cas220103 = cas_220103_coils(
+        inputs.coils, inputs.radial_build, data.power_table
+    )
     data.cas220104 = cas_220104_supplementary_heating(inputs, data)
     data.cas220105 = cas_220105_primary_structure(inputs, data)
     data.cas220106 = cas_220106_vacuum_system(inputs, data)

@@ -22,16 +22,24 @@ materials = Materials()
 matplotlib.use("Agg")
 
 
-def cas_220101_reactor_equipment_costs(basic: Basic, radial_build: RadialBuild, blanket: Blanket) -> CAS220101:
+def cas_220101_reactor_equipment_costs(
+    basic: Basic, radial_build: RadialBuild, blanket: Blanket
+) -> CAS220101:
     # Cost Category 22.1.1: Reactor Equipment
     reactor_type = basic.reactor_type
     confinement_type = basic.confinement_type
 
-    cas220101 = compute_reactor_equipment_costs(reactor_type, confinement_type, blanket, radial_build)
-    cas220101.figures["Figures/radial_build.pdf"] = plot_radial_build(reactor_type, radial_build)
+    cas220101 = compute_reactor_equipment_costs(
+        reactor_type, confinement_type, blanket, radial_build
+    )
+    cas220101.figures["Figures/radial_build.pdf"] = plot_radial_build(
+        reactor_type, radial_build
+    )
 
     cas220101.template_file = get_template_file(reactor_type)
-    cas220101.replacements = compute_220101_replacements(reactor_type, blanket, radial_build, cas220101)
+    cas220101.replacements = compute_220101_replacements(
+        reactor_type, blanket, radial_build, cas220101
+    )
     return cas220101
 
 
@@ -51,10 +59,16 @@ def compute_reactor_equipment_costs(
     ):
         cas220101 = compute_volume_mfe_tokamak(radial_build, cas220101)
         # must be cylindrical in all cases
-        cas220101.gap2_vol = calc_volume_ring(radial_build.axis_t, cas220101.gap2_ir, radial_build.gap2_t + cas220101.gap2_ir)
+        cas220101.gap2_vol = calc_volume_ring(
+            radial_build.axis_t,
+            cas220101.gap2_ir,
+            radial_build.gap2_t + cas220101.gap2_ir,
+        )
         # Updated bioshield volume
         cas220101.bioshield_vol = calc_volume_ring(
-            radial_build.axis_t, cas220101.bioshield_ir, radial_build.bioshield_t + cas220101.bioshield_ir
+            radial_build.axis_t,
+            cas220101.bioshield_ir,
+            radial_build.bioshield_t + cas220101.bioshield_ir,
         )
     elif (
         reactor_type == ReactorType.MFE

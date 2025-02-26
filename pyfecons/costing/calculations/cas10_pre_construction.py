@@ -43,13 +43,13 @@ def cas_10_pre_construction_costs(basic: Basic, power_table: PowerTable) -> CAS1
         cas10.C190000 = M_USD(
             0.1
             * (
-                    cas10.C110000
-                    + cas10.C120000
-                    + cas10.C130000
-                    + cas10.C140000
-                    + cas10.C150000
-                    + cas10.C160000
-                    + cas10.C170000
+                cas10.C110000
+                + cas10.C120000
+                + cas10.C130000
+                + cas10.C140000
+                + cas10.C150000
+                + cas10.C160000
+                + cas10.C170000
             )
         )
 

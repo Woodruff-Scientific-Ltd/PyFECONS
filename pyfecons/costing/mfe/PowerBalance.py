@@ -15,7 +15,9 @@ def power_balance(basic: Basic, power_input: PowerInput) -> PowerTable:
     power_table.p_th = MW(
         power_input.mn * power_table.p_neutron
         + power_input.p_input
-        + power_input.eta_th * (power_input.fpcppf * power_input.eta_p + power_input.f_sub) * (power_input.mn * power_table.p_neutron)
+        + power_input.eta_th
+        * (power_input.fpcppf * power_input.eta_p + power_input.f_sub)
+        * (power_input.mn * power_table.p_neutron)
     )
     power_table.p_the = MW(power_input.eta_th * power_table.p_th)
     power_table.p_dee = MW(power_input.eta_de * power_table.p_alpha)
@@ -26,7 +28,12 @@ def power_balance(basic: Basic, power_input: PowerInput) -> PowerTable:
     power_table.q_sci = Unknown(basic.p_nrl / power_input.p_input)
     power_table.q_eng = Unknown(
         (
-            power_input.eta_th * (power_input.mn * power_table.p_neutron + power_table.p_pump + power_input.p_input)
+            power_input.eta_th
+            * (
+                power_input.mn * power_table.p_neutron
+                + power_table.p_pump
+                + power_input.p_input
+            )
             + power_input.eta_de * power_table.p_alpha
         )
         / (

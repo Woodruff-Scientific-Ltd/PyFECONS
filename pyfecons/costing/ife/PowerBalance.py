@@ -35,15 +35,20 @@ def power_balance(basic: Basic, power_input: PowerInput) -> PowerTable:
     power_table.q_sci = Ratio(p_nrl / power_input.p_input)
     power_table.q_eng = Ratio(
         power_input.eta_th
-        * (power_input.mn * power_table.p_neutron + power_table.p_alpha + power_table.p_pump + power_input.p_input)
+        * (
+            power_input.mn * power_table.p_neutron
+            + power_table.p_alpha
+            + power_table.p_pump
+            + power_input.p_input
+        )
         / (
-                power_input.p_target
-                + power_table.p_pump
-                + power_table.p_sub
-                + power_table.p_aux
-                + power_input.p_cryo
-                + power_input.p_implosion / power_input.eta_pin1
-                + power_input.p_ignition / power_input.eta_pin2
+            power_input.p_target
+            + power_table.p_pump
+            + power_table.p_sub
+            + power_table.p_aux
+            + power_input.p_cryo
+            + power_input.p_implosion / power_input.eta_pin1
+            + power_input.p_ignition / power_input.eta_pin2
         )
     )
     power_table.rec_frac = Ratio(1 / power_table.q_eng)

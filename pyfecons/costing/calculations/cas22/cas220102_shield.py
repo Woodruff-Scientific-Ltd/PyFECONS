@@ -10,7 +10,9 @@ from pyfecons.units import M_USD
 materials = Materials()
 
 
-def cas_220102_shield_costs(basic: Basic, shield: Shield, blanket: Blanket, cas220101: CAS220101) -> CAS220102:
+def cas_220102_shield_costs(
+    basic: Basic, shield: Shield, blanket: Blanket, cas220101: CAS220101
+) -> CAS220102:
     # Cost Category 22.1.2: Shield
     reactor_type = basic.reactor_type
     cas220102 = CAS220102()
@@ -46,7 +48,12 @@ def cas_220102_shield_costs(basic: Basic, shield: Shield, blanket: Blanket, cas2
         cas220101.bioshield_vol * materials.SS316.c_raw * materials.SS316.m
     )
     cas220102.C22010204 = M_USD(cas220102.C22010203 * 0.1)
-    cas220102.C220102 = M_USD(cas220102.C22010201 + cas220102.C22010202 + cas220102.C22010203 + cas220102.C22010204)
+    cas220102.C220102 = M_USD(
+        cas220102.C22010201
+        + cas220102.C22010202
+        + cas220102.C22010203
+        + cas220102.C22010204
+    )
 
     cas220102.template_file = "CAS220102.tex"
     cas220102.replacements = {
@@ -61,7 +68,11 @@ def cas_220102_shield_costs(basic: Basic, shield: Shield, blanket: Blanket, cas2
     }
     if reactor_type == ReactorType.IFE:
         cas220102.replacements["VOL10"] = round(cas220101.lt_shield_vol)
-        cas220102.replacements["VOL14"] = round(cas220101.bioshield_vol)  # TODO not in template
+        cas220102.replacements["VOL14"] = round(
+            cas220101.bioshield_vol
+        )  # TODO not in template
     if reactor_type == ReactorType.MFE:
-        cas220102.replacements["VOL11"] = round(cas220101.lt_shield_vol)  # TODO not in template
+        cas220102.replacements["VOL11"] = round(
+            cas220101.lt_shield_vol
+        )  # TODO not in template
     return cas220102

@@ -7,7 +7,9 @@ from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_2205_fuel_handling_and_storage(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_2205_fuel_handling_and_storage(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
     # Cost Category 22.5 Fuel Handling and Storage
     IN = inputs.fuel_handling
     OUT = data.cas2205

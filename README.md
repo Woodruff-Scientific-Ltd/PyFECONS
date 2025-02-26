@@ -80,6 +80,15 @@ Please use [git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-
 
 We use [Black](https://black.readthedocs.io/en/stable/) for Python formatting. To help your code adhere, you can: install the Black linter or formatter in your IDE of choice; [use](https://black.readthedocs.io/en/stable/integrations/source_version_control.html) local [pre-commit](https://pre-commit.com/) hooks; or rely on our Github actions workflow to give you hints.  
 
+```bash
+# run style check without fixing file
+black --check .
+
+# run style check and fix files
+black .
+
+```
+
 ### Updating the library version
 
 We need to update the library version number in `setup.py` when making changes. We are using `MAJOR.MINOR.PATCH` version number system.

@@ -56,7 +56,8 @@ except AttributeError as e:
 
 # Ensure Generate returns an instance of Input class
 try:
-    from pyfecons.inputs.all_inputs import (AllInputs)
+    from pyfecons.inputs.all_inputs import AllInputs
+
     inputs = CustomerInputs.Generate()
     if not isinstance(inputs, AllInputs):
         raise TypeError(
