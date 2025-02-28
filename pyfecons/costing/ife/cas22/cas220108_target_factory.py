@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 from typing import Optional
-
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.ife.pfr_costs import plot_target_pfr
-from pyfecons.data import Data, CAS220108TargetFactory
-from pyfecons.report import TemplateProvider
+from pyfecons.data import CAS220108TargetFactory
 from pyfecons.helpers import safe_round
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.inputs.target_factory import TargetFactory
 from pyfecons.units import Ratio, M_USD
 
 
@@ -49,12 +48,12 @@ class TargetFactoryCost:
         )
 
 
-def cas_220108_target_factory(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_220108_target_factory_costs(
+    target_factory: TargetFactory, power_table: PowerTable
+) -> CAS220108TargetFactory:
     # 22.1.8 Target factory
-    IN = inputs.target_factory
-    OUT: CAS220108TargetFactory = data.cas220108
-    assert isinstance(OUT, CAS220108TargetFactory)
-    p_net = data.power_table.p_net
+    cas220108: CAS220108TargetFactory = CAS220108TargetFactory()
+    p_net = power_table.p_net
 
     # TODO these are not used, therefore commented out
     # released per target from https://www.sciencedirect.com/science/article/abs/pii/S0920379613007357
@@ -183,7 +182,9 @@ def cas_220108_target_factory(inputs: AllInputs, data: Data) -> TemplateProvider
         cost.annualized_cc_dollars_per_year.scaling_factor = p_net / 1000 * 1e-6
         cost.consumables_electricity_maint.scaling_factor = p_net / 1000 * 1e-6
         cost.personnel_costs_dollars_per_year.scaling_factor = p_net / 1000 * 1e-6
-        cost.cost_per_target.scaling_factor = p_net / 1000 * IN.learning_credit
+        cost.cost_per_target.scaling_factor = (
+            p_net / 1000 * target_factory.learning_credit
+        )
 
     # TODO these are not used so skipping calculation
     # total_annualized_cc = sum([cost.annualized_cc_dollars_per_year.scaled_cost for cost in target_factory_costs.values()])
@@ -194,14 +195,14 @@ def cas_220108_target_factory(inputs: AllInputs, data: Data) -> TemplateProvider
     # TODO this is not used
     # tot_targets = inputs.basic.implosion_frequency * 3.154e7
     # TODO this is a very very small number, is the scaling correct?
-    OUT.C220108 = M_USD(
+    cas220108.C220108 = M_USD(
         target_factory_costs["Total process"].tcc_dollars.scaled_cost / 1e6
     )
 
-    OUT.figures["Figures/targetPFR.pdf"] = plot_target_pfr()
-    OUT.template_file = "CAS220108_IFE.tex"
-    OUT.replacements = {
-        "C220108": round(OUT.C220108),
+    cas220108.figures["Figures/targetPFR.pdf"] = plot_target_pfr()
+    cas220108.template_file = "CAS220108_IFE.tex"
+    cas220108.replacements = {
+        "C220108": round(cas220108.C220108),
         "cvdDiamondAblatorCosts": target_factory_costs["CVD diamond ablator"].cost_row,
         "dtFillCosts": target_factory_costs["DT Fill"].cost_row,
         "hohlraumPressCosts": target_factory_costs["Hohlraum press"].cost_row,
@@ -216,4 +217,4 @@ def cas_220108_target_factory(inputs: AllInputs, data: Data) -> TemplateProvider
         "totalProcess": target_factory_costs["Total process"].cost_row,
         "addMaterial": target_factory_costs["Add material"].cost_row,
     }
-    return OUT
+    return cas220108

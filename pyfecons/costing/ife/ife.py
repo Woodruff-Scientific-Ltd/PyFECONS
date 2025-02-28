@@ -33,7 +33,9 @@ from pyfecons.costing.ife.cas22.cas220106_vacuum_systems import (
 from pyfecons.costing.ife.cas22.cas220107_power_supplies import (
     cas_220107_power_supply_costs,
 )
-from pyfecons.costing.ife.cas22.CAS220108 import cas_220108_target_factory
+from pyfecons.costing.ife.cas22.cas220108_target_factory import (
+    cas_220108_target_factory_costs,
+)
 from pyfecons.costing.ife.cas22.CAS220109 import cas_220109_direct_energy_converter
 from pyfecons.costing.ife.cas22.CAS220111 import cas_220111_installation_costs
 from pyfecons.costing.calculations.cas22.CAS220119 import (
@@ -115,7 +117,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.vacuum_system, data.cas220101
     )
     data.cas220107 = cas_220107_power_supply_costs(inputs.basic, inputs.power_supplies)
-    data.cas220108 = cas_220108_target_factory(inputs, data)
+    data.cas220108 = cas_220108_target_factory_costs(
+        inputs.target_factory, data.power_table
+    )
     data.cas220109 = cas_220109_direct_energy_converter(inputs, data)
     data.cas220111 = cas_220111_installation_costs(inputs, data)
     data.cas220119 = cas_220119_scheduled_replacement_cost(inputs, data)
