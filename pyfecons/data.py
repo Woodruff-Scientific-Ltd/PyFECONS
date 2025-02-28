@@ -17,30 +17,11 @@ from pyfecons.costing.categories.cas220104_supplementary_heating import (
 from pyfecons.costing.categories.cas220105 import CAS220105
 from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.costing.categories.cas220107 import CAS220107
+from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.enums import ReactorType
-from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms
-
-
-@dataclass
-class CAS220108Divertor(TemplateProvider):
-    # 22.1.8 Divertor
-    C220108: M_USD = None
-    divertor_maj_rad: Meters = None
-    divertor_min_rad: Meters = None
-    divertor_thickness_z: Meters = None
-    divertor_complexity_factor: Ratio = (
-        None  # arbitrary measure of how complicated the divertor design is
-    )
-    divertor_vol_frac: Ratio = None  # fraction of volume of divertor that is material
-    divertor_thickness_r: Meters = None
-    divertor_material: Material = None
-    divertor_vol: Meters3 = None  # volume of the divertor based on TF coil radius
-    divertor_mass: Kilograms = None
-    divertor_mat_cost: M_USD = None
-    divertor_cost: M_USD = None
+from pyfecons.units import M_USD
 
 
 @dataclass
