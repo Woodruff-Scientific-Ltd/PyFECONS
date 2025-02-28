@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.ife.pfr_costs import plot_target_pfr
-from pyfecons.data import CAS220108TargetFactory
+from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
 from pyfecons.helpers import safe_round
 from pyfecons.inputs.target_factory import TargetFactory
 from pyfecons.units import Ratio, M_USD

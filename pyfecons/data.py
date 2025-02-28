@@ -18,15 +18,11 @@ from pyfecons.costing.categories.cas220105 import CAS220105
 from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.costing.categories.cas220107 import CAS220107
 from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
+from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS220108TargetFactory(TemplateProvider):
-    C220108: M_USD = None
 
 
 @dataclass
