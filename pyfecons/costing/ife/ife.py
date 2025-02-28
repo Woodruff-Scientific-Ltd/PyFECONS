@@ -21,11 +21,15 @@ from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
 )
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
 from pyfecons.costing.ife.cas22.cas220103_lasers import cas_220103_laser_costs
-from pyfecons.costing.ife.cas22.CAS220104 import cas_220104_ignition_laser_costs
+from pyfecons.costing.ife.cas22.cas220104_ignition_lasers import (
+    cas_220104_ignition_laser_costs,
+)
 from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     cas_220105_primary_structure_costs,
 )
-from pyfecons.costing.ife.cas22.CAS220106 import cas_220106_vacuum_system_costs
+from pyfecons.costing.ife.cas22.cas220106_vacuum_systems import (
+    cas_220106_vacuum_system_costs,
+)
 from pyfecons.costing.ife.cas22.cas220107_power_supplies import (
     cas_220107_power_supply_costs,
 )
