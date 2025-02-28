@@ -1,6 +1,6 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.data import CAS220111
+from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.installation import Installation
 from pyfecons.units import USD, Years, Count, Meters, M_USD
