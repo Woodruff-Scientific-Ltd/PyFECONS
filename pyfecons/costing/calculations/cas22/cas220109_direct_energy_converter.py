@@ -1,6 +1,6 @@
 import math
 
-from pyfecons.data import CAS220109
+from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.direct_energy_converter import DirectEnergyConverter
 from pyfecons.units import M_USD

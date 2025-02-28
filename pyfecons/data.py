@@ -19,18 +19,11 @@ from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.costing.categories.cas220107 import CAS220107
 from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
+from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS220109(TemplateProvider):
-    # 22.1.9 Direct Energy Converter
-    C220109: M_USD = None
-    costs: dict[str, M_USD] = None
-    scaled_costs: dict[str, M_USD] = None
 
 
 @dataclass
