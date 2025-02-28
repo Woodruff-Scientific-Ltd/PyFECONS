@@ -39,7 +39,9 @@ from pyfecons.costing.ife.cas22.cas220108_target_factory import (
 from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
     cas_220109_direct_energy_converter_costs,
 )
-from pyfecons.costing.ife.cas22.CAS220111 import cas_220111_installation_costs
+from pyfecons.costing.calculations.cas22.cas220111_installation import (
+    cas_220111_installation_costs,
+)
 from pyfecons.costing.calculations.cas22.CAS220119 import (
     cas_220119_scheduled_replacement_cost,
 )

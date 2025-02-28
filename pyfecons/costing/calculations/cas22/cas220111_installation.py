@@ -1,5 +1,26 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
+from pyfecons.data import Data
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.report import TemplateProvider
 from pyfecons.units import USD, Years, Count, Meters, M_USD
+
+
+def cas_220111_installation_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+    # Cost Category 22.1.11 Installation costs
+    IN = inputs.installation
+    basic = inputs.basic
+    OUT = data.cas220111
+
+    OUT.C220111 = compute_installation_costs(
+        IN.labor_rate, basic.construction_time, basic.n_mod, data.cas220101.axis_ir
+    )
+    OUT.template_file = "CAS220111.tex"
+    OUT.replacements = {
+        "C220111": str(OUT.C220111),
+        "constructionTime": round(basic.construction_time),
+        "billingRate": round(IN.labor_rate),
+    }
+    return OUT
 
 
 def compute_installation_costs(

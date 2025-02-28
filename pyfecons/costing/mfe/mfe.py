@@ -35,7 +35,9 @@ from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_co
 from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
     cas_220109_direct_energy_converter_costs,
 )
-from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
+from pyfecons.costing.calculations.cas22.cas220111_installation import (
+    cas_220111_installation_costs,
+)
 from pyfecons.costing.calculations.cas22.CAS220119 import (
     cas_220119_scheduled_replacement_cost,
 )
