@@ -16,19 +16,12 @@ from pyfecons.costing.categories.cas220104_supplementary_heating import (
 )
 from pyfecons.costing.categories.cas220105 import CAS220105
 from pyfecons.costing.categories.cas220106 import CAS220106
+from pyfecons.costing.categories.cas220107 import CAS220107
 from pyfecons.enums import ReactorType
 from pyfecons.materials import Material
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import Ratio, M_USD, Meters3, Meters, Kilograms
-
-
-@dataclass
-class CAS220107(TemplateProvider):
-    # Cost Category 22.1.7 Power supplies
-    C22010701: M_USD = None  # Power supplies for confinement
-    C22010702: M_USD = None
-    C220107: M_USD = None
 
 
 @dataclass

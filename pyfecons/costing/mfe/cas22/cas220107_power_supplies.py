@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import eur_to_usd
-from pyfecons.data import CAS220107
+from pyfecons.costing.categories.cas220107 import CAS220107
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.power_supplies import PowerSupplies
 from pyfecons.units import M_USD

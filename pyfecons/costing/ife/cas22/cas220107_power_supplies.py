@@ -1,12 +1,11 @@
-import numpy as np
 import matplotlib
+import numpy as np
 
 from io import BytesIO
 from matplotlib import pyplot as plt
-from pyfecons.data import Data, CAS220107
+from pyfecons.costing.categories.cas220107 import CAS220107
+from pyfecons.inputs.all_inputs import PowerSupplies
 from pyfecons.inputs.basic import Basic
-from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs, PowerSupplies
 from pyfecons.units import M_USD, HZ
 
 matplotlib.use("Agg")
