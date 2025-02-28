@@ -32,7 +32,9 @@ from pyfecons.costing.mfe.cas22.cas220107_power_supplies import (
     cas_220107_power_supply_costs,
 )
 from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_costs
-from pyfecons.costing.mfe.cas22.CAS220109 import cas_220109_direct_energy_converter
+from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
+    cas_220109_direct_energy_converter_costs,
+)
 from pyfecons.costing.mfe.cas22.CAS220111 import cas_220111_installation_costs
 from pyfecons.costing.calculations.cas22.CAS220119 import (
     cas_220119_scheduled_replacement_cost,
@@ -125,7 +127,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.power_supplies, data.power_table
     )
     data.cas220108 = cas_220108_divertor_costs(data.cas220101)
-    data.cas220109 = cas_220109_direct_energy_converter(inputs, data)
+    data.cas220109 = cas_220109_direct_energy_converter_costs(inputs, data)
     data.cas220111 = cas_220111_installation_costs(inputs, data)
     data.cas220119 = cas_220119_scheduled_replacement_cost(inputs, data)
     data.cas2202 = cas_2202_main_and_secondary_coolant(inputs, data)
