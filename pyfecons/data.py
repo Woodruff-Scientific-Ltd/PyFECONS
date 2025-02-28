@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
 from typing import Union
-
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.costing.categories.cas21 import CAS21
@@ -21,16 +20,11 @@ from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
 from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.costing.categories.cas220111 import CAS220111
+from pyfecons.costing.categories.cas220119 import CAS220119
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS220119(TemplateProvider):
-    # Cost category 22.1.19 Scheduled Replacement Cost
-    C220119: M_USD = None
 
 
 @dataclass

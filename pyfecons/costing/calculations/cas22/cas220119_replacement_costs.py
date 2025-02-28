@@ -1,4 +1,4 @@
-from pyfecons.data import CAS220119
+from pyfecons.costing.categories.cas220119 import CAS220119
 from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.units import M_USD
 
