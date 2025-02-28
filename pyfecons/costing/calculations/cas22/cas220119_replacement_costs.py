@@ -5,7 +5,7 @@ from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.units import M_USD
 
 
-def cas_220119_scheduled_replacement_cost(
+def cas_220119_scheduled_replacement_costs(
     inputs: AllInputs, data: Data
 ) -> TemplateProvider:
     #  Cost category 22.1.19 Scheduled Replacement Cost
