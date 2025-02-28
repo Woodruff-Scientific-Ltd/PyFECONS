@@ -1,21 +1,14 @@
-from pyfecons.costing.calculations.cas22.CAS22 import compute_cas2201_total_costs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.data import CAS220119
+from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.units import M_USD
 
 
 def cas_220119_scheduled_replacement_costs(
-    inputs: AllInputs, data: Data
-) -> TemplateProvider:
+    primary_structure: PrimaryStructure, cas2201_total_cost: M_USD
+) -> CAS220119:
     #  Cost category 22.1.19 Scheduled Replacement Cost
-    OUT = data.cas220119
-    OUT.C220119 = M_USD(
-        0
-    )  # This needs to be zero for the total_costs calculation to run
-    OUT.C220119 = M_USD(
-        compute_cas2201_total_costs(data) * inputs.primary_structure.replacement_factor
-    )
-    OUT.template_file = "CAS220119.tex"
-    OUT.replacements = {"C220119": str(round(OUT.C220119))}
-    return OUT
+    cas220119 = CAS220119()
+    cas220119.C220119 = M_USD(cas2201_total_cost * primary_structure.replacement_factor)
+    cas220119.template_file = "CAS220119.tex"
+    cas220119.replacements = {"C220119": str(round(cas220119.C220119))}
+    return cas220119

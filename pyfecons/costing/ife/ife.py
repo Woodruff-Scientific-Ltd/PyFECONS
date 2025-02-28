@@ -130,7 +130,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220111 = cas_220111_installation_costs(
         inputs.basic, inputs.installation, data.cas220101
     )
-    data.cas220119 = cas_220119_scheduled_replacement_costs(inputs, data)
+    data.cas220119 = cas_220119_scheduled_replacement_costs(
+        inputs.primary_structure, data.cas2201_total_cost()
+    )
     data.cas2202 = cas_2202_main_and_secondary_coolant(inputs, data)
     data.cas2203 = cas_2203_auxilary_cooling(inputs, data)
     data.cas2204 = cas_2204_radwaste(data)

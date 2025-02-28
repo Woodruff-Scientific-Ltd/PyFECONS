@@ -15,25 +15,9 @@ def cas_2200_reactor_plant_equipment_total(data: Data) -> TemplateProvider:
     return OUT
 
 
-def compute_cas2201_total_costs(data: Data) -> M_USD:
-    return M_USD(
-        data.cas220101.C220101
-        + data.cas220102.C220102
-        + data.cas220103.C220103
-        + data.cas220104.C220104
-        + data.cas220105.C220105
-        + data.cas220106.C220106
-        + data.cas220107.C220107
-        + data.cas220108.C220108
-        + data.cas220109.C220109
-        + data.cas220111.C220111
-        + data.cas220119.C220119
-    )
-
-
 def compute_cas22_total_costs(OUT: CAS22, data: Data) -> CAS22:
     # Cost category 22.1 total
-    OUT.C220100 = compute_cas2201_total_costs(data)
+    OUT.C220100 = data.cas2201_total_cost()
 
     # Cost category 22.2 total
     OUT.C220000 = M_USD(

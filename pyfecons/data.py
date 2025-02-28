@@ -289,6 +289,22 @@ class Data(SerializableToJSON):
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
 
+    def cas2201_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas220101.C220101
+            + self.cas220102.C220102
+            + self.cas220103.C220103
+            + self.cas220104.C220104
+            + self.cas220105.C220105
+            + self.cas220106.C220106
+            + self.cas220107.C220107
+            + self.cas220108.C220108
+            + self.cas220109.C220109
+            + self.cas220111.C220111
+            # This needs to be zero for CAS220119 calculation to run correctly
+            + (0 if self.cas220119.C220119 is None else self.cas220119.C220119)
+        )
+
     def template_providers(self) -> list[TemplateProvider]:
         return [
             self.power_table,
