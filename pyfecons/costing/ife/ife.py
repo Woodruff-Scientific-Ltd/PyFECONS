@@ -122,7 +122,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220108 = cas_220108_target_factory_costs(
         inputs.target_factory, data.power_table
     )
-    data.cas220109 = cas_220109_direct_energy_converter_costs(inputs, data)
+    data.cas220109 = cas_220109_direct_energy_converter_costs(
+        inputs.basic, inputs.direct_energy_converter
+    )
     data.cas220111 = cas_220111_installation_costs(inputs, data)
     data.cas220119 = cas_220119_scheduled_replacement_cost(inputs, data)
     data.cas2202 = cas_2202_main_and_secondary_coolant(inputs, data)
