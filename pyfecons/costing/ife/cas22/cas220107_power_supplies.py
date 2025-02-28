@@ -3,7 +3,8 @@ import matplotlib
 
 from io import BytesIO
 from matplotlib import pyplot as plt
-from pyfecons.data import Data
+from pyfecons.data import Data, CAS220107
+from pyfecons.inputs.basic import Basic
 from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs, PowerSupplies
 from pyfecons.units import M_USD, HZ
@@ -11,37 +12,43 @@ from pyfecons.units import M_USD, HZ
 matplotlib.use("Agg")
 
 
-def cas_220107_power_supplies(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas_220107_power_supply_costs(
+    basic: Basic, power_supplies: PowerSupplies
+) -> CAS220107:
     # Cost Category 22.1.7 Power supplies
-    IN = inputs.power_supplies
-    OUT = data.cas220107
-    basic = inputs.basic
+    cas220107 = CAS220107()
 
     # Power supplies for confinement
-    OUT.C22010701 = M_USD(IN.p_compress * basic.implosion_frequency * IN.cost_per_watt)
+    cas220107.C22010701 = M_USD(
+        power_supplies.p_compress
+        * basic.implosion_frequency
+        * power_supplies.cost_per_watt
+    )
 
     # Scaled relative to ITER for a 500MW fusion power system
     # assuming 1kIUA equals $2 M #cost in kIUA
-    OUT.C22010702 = M_USD(269.6 * basic.p_nrl / 500 * IN.learning_credit * 2)
-    OUT.C220107 = M_USD(OUT.C22010701 + OUT.C22010702)
+    cas220107.C22010702 = M_USD(
+        269.6 * basic.p_nrl / 500 * power_supplies.learning_credit * 2
+    )
+    cas220107.C220107 = M_USD(cas220107.C22010701 + cas220107.C22010702)
 
     # TODO - is this ever a value?
     # scaled relative to the Woodruff Scientific PF bank designed for FLARE: 200kV, 400kA, 0.5MJ
     # C22010702 = 30
     # C220107 = 30
 
-    OUT.figures["Figures/cap_derate.pdf"] = generate_cap_derate_figure(
-        IN, basic.implosion_frequency
+    cas220107.figures["Figures/cap_derate.pdf"] = generate_cap_derate_figure(
+        power_supplies, basic.implosion_frequency
     )
 
-    OUT.template_file = "CAS220107_IFE.tex"
-    OUT.replacements = {
-        "C22010700": round(OUT.C220107),
-        "C22010701": round(OUT.C22010701),  # TODO not in template
-        "C22010702": round(OUT.C22010702),  # TODO not in template
+    cas220107.template_file = "CAS220107_IFE.tex"
+    cas220107.replacements = {
+        "C22010700": round(cas220107.C220107),
+        "C22010701": round(cas220107.C22010701),  # TODO not in template
+        "C22010702": round(cas220107.C22010702),  # TODO not in template
         "PNRL": round(basic.p_nrl),
     }
-    return OUT
+    return cas220107
 
 
 # TODO figure is not rendering anything and it's not used in the template
