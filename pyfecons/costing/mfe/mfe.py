@@ -74,7 +74,9 @@ from pyfecons.costing.calculations.cas25_misc_plant_equipment import (
 from pyfecons.costing.calculations.cas26_heat_rejection import (
     cas26_heat_rejection_costs,
 )
-from pyfecons.costing.mfe.CAS27 import cas_27
+from pyfecons.costing.calculations.cas27_special_materials import (
+    cas27_special_materials_costs,
+)
 from pyfecons.costing.mfe.CAS28 import cas_28
 from pyfecons.costing.mfe.CAS29 import cas_29
 from pyfecons.costing.mfe.CAS20 import cas_20
@@ -173,7 +175,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas24 = cas24_electric_plant_equipment_costs(inputs.basic, data.power_table)
     data.cas25 = cas25_misc_plant_equipment_costs(inputs.basic, data.power_table)
     data.cas26 = cas26_heat_rejection_costs(inputs.basic, data.power_table)
-    data.cas27 = cas_27(inputs, data)
+    data.cas27 = cas27_special_materials_costs(inputs, data)
     data.cas28 = cas_28(inputs, data)
     data.cas29 = cas_29(inputs, data)
     data.cas20 = cas_20(inputs, data)
