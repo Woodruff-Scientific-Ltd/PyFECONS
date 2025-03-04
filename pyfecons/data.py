@@ -29,7 +29,7 @@ from pyfecons.costing.categories.cas220500 import CAS2205
 from pyfecons.costing.categories.cas220600 import CAS2206
 from pyfecons.costing.categories.cas220700 import CAS2207
 from pyfecons.costing.categories.cas230000 import CAS23
-from pyfecons.costing.categories.cast240000 import CAS24
+from pyfecons.costing.categories.cas240000 import CAS24
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
