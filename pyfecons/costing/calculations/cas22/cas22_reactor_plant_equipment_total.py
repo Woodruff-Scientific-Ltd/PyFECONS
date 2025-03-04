@@ -6,7 +6,7 @@ from pyfecons.units import M_USD
 materials = Materials()
 
 
-def cas_2200_reactor_plant_equipment_total(data: Data) -> TemplateProvider:
+def cas22_reactor_plant_equipment_total_costs(data: Data) -> TemplateProvider:
     # Reactor Plant Equipment (RPE) total
     OUT = data.cas22
     OUT = compute_cas22_total_costs(OUT, data)

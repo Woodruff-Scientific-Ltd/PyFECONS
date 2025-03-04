@@ -59,8 +59,8 @@ from pyfecons.costing.calculations.cas22.cas220600_other_plant_equipment import 
 from pyfecons.costing.calculations.cas22.cas220700_instrumentation_and_control import (
     cas_2207_instrumentation_and_control_costs,
 )
-from pyfecons.costing.calculations.cas22.CAS22 import (
-    cas_2200_reactor_plant_equipment_total,
+from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import (
+    cas22_reactor_plant_equipment_total_costs,
 )
 from pyfecons.costing.mfe.CAS23 import cas_23
 from pyfecons.costing.mfe.CAS24 import cas_24
@@ -158,7 +158,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas2205 = cas_2205_fuel_handling_and_storage_costs(inputs.fuel_handling)
     data.cas2206 = cas_2206_other_reactor_plant_equipment_costs(data.power_table)
     data.cas2207 = cas_2207_instrumentation_and_control_costs()
-    data.cas22 = cas_2200_reactor_plant_equipment_total(data)
+    data.cas22 = cas22_reactor_plant_equipment_total_costs(data)
     data.cas23 = cas_23(inputs, data)
     data.cas24 = cas_24(inputs, data)
     data.cas25 = cas_25(inputs, data)
