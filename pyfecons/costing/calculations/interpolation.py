@@ -4,7 +4,7 @@ from scipy.interpolate import interp1d
 
 
 def interpolate_data(
-    coordinates: List[Tuple[float, float]]
+    coordinates: List[Tuple[float, float]],
 ) -> Callable[[float], np.ndarray]:
     """
     Creates an interpolation function from coordinates.
