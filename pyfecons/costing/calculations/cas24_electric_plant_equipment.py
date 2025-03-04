@@ -5,7 +5,9 @@ from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_24(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas24_electric_plant_equipment_costs(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
     # Cost Category 24 Electric Plant Equipment
     OUT = data.cas24
 
