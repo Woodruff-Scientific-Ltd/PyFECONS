@@ -21,19 +21,11 @@ from pyfecons.costing.categories.cas220108_target_factory import CAS220108Target
 from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.costing.categories.cas220119 import CAS220119
+from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS2202(TemplateProvider):
-    # MAIN AND SECONDARY COOLANT Cost Category 22.2
-    C220201: M_USD = None
-    C220202: M_USD = None
-    C220203: M_USD = None
-    C220200: M_USD = None
 
 
 @dataclass
