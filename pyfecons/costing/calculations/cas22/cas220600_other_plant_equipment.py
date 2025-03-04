@@ -1,5 +1,5 @@
 from pyfecons.costing.accounting.power_table import PowerTable
-from pyfecons.data import CAS2206
+from pyfecons.costing.categories.cas220600 import CAS2206
 from pyfecons.units import MW, M_USD
 
 

@@ -25,16 +25,11 @@ from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.costing.categories.cas220400 import CAS2204
 from pyfecons.costing.categories.cas220500 import CAS2205
+from pyfecons.costing.categories.cas220600 import CAS2206
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS2206(TemplateProvider):
-    # Cost Category 22.6 Other Reactor Plant Equipment
-    C220600: M_USD = None
 
 
 @dataclass
