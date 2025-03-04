@@ -78,7 +78,7 @@ from pyfecons.costing.calculations.cas27_special_materials import (
     cas27_special_materials_costs,
 )
 from pyfecons.costing.mfe.cas28_digital_twin import cas28_digital_twin_costs
-from pyfecons.costing.mfe.CAS29 import cas_29
+from pyfecons.costing.calculations.cas29_contingency import cas29_contingency_costs
 from pyfecons.costing.mfe.CAS20 import cas_20
 from pyfecons.costing.mfe.CAS30 import cas_30
 from pyfecons.costing.mfe.CAS40 import cas_40
@@ -177,7 +177,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas26 = cas26_heat_rejection_costs(inputs.basic, data.power_table)
     data.cas27 = cas27_special_materials_costs(inputs.blanket, data.cas220101)
     data.cas28 = cas28_digital_twin_costs()
-    data.cas29 = cas_29(inputs, data)
+    data.cas29 = cas29_contingency_costs(inputs, data)
     data.cas20 = cas_20(inputs, data)
     data.cas30 = cas_30(inputs, data)
     data.cas40 = cas_40(inputs, data)

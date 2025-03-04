@@ -1,15 +1,16 @@
-from pyfecons.units import M_USD
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.units import M_USD
 
 
-def cas_29(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas29_contingency_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 29 Contingency
     OUT = data.cas29
     if inputs.basic.noak:
         OUT.C290000 = M_USD(0)
     else:
+        # TODO what is the 0.1? Should it be an input?
         OUT.C290000 = M_USD(
             0.1
             * (
@@ -25,5 +26,5 @@ def cas_29(inputs: AllInputs, data: Data) -> TemplateProvider:
         )
 
     OUT.template_file = "CAS290000.tex"
-    OUT.replacements = {"C290000": round(OUT.C290000)}
+    OUT.replacements = {"C290000": round(data.cas29.C290000)}
     return OUT
