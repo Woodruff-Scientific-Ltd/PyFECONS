@@ -5,7 +5,7 @@ from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_25(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas25_misc_plant_equipment_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 25 Miscellaneous Plant Equipment
     # No cost basis stated
     OUT = data.cas25
