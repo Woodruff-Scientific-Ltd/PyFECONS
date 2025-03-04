@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_factor_2019_2024
-from pyfecons.data import CAS26
+from pyfecons.costing.categories.cas260000 import CAS26
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
