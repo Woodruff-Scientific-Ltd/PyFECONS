@@ -1,5 +1,4 @@
-from pyfecons.data import CAS22, Data
-from pyfecons.report import TemplateProvider
+from pyfecons.data import CAS22
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD
 
