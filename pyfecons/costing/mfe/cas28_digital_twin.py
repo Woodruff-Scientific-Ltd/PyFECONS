@@ -1,15 +1,13 @@
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
+from pyfecons.data import CAS28
 from pyfecons.units import M_USD
 
 
-def cas28_digital_twin_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas28_digital_twin_costs() -> CAS28:
     # cost category 28 Digital Twin
-    OUT = data.cas28
+    cas28 = CAS28()
     # In-house cost estimate provided by NtTau Digital LTD
-    OUT.C280000 = M_USD(5)
+    cas28.C280000 = M_USD(5)
 
-    OUT.template_file = "CAS280000.tex"
-    OUT.replacements = {"C280000": str(data.cas28.C280000)}
-    return OUT
+    cas28.template_file = "CAS280000.tex"
+    cas28.replacements = {"C280000": str(cas28.C280000)}
+    return cas28
