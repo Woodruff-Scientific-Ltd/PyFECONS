@@ -6,35 +6,25 @@ from pyfecons.units import M_USD
 materials = Materials()
 
 
-def cas22_reactor_plant_equipment_total_costs(data: Data) -> TemplateProvider:
+def cas22_reactor_plant_equipment_total_costs(
+    cas2201_total_cost: M_USD, cas2200_total_cost: M_USD
+) -> CAS22:
     # Reactor Plant Equipment (RPE) total
-    OUT = data.cas22
-    OUT = compute_cas22_total_costs(OUT, data)
-    OUT.template_file = "CAS220000.tex"
-    OUT.replacements = compute_replacements(data)
-    return OUT
+    cas22 = CAS22()
 
-
-def compute_cas22_total_costs(OUT: CAS22, data: Data) -> CAS22:
     # Cost category 22.1 total
-    OUT.C220100 = data.cas2201_total_cost()
-
+    cas22.C220100 = cas2201_total_cost
     # Cost category 22.2 total
-    OUT.C220000 = M_USD(
-        OUT.C220100
-        + data.cas2202.C220200
-        + data.cas2203.C220300
-        + data.cas2204.C220400
-        + data.cas2205.C220500
-        + data.cas2206.C220600
-        + data.cas2207.C220700
-    )
-    return OUT
+    cas22.C220000 = cas2200_total_cost
+
+    cas22.template_file = "CAS220000.tex"
+    cas22.replacements = compute_replacements(cas22)
+    return cas22
 
 
-def compute_replacements(data: Data):
+def compute_replacements(cas22: CAS22):
     return {
-        "C220000": round(data.cas22.C220000, 2),  # TODO - not in the template
+        "C220000": round(cas22.C220000, 2),  # TODO - not in the template
         "FSrho": round(materials.FS.rho, 2),
         "FScraw": round(materials.FS.c_raw, 2),
         "FSm": round(materials.FS.m, 2),
