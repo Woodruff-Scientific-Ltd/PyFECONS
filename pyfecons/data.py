@@ -32,18 +32,11 @@ from pyfecons.costing.categories.cas230000 import CAS23
 from pyfecons.costing.categories.cas240000 import CAS24
 from pyfecons.costing.categories.cas250000 import CAS25
 from pyfecons.costing.categories.cas260000 import CAS26
+from pyfecons.costing.categories.cas270000 import CAS27
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS27(TemplateProvider):
-    C271000: M_USD = None
-    C274000: M_USD = None
-    C275000: M_USD = None
-    C270000: M_USD = None
 
 
 @dataclass

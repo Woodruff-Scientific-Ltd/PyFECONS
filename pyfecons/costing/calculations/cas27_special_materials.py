@@ -1,5 +1,5 @@
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.data import CAS27
+from pyfecons.costing.categories.cas270000 import CAS27
 from pyfecons.enums import BlanketPrimaryCoolant
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.materials import Materials
