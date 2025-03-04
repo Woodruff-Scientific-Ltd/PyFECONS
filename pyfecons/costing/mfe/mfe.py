@@ -38,7 +38,7 @@ from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter impor
 from pyfecons.costing.calculations.cas22.cas220111_installation import (
     cas_220111_installation_costs,
 )
-from pyfecons.costing.calculations.cas22.cas220119_replacement_costs import (
+from pyfecons.costing.calculations.cas22.cas220119_replacement import (
     cas_220119_scheduled_replacement_costs,
 )
 from pyfecons.costing.calculations.cas22.cas220200_coolant import (
