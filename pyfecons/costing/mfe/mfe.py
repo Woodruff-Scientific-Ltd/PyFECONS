@@ -145,7 +145,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas2202 = cas_2202_main_and_secondary_coolant_costs(
         inputs.basic, inputs.blanket, data.power_table
     )
-    data.cas2203 = cas_2203_auxilary_cooling_costs(inputs, data)
+    data.cas2203 = cas_2203_auxilary_cooling_costs(inputs.basic, data.power_table)
     data.cas2204 = cas_2204_radwaste(data)
     data.cas2205 = cas_2205_fuel_handling_and_storage(inputs, data)
     data.cas2206 = cas_2206_other_reactor_plant_equipment(data)
