@@ -23,16 +23,11 @@ from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.costing.categories.cas220119 import CAS220119
 from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.costing.categories.cas220300 import CAS2203
+from pyfecons.costing.categories.cas220400 import CAS2204
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS2204(TemplateProvider):
-    # Cost Category 22.4 Radwaste
-    C220400: M_USD = None
 
 
 @dataclass
