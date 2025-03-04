@@ -3,6 +3,7 @@ from typing import Union
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.costing.categories.cas21 import CAS21
+from pyfecons.costing.categories.cas22 import CAS22
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
@@ -31,15 +32,6 @@ from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS22(TemplateProvider):
-    # Cost category 22.1 total
-    C220100: M_USD = None
-
-    # Final output
-    C220000: M_USD = None
 
 
 @dataclass
