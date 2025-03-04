@@ -858,7 +858,7 @@
     },
     "cas28": {
         "replacements": {
-            "C280000": 5
+            "C280000": "5.00"
         },
         "template_file": "CAS280000.tex",
         "figures": {},
