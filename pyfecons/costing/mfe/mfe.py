@@ -166,7 +166,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         data.cas2201_total_cost(), data.cas2200_total_cost()
     )
     data.cas23 = cas23_turbine_plant_equipment_costs(inputs.basic, data.power_table)
-    data.cas24 = cas24_electric_plant_equipment_costs(inputs, data)
+    data.cas24 = cas24_electric_plant_equipment_costs(inputs.basic, data.power_table)
     data.cas25 = cas_25(inputs, data)
     data.cas26 = cas_26(inputs, data)
     data.cas27 = cas_27(inputs, data)
