@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_1992_2024
-from pyfecons.data import CAS2203
+from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import Count, MW, M_USD
 

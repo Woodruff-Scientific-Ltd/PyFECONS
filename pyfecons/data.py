@@ -22,16 +22,11 @@ from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.costing.categories.cas220119 import CAS220119
 from pyfecons.costing.categories.cas220200 import CAS2202
+from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS2203(TemplateProvider):
-    # Cost Category 22.3  Auxiliary cooling
-    C220300: M_USD = None
 
 
 @dataclass
