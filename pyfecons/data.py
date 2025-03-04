@@ -26,16 +26,11 @@ from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.costing.categories.cas220400 import CAS2204
 from pyfecons.costing.categories.cas220500 import CAS2205
 from pyfecons.costing.categories.cas220600 import CAS2206
+from pyfecons.costing.categories.cas220700 import CAS2207
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS2207(TemplateProvider):
-    # Cost Category 22.7 Instrumentation and Control
-    C220700: M_USD = None
 
 
 @dataclass
