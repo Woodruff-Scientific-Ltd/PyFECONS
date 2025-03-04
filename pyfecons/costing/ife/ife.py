@@ -81,7 +81,7 @@ from pyfecons.costing.calculations.cas26_heat_rejection import (
 from pyfecons.costing.calculations.cas27_special_materials import (
     cas27_special_materials_costs,
 )
-from pyfecons.costing.mfe.cas28_digital_twin import cas28_digital_twin_costs
+from pyfecons.costing.calculations.cas28_digital_twin import cas28_digital_twin_costs
 from pyfecons.costing.calculations.cas29_contingency import cas29_contingency_costs
 from pyfecons.costing.ife.CAS20 import cas_20
 from pyfecons.costing.ife.CAS30 import cas_30
