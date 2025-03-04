@@ -1,7 +1,22 @@
 from pyfecons.costing.calculations.conversions import inflation_2010_2024
-from pyfecons.data import CAS2205
+from pyfecons.data import CAS2205, Data
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.inputs.fuel_handling import FuelHandling
+from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
+
+
+def cas_2205_fuel_handling_and_storage_costs(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
+    # Cost Category 22.5 Fuel Handling and Storage
+    IN = inputs.fuel_handling
+    OUT = data.cas2205
+    OUT = compute_fuel_handling_and_storage_costs(IN, OUT)
+
+    OUT.template_file = "CAS220500_DT.tex"
+    OUT.replacements = compute_replacements(IN, OUT)
+    return OUT
 
 
 def compute_fuel_handling_and_storage_costs(IN: FuelHandling, OUT: CAS2205) -> CAS2205:
