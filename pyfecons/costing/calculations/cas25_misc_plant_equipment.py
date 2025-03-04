@@ -1,23 +1,20 @@
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_factor_2019_2024
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
+from pyfecons.data import CAS25
+from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
 
-def cas25_misc_plant_equipment_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas25_misc_plant_equipment_costs(basic: Basic, power_table: PowerTable) -> CAS25:
     # Cost Category 25 Miscellaneous Plant Equipment
     # No cost basis stated
-    OUT = data.cas25
+    cas25 = CAS25()
 
     # From NETL https://netl.doe.gov/projects/files/CostAndPerformanceBaselineForFossilEnergyPlantsVolume1BituminousCoalAndNaturalGasToElectricity_101422.pdf
-    OUT.C250000 = M_USD(
-        float(inputs.basic.n_mod)
-        * data.power_table.p_et
-        * 0.038
-        * inflation_factor_2019_2024
+    cas25.C250000 = M_USD(
+        float(basic.n_mod) * power_table.p_et * 0.038 * inflation_factor_2019_2024
     )
 
-    OUT.template_file = "CAS250000.tex"
-    OUT.replacements = {"C250000": round(data.cas25.C250000, 1)}
-    return OUT
+    cas25.template_file = "CAS250000.tex"
+    cas25.replacements = {"C250000": round(cas25.C250000, 1)}
+    return cas25
