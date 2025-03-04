@@ -45,7 +45,9 @@ from pyfecons.costing.calculations.cas22.cas220111_installation import (
 from pyfecons.costing.calculations.cas22.cas220119_replacement_costs import (
     cas_220119_scheduled_replacement_costs,
 )
-from pyfecons.costing.ife.cas22.CAS220200 import cas_2202_main_and_secondary_coolant
+from pyfecons.costing.calculations.cas22.cas220200_coolant import (
+    cas_2202_main_and_secondary_coolant_costs,
+)
 from pyfecons.costing.ife.cas22.CAS220300 import cas_2203_auxilary_cooling
 from pyfecons.costing.calculations.cas22.cas220400_rad_waste import cas_2204_radwaste
 from pyfecons.costing.ife.cas22.CAS220500 import cas_2205_fuel_handling_and_storage
@@ -133,7 +135,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220119 = cas_220119_scheduled_replacement_costs(
         inputs.primary_structure, data.cas2201_total_cost()
     )
-    data.cas2202 = cas_2202_main_and_secondary_coolant(inputs, data)
+    data.cas2202 = cas_2202_main_and_secondary_coolant_costs(inputs, data)
     data.cas2203 = cas_2203_auxilary_cooling(inputs, data)
     data.cas2204 = cas_2204_radwaste(data)
     data.cas2205 = cas_2205_fuel_handling_and_storage(inputs, data)
