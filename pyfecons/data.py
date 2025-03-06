@@ -2,6 +2,7 @@ from dataclasses import dataclass, field
 from typing import Union
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas200000 import CAS20
 from pyfecons.costing.categories.cas21 import CAS21
 from pyfecons.costing.categories.cas22 import CAS22
 from pyfecons.costing.categories.cas220101 import CAS220101
@@ -39,11 +40,6 @@ from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class CAS20(TemplateProvider):
-    C200000: M_USD = None
 
 
 @dataclass

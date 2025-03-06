@@ -1,4 +1,4 @@
-from pyfecons.data import CAS20
+from pyfecons.costing.categories.cas200000 import CAS20
 from pyfecons.units import M_USD
 
 
