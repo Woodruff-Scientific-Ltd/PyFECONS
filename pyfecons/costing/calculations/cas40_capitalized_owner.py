@@ -1,38 +1,37 @@
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
+from pyfecons.costing.categories.cas200000 import CAS20
+from pyfecons.data import CAS40
+from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.units import M_USD
 
 
-def cas40_capitalized_owner_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas40_capitalized_owner_costs(lsa_levels: LsaLevels, cas20: CAS20) -> CAS40:
     # Cost Category 40 Capitalized Owner’s Cost (COC)
-    IN = inputs.lsa_levels
-    OUT = data.cas40
+    cas40 = CAS40()
 
     # TODO determine cost basis, ask simon
-    OUT.C400000LSA = M_USD(IN.fac_91[IN.lsa - 1] * data.cas20.C200000)
+    cas40.C400000LSA = M_USD(lsa_levels.fac_91[lsa_levels.lsa - 1] * cas20.C200000)
     # TODO explanation for this section? We ignore all costing after this.
-    OUT.C400000 = OUT.C400000LSA
+    cas40.C400000 = cas40.C400000LSA
 
     # Cost Category 41 – Staff Recruitment and Training
-    OUT.C410000 = M_USD(0)
+    cas40.C410000 = M_USD(0)
 
     # Cost Category 42 – Staff Housing
-    OUT.C420000 = M_USD(0)
+    cas40.C420000 = M_USD(0)
 
     # Cost Category 43 – Staff Salary-Related Costs
-    OUT.C430000 = M_USD(0)
+    cas40.C430000 = M_USD(0)
 
     # Cost Category 44 – Other Owner’s Costs
-    OUT.C440000 = M_USD(0)
+    cas40.C440000 = M_USD(0)
 
     # TODO why is this here?
-    # OUT.C400000 = M_USD(OUT.C410000 + OUT.C420000 + OUT.C430000 + OUT.C440000)
+    # cas40.C400000 = M_USD(cas40.C410000 + cas40.C420000 + cas40.C430000 + cas40.C440000)
 
-    OUT.template_file = "CAS400000.tex"
-    OUT.replacements = {
-        "lsaLevel": IN.lsa,  # TODO - not in template
-        "C400000LSA": round(OUT.C400000LSA),
-        "C400000XXX": round(OUT.C400000),  # TODO - not in template
+    cas40.template_file = "CAS400000.tex"
+    cas40.replacements = {
+        "lsaLevel": lsa_levels.lsa,  # TODO - not in template
+        "C400000LSA": round(cas40.C400000LSA),
+        "C400000XXX": round(cas40.C400000),  # TODO - not in template
     }
-    return OUT
+    return cas40

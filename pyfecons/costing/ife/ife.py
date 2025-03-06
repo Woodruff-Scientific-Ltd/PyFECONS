@@ -181,7 +181,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas30 = cas30_capitalized_indirect_service_costs(
         inputs.basic, inputs.lsa_levels, data.power_table, data.cas20
     )
-    data.cas40 = cas40_capitalized_owner_costs(inputs, data)
+    data.cas40 = cas40_capitalized_owner_costs(inputs.lsa_levels, data.cas20)
     data.cas50 = cas_50(inputs, data)
     data.cas60 = cas_60(inputs, data)
     data.cas70 = cas_70(inputs, data)
