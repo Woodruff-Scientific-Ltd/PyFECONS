@@ -229,7 +229,7 @@ class Data(SerializableToJSON):
             + self.cas2207.C220700
         )
 
-    def cas2X_total_cost(self) -> M_USD:
+    def cas2x_total_cost(self) -> M_USD:
         return M_USD(
             self.cas21.C210000
             + self.cas22.C220000
