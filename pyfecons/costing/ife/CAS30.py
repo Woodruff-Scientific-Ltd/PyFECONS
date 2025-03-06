@@ -36,8 +36,8 @@ def cas_30(inputs: AllInputs, data: Data) -> TemplateProvider:
 
     OUT.template_file = "CAS300000.tex"
     OUT.replacements = {
-        "constructionTime": basic.construction_time,
-        "C300000": round(OUT.C300000),  # TODO not in template
+        "constructionTime": round(basic.construction_time),
+        "C300000": round(OUT.C300000),  # TODO - not in template
         "C310000LSA": round(OUT.C310000LSA),
         "C310000XXX": round(OUT.C310000),
         "C320000": round(OUT.C320000),
