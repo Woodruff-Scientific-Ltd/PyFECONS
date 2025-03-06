@@ -4,11 +4,14 @@ from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_50(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas50_capitalized_supplementary_costs(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
     # Cost Category 50 Capitalized Supplementary Costs (CSC)
     # TODO determine cost basis, ask simon
     OUT = data.cas50
 
+    # TODO - should all of these constants be optional input estimates?
     # Cost Category 51 – Shipping and Transportation Costs
     OUT.C510000 = M_USD(8)
 

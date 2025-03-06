@@ -86,7 +86,9 @@ from pyfecons.costing.calculations.cas30_capitalized_indirect_service import (
 from pyfecons.costing.calculations.cas40_capitalized_owner import (
     cas40_capitalized_owner_costs,
 )
-from pyfecons.costing.mfe.CAS50 import cas_50
+from pyfecons.costing.calculations.cas50_capitalized_supplementary import (
+    cas50_capitalized_supplementary_costs,
+)
 from pyfecons.costing.mfe.CAS60 import cas_60
 from pyfecons.costing.mfe.CAS70 import cas_70
 from pyfecons.costing.mfe.CAS80 import cas_80
@@ -187,7 +189,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas40 = cas40_capitalized_owner_costs(inputs.lsa_levels, data.cas20)
-    data.cas50 = cas_50(inputs, data)
+    data.cas50 = cas50_capitalized_supplementary_costs(inputs, data)
     data.cas60 = cas_60(inputs, data)
     data.cas70 = cas_70(inputs, data)
     data.cas80 = cas_80(inputs, data)
