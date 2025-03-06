@@ -5,11 +5,13 @@ from pyfecons.inputs.all_inputs import AllInputs
 
 
 def cas_40(inputs: AllInputs, data: Data) -> TemplateProvider:
+    # Cost Category 40 Capitalized Owner’s Cost (COC)
     IN = inputs.lsa_levels
     OUT = data.cas40
 
-    # Cost Category 40 Capitalized Owner’s Cost (COC)
+    # TODO determine cost basis, ask simon
     OUT.C400000LSA = M_USD(IN.fac_91[IN.lsa - 1] * data.cas20.C200000)
+    # TODO explanation for this section? We ignore all costing after this.
     OUT.C400000 = OUT.C400000LSA
 
     # Cost Category 41 – Staff Recruitment and Training
@@ -25,11 +27,12 @@ def cas_40(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT.C440000 = M_USD(0)
 
     # TODO why is this here?
-    # C400000 = C410000 + C420000 + C430000 + C440000
+    # OUT.C400000 = M_USD(OUT.C410000 + OUT.C420000 + OUT.C430000 + OUT.C440000)
 
     OUT.template_file = "CAS400000.tex"
     OUT.replacements = {
+        "lsaLevel": IN.lsa,  # TODO - not in template
         "C400000LSA": round(OUT.C400000LSA),
-        "C400000XXX": round(OUT.C400000),  # TODO not in template
+        "C400000XXX": round(OUT.C400000),  # TODO - not in template
     }
     return OUT
