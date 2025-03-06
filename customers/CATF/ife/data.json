@@ -882,7 +882,7 @@
     },
     "cas30": {
         "replacements": {
-            "constructionTime": 6.0,
+            "constructionTime": 6,
             "C300000": 235,
             "C310000LSA": 384,
             "C310000XXX": 47,
