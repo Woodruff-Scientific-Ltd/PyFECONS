@@ -1,4 +1,4 @@
-from pyfecons.data import CAS29
+from pyfecons.costing.categories.cas290000 import CAS29
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
