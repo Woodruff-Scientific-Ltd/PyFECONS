@@ -181,7 +181,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas28 = cas28_digital_twin_costs()
     data.cas29 = cas29_contingency_costs(inputs.basic, data.cas2x_total_cost())
     data.cas20 = cas20_total_costs(data.cas2x_total_cost())
-    data.cas30 = cas30_capitalized_indirect_service_costs(inputs, data)
+    data.cas30 = cas30_capitalized_indirect_service_costs(
+        inputs.basic, inputs.lsa_levels, data.power_table, data.cas20
+    )
     data.cas40 = cas_40(inputs, data)
     data.cas50 = cas_50(inputs, data)
     data.cas60 = cas_60(inputs, data)
