@@ -1,5 +1,5 @@
 from pyfecons.costing.categories.cas200000 import CAS20
-from pyfecons.data import CAS40
+from pyfecons.costing.categories.cas400000 import CAS40
 from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.units import M_USD
 
