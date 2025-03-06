@@ -1281,7 +1281,7 @@
         "replacements": {
             "lsaLevel": 2,
             "C400000LSA": 2935,
-            "C400000000": 2935
+            "C400000XXX": 2935
         },
         "template_file": "CAS400000.tex",
         "figures": {},

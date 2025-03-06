@@ -902,6 +902,7 @@
     },
     "cas40": {
         "replacements": {
+            "lsaLevel": 2,
             "C400000LSA": 768,
             "C400000XXX": 768
         },

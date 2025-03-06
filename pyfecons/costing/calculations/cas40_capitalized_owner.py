@@ -4,7 +4,7 @@ from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_40(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas40_capitalized_owner_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 40 Capitalized Owner’s Cost (COC)
     IN = inputs.lsa_levels
     OUT = data.cas40
