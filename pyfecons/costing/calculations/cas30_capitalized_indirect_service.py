@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas200000 import CAS20
-from pyfecons.data import CAS30
+from pyfecons.costing.categories.cas300000 import CAS30
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.units import M_USD
