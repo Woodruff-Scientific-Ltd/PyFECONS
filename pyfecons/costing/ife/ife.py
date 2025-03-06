@@ -83,7 +83,7 @@ from pyfecons.costing.calculations.cas27_special_materials import (
 )
 from pyfecons.costing.calculations.cas28_digital_twin import cas28_digital_twin_costs
 from pyfecons.costing.calculations.cas29_contingency import cas29_contingency_costs
-from pyfecons.costing.ife.CAS20 import cas_20
+from pyfecons.costing.calculations.cas20_total_costs import cas20_total_costs
 from pyfecons.costing.ife.CAS30 import cas_30
 from pyfecons.costing.ife.CAS40 import cas_40
 from pyfecons.costing.ife.CAS50 import cas_50
@@ -173,7 +173,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas27 = cas27_special_materials_costs(inputs.blanket, data.cas220101)
     data.cas28 = cas28_digital_twin_costs()
     data.cas29 = cas29_contingency_costs(inputs.basic, data.cas2x_total_cost())
-    data.cas20 = cas_20(inputs, data)
+    data.cas20 = cas20_total_costs(inputs, data)
     data.cas30 = cas_30(inputs, data)
     data.cas40 = cas_40(inputs, data)
     data.cas50 = cas_50(inputs, data)

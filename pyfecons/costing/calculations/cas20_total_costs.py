@@ -4,7 +4,7 @@ from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
-def cas_20(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas20_total_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT = data.cas20
     # TODO - why are C210000 and C280000 counted twice?
     OUT.C200000 = M_USD(
