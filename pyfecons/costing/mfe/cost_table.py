@@ -5,7 +5,8 @@ from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values_inflation,
     map_keys_to_percentage,
 )
-from pyfecons.data import Data, CostTable
+from pyfecons.data import Data
+from pyfecons.costing.categories.cost_table import CostTable
 
 
 def cost_table(data: Data) -> CostTable:
