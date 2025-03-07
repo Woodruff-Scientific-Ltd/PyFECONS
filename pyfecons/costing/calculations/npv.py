@@ -1,4 +1,5 @@
-from pyfecons.data import Data, NPV
+from pyfecons.data import Data
+from pyfecons.costing.accounting.npv import NPV
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.npv_Input import NpvInput
 

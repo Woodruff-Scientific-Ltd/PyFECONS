@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Union
+
+from pyfecons.costing.accounting.npv import NPV
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas10 import CAS10
 from pyfecons.costing.categories.cas200000 import CAS20
@@ -49,11 +51,6 @@ from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class NPV(TemplateProvider):
-    npv: M_USD = None
 
 
 @dataclass
