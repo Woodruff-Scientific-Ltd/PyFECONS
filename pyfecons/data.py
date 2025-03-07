@@ -216,6 +216,16 @@ class Data(SerializableToJSON):
             + (0 if self.cas29.C290000 is None else self.cas29.C290000)
         )
 
+    def cas23_to_28_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas23.C230000
+            + self.cas24.C240000
+            + self.cas25.C250000
+            + self.cas26.C260000
+            + self.cas27.C270000
+            + self.cas28.C280000
+        )
+
     def template_providers(self) -> list[TemplateProvider]:
         return [
             self.power_table,
