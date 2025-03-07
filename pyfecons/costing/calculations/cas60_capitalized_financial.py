@@ -1,10 +1,9 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas200000 import CAS20
-from pyfecons.data import CAS60
+from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.financial import Financial
 from pyfecons.inputs.lsa_levels import LsaLevels
-from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
@@ -14,7 +13,7 @@ def cas60_capitalized_financial_costs(
     lsa_levels: LsaLevels,
     power_table: PowerTable,
     cas20: CAS20,
-) -> TemplateProvider:
+) -> CAS60:
     # Cost Category 60 Capitalized Financial Costs (CFC)
     cas60 = CAS60()
 
