@@ -1,10 +1,12 @@
-from pyfecons.units import M_USD
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.units import M_USD
 
 
-def cas_60(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas60_capitalized_financial_costs(
+    inputs: AllInputs, data: Data
+) -> TemplateProvider:
     # Cost Category 60 Capitalized Financial Costs (CFC)
     OUT = data.cas60
     financial = inputs.financial
