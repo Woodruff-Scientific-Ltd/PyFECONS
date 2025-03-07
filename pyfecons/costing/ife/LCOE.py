@@ -30,9 +30,9 @@ def lcoe(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT.replacements = {
         "C1000000": round(OUT.C1000000, 1),
         "C2000000": round(OUT.C2000000, 1),
-        "C900000": round(data.cas90.C900000, 1),
-        "C800000": round(data.cas80.C800000, 1),
         "C700000": round(data.cas70.C700000, 1),
+        "C800000": round(data.cas80.C800000, 1),
+        "C900000": round(data.cas90.C900000, 1),
         "PNET": round(data.power_table.p_net, 3),
         "lifeY": round(basic.plant_lifetime),
         "yinflation": 100 * round(basic.yearly_inflation, 3),
