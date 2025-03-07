@@ -11,6 +11,7 @@ from pyfecons.costing.calculations.cost_table_builder import (
 
 
 def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
+    # Cost Table
     OUT = data.cost_table
     cost_values = get_cost_values(data)
     rounded_cost_values = get_rounded(cost_values, 2)
@@ -30,6 +31,9 @@ def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
     m50 = data.cas50.C500000 / data.cas90.C990000 * m_factor
     m60 = data.cas60.C600000 / data.cas90.C990000 * m_factor
     m99 = m_factor + m30 + m40 + m50 + m60
+
+    # LIFE Values Anklam 2011
+    # TODO this a_power is different than inputs.financial.a_power, are they supposed to be different?
     a_power = 2920  # this is the net electric power - TODO this is not used
 
     aries_st_values = {
