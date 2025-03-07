@@ -3,10 +3,10 @@ from typing import Union
 
 from pyfecons.costing.accounting.npv import NPV
 from pyfecons.costing.accounting.power_table import PowerTable
-from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas100000 import CAS10
 from pyfecons.costing.categories.cas200000 import CAS20
-from pyfecons.costing.categories.cas21 import CAS21
-from pyfecons.costing.categories.cas22 import CAS22
+from pyfecons.costing.categories.cas210000 import CAS21
+from pyfecons.costing.categories.cas220000 import CAS22
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils

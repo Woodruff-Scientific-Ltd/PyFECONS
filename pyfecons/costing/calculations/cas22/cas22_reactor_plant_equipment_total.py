@@ -1,4 +1,4 @@
-from pyfecons.costing.categories.cas22 import CAS22
+from pyfecons.costing.categories.cas220000 import CAS22
 from pyfecons.materials import Materials
 from pyfecons.units import M_USD
 

@@ -1,5 +1,5 @@
 import math
-from pyfecons.costing.categories.cas10 import CAS10
+from pyfecons.costing.categories.cas100000 import CAS10
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 from pyfecons.costing.accounting.power_table import PowerTable
