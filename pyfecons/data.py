@@ -200,6 +200,16 @@ class Data(SerializableToJSON):
             + self.cas28.C280000
         )
 
+    def cas10_to_60_total_capital_cost(self) -> M_USD:
+        return M_USD(
+            self.cas10.C100000
+            + self.cas20.C200000
+            + self.cas30.C300000
+            + self.cas40.C400000
+            + self.cas50.C500000
+            + self.cas60.C600000
+        )
+
     def template_providers(self) -> list[TemplateProvider]:
         return [
             self.power_table,
