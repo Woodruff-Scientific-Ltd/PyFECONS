@@ -1,4 +1,4 @@
-from pyfecons.data import CAS90
+from pyfecons.costing.categories.cas900000 import CAS90
 from pyfecons.inputs.financial import Financial
 from pyfecons.units import M_USD
 
