@@ -6,7 +6,7 @@ from pyfecons.costing.calculations.cost_table_builder import (
     map_keys_to_percentage,
 )
 from pyfecons.data import Data
-from pyfecons.costing.categories.cost_table import CostTable
+from pyfecons.costing.accounting.cost_table import CostTable
 
 
 def cost_table(data: Data) -> CostTable:

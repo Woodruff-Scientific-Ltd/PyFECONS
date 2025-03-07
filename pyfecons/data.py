@@ -45,7 +45,7 @@ from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.costing.categories.cas700000 import CAS70
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
-from pyfecons.costing.categories.cost_table import CostTable
+from pyfecons.costing.accounting.cost_table import CostTable
 from pyfecons.costing.categories.lcoe import LCOE
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
