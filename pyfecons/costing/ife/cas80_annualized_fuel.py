@@ -8,7 +8,7 @@ from pyfecons.report import TemplateProvider
 from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cas_80(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas80_annualized_fuel_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 80: Annualized Fuel Cost (AFC)
     OUT = data.cas80
 
