@@ -7,10 +7,9 @@ from pyfecons.costing.calculations.cost_table_builder import (
 )
 from pyfecons.data import Data
 from pyfecons.costing.accounting.cost_table import CostTable
-from pyfecons.report import TemplateProvider
 
 
-def cost_table(data: Data) -> TemplateProvider:
+def cost_table(data: Data) -> CostTable:
     # Cost Table
     cost_table = CostTable()
     cost_values = get_cost_values(data)
