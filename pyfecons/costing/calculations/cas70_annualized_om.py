@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.data import CAS70
+from pyfecons.costing.categories.cas700000 import CAS70
 
 
 def cas70_annualized_om_costs(power_table: PowerTable) -> CAS70:
