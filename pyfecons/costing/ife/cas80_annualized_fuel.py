@@ -3,7 +3,7 @@ from pyfecons.costing.calculations.interpolation import (
     get_interpolated_value,
 )
 from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
-from pyfecons.data import CAS80
+from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.inputs.basic import Basic
 
 

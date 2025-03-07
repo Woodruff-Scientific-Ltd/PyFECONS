@@ -1,5 +1,5 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
-from pyfecons.data import CAS80
+from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.units import Kilograms
