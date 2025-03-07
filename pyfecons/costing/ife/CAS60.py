@@ -20,9 +20,13 @@ def cas_60(inputs: AllInputs, data: Data) -> TemplateProvider:
     )
 
     # Cost Category 63 – Interest During Construction (IDC) formerly cost category 97
-    # for inflation rate = 0.05/y (cf. ARIES) and 0.02/y (lower and more modern).  The 0.05/y values check with Table 2.2-XVII p. 2-59 of the ARIES-II/IV report.
-    # Construction lead time is varied between 3 and 12 years. STARFIRE (with a published schedule) and ARIES used 6 years, which could be considered optimistic for a (big) tokamak.  We might be able to defend a lower base time for the smaller ARPA-E cases invoking factory fabrication and modularity (already assumed by STARFIRE).
-    # Your calculations so far have used the 6-yr f_IDC for 0.05/y inflation rate for Acct. 97; a sensitivity of TCC as a function of construction lead time is what we had in mind.
+    # for inflation rate = 0.05/y (cf. ARIES) and 0.02/y (lower and more modern).
+    #   The 0.05/y values check with Table 2.2-XVII p. 2-59 of the ARIES-II/IV report.
+    # Construction lead time is varied between 3 and 12 years. STARFIRE (with a published schedule) and ARIES used
+    #   6 years, which could be considered optimistic for a (big) tokamak.  We might be able to defend a lower base
+    #   time for the smaller ARPA-E cases invoking factory fabrication and modularity (already assumed by STARFIRE).
+    # Your calculations so far have used the 6-yr f_IDC for 0.05/y inflation rate for Acct. 97; a sensitivity of
+    #   TCC as a function of construction lead time is what we had in mind.
     # f_EDC for constant-dollar costing is zero.  Nominal- (then-current dollar) costing includes f_EDC in Acct. 98.
     # I am a bit surprised that the f_IDC for 0.02/y is slightly larger than the corresponding 0.05/y value.
     # f_IDC - Interest During Construction for constant dollars
@@ -38,7 +42,7 @@ def cas_60(inputs: AllInputs, data: Data) -> TemplateProvider:
 
     OUT.template_file = "CAS600000.tex"
     OUT.replacements = {
-        "C600000": round(OUT.C600000),
+        "C600000": round(OUT.C600000),  # TODO - not in template
         "C610000": round(OUT.C610000),
         "C630000LSA": round(OUT.C630000LSA),
         "C630000XXX": round(OUT.C630000),
