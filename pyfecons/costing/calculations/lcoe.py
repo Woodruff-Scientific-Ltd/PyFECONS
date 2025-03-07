@@ -3,7 +3,7 @@ from pyfecons.costing.calculations.conversions import m_to_usd
 from pyfecons.costing.categories.cas700000 import CAS70
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
-from pyfecons.data import LCOE
+from pyfecons.costing.categories.lcoe import LCOE
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 

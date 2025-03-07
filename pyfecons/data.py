@@ -43,16 +43,11 @@ from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.costing.categories.cas700000 import CAS70
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
+from pyfecons.costing.categories.lcoe import LCOE
 from pyfecons.enums import ReactorType
 from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
-
-
-@dataclass
-class LCOE(TemplateProvider):
-    C1000000: M_USD = None
-    C2000000: M_USD = None
 
 
 @dataclass
