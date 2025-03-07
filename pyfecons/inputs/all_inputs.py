@@ -51,7 +51,7 @@ class AllInputs(SerializableToJSON):
     # TODO is this really an input? if not move to calculation class
     financial: Financial = field(default_factory=Financial)
     target_factory: TargetFactory = field(default=None)
-    npv: NpvInput = field(default=None)
+    npv_input: NpvInput = field(default=None)
 
     # created here for reference in inputs.json
     materials: Materials = field(default_factory=Materials)

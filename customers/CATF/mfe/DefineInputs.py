@@ -264,5 +264,5 @@ def Generate() -> AllInputs:
         ),
         installation=Installation(labor_rate=USD(1600)),
         fuel_handling=FuelHandling(learning_curve_credit=Ratio(0.8)),
-        npv=NpvInput(discount_rate=Percent(0.08)),
+        npv_input=NpvInput(discount_rate=Percent(0.08)),
     )

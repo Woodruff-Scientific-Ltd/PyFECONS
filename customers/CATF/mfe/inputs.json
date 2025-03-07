@@ -541,7 +541,7 @@
         "capital_recovery_factor": 0.09
     },
     "target_factory": null,
-    "npv": {
+    "npv_input": {
         "discount_rate": 0.08
     },
     "materials": {

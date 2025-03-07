@@ -203,7 +203,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, data.power_table, data.cas70, data.cas80, data.cas90
     )
     data.cost_table = cost_table(data)
-    data.npv = calculate_npv(inputs, data)
+    data.npv = calculate_npv(inputs.basic, inputs.npv_input, data)
     return CostingData(data, data.template_providers())
 
 

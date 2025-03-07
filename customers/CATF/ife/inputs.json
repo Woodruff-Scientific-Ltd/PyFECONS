@@ -296,7 +296,7 @@
     "target_factory": {
         "learning_credit": 0.8
     },
-    "npv": {
+    "npv_input": {
         "discount_rate": 0.08
     },
     "materials": {
