@@ -193,7 +193,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
-    data.cas80 = cas80_annualized_fuel_costs(inputs, data)
+    data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
     data.cas90 = cas_90(inputs, data)
     data.lcoe = lcoe(inputs, data)
     data.cost_table = cost_table(inputs, data)
