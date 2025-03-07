@@ -1,5 +1,5 @@
 from pyfecons.costing.accounting.power_table import PowerTable
-from pyfecons.data import CAS50
+from pyfecons.costing.categories.cas500000 import CAS50
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
