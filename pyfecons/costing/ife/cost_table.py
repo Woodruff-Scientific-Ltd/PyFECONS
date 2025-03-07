@@ -5,14 +5,13 @@ from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values_inflation,
     map_keys_to_percentage,
 )
-from pyfecons.data import Data
+from pyfecons.data import Data, CostTable
 from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
 
 
-def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cost_table(data: Data) -> TemplateProvider:
     # Cost Table
-    OUT = data.cost_table
+    cost_table = CostTable()
     cost_values = get_cost_values(data)
     rounded_cost_values = get_rounded(cost_values, 1)
     percentage_cost_values = get_percentage_cost_values(
@@ -79,8 +78,8 @@ def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
     }
     life_values_empty_percentages = map_keys_to_percentage(life_values_empty)
 
-    OUT.template_file = "CASstructure.tex"
-    OUT.replacements = (
+    cost_table.template_file = "CASstructure.tex"
+    cost_table.replacements = (
         rounded_cost_values
         | percentage_cost_values
         | life_values_inflation
@@ -88,4 +87,4 @@ def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
         | life_values_empty
         | life_values_empty_percentages
     )
-    return OUT
+    return cost_table

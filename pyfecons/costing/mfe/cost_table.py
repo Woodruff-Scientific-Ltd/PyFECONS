@@ -1,6 +1,3 @@
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
-from pyfecons.report import TemplateProvider
 from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values,
     get_rounded,
@@ -8,11 +5,12 @@ from pyfecons.costing.calculations.cost_table_builder import (
     get_cost_values_inflation,
     map_keys_to_percentage,
 )
+from pyfecons.data import Data, CostTable
 
 
-def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cost_table(data: Data) -> CostTable:
     # Cost Table
-    OUT = data.cost_table
+    cost_table = CostTable()
     cost_values = get_cost_values(data)
     rounded_cost_values = get_rounded(cost_values, 2)
     percentage_cost_values = get_percentage_cost_values(
@@ -82,8 +80,8 @@ def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
     aries_st_percentages = get_percentage_cost_values(aries_st_values, m99, 2)
     aries_st_empty_percentages = map_keys_to_percentage(aries_st_empty_values)
 
-    OUT.template_file = "CASstructure.tex"
-    OUT.replacements = (
+    cost_table.template_file = "CASstructure.tex"
+    cost_table.replacements = (
         rounded_cost_values
         | percentage_cost_values
         | aries_st_values_inflation
@@ -91,4 +89,4 @@ def cost_table(inputs: AllInputs, data: Data) -> TemplateProvider:
         | aries_st_empty_values
         | aries_st_empty_percentages
     )
-    return OUT
+    return cost_table

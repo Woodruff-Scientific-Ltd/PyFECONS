@@ -98,7 +98,7 @@ from pyfecons.costing.calculations.cas90_annualized_financial import (
     cas90_annualized_financial_costs,
 )
 from pyfecons.costing.calculations.lcoe import lcoe_costs
-from pyfecons.costing.mfe.CostTable import cost_table
+from pyfecons.costing.mfe.cost_table import cost_table
 from pyfecons.costing.calculations.npv import calculate_npv
 from pyfecons.report import ReportContent, ReportOverrides
 from pyfecons.costing_data import CostingData
@@ -207,7 +207,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.lcoe = lcoe_costs(
         inputs.basic, data.power_table, data.cas70, data.cas80, data.cas90
     )
-    data.cost_table = cost_table(inputs, data)
+    data.cost_table = cost_table(data)
     data.npv = calculate_npv(inputs, data)
     return CostingData(data, data.template_providers())
 
