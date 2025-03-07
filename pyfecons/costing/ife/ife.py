@@ -98,7 +98,9 @@ from pyfecons.costing.calculations.cas60_capitalized_financial import (
 )
 from pyfecons.costing.calculations.cas70_annualized_om import cas70_annualized_om_costs
 from pyfecons.costing.ife.cas80_annualized_fuel import cas80_annualized_fuel_costs
-from pyfecons.costing.ife.CAS90 import cas_90
+from pyfecons.costing.calculations.cas90_annualized_financial import (
+    cas90_annualized_financial_costs,
+)
 from pyfecons.costing.ife.CostTable import cost_table
 from pyfecons.costing.ife.LCOE import lcoe
 from pyfecons.costing.calculations.npv import calculate_npv
@@ -194,7 +196,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
     data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
-    data.cas90 = cas_90(inputs, data)
+    data.cas90 = cas90_annualized_financial_costs(inputs, data)
     data.lcoe = lcoe(inputs, data)
     data.cost_table = cost_table(inputs, data)
     data.npv = calculate_npv(inputs, data)

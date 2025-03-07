@@ -1,10 +1,10 @@
-from pyfecons.units import M_USD
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.data import Data
 from pyfecons.report import TemplateProvider
-from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.units import M_USD
 
 
-def cas_90(inputs: AllInputs, data: Data) -> TemplateProvider:
+def cas90_annualized_financial_costs(inputs: AllInputs, data: Data) -> TemplateProvider:
     # Cost Category 90: Annualized Financial Costs (AFC)
     OUT = data.cas90
     financial = inputs.financial
@@ -22,5 +22,5 @@ def cas_90(inputs: AllInputs, data: Data) -> TemplateProvider:
     OUT.C900000 = M_USD(financial.capital_recovery_factor * OUT.C990000)
 
     OUT.template_file = "CAS900000.tex"
-    OUT.replacements = {"C900000": round(OUT.C900000)}
+    OUT.replacements = {"C900000": round(data.cas90.C900000)}
     return OUT
