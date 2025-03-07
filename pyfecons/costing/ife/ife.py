@@ -189,7 +189,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas50 = cas50_capitalized_supplementary_costs(
         inputs.basic, data.power_table, data.cas23_to_28_total_cost()
     )
-    data.cas60 = cas60_capitalized_financial_costs(inputs, data)
+    data.cas60 = cas60_capitalized_financial_costs(
+        inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
+    )
     data.cas70 = cas_70(inputs, data)
     data.cas80 = cas_80(inputs, data)
     data.cas90 = cas_90(inputs, data)

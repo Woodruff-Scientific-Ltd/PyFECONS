@@ -1,24 +1,27 @@
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
+from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.categories.cas200000 import CAS20
+from pyfecons.data import CAS60
+from pyfecons.inputs.basic import Basic
+from pyfecons.inputs.financial import Financial
+from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
 def cas60_capitalized_financial_costs(
-    inputs: AllInputs, data: Data
+    basic: Basic,
+    financial: Financial,
+    lsa_levels: LsaLevels,
+    power_table: PowerTable,
+    cas20: CAS20,
 ) -> TemplateProvider:
     # Cost Category 60 Capitalized Financial Costs (CFC)
-    OUT = data.cas60
-    financial = inputs.financial
-    lsa = inputs.lsa_levels
+    cas60 = CAS60()
 
     # Cost Category 61 – Escalation - formerly Cost Category 98: Escalation During Construction
     # Escalation during Construction (EDC) Table 3.2-X of Ref. [1]
-    OUT.C610000 = M_USD(
-        float(inputs.basic.n_mod)
-        * inputs.basic.p_nrl
-        / financial.a_power
-        * financial.a_c_98
+    cas60.C610000 = M_USD(
+        float(basic.n_mod) * basic.p_nrl / financial.a_power * financial.a_c_98
     )
 
     # Cost Category 63 – Interest During Construction (IDC) formerly cost category 97
@@ -34,19 +37,19 @@ def cas60_capitalized_financial_costs(
     # f_IDC - Interest During Construction for constant dollars
     # f_EDC - Escalation During Construction
     # a sensitivity of TCC as a function of construction lead time is what we had in mind
-    OUT.C630000LSA = M_USD(lsa.fac_97[lsa.lsa - 1] * data.cas20.C200000)
+    cas60.C630000LSA = M_USD(lsa_levels.fac_97[lsa_levels.lsa - 1] * cas20.C200000)
 
     # C_97_sens = costfac90 * (C_90 + C_96 + C_94 + C_93 + C_92 + C_91);
     # (/1e6)/A_power * A_C_97; %Interest during Construction (IDC)  Table 3.2-X of Ref. [1]
-    OUT.C630000 = M_USD(data.power_table.p_net * 0.099 * inputs.basic.construction_time)
+    cas60.C630000 = M_USD(power_table.p_net * 0.099 * basic.construction_time)
 
-    OUT.C600000 = M_USD(OUT.C630000 + OUT.C610000)
+    cas60.C600000 = M_USD(cas60.C630000 + cas60.C610000)
 
-    OUT.template_file = "CAS600000.tex"
-    OUT.replacements = {
-        "C600000": round(OUT.C600000),  # TODO - not in template
-        "C610000": round(OUT.C610000),
-        "C630000LSA": round(OUT.C630000LSA),
-        "C630000XXX": round(OUT.C630000),
+    cas60.template_file = "CAS600000.tex"
+    cas60.replacements = {
+        "C600000": round(cas60.C600000),  # TODO - not in template
+        "C610000": round(cas60.C610000),
+        "C630000LSA": round(cas60.C630000LSA),
+        "C630000XXX": round(cas60.C630000),
     }
-    return OUT
+    return cas60
