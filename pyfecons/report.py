@@ -1,8 +1,10 @@
 from dataclasses import dataclass, field
+from typing import Optional
+from pyfecons.serializable import SerializableToJSON
 
 
 @dataclass
-class TemplateProvider:
+class ReportSection(SerializableToJSON):
     # template substitutions variable_name -> value
     replacements: dict[str, str] = field(default_factory=dict)
     # template file name in templates/ directory
@@ -27,7 +29,7 @@ class TemplateProvider:
 
 @dataclass
 class HydratedTemplate:
-    template_provider: TemplateProvider = None
+    template_provider: ReportSection = None
     contents: str = None
 
 

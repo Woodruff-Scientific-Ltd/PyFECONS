@@ -2,12 +2,12 @@ from dataclasses import dataclass
 
 from pyfecons.costing.models.magnet_properties import MagnetProperties
 from pyfecons.enums import MagnetType
-from pyfecons.report import TemplateProvider
+from pyfecons.report import ReportSection
 from pyfecons.units import Count, M_USD
 
 
 @dataclass
-class CAS220103Coils(TemplateProvider):
+class CAS220103Coils(ReportSection):
     # Cost Category 22.1.3: Coils
     magnet_properties: list[MagnetProperties] = None
     no_pf_coils: Count = None
