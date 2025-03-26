@@ -5,7 +5,6 @@ from pyfecons.enums import ReactorType
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report import ReportContent, ReportOverrides
-from pyfecons.costing_data import CostingData
 from pyfecons.templates import (
     hydrate_templates,
     combine_figures,
@@ -131,7 +130,7 @@ LOCAL_INCLUDED_FILES = [
 ]
 
 
-def GenerateCostingData(inputs: AllInputs) -> CostingData:
+def GenerateCostingData(inputs: AllInputs) -> Data:
     data = Data(reactor_type=ReactorType.IFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
@@ -204,19 +203,19 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     )
     data.cost_table = cost_table(data)
     data.npv = calculate_npv(inputs.basic, inputs.npv_input, data)
-    return CostingData(data, data.template_providers())
+    return data
 
 
 def CreateReportContent(
-    costing_data: CostingData, overrides: Optional[ReportOverrides] = None
+    data: Data, overrides: Optional[ReportOverrides] = None
 ) -> ReportContent:
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
     hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers, overrides
+        TEMPLATES_PATH, data.template_providers(), overrides
     )
-    figures = combine_figures(costing_data.template_providers)
+    figures = combine_figures(data.template_providers())
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )

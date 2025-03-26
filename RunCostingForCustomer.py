@@ -85,7 +85,7 @@ with open(f"{customer_folder}/inputs.json", "w", encoding="utf-8") as file:
 from pyfecons.pyfecons import RunCosting, CreateReportContent, RenderFinalReport
 
 costing_data = RunCosting(inputs)
-dataDict = costing_data.data.toDict()
+dataDict = costing_data.toDict()
 
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
