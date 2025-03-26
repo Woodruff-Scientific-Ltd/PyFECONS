@@ -1,8 +1,10 @@
 import numpy as np
 from pyfecons.costing.calculations.conversions import w_to_mw
-from pyfecons.data import PowerTable
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.enums import MagnetType
-from pyfecons.inputs import Coils, Magnet, RadialBuild
+from pyfecons.inputs.coils import Coils
+from pyfecons.inputs.magnet import Magnet
+from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.units import MW
 
 

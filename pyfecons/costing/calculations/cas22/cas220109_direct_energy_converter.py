@@ -1,8 +1,28 @@
 import math
 
-from pyfecons.data import CAS220109
-from pyfecons.inputs import DirectEnergyConverter
+from pyfecons.costing.categories.cas220109 import CAS220109
+from pyfecons.inputs.basic import Basic
+from pyfecons.inputs.direct_energy_converter import DirectEnergyConverter
 from pyfecons.units import M_USD
+
+
+def cas_220109_direct_energy_converter_costs(
+    basic: Basic, direct_energy_converter: DirectEnergyConverter
+) -> CAS220109:
+    # 22.1.9 Direct Energy Converter
+    cas220109 = CAS220109()
+
+    cas220109.costs = get_subsystem_costs(basic.noak)
+    cas220109.scaled_costs = get_scaled_costs(cas220109.costs, direct_energy_converter)
+
+    # TODO verify this right now the script pulls "totaldecost": 591, which is not the sum of the parts
+    # cas220109.C220109 = M_USD(sum(cas220109.scaled_costs.values()))
+    # TODO why is this zero?
+    cas220109.C220109 = M_USD(0)
+
+    cas220109.template_file = "CAS220109.tex"
+    cas220109.replacements = get_replacements(cas220109)
+    return cas220109
 
 
 def get_subsystem_costs(noak: bool) -> dict[str, M_USD]:

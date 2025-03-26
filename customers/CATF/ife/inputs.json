@@ -19,7 +19,7 @@
         "time_to_replace": 10.0,
         "implosion_frequency": 1.0
     },
-    "power_table": {
+    "power_input": {
         "f_sub": 0.01,
         "p_cryo": 3.5714285714285716,
         "mn": 1.09,
@@ -296,7 +296,7 @@
     "target_factory": {
         "learning_credit": 0.8
     },
-    "npv": {
+    "npv_input": {
         "discount_rate": 0.08
     },
     "materials": {

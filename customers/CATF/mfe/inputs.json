@@ -19,7 +19,7 @@
         "time_to_replace": 10.0,
         "implosion_frequency": null
     },
-    "power_table": {
+    "power_input": {
         "f_sub": 0.03,
         "p_cryo": 0.5,
         "mn": 1.1,
@@ -541,7 +541,7 @@
         "capital_recovery_factor": 0.09
     },
     "target_factory": null,
-    "npv": {
+    "npv_input": {
         "discount_rate": 0.08
     },
     "materials": {

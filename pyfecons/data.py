@@ -1,528 +1,56 @@
+from dataclasses import dataclass, field
 from typing import Union
 
-from pyfecons.inputs import *
-from pyfecons.materials import Material
+from pyfecons.costing.accounting.npv import NPV
+from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.categories.cas100000 import CAS10
+from pyfecons.costing.categories.cas200000 import CAS20
+from pyfecons.costing.categories.cas210000 import CAS21
+from pyfecons.costing.categories.cas220000 import CAS22
+from pyfecons.costing.categories.cas220101 import CAS220101
+from pyfecons.costing.categories.cas220102 import CAS220102
+from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
+from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
+from pyfecons.costing.categories.cas220104_ignition_lasers import (
+    CAS220104IgnitionLasers,
+)
+from pyfecons.costing.categories.cas220104_supplementary_heating import (
+    CAS220104SupplementaryHeating,
+)
+from pyfecons.costing.categories.cas220105 import CAS220105
+from pyfecons.costing.categories.cas220106 import CAS220106
+from pyfecons.costing.categories.cas220107 import CAS220107
+from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
+from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
+from pyfecons.costing.categories.cas220109 import CAS220109
+from pyfecons.costing.categories.cas220111 import CAS220111
+from pyfecons.costing.categories.cas220119 import CAS220119
+from pyfecons.costing.categories.cas220200 import CAS2202
+from pyfecons.costing.categories.cas220300 import CAS2203
+from pyfecons.costing.categories.cas220400 import CAS2204
+from pyfecons.costing.categories.cas220500 import CAS2205
+from pyfecons.costing.categories.cas220600 import CAS2206
+from pyfecons.costing.categories.cas220700 import CAS2207
+from pyfecons.costing.categories.cas230000 import CAS23
+from pyfecons.costing.categories.cas240000 import CAS24
+from pyfecons.costing.categories.cas250000 import CAS25
+from pyfecons.costing.categories.cas260000 import CAS26
+from pyfecons.costing.categories.cas270000 import CAS27
+from pyfecons.costing.categories.cas280000 import CAS28
+from pyfecons.costing.categories.cas290000 import CAS29
+from pyfecons.costing.categories.cas300000 import CAS30
+from pyfecons.costing.categories.cas400000 import CAS40
+from pyfecons.costing.categories.cas500000 import CAS50
+from pyfecons.costing.categories.cas600000 import CAS60
+from pyfecons.costing.categories.cas700000 import CAS70
+from pyfecons.costing.categories.cas800000 import CAS80
+from pyfecons.costing.categories.cas900000 import CAS90
+from pyfecons.costing.accounting.cost_table import CostTable
+from pyfecons.costing.categories.lcoe import LCOE
+from pyfecons.enums import ReactorType
+from pyfecons.report import TemplateProvider
 from pyfecons.serializable import SerializableToJSON
-
-
-@dataclass
-class TemplateProvider:
-    # template substitutions variable_name -> value
-    replacements: dict[str, str] = field(default_factory=dict)
-    # template file name in templates/ directory
-    template_file: str = None
-    # latex path -> image bytes
-    figures: dict[str, bytes] = field(default_factory=dict)
-    # template file path for LaTeX compilation directory (defaults to Modified/{template_file})
-    _tex_path: str = None
-
-    # TODO - tex_path is not serializing right now and I can't figure out how to get it to work
-    # https://chatgpt.com/share/fab6081c-35fb-41e7-bf9a-a4e2e188865f
-    @property
-    def tex_path(self) -> str:
-        if self._tex_path is None:
-            return "Modified/" + self.template_file
-        return self._tex_path
-
-    @tex_path.setter
-    def tex_path(self, value):
-        self._tex_path = value
-
-
-@dataclass
-class PowerTable(TemplateProvider):
-    p_alpha: MW = None  # Charged particle power
-    p_neutron: MW = None  # Neutron power
-    p_cool: MW = None
-    p_aux: MW = None  # Auxiliary systems
-    p_coils: MW = None
-    p_th: MW = None  # Thermal power
-    p_the: MW = None  # Total thermal electric power
-    p_dee: MW = None
-    p_et: MW = None  # Total (Gross) Electric Power
-    p_loss: MW = None  # Lost Power
-    p_pump: MW = None  # Primary Coolant Pumping Power
-    p_sub: MW = None  # Subsystem and Control Power
-    q_sci: Unknown = None  # Scientific Q
-    q_eng: Unknown = None  # Engineering Q
-    rec_frac: Unknown = None  # Recirculating power fraction
-    p_net: MW = None  # Output Power (Net Electric Power)
-    gain_e: Ratio = None  # Gain in Electric Power
-
-
-# TODO give sensible defaults are force initialization
-@dataclass
-class CAS10(TemplateProvider):
-    C110000: M_USD = None
-    C120000: M_USD = None
-    C130000: M_USD = None
-    C140000: M_USD = None
-    C150000: M_USD = None
-    C160000: M_USD = None
-    C170000: M_USD = None
-    C190000: M_USD = None
-    C100000: M_USD = None
-
-
-@dataclass
-class CAS21(TemplateProvider):
-    C210100: M_USD = None
-    C210200: M_USD = None
-    C210300: M_USD = None
-    C210400: M_USD = None
-    C210500: M_USD = None
-    C210600: M_USD = None
-    C210700: M_USD = None
-    C210800: M_USD = None
-    C210900: M_USD = None
-    C211000: M_USD = None
-    C211100: M_USD = None
-    C211200: M_USD = None
-    C211300: M_USD = None
-    C211400: M_USD = None
-    C211500: M_USD = None
-    C211600: M_USD = None
-    C211700: M_USD = None
-    C211900: M_USD = None
-    C210000: M_USD = None
-
-
-@dataclass
-class MagnetProperties:
-    # input
-    magnet: Magnet = None
-
-    # computed
-    vol_coil: Meters3 = None  # volume of the coil
-    cs_area: Meters2 = None  # cross-sectional area of entire coil
-    turns_c: Turns = None  # turns of cable in the coil
-    cable_current: Amperes = None  # current per cable
-    current_supply: MA = None  # total current supply to the coil
-    turns_sc_tot: Turns = None  # total turns of REBCO
-    turns_scs: Turns = None  # turns of REBCO in one cable
-    tape_length: Kilometers = None  # total length of REBCO in km
-    turns_i: Turns = None  # turns of (partial?) insulation
-    j_tape: AmperesMillimeters2 = None  # approximate critical current density
-    cable_w: Meters = None  # Cable width in meters
-    cable_h: Meters = None  # Cable height in meters
-    # number of pancakes based on total required turns and the number of turns in a reference pancake coil
-    no_p: float = None
-    vol_i: Meters3 = None  # total volume of insulation
-    max_tape_current: Amperes = None  # current
-    cost_sc: M_USD = None  # total cost of REBCO
-    cost_cu: M_USD = None  # total cost of copper
-    cost_ss: M_USD = None  # total cost of stainless steel
-    cost_i: M_USD = None  # total cost of insulation
-    coil_mass: Kilograms = None  # mass of the coil
-    cooling_cost: M_USD = None
-    tot_mat_cost: M_USD = None
-    magnet_cost: M_USD = None
-    magnet_struct_cost: M_USD = None
-    magnet_total_cost_individual: M_USD = None
-    magnet_total_cost: M_USD = None
-    cu_wire_current: Amperes = None  # current through each cu_wire
-
-
-@dataclass
-class CAS220101(TemplateProvider):
-    # Cost Category 22.1.1: Reactor Equipment
-    # Inner radii
-    axis_ir: Meters = None
-    plasma_ir: Meters = None
-    vacuum_ir: Meters = None
-    firstwall_ir: Meters = None
-    blanket1_ir: Meters = None
-    reflector_ir: Meters = None
-    ht_shield_ir: Meters = None
-    structure_ir: Meters = None
-    gap1_ir: Meters = None
-    vessel_ir: Meters = None
-    lt_shield_ir: Meters = None  # Moved lt_shield here
-    coil_ir: Meters = None  # Updated coil_ir calculation
-    gap2_ir: Meters = None
-    bioshield_ir: Meters = None  # Updated bioshield inner radius
-
-    # Outer radii
-    axis_or: Meters = None
-    plasma_or: Meters = None
-    vacuum_or: Meters = None
-    firstwall_or: Meters = None
-    blanket1_or: Meters = None
-    reflector_or: Meters = None
-    ht_shield_or: Meters = None
-    structure_or: Meters = None
-    gap1_or: Meters = None
-    vessel_or: Meters = None
-    lt_shield_or: Meters = None  # Moved lt_shield here
-    coil_or: Meters = None  # Updated coil_or calculation
-    gap2_or: Meters = None
-    bioshield_or: Meters = None  # Updated bioshield outer radius
-
-    # Volumes for torus
-    axis_vol: Meters3 = None
-    plasma_vol: Meters3 = None
-    vacuum_vol: Meters3 = None
-    firstwall_vol: Meters3 = None
-    blanket1_vol: Meters3 = None
-    reflector_vol: Meters3 = None
-    ht_shield_vol: Meters3 = None
-    structure_vol: Meters3 = None
-    gap1_vol: Meters3 = None
-    vessel_vol: Meters3 = None
-    lt_shield_vol: Meters3 = None  # Moved lt_shield volume here
-    coil_vol: Meters3 = None  # Updated coil volume calculation
-    gap2_vol: Meters3 = None
-    bioshield_vol: Meters3 = None  # Updated bioshield volume
-
-    # Costs
-    C22010101: M_USD = None
-    C22010102: M_USD = None
-    C220101: M_USD = None
-
-
-@dataclass
-class CAS220102(TemplateProvider):
-    # Cost Category 22.1.2: Shield
-    C22010201: M_USD = None
-    C22010202: M_USD = None
-    C22010203: M_USD = None
-    C22010204: M_USD = None
-    C220102: M_USD = None
-    V_HTS: Meters3 = None
-
-
-@dataclass
-class CAS220103Coils(TemplateProvider):
-    # Cost Category 22.1.3: Coils
-    magnet_properties: list[MagnetProperties] = None
-    no_pf_coils: Count = None
-    no_pf_pairs: Count = None
-    total_struct_cost: M_USD = None
-    C22010301: M_USD = None  # TF coils
-    C22010302: M_USD = None  # CS coils
-    C22010303: M_USD = None  # PF coils
-    C22010304: M_USD = None  # Shim coil costs, taken as 5% total primary magnet costs
-    C22010305: M_USD = None  # Structural cost
-    C22010306: M_USD = None  # Cooling cost
-    C220103: M_USD = None  # Total cost
-
-    def __post_init__(self):
-        if self.magnet_properties is None:
-            self.magnet_properties = []
-
-    @property
-    def tf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.TF
-        ]
-
-    @property
-    def cs_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.CS
-        ]
-
-    @property
-    def pf_coils(self) -> list[MagnetProperties]:
-        return [
-            magnet
-            for magnet in self.magnet_properties
-            if magnet.magnet.type == MagnetType.PF
-        ]
-
-
-@dataclass
-class CAS220103Lasers(TemplateProvider):
-    C220103: M_USD = None
-
-
-@dataclass
-class CAS220104SupplementaryHeating(TemplateProvider):
-    # 22.1.4 Supplementary heating
-    C22010401: M_USD = None
-    C22010402: M_USD = None
-    C220104: M_USD = None
-
-
-@dataclass
-class CAS220104IgnitionLasers(TemplateProvider):
-    C220104: M_USD = None
-
-
-@dataclass
-class CAS220105(TemplateProvider):
-    # 22.1.5 primary structure
-    C22010501: M_USD = None
-    C22010502: M_USD = None
-    C220105: M_USD = None
-
-
-@dataclass
-class VesselCost:
-    name: str = None
-    total_mass: Kilograms = 0
-    material_cost: USD = 0
-    fabrication_cost: USD = 0
-    total_cost: USD = 0
-
-
-@dataclass
-class VesselCosts:
-    spool_assembly: VesselCost = field(default_factory=VesselCost)
-    removable_doors: VesselCost = field(default_factory=VesselCost)
-    door_frames: VesselCost = field(default_factory=VesselCost)
-    port_enclosures: VesselCost = field(default_factory=VesselCost)
-    total: VesselCost = field(default_factory=VesselCost)
-    contingency: VesselCost = field(default_factory=VesselCost)
-    prime_contractor_fee: VesselCost = field(default_factory=VesselCost)
-    total_subsystem_cost: VesselCost = field(default_factory=VesselCost)
-
-
-@dataclass
-class CAS220106(TemplateProvider):
-    # 22.1.6 Vacuum system
-    C22010601: M_USD = None
-    C22010602: M_USD = None
-    C22010603: M_USD = None
-    C22010604: M_USD = None
-    C220106: M_USD = None
-    massstruct: float = None
-    vesvol: float = None
-    vesmatcost: float = None
-    vessel_costs: VesselCosts = field(default_factory=VesselCosts)
-
-
-@dataclass
-class CAS220107(TemplateProvider):
-    # Cost Category 22.1.7 Power supplies
-    C22010701: M_USD = None  # Power supplies for confinement
-    C22010702: M_USD = None
-    C220107: M_USD = None
-
-
-@dataclass
-class CAS220108Divertor(TemplateProvider):
-    # 22.1.8 Divertor
-    C220108: M_USD = None
-    divertor_maj_rad: Meters = None
-    divertor_min_rad: Meters = None
-    divertor_thickness_z: Meters = None
-    divertor_complexity_factor: Ratio = (
-        None  # arbitrary measure of how complicated the divertor design is
-    )
-    divertor_vol_frac: Ratio = None  # fraction of volume of divertor that is material
-    divertor_thickness_r: Meters = None
-    divertor_material: Material = None
-    divertor_vol: Meters3 = None  # volume of the divertor based on TF coil radius
-    divertor_mass: Kilograms = None
-    divertor_mat_cost: M_USD = None
-    divertor_cost: M_USD = None
-
-
-@dataclass
-class CAS220108TargetFactory(TemplateProvider):
-    C220108: M_USD = None
-
-
-@dataclass
-class CAS220109(TemplateProvider):
-    # 22.1.9 Direct Energy Converter
-    C220109: M_USD = None
-    costs: dict[str, M_USD] = None
-    scaled_costs: dict[str, M_USD] = None
-
-
-@dataclass
-class CAS220111(TemplateProvider):
-    # Cost Category 22.1.11 Installation costs
-    C220111: M_USD = None
-
-
-@dataclass
-class CAS220119(TemplateProvider):
-    # Cost category 22.1.19 Scheduled Replacement Cost
-    C220119: M_USD = None
-
-
-@dataclass
-class CAS2202(TemplateProvider):
-    # MAIN AND SECONDARY COOLANT Cost Category 22.2
-    C220201: M_USD = None
-    C220202: M_USD = None
-    C220203: M_USD = None
-    C220200: M_USD = None
-
-
-@dataclass
-class CAS2203(TemplateProvider):
-    # Cost Category 22.3  Auxiliary cooling
-    C220300: M_USD = None
-
-
-@dataclass
-class CAS2204(TemplateProvider):
-    # Cost Category 22.4 Radwaste
-    C220400: M_USD = None
-
-
-@dataclass
-class CAS2205(TemplateProvider):
-    # Cost Category 22.5 Fuel Handling and Storage
-    C2205010ITER: M_USD = None
-    C2205020ITER: M_USD = None
-    C2205030ITER: M_USD = None
-    C2205040ITER: M_USD = None
-    C2205050ITER: M_USD = None
-    C2205060ITER: M_USD = None
-    C22050ITER: M_USD = None
-    C220501: M_USD = None
-    C220502: M_USD = None
-    C220503: M_USD = None
-    C220504: M_USD = None
-    C220505: M_USD = None
-    C220506: M_USD = None
-    C220500: M_USD = None
-
-
-@dataclass
-class CAS2206(TemplateProvider):
-    # Cost Category 22.6 Other Reactor Plant Equipment
-    C220600: M_USD = None
-
-
-@dataclass
-class CAS2207(TemplateProvider):
-    # Cost Category 22.7 Instrumentation and Control
-    C220700: M_USD = None
-
-
-@dataclass
-class CAS22(TemplateProvider):
-    # Cost category 22.1 total
-    C220100: M_USD = None
-
-    # Final output
-    C220000: M_USD = None
-
-
-@dataclass
-class CAS23(TemplateProvider):
-    C230000: M_USD = None
-
-
-@dataclass
-class CAS24(TemplateProvider):
-    C240000: M_USD = None
-
-
-@dataclass
-class CAS25(TemplateProvider):
-    C250000: M_USD = None
-
-
-@dataclass
-class CAS26(TemplateProvider):
-    C260000: M_USD = None
-
-
-@dataclass
-class CAS27(TemplateProvider):
-    C271000: M_USD = None
-    C274000: M_USD = None
-    C275000: M_USD = None
-    C270000: M_USD = None
-
-
-@dataclass
-class CAS28(TemplateProvider):
-    C280000: M_USD = None
-
-
-@dataclass
-class CAS29(TemplateProvider):
-    C290000: M_USD = None
-
-
-@dataclass
-class CAS20(TemplateProvider):
-    C200000: M_USD = None
-
-
-@dataclass
-class CAS30(TemplateProvider):
-    C310000LSA: M_USD = None
-    C310000: M_USD = None
-    C320000LSA: M_USD = None
-    C320000: M_USD = None
-    C350000LSA: M_USD = None
-    C350000: M_USD = None
-    C300000: M_USD = None
-
-
-@dataclass
-class CAS40(TemplateProvider):
-    C400000LSA: M_USD = None
-    C400000: M_USD = None
-    C410000: M_USD = None
-    C420000: M_USD = None
-    C430000: M_USD = None
-    C440000: M_USD = None
-
-
-@dataclass
-class CAS50(TemplateProvider):
-    C510000: M_USD = None
-    C520000: M_USD = None
-    C530000: M_USD = None
-    C540000: M_USD = None
-    C550000: M_USD = None
-    C580000: M_USD = None
-    C590000: M_USD = None
-    C500000: M_USD = None
-
-
-@dataclass
-class CAS60(TemplateProvider):
-    C610000: M_USD = None
-    C630000LSA: M_USD = None
-    C630000: M_USD = None
-    C600000: M_USD = None
-
-
-@dataclass
-class CAS70(TemplateProvider):
-    C700000: M_USD = None
-
-
-@dataclass
-class CAS80(TemplateProvider):
-    C800000: M_USD = None
-
-
-@dataclass
-class CAS90(TemplateProvider):
-    C990000: M_USD = None
-    C900000: M_USD = None
-
-
-@dataclass
-class LCOE(TemplateProvider):
-    C1000000: M_USD = None
-    C2000000: M_USD = None
-
-
-@dataclass
-class CostTable(TemplateProvider):
-    pass
-
-
-@dataclass
-class NPV(TemplateProvider):
-    npv: M_USD = None
+from pyfecons.units import M_USD
 
 
 @dataclass
@@ -603,3 +131,107 @@ class Data(SerializableToJSON):
             return CAS220108TargetFactory()
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
+
+    def cas2201_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas220101.C220101
+            + self.cas220102.C220102
+            + self.cas220103.C220103
+            + self.cas220104.C220104
+            + self.cas220105.C220105
+            + self.cas220106.C220106
+            + self.cas220107.C220107
+            + self.cas220108.C220108
+            + self.cas220109.C220109
+            + self.cas220111.C220111
+            # This needs to be zero for CAS220119 calculation to run correctly
+            + (0 if self.cas220119.C220119 is None else self.cas220119.C220119)
+        )
+
+    def cas2200_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas2201_total_cost()
+            + self.cas2202.C220200
+            + self.cas2203.C220300
+            + self.cas2204.C220400
+            + self.cas2205.C220500
+            + self.cas2206.C220600
+            + self.cas2207.C220700
+        )
+
+    def cas2x_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas21.C210000
+            + self.cas22.C220000
+            + self.cas23.C230000
+            + self.cas24.C240000
+            + self.cas25.C250000
+            + self.cas26.C260000
+            + self.cas27.C270000
+            + self.cas28.C280000
+            # Needed for CAS29 calculation to run correctly
+            + (0 if self.cas29.C290000 is None else self.cas29.C290000)
+        )
+
+    def cas23_to_28_total_cost(self) -> M_USD:
+        return M_USD(
+            self.cas23.C230000
+            + self.cas24.C240000
+            + self.cas25.C250000
+            + self.cas26.C260000
+            + self.cas27.C270000
+            + self.cas28.C280000
+        )
+
+    def cas10_to_60_total_capital_cost(self) -> M_USD:
+        return M_USD(
+            self.cas10.C100000
+            + self.cas20.C200000
+            + self.cas30.C300000
+            + self.cas40.C400000
+            + self.cas50.C500000
+            + self.cas60.C600000
+        )
+
+    def template_providers(self) -> list[TemplateProvider]:
+        return [
+            self.power_table,
+            self.cas10,
+            self.cas21,
+            self.cas220101,
+            self.cas220102,
+            self.cas220103,
+            self.cas220104,
+            self.cas220105,
+            self.cas220106,
+            self.cas220107,
+            self.cas220108,
+            self.cas220109,
+            self.cas220111,
+            self.cas220119,
+            self.cas2202,
+            self.cas2203,
+            self.cas2204,
+            self.cas2205,
+            self.cas2206,
+            self.cas2207,
+            self.cas22,
+            self.cas23,
+            self.cas24,
+            self.cas25,
+            self.cas26,
+            self.cas27,
+            self.cas28,
+            self.cas29,
+            self.cas20,
+            self.cas30,
+            self.cas40,
+            self.cas50,
+            self.cas60,
+            self.cas70,
+            self.cas80,
+            self.cas90,
+            self.lcoe,
+            self.cost_table,
+            self.npv,
+        ]

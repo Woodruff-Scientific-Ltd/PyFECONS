@@ -10,7 +10,7 @@ usage.
 This class contains the main entry functions for creating a report. The usage is as follows:
 
 ```
-inputs = Inputs(...)
+inputs = AllInputs(...)
 costing_data = RunCosting(inputs)
 report_content = CreateReportContent(inputs, costing_data)
 report = RenderFinalReport(report_content, hide_output=True)
@@ -35,7 +35,7 @@ The main entry point to the costing code is in the `ife.py`, `mfe.py`, and `ife.
 The main machinery here is as follows:
 
 ```
-def GenerateCostingData(inputs: Inputs) -> CostingData
+def GenerateCostingData(inputs: AllInputs) -> CostingData
     data = Data(reactor_type=ReactorType.IFE)
     template_providers = [
         power_balance(inputs, data),
@@ -74,7 +74,7 @@ class CAS10(TemplateProvider):
 
 And an outline of the costing calculation:
 ```
-def cas_10(inputs: Inputs, data: Data) -> TemplateProvider
+def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider
     OUT = data.cas10  # grabs the initialized TemplateProvide from data class
     ... do calculations ...
     OUT.C100000 = M_USD(...)

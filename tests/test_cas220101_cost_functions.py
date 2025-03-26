@@ -13,7 +13,8 @@ from pyfecons.enums import (
     BlanketNeutronMultiplier,
     BlanketStructure,
 )
-from pyfecons.inputs import Blanket, RadialBuild
+from pyfecons.inputs.blanket import Blanket
+from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.units import Ratio, Meters
 
 

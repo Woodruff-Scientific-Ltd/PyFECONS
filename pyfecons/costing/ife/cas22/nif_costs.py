@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from pyfecons.inputs import Lasers
+from pyfecons.inputs.lasers import Lasers
 from pyfecons.units import M_USD, MW
 
 

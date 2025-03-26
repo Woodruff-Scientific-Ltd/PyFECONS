@@ -1,15 +1,31 @@
 # You must define an inputs object
-from pyfecons.inputs import *
 from pyfecons.enums import *
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.inputs.basic import Basic
+from pyfecons.inputs.blanket import Blanket
+from pyfecons.inputs.coils import Coils
+from pyfecons.inputs.customer_info import CustomerInfo
+from pyfecons.inputs.direct_energy_converter import DirectEnergyConverter
+from pyfecons.inputs.fuel_handling import FuelHandling
+from pyfecons.inputs.installation import Installation
+from pyfecons.inputs.lsa_levels import LsaLevels
+from pyfecons.inputs.magnet import Magnet
+from pyfecons.inputs.npv_Input import NpvInput
+from pyfecons.inputs.power_supplies import PowerSupplies
+from pyfecons.inputs.power_input import PowerInput
+from pyfecons.inputs.primary_structure import PrimaryStructure
+from pyfecons.inputs.radial_build import RadialBuild
+from pyfecons.inputs.shield import Shield
+from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.units import *
 
 
-def Generate():
+def Generate() -> AllInputs:
     # TODO - need to extract tf_dr, radial build, and coils into a more defined construct
     tf_dr = Meters(0.25)  # Main toroidal field coil thickness
-    return Inputs(
-        CustomerInfo(name="Clean Air Task Force"),
-        Basic(
+    return AllInputs(
+        customer_info=CustomerInfo(name="Clean Air Task Force"),
+        basic=Basic(
             reactor_type=ReactorType.MFE,
             confinement_type=ConfinementType.SPHERICAL_TOKAMAK,
             energy_conversion=EnergyConversion.DIRECT,
@@ -33,7 +49,7 @@ def Generate():
             neutron_multiplier=BlanketNeutronMultiplier.BE12TI,
             structure=BlanketStructure.FERRITIC_MARTENSITIC_STEEL_FMS,
         ),
-        power_table=PowerTable(
+        power_input=PowerInput(
             f_sub=Percent(0.03),
             p_cryo=MW(0.5),
             mn=Ratio(1.1),
@@ -248,5 +264,5 @@ def Generate():
         ),
         installation=Installation(labor_rate=USD(1600)),
         fuel_handling=FuelHandling(learning_curve_credit=Ratio(0.8)),
-        npv=NpvInput(discount_rate=Percent(0.08)),
+        npv_input=NpvInput(discount_rate=Percent(0.08)),
     )
