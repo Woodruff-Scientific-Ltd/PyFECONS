@@ -54,7 +54,7 @@ from pyfecons.units import M_USD
 
 
 @dataclass
-class Data(SerializableToJSON):
+class CostingData(SerializableToJSON):
     reactor_type: ReactorType
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
