@@ -25,19 +25,21 @@ def RunCosting(inputs: AllInputs) -> CostingData:
 
 
 def CreateReportContent(
+    inputs: AllInputs,
     costing_data: CostingData,
     overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
     """
     Create report content with given cost calculation output data.
+    :param inputs: The input parameters used for cost calculations.
     :param costing_data: The output data and templates providers for cost calculations.
     :param overrides: Overriding substitutions for latex template hydration.
     :return: Report contents including files, hydrated templates, and latex packages.
     """
     if costing_data.reactor_type == ReactorType.MFE:
-        return CreateMfeReport(costing_data, overrides)
+        return CreateMfeReport(inputs, costing_data, overrides)
     elif costing_data.reactor_type == ReactorType.IFE:
-        return CreateIfeReport(costing_data, overrides)
+        return CreateIfeReport(inputs, costing_data, overrides)
     elif costing_data.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
     raise ValueError("Invalid reactor type")

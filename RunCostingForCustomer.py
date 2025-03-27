@@ -101,8 +101,20 @@ with open(f"{customer_folder}/data.json", "w", encoding="utf-8") as file:
 overrides = load_customer_overrides(customer_folder)
 
 # fill in the templates and copy them to the customer's folder
-report_content = CreateReportContent(costing_data, overrides)
+report_content = CreateReportContent(inputs, costing_data, overrides)
 
+# Save report sections to JSON for tracking changes
+sections_dict = {
+    section.__class__.__name__: {
+        "template_file": section.template_file,
+        "replacements": section.replacements,
+        "figures": list(section.figures.keys()) if hasattr(section, "figures") else []
+    }
+    for section in report_content.report_sections
+}
+with open(f"{customer_folder}/sections.json", "w", encoding="utf-8") as file:
+    sectionsJSONstring = json.dumps(sections_dict, indent=4, cls=PyfeconsEncoder)
+    file.write(sectionsJSONstring)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory

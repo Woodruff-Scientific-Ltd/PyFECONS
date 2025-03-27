@@ -1,14 +1,16 @@
 from typing import List, Dict
 
 from pyfecons.costing_data import CostingData
+from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
+from pyfecons.report.sections.cas10_section import CAS10Section
 
 
-def get_report_sections(costing_data: CostingData) -> List[ReportSection]:
+def get_report_sections(inputs: AllInputs, costing_data: CostingData) -> List[ReportSection]:
     """Get all report sections from costing data."""
     return [
         costing_data.power_table,
-        costing_data.cas10,
+        CAS10Section(costing_data.cas10, inputs.basic),
         costing_data.cas21,
         costing_data.cas220101,
         costing_data.cas220102,

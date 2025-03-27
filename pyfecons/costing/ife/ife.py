@@ -206,12 +206,14 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
 
 
 def CreateReportContent(
-    costing_data: CostingData, overrides: Optional[ReportOverrides] = None
+    inputs: AllInputs,
+    costing_data: CostingData,
+    overrides: Optional[ReportOverrides] = None
 ) -> ReportContent:
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
-    report_sections = get_report_sections(costing_data)
+    report_sections = get_report_sections(inputs, costing_data)
     hydrated_templates = hydrate_templates(
         TEMPLATES_PATH, report_sections, overrides
     )
@@ -219,4 +221,4 @@ def CreateReportContent(
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )
-    return ReportContent(document_template, hydrated_templates, included_files, figures)
+    return ReportContent(document_template, hydrated_templates, report_sections, included_files, figures)
