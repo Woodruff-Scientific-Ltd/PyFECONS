@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from pyfecons.report import TemplateProvider
+from pyfecons.report import ReportSection
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS40(TemplateProvider):
+class CAS40(ReportSection):
     C400000LSA: M_USD = None
     C400000: M_USD = None
     C410000: M_USD = None

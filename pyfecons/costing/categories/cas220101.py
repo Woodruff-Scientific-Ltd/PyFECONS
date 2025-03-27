@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from pyfecons.report import TemplateProvider
+from pyfecons.report import ReportSection
 from pyfecons.units import Meters, Meters3, M_USD
 
 
 @dataclass
-class CAS220101(TemplateProvider):
+class CAS220101(ReportSection):
     # Cost Category 22.1.1: Reactor Equipment
     # Inner radii
     axis_ir: Meters = None

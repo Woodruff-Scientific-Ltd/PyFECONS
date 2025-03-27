@@ -1,14 +1,11 @@
 from typing import Optional
 
-from pyfecons.data import Data
 from pyfecons.enums import ReactorType
-from pyfecons.helpers import get_local_included_files_map
+from pyfecons.file_utils import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.report import ReportContent, ReportOverrides
-from pyfecons.costing_data import CostingData
+from pyfecons.report import get_report_sections, ReportContent, ReportOverrides, combine_figures
 from pyfecons.templates import (
     hydrate_templates,
-    combine_figures,
     load_document_template,
 )
 from pyfecons.costing.ife.PowerBalance import power_balance
@@ -104,6 +101,7 @@ from pyfecons.costing.calculations.cas90_annualized_financial import (
 from pyfecons.costing.ife.cost_table import cost_table
 from pyfecons.costing.calculations.lcoe import lcoe_costs
 from pyfecons.costing.calculations.npv import calculate_npv
+from pyfecons.costing_data import CostingData
 
 TEMPLATES_PATH = "pyfecons.costing.ife.templates"
 INCLUDED_FILES_PATH = "pyfecons.costing.ife.included_files"
@@ -132,7 +130,7 @@ LOCAL_INCLUDED_FILES = [
 
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
-    data = Data(reactor_type=ReactorType.IFE)
+    data = CostingData(reactor_type=ReactorType.IFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
@@ -204,20 +202,23 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     )
     data.cost_table = cost_table(data)
     data.npv = calculate_npv(inputs.basic, inputs.npv_input, data)
-    return CostingData(data, data.template_providers())
+    return data
 
 
 def CreateReportContent(
-    costing_data: CostingData, overrides: Optional[ReportOverrides] = None
+    inputs: AllInputs,
+    costing_data: CostingData,
+    overrides: Optional[ReportOverrides] = None
 ) -> ReportContent:
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
+    report_sections = get_report_sections(inputs, costing_data)
     hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers, overrides
+        TEMPLATES_PATH, report_sections, overrides
     )
-    figures = combine_figures(costing_data.template_providers)
+    figures = combine_figures(report_sections)
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )
-    return ReportContent(document_template, hydrated_templates, included_files, figures)
+    return ReportContent(document_template, hydrated_templates, report_sections, included_files, figures)
