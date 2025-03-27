@@ -3,7 +3,7 @@ import shutil
 import subprocess
 import tempfile
 from typing import Optional
-from pyfecons.helpers import base_name_without_extension
+from pyfecons.file_utils import base_name_without_extension
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.enums import *
 from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingData
@@ -25,24 +25,22 @@ def RunCosting(inputs: AllInputs) -> CostingData:
 
 
 def CreateReportContent(
-    inputs: AllInputs,
     costing_data: CostingData,
     overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
     """
-    Create report content with given cost calculation inputs and output data.
-    :param inputs: The inputs used for cost calculations.
+    Create report content with given cost calculation output data.
     :param costing_data: The output data and templates providers for cost calculations.
     :param overrides: Overriding substitutions for latex template hydration.
     :return: Report contents including files, hydrated templates, and latex packages.
     """
-    if inputs.basic.reactor_type == ReactorType.MFE:
+    if costing_data.reactor_type == ReactorType.MFE:
         return CreateMfeReport(costing_data, overrides)
-    elif inputs.basic.reactor_type == ReactorType.IFE:
+    elif costing_data.reactor_type == ReactorType.IFE:
         return CreateIfeReport(costing_data, overrides)
-    elif inputs.basic.reactor_type == ReactorType.MIF:
+    elif costing_data.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
-    raise ValueError("Invalid basic reactor type")
+    raise ValueError("Invalid reactor type")
 
 
 def RenderFinalReport(

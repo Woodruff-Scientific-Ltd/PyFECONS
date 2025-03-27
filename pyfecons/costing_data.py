@@ -48,7 +48,6 @@ from pyfecons.costing.categories.cas900000 import CAS90
 from pyfecons.costing.accounting.cost_table import CostTable
 from pyfecons.costing.categories.lcoe import LCOE
 from pyfecons.enums import ReactorType
-from pyfecons.report import ReportSection
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
 
@@ -192,46 +191,3 @@ class CostingData(SerializableToJSON):
             + self.cas50.C500000
             + self.cas60.C600000
         )
-
-    def template_providers(self) -> list[ReportSection]:
-        return [
-            self.power_table,
-            self.cas10,
-            self.cas21,
-            self.cas220101,
-            self.cas220102,
-            self.cas220103,
-            self.cas220104,
-            self.cas220105,
-            self.cas220106,
-            self.cas220107,
-            self.cas220108,
-            self.cas220109,
-            self.cas220111,
-            self.cas220119,
-            self.cas2202,
-            self.cas2203,
-            self.cas2204,
-            self.cas2205,
-            self.cas2206,
-            self.cas2207,
-            self.cas22,
-            self.cas23,
-            self.cas24,
-            self.cas25,
-            self.cas26,
-            self.cas27,
-            self.cas28,
-            self.cas29,
-            self.cas20,
-            self.cas30,
-            self.cas40,
-            self.cas50,
-            self.cas60,
-            self.cas70,
-            self.cas80,
-            self.cas90,
-            self.lcoe,
-            self.cost_table,
-            self.npv,
-        ]

@@ -1,12 +1,11 @@
 from typing import Optional
 
 from pyfecons.enums import ReactorType
-from pyfecons.helpers import get_local_included_files_map
+from pyfecons.file_utils import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.report import ReportContent, ReportOverrides
+from pyfecons.report import get_report_sections, ReportContent, ReportOverrides, combine_figures
 from pyfecons.templates import (
     hydrate_templates,
-    combine_figures,
     load_document_template,
 )
 from pyfecons.costing.ife.PowerBalance import power_balance
@@ -212,10 +211,11 @@ def CreateReportContent(
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
+    report_sections = get_report_sections(costing_data)
     hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers(), overrides
+        TEMPLATES_PATH, report_sections, overrides
     )
-    figures = combine_figures(costing_data.template_providers())
+    figures = combine_figures(report_sections)
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )

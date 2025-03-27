@@ -100,7 +100,7 @@ from pyfecons.costing.calculations.cas90_annualized_financial import (
 from pyfecons.costing.calculations.lcoe import lcoe_costs
 from pyfecons.costing.mfe.cost_table import cost_table
 from pyfecons.costing.calculations.npv import calculate_npv
-from pyfecons.report import ReportContent, ReportOverrides
+from pyfecons.report import get_report_sections, ReportContent, ReportOverrides
 
 TEMPLATES_PATH = "pyfecons.costing.mfe.templates"
 INCLUDED_FILES_PATH = "pyfecons.costing.mfe.included_files"
@@ -217,10 +217,11 @@ def CreateReportContent(
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
+    report_sections = get_report_sections(costing_data)
     hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers(), overrides
+        TEMPLATES_PATH, report_sections, overrides
     )
-    figures = combine_figures(costing_data.template_providers())
+    figures = combine_figures(report_sections)
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )
