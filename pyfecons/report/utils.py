@@ -7,8 +7,45 @@ from pyfecons.report.section import ReportSection
 def get_report_sections(costing_data: CostingData) -> List[ReportSection]:
     """Get all report sections from costing data."""
     return [
-        section for section in costing_data.__dict__.values()
-        if isinstance(section, ReportSection)
+        costing_data.power_table,
+        costing_data.cas10,
+        costing_data.cas21,
+        costing_data.cas220101,
+        costing_data.cas220102,
+        costing_data.cas220103,
+        costing_data.cas220104,
+        costing_data.cas220105,
+        costing_data.cas220106,
+        costing_data.cas220107,
+        costing_data.cas220108,
+        costing_data.cas220109,
+        costing_data.cas220111,
+        costing_data.cas220119,
+        costing_data.cas2202,
+        costing_data.cas2203,
+        costing_data.cas2204,
+        costing_data.cas2205,
+        costing_data.cas2206,
+        costing_data.cas2207,
+        costing_data.cas22,
+        costing_data.cas23,
+        costing_data.cas24,
+        costing_data.cas25,
+        costing_data.cas26,
+        costing_data.cas27,
+        costing_data.cas28,
+        costing_data.cas29,
+        costing_data.cas20,
+        costing_data.cas30,
+        costing_data.cas40,
+        costing_data.cas50,
+        costing_data.cas60,
+        costing_data.cas70,
+        costing_data.cas80,
+        costing_data.cas90,
+        costing_data.lcoe,
+        costing_data.cost_table,
+        costing_data.npv,
     ]
 
 
