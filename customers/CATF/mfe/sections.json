@@ -50,7 +50,7 @@
         },
         "figures": []
     },
-    "CAS21": {
+    "CAS21Section": {
         "template_file": "CAS210000.tex",
         "replacements": {
             "C210000": "1104.8",

@@ -5,6 +5,7 @@ from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas10_section import CAS10Section
 from pyfecons.report.sections.power_table_section import PowerTableSection
+from pyfecons.report.sections.cas21_section import CAS21Section
 
 
 def get_report_sections(
@@ -14,7 +15,7 @@ def get_report_sections(
     return [
         PowerTableSection(costing_data.power_table, inputs.basic, inputs.power_input),
         CAS10Section(costing_data.cas10, inputs.basic),
-        costing_data.cas21,
+        CAS21Section(costing_data.cas21),
         costing_data.cas220101,
         costing_data.cas220102,
         costing_data.cas220103,

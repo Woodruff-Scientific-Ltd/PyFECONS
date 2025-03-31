@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from pyfecons.report import ReportSection
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS21(ReportSection):
+class CAS21:
+    """Cost Category 21: Buildings"""
     C210100: M_USD = None
     C210200: M_USD = None
     C210300: M_USD = None
