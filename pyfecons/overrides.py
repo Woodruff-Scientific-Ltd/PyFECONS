@@ -5,6 +5,7 @@ from typing import Dict, Any, Optional
 @dataclass
 class ReportOverrides:
     """Overrides for report generation."""
+
     included_files: Dict[str, str] = field(default_factory=dict)
     template_overrides: Optional[Dict[str, Any]] = None
-    templates: Dict[str, str] = field(default_factory=dict) 
+    templates: Dict[str, str] = field(default_factory=dict)

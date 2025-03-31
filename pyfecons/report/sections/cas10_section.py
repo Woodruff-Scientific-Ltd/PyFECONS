@@ -20,4 +20,4 @@ class CAS10Section(ReportSection):
             "C160000": str(cas10.C160000),
             "C170000": str(cas10.C170000),
             "C190000": str(cas10.C190000),
-        } 
+        }

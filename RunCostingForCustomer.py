@@ -108,7 +108,7 @@ sections_dict = {
     section.__class__.__name__: {
         "template_file": section.template_file,
         "replacements": section.replacements,
-        "figures": list(section.figures.keys()) if hasattr(section, "figures") else []
+        "figures": list(section.figures.keys()) if hasattr(section, "figures") else [],
     }
     for section in report_content.report_sections
 }

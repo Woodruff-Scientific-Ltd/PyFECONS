@@ -5,4 +5,4 @@ from pyfecons.report.section import ReportSection
 @dataclass
 class HydratedTemplate:
     template_provider: ReportSection
-    contents: str 
+    contents: str

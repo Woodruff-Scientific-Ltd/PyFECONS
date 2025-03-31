@@ -14,4 +14,4 @@ class ReportContent:
     # tex file path -> absolute path of files to include in tex compilation
     included_files: dict[str, str] = field(default_factory=dict)
     # latex path -> image bytes
-    figures: dict[str, bytes] = field(default_factory=dict) 
+    figures: dict[str, bytes] = field(default_factory=dict)

@@ -21,4 +21,4 @@ class ReportSection(SerializableToJSON):
 
     @tex_path.setter
     def tex_path(self, value):
-        self._tex_path = value 
+        self._tex_path = value

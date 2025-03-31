@@ -3,7 +3,12 @@ from typing import Optional
 from pyfecons.enums import ReactorType
 from pyfecons.file_utils import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.report import get_report_sections, ReportContent, ReportOverrides, combine_figures
+from pyfecons.report import (
+    get_report_sections,
+    ReportContent,
+    ReportOverrides,
+    combine_figures,
+)
 from pyfecons.templates import (
     hydrate_templates,
     load_document_template,
@@ -208,17 +213,17 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
 def CreateReportContent(
     inputs: AllInputs,
     costing_data: CostingData,
-    overrides: Optional[ReportOverrides] = None
+    overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
     report_sections = get_report_sections(inputs, costing_data)
-    hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, report_sections, overrides
-    )
+    hydrated_templates = hydrate_templates(TEMPLATES_PATH, report_sections, overrides)
     figures = combine_figures(report_sections)
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )
-    return ReportContent(document_template, hydrated_templates, report_sections, included_files, figures)
+    return ReportContent(
+        document_template, hydrated_templates, report_sections, included_files, figures
+    )

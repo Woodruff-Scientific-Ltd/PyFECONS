@@ -6,7 +6,9 @@ from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas10_section import CAS10Section
 
 
-def get_report_sections(inputs: AllInputs, costing_data: CostingData) -> List[ReportSection]:
+def get_report_sections(
+    inputs: AllInputs, costing_data: CostingData
+) -> List[ReportSection]:
     """Get all report sections from costing data."""
     return [
         costing_data.power_table,
@@ -56,4 +58,4 @@ def combine_figures(report_sections: List[ReportSection]) -> Dict[str, bytes]:
     figures = {}
     for section in report_sections:
         figures.update(section.figures)
-    return figures 
+    return figures

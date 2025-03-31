@@ -34,4 +34,4 @@ def get_included_file_path(
     if overrides is not None and tex_path in overrides.included_files.keys():
         return overrides.included_files[tex_path]
     else:
-        return str(resources.files(included_files_path).joinpath(tex_path)) 
+        return str(resources.files(included_files_path).joinpath(tex_path))
