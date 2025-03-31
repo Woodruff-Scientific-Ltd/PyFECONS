@@ -11,7 +11,7 @@ from pyfecons.enums import ReactorType
 @dataclass
 class PowerTableSection(ReportSection):
     """Report section for power table data."""
-    
+
     def __init__(self, power_table: PowerTable, basic: Basic, power_input: PowerInput):
         super().__init__()
 
@@ -49,9 +49,11 @@ class PowerTableSection(ReportSection):
                 # 3. Outputs
                 "QSCI": power_table.q_sci,  # Scientific Q
                 "QENG": power_table.q_eng,  # Engineering Q
-                "RECFRAC": round(power_table.rec_frac, 3),  # Recirculating power fraction
+                "RECFRAC": round(
+                    power_table.rec_frac, 3
+                ),  # Recirculating power fraction
                 "PNET": power_table.p_net,  # Output Power (Net Electric Power)
-            } 
+            }
         elif basic.reactor_type == ReactorType.IFE:
             self.template_file = "powerTableIFEDT.tex"
             self.replacements = {

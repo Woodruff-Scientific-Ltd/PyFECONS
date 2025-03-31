@@ -8,7 +8,7 @@ from pyfecons.costing.categories.cas210000 import CAS21
 @dataclass
 class CAS21Section(ReportSection):
     """Report section for CAS21 (Buildings) data."""
-    
+
     def __init__(self, cas21: CAS21):
         super().__init__()
         self.template_file = "CAS210000.tex"
@@ -32,4 +32,4 @@ class CAS21Section(ReportSection):
             "C211600": str(round(cas21.C211600, 1)),
             "C211700": str(round(cas21.C211700, 1)),
             "C211900": str(round(cas21.C211900, 1)),  # TODO - not in the template file
-        } 
+        }

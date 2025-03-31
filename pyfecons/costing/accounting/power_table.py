@@ -5,6 +5,7 @@ from pyfecons.units import MW, Unknown, Ratio
 @dataclass
 class PowerTable:
     """Power table data."""
+
     p_alpha: MW = None  # Charged particle power
     p_neutron: MW = None  # Neutron power
     p_cool: MW = None
