@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from pyfecons.report import TemplateProvider
+from pyfecons.report import ReportSection
 from pyfecons.units import M_USD, Kilograms, USD
 
 
@@ -26,7 +26,7 @@ class VesselCosts:
 
 
 @dataclass
-class CAS220106(TemplateProvider):
+class CAS220106(ReportSection):
     # 22.1.6 Vacuum system
     C22010601: M_USD = None
     C22010602: M_USD = None
