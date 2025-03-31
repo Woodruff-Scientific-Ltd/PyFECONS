@@ -75,7 +75,7 @@
         },
         "figures": []
     },
-    "CAS220101": {
+    "CAS220101Section": {
         "template_file": "CAS220101_MFE_DT.tex",
         "replacements": {
             "C22010100": "9776.74",
