@@ -1,5 +1,5 @@
 {
-    "PowerTable": {
+    "PowerTableSection": {
         "template_file": "powerTableIFEDT.tex",
         "replacements": {
             "PNRL": 2500.0,

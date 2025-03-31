@@ -4,14 +4,15 @@ from pyfecons.costing_data import CostingData
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas10_section import CAS10Section
+from pyfecons.report.sections.power_table_section import PowerTableSection
 
 
 def get_report_sections(
     inputs: AllInputs, costing_data: CostingData
 ) -> List[ReportSection]:
-    """Get all report sections from costing data."""
+    """Get all report sections with their templates and replacements."""
     return [
-        costing_data.power_table,
+        PowerTableSection(costing_data.power_table, inputs.basic, inputs.power_input),
         CAS10Section(costing_data.cas10, inputs.basic),
         costing_data.cas21,
         costing_data.cas220101,
