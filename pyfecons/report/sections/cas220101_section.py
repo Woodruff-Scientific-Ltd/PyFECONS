@@ -111,9 +111,17 @@ class CAS220101Section(ReportSection):
     """Report section for CAS220101 (First Wall and Blanket) data."""
 
     def __init__(
-        self, cas220101: CAS220101, basic: Basic, radial_build: RadialBuild, blanket: Blanket
+        self,
+        cas220101: CAS220101,
+        basic: Basic,
+        radial_build: RadialBuild,
+        blanket: Blanket,
     ):
         super().__init__()
         self.template_file = get_template_file(basic.reactor_type)
-        self.figures["Figures/radial_build.pdf"] = RadialBuildPlotter.plot(basic.reactor_type, radial_build)
-        self.replacements = compute_220101_replacements(basic.reactor_type, blanket, radial_build, cas220101) 
+        self.figures["Figures/radial_build.pdf"] = RadialBuildPlotter.plot(
+            basic.reactor_type, radial_build
+        )
+        self.replacements = compute_220101_replacements(
+            basic.reactor_type, blanket, radial_build, cas220101
+        )

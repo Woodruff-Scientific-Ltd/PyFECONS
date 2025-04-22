@@ -17,11 +17,11 @@ class RadialBuildPlotter:
     def plot(reactor_type: ReactorType, radial_build: RadialBuild) -> bytes:
         """
         Plot the radial build of the reactor.
-        
+
         Args:
             reactor_type: The type of reactor (MFE or IFE)
             radial_build: The radial build data
-            
+
         Returns:
             The plot as a PDF in bytes
         """
@@ -39,7 +39,9 @@ class RadialBuildPlotter:
             "Gap",
             "Vessel",
             "LT Shield",
-            *(["Coil"] if reactor_type == ReactorType.MFE else []),  # include only for MFE
+            *(
+                ["Coil"] if reactor_type == ReactorType.MFE else []
+            ),  # include only for MFE
             "Gap",
             "Bioshield",
         ]
@@ -56,7 +58,9 @@ class RadialBuildPlotter:
             IN.gap1_t,
             IN.vessel_t,
             IN.lt_shield_t,
-            *([IN.coil_t] if reactor_type == ReactorType.MFE else []),  # include only for MFE
+            *(
+                [IN.coil_t] if reactor_type == ReactorType.MFE else []
+            ),  # include only for MFE
             IN.gap2_t,
             IN.bioshield_t,
         ]
@@ -73,13 +77,17 @@ class RadialBuildPlotter:
             "lightgray",
             "orange",
             "slateblue",
-            *(["green"] if reactor_type == ReactorType.MFE else []),  # include only for MFE
+            *(
+                ["green"] if reactor_type == ReactorType.MFE else []
+            ),  # include only for MFE
             "lightgray",
             "darkorange",
         ]
 
         # Plotting the stacked bar graph
-        fig, ax = plt.subplots(figsize=(18, 3.5))  # Adjust the figsize to get the desired aspect ratio
+        fig, ax = plt.subplots(
+            figsize=(18, 3.5)
+        )  # Adjust the figsize to get the desired aspect ratio
 
         # Adding each section to the bar plot
         left = 0  # Initialize left at 0
@@ -111,4 +119,4 @@ class RadialBuildPlotter:
         fig.savefig(figure_data, format="pdf", bbox_inches="tight")
         figure_data.seek(0)
         plt.close(fig)
-        return figure_data.read() 
+        return figure_data.read()
