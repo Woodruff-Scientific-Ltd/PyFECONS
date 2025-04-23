@@ -161,7 +161,7 @@
         },
         "figures": []
     },
-    "CAS220103Coils": {
+    "CAS220103Section": {
         "template_file": "CAS220103_MFE_DT_tokamak.tex",
         "replacements": {
             "C220103__": "7216.42",
@@ -171,11 +171,11 @@
             "C22010304": "285.92321510358363",
             "C22010305": "1053.82",
             "C22010306": "158.22",
-            "structFactor": 0.5,
-            "mcostI": 50,
-            "nopfcoils": 16,
-            "nopfpairs": 8,
-            "mCostYBCO": 50,
+            "structFactor": "0.5",
+            "mcostI": "50",
+            "nopfcoils": "16",
+            "nopfpairs": "8",
+            "mCostYBCO": "50",
             "tableStructure": "lcccccccccc",
             "tableHeaderList": "\\textbf{TF} & \\textbf{CS} & \\textbf{PF1} & \\textbf{PF2} & \\textbf{PF3} & \\textbf{PF4} & \\textbf{PF5} & \\textbf{PF6} & \\textbf{PF7} & \\textbf{PF8}",
             "magnetTypeList": "\\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{Copper} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS Pancake} & \\textbf{HTS CICC} & \\textbf{HTS CICC}",
@@ -204,7 +204,7 @@
             "numberCoilsList": "12 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2",
             "magnetCostList": "0.60 & 8.39 & 0.12 & 5.99 & 14.21 & 27.92 & 130.58 & 880.27 & 361.55 & 361.55",
             "magnetTotalCostIndividualList": "4.22 & 13.76 & 5.09 & 13.20 & 26.15 & 47.37 & 203.95 & 1362.48 & 584.39 & 584.39",
-            "magnetTotalCostList": "4.22 & 13.76 & 5.09 & 13.20 & 26.15 & 47.37 & 203.95 & 1362.48 & 584.39 & 584.39"
+            "magnetTotalCostList": "50.65 & 13.76 & 10.19 & 26.41 & 52.30 & 94.74 & 407.90 & 2724.97 & 1168.78 & 1168.78"
         },
         "figures": []
     },

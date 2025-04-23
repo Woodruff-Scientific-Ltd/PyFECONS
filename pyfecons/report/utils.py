@@ -8,6 +8,7 @@ from pyfecons.report.sections.power_table_section import PowerTableSection
 from pyfecons.report.sections.cas21_section import CAS21Section
 from pyfecons.report.sections.cas220101_section import CAS220101Section
 from pyfecons.report.sections.cas220102_section import CAS220102Section
+from pyfecons.report.sections.cas220103_section import CAS220103Section
 
 
 def get_report_sections(
@@ -22,7 +23,13 @@ def get_report_sections(
             costing_data.cas220101, inputs.basic, inputs.radial_build, inputs.blanket
         ),
         CAS220102Section(costing_data.cas220102, inputs.basic.reactor_type),
-        costing_data.cas220103,
+        CAS220103Section(
+            costing_data.cas220103,
+            inputs.basic.reactor_type,
+            inputs.power_input,
+            inputs.lasers,
+            inputs.coils,
+        ),
         costing_data.cas220104,
         costing_data.cas220105,
         costing_data.cas220106,

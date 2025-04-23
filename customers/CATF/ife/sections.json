@@ -158,7 +158,7 @@
         },
         "figures": []
     },
-    "CAS220103Lasers": {
+    "CAS220103Section": {
         "template_file": "CAS220103_IFE_DT.tex",
         "replacements": {
             "2213Procurement": "1523.8",
