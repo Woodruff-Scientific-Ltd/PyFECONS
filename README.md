@@ -122,8 +122,14 @@ sudo apt-get install texlive-font-utils
 ```
 
 Windows
+The most common way to install LaTeX on Windows is by using MiKTeX. Here's a step-by-step guide:
+(1) Download MiKTeX from the [MiKTeX website](https://miktex.org/download)
+(2) Run the downloaded installer and follow on-screen instructions
+(3) Once installation is complete, open the MiKTeX Console from the start menu, and check for updates to make sue you have the latest one
+(4) Install a LaTeX editor to write your LaTeX documents. TeXstudio and TeXworks are a couple of options. This is optional
+(5) Create a simple LaTeX document to test the installation, e.g. test.tex. Open the test.tex file in TeXstudio/TeXworks and compile it. If using the command line, navigate to the directory where test.tex is saved and run:
 ```
-TODO
+pdflatex test.tex
 ```
 
 ### Installing Python 3.10
