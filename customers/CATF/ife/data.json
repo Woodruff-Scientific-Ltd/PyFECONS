@@ -167,113 +167,184 @@
         "C220103": 1914.7083635909473
     },
     "cas220104": {
-        "replacements": {
-            "2213Procurement": "56.4",
-            "2213Design": "3.9",
-            "2213Assembly": "10.6",
-            "2213Total": "70.9",
-            "22131FrontEndProcurement": "4.8",
-            "22131FrontEndDesign": "0.6",
-            "22131FrontEndAssembly": "1.0",
-            "22131FrontEndTotal": "6.4",
-            "22132MainAmpSystemProcurement": "12.8",
-            "22132MainAmpSystemDesign": "0.7",
-            "22132MainAmpSystemAssembly": "2.1",
-            "22132MainAmpSystemTotal": "15.6",
-            "221321MainAmpProcurement": "5.4",
-            "221321MainAmpDesign": "0.3",
-            "221321MainAmpAssembly": "0.6",
-            "221321MainAmpTotal": "6.4",
-            "2213211FlashlampAssembliesProcurement": "1.4",
-            "2213211FlashlampAssembliesDesign": "0.0",
-            "2213211FlashlampAssembliesAssembly": "0.0",
-            "2213211FlashlampAssembliesTotal": "1.4",
-            "2213213AmpMechProcurement": "4.1",
-            "2213213AmpMechDesign": "0.3",
-            "2213213AmpMechAssembly": "0.6",
-            "2213213AmpMechTotal": "5.0",
-            "221322SpatialFiltersProcurement": "1.7",
-            "221322SpatialFiltersDesign": "0.0",
-            "221322SpatialFiltersAssembly": "0.4",
-            "221322SpatialFiltersTotal": "2.2",
-            "221323MirrorMountsProcurement": "0.6",
-            "221323MirrorMountsDesign": "0.0",
-            "221323MirrorMountsAssembly": "0.1",
-            "221323MirrorMountsTotal": "0.7",
-            "221324PolarizerAssemblyProcurement": "0.3",
-            "221324PolarizerAssemblyDesign": "0.0",
-            "221324PolarizerAssemblyAssembly": "0.2",
-            "221324PolarizerAssemblyTotal": "0.5",
-            "221325PockelsCellAssemblyProcurement": "3.3",
-            "221325PockelsCellAssemblyDesign": "0.3",
-            "221325PockelsCellAssemblyAssembly": "0.7",
-            "221325PockelsCellAssemblyTotal": "4.3",
-            "221326BoostAmpProcurement": "1.1",
-            "221326BoostAmpDesign": "0.0",
-            "221326BoostAmpAssembly": "0.1",
-            "221326BoostAmpTotal": "1.3",
-            "2213261FlashlampAssembliesProcurement": "0.3",
-            "2213261FlashlampAssembliesDesign": "0.0",
-            "2213261FlashlampAssembliesAssembly": "0.0",
-            "2213261FlashlampAssembliesTotal": "0.3",
-            "2213263AmpMechProcurement": "0.8",
-            "2213263AmpMechDesign": "0.0",
-            "2213263AmpMechAssembly": "0.1",
-            "2213263AmpMechTotal": "1.0",
-            "221327InterstageHdwProcurement": "0.2",
-            "221327InterstageHdwDesign": "0.0",
-            "221327InterstageHdwAssembly": "0.0",
-            "221327InterstageHdwTotal": "0.2",
-            "22133BeamXportSystemProcurement": "3.6",
-            "22133BeamXportSystemDesign": "0.2",
-            "22133BeamXportSystemAssembly": "0.6",
-            "22133BeamXportSystemTotal": "4.4",
-            "221331SpatialFiltersProcurement": "2.0",
-            "221331SpatialFiltersDesign": "0.1",
-            "221331SpatialFiltersAssembly": "0.0",
-            "221331SpatialFiltersTotal": "2.1",
-            "221332MirrorAssemblyProcurement": "0.5",
-            "221332MirrorAssemblyDesign": "0.0",
-            "221332MirrorAssemblyAssembly": "0.5",
-            "221332MirrorAssemblyTotal": "1.0",
-            "221333FinalOpticsSystemProcurement": "0.8",
-            "221333FinalOpticsSystemDesign": "0.0",
-            "221333FinalOpticsSystemAssembly": "0.1",
-            "221333FinalOpticsSystemTotal": "0.9",
-            "221334BeamTubeSystemProcurement": "0.3",
-            "221334BeamTubeSystemDesign": "0.0",
-            "221334BeamTubeSystemAssembly": "0.1",
-            "221334BeamTubeSystemTotal": "0.4",
-            "221335InterstageHdwProcurement": "0.0",
-            "221335InterstageHdwDesign": "0.0",
-            "221335InterstageHdwAssembly": "0.0",
-            "221335InterstageHdwTotal": "0.0",
-            "22134PowerCondSystemProcurement": "6.3",
-            "22134PowerCondSystemDesign": "0.0",
-            "22134PowerCondSystemAssembly": "0.0",
-            "22134PowerCondSystemTotal": "6.3",
-            "22135AlignAndLaserDiagProcurement": "4.5",
-            "22135AlignAndLaserDiagDesign": "1.0",
-            "22135AlignAndLaserDiagAssembly": "3.1",
-            "22135AlignAndLaserDiagTotal": "8.6",
-            "22136SpaceFrameProcurement": "1.4",
-            "22136SpaceFrameDesign": "0.2",
-            "22136SpaceFrameAssembly": "0.0",
-            "22136SpaceFrameTotal": "1.7",
-            "22137LaserAuxSystemsProcurement": "0.1",
-            "22137LaserAuxSystemsDesign": "0.0",
-            "22137LaserAuxSystemsAssembly": "0.3",
-            "22137LaserAuxSystemsTotal": "0.3",
-            "22138OpticsProcurement": "0.0",
-            "22138OpticsDesign": "0.0",
-            "22138OpticsAssembly": "0.0",
-            "22138OpticsTotal": "0.0",
-            "C220103": "1915",
-            "C220104XX": "71"
-        },
-        "template_file": "CAS220104_IFE_DT.tex",
-        "figures": {},
-        "C220104": 70.87797522981333
+        "C220104": 70.87797522981333,
+        "scaled_costs": {
+            "22.1.3. Laser": {
+                "base_key": "2213",
+                "procurement": 56.407505437086265,
+                "design": 3.889296228875258,
+                "assembly": 10.581173563851806,
+                "total": 70.87797522981333
+            },
+            "22.1.3.1 Front End": {
+                "base_key": "22131FrontEnd",
+                "procurement": 4.766294398131444,
+                "design": 0.5783103869732819,
+                "assembly": 1.0168094716013747,
+                "total": 6.3614142567061
+            },
+            "22.1.3.2 Main Amp System": {
+                "base_key": "22132MainAmpSystem",
+                "procurement": 12.754603809399743,
+                "design": 0.7054115709234536,
+                "assembly": 2.1098796535728526,
+                "total": 15.56989503389605
+            },
+            "22.1.3.2.1 Main Amp": {
+                "base_key": "221321MainAmp",
+                "procurement": 5.420865495474828,
+                "design": 0.3177529598754296,
+                "assembly": 0.6482160381458764,
+                "total": 6.386834493496134
+            },
+            "22.1.3.2.1.1 Flashlamp Assemblies": {
+                "base_key": "2213211FlashlampAssemblies",
+                "procurement": 1.3663377274643473,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 1.3663377274643473
+            },
+            "22.1.3.2.1.3, 3.2.1.5-7 (amp mech)": {
+                "base_key": "2213213AmpMech",
+                "procurement": 4.06088282720799,
+                "design": 0.3177529598754296,
+                "assembly": 0.6482160381458764,
+                "total": 5.026851825229296
+            },
+            "22.1.3.2.2 Spatial filters": {
+                "base_key": "221322SpatialFilters",
+                "procurement": 1.741286220117354,
+                "design": 0.03813035518505155,
+                "assembly": 0.3813035518505155,
+                "total": 2.160720127152921
+            },
+            "22.1.3.2.3 Mirror Mounts": {
+                "base_key": "221323MirrorMounts",
+                "procurement": 0.6355059197508592,
+                "design": 0.0063550591975085925,
+                "assembly": 0.06355059197508592,
+                "total": 0.7054115709234537
+            },
+            "22.1.3.2.4 Polarizer assembly": {
+                "base_key": "221324PolarizerAssembly",
+                "procurement": 0.3304630782704468,
+                "design": 0.04448541438256014,
+                "assembly": 0.171586598332732,
+                "total": 0.5465350909857389
+            },
+            "22.1.3.2.5 Pockels' Cell Assembly": {
+                "base_key": "221325PockelsCellAssembly",
+                "procurement": 3.3427611378895192,
+                "design": 0.2986877822829038,
+                "assembly": 0.7054115709234536,
+                "total": 4.346860491095876
+            },
+            "22.1.3.2.6 Boost Amp": {
+                "base_key": "221326BoostAmp",
+                "procurement": 1.1375555963540378,
+                "design": 0.0,
+                "assembly": 0.13981130234518904,
+                "total": 1.2773668986992268
+            },
+            "22.1.3.2.6.1 Flashlamp Assemblies": {
+                "base_key": "2213261FlashlampAssemblies",
+                "procurement": 0.2923327230853952,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 0.2923327230853952
+            },
+            "22.1.3.2.6.3, 3.2.6.5-7 (amp mech)": {
+                "base_key": "2213263AmpMech",
+                "procurement": 0.8452228732686428,
+                "design": 0.0,
+                "assembly": 0.13981130234518904,
+                "total": 0.9850341756138318
+            },
+            "22.1.3.2.7 Interstage Hdw": {
+                "base_key": "221327InterstageHdw",
+                "procurement": 0.1525214207402062,
+                "design": 0.0,
+                "assembly": 0.0063550591975085925,
+                "total": 0.15887647993771478
+            },
+            "22.1.3.3 Beam Xport system": {
+                "base_key": "22133BeamXportSystem",
+                "procurement": 3.6160286833823885,
+                "design": 0.17794165753024055,
+                "assembly": 0.6037306237633162,
+                "total": 4.397700964675945
+            },
+            "22.1.3.3.1 Spatial filters": {
+                "base_key": "221331SpatialFilters",
+                "procurement": 1.9764234104251721,
+                "design": 0.1461663615426976,
+                "assembly": 0.0,
+                "total": 2.1225897719678697
+            },
+            "22.1.3.3.2 Mirror Assembly": {
+                "base_key": "221332MirrorAssembly",
+                "procurement": 0.5338249725907217,
+                "design": 0.0063550591975085925,
+                "assembly": 0.45756426222061863,
+                "total": 0.9977442940088489
+            },
+            "22.1.3.3.3 Final Optics system": {
+                "base_key": "221333FinalOpticsSystem",
+                "procurement": 0.7943823996885739,
+                "design": 0.019065177592525774,
+                "assembly": 0.05719553277757733,
+                "total": 0.8706431100586771
+            },
+            "22.1.3.3.4 Beam Tube system": {
+                "base_key": "221334BeamTubeSystem",
+                "procurement": 0.311397900677921,
+                "design": 0.0063550591975085925,
+                "assembly": 0.0826157695676117,
+                "total": 0.4003687294430413
+            },
+            "22.1.3.3.5 Interstage Hdw": {
+                "base_key": "221335InterstageHdw",
+                "procurement": 0.0,
+                "design": 0.0,
+                "assembly": 0.0063550591975085925,
+                "total": 0.0063550591975085925
+            },
+            "22.1.3.4 Power cond system": {
+                "base_key": "22134PowerCondSystem",
+                "procurement": 6.27244342794098,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 6.27244342794098
+            },
+            "22.1.3.5 Align and Laser diag": {
+                "base_key": "22135AlignAndLaserDiag",
+                "procurement": 4.5375122670211345,
+                "design": 1.0040993532063576,
+                "assembly": 3.1012688883841926,
+                "total": 8.642880508611684
+            },
+            "22.1.3.6 Space frame": {
+                "base_key": "22136SpaceFrame",
+                "procurement": 1.4298883194394332,
+                "design": 0.22878213111030932,
+                "assembly": 0.0,
+                "total": 1.6586704505497425
+            },
+            "22.1.3.7 Laser aux systems": {
+                "base_key": "22137LaserAuxSystems",
+                "procurement": 0.09532588796262888,
+                "design": 0.0,
+                "assembly": 0.2542023679003437,
+                "total": 0.34952825586297254
+            },
+            "22.1.3.8 Optics": {
+                "base_key": "22138Optics",
+                "procurement": 0.0,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 0.0
+            }
+        }
     },
     "cas220105": {
         "replacements": {

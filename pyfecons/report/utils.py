@@ -4,6 +4,7 @@ from pyfecons.costing_data import CostingData
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas10_section import CAS10Section
+from pyfecons.report.sections.cas220104_section import CAS220104Section
 from pyfecons.report.sections.power_table_section import PowerTableSection
 from pyfecons.report.sections.cas21_section import CAS21Section
 from pyfecons.report.sections.cas220101_section import CAS220101Section
@@ -15,6 +16,7 @@ def get_report_sections(
     inputs: AllInputs, costing_data: CostingData
 ) -> List[ReportSection]:
     """Get all report sections with their templates and replacements."""
+    reactor_type = inputs.basic.reactor_type
     return [
         PowerTableSection(costing_data.power_table, inputs.basic, inputs.power_input),
         CAS10Section(costing_data.cas10, inputs.basic),
@@ -22,15 +24,20 @@ def get_report_sections(
         CAS220101Section(
             costing_data.cas220101, inputs.basic, inputs.radial_build, inputs.blanket
         ),
-        CAS220102Section(costing_data.cas220102, inputs.basic.reactor_type),
+        CAS220102Section(costing_data.cas220102, reactor_type),
         CAS220103Section(
             costing_data.cas220103,
-            inputs.basic.reactor_type,
+            reactor_type,
             inputs.power_input,
             inputs.lasers,
             inputs.coils,
         ),
-        costing_data.cas220104,
+        CAS220104Section(
+            costing_data.cas220104,
+            reactor_type,
+            inputs.supplementary_heating,
+            costing_data.cas220103,
+        ),
         costing_data.cas220105,
         costing_data.cas220106,
         costing_data.cas220107,

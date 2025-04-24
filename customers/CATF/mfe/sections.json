@@ -208,7 +208,7 @@
         },
         "figures": []
     },
-    "CAS220104SupplementaryHeating": {
+    "CAS220104Section": {
         "template_file": "CAS220104_MFE_DT.tex",
         "replacements": {
             "C22010401": "353.21",

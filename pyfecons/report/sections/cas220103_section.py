@@ -1,16 +1,16 @@
 from dataclasses import dataclass
-from typing import Dict, Union
+from typing import Union
 
-from pyfecons.report.section import ReportSection
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
+from pyfecons.costing.ife.cas22.nif_costs import (
+    get_nif_scaled_costs,
+)
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.power_input import PowerInput
-from pyfecons.costing.ife.cas22.nif_costs import (
-    get_nif_scaled_costs,
-    get_nif_replacements,
-)
+from pyfecons.report.section import ReportSection
+from pyfecons.report.sections.cas220104_section import get_nif_replacements
 
 
 @dataclass

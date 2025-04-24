@@ -265,7 +265,7 @@
         },
         "figures": []
     },
-    "CAS220104IgnitionLasers": {
+    "CAS220104Section": {
         "template_file": "CAS220104_IFE_DT.tex",
         "replacements": {
             "2213Procurement": "56.4",

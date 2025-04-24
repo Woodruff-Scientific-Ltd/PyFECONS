@@ -146,9 +146,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.shield, inputs.blanket, data.cas220101
     )
     data.cas220103 = cas_220103_laser_costs(inputs.power_input, inputs.lasers)
-    data.cas220104 = cas_220104_ignition_laser_costs(
-        inputs.power_input, inputs.lasers, data.cas220103
-    )
+    data.cas220104 = cas_220104_ignition_laser_costs(inputs.power_input, inputs.lasers)
     data.cas220105 = cas_220105_primary_structure_costs(
         inputs.basic, inputs.primary_structure, data.power_table
     )
