@@ -4,6 +4,7 @@ from pyfecons.costing_data import CostingData
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas10_section import CAS10Section
+from pyfecons.report.sections.cas220000_section import CAS22Section
 from pyfecons.report.sections.cas220104_section import CAS220104Section
 from pyfecons.report.sections.cas220105_section import CAS220105Section
 from pyfecons.report.sections.cas220106_section import CAS220106Section
@@ -66,7 +67,7 @@ def get_report_sections(
         CAS2205Section(costing_data.cas2205, inputs.fuel_handling),
         CAS2206Section(costing_data.cas2206),
         CAS2207Section(costing_data.cas2207),
-        costing_data.cas22,
+        CAS22Section(costing_data.cas22),
         costing_data.cas23,
         costing_data.cas24,
         costing_data.cas25,
