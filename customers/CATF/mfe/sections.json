@@ -359,10 +359,10 @@
         },
         "figures": []
     },
-    "CAS2207": {
+    "CAS2207Section": {
         "template_file": "CAS220700.tex",
         "replacements": {
-            "C220700": 85
+            "C220700": "85"
         },
         "figures": []
     },
