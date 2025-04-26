@@ -516,10 +516,10 @@
         },
         "figures": []
     },
-    "CAS2206": {
+    "CAS2206Section": {
         "template_file": "CAS220600.tex",
         "replacements": {
-            "C220600": 12
+            "C220600": "12"
         },
         "figures": []
     },
