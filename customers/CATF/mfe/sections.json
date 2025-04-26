@@ -288,7 +288,7 @@
         },
         "figures": []
     },
-    "CAS220111": {
+    "CAS220111Section": {
         "template_file": "CAS220111.tex",
         "replacements": {
             "C220111": "89.76",
