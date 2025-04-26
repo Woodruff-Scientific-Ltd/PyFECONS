@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 
-from pyfecons.report import ReportSection
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS2205(ReportSection):
+class CAS2205:
     # Cost Category 22.5 Fuel Handling and Storage
     C2205010ITER: M_USD = None
     C2205020ITER: M_USD = None
