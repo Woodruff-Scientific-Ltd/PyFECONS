@@ -1,7 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.inputs.basic import Basic
-from pyfecons.inputs.blanket import Blanket
 from pyfecons.units import Count, MW, M_USD
 
 # TODO - review this section since there is lots of commented code
