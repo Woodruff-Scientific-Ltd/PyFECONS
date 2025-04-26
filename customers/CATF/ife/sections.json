@@ -412,10 +412,10 @@
             "Figures/cap_derate.pdf"
         ]
     },
-    "CAS220108TargetFactory": {
+    "CAS220108Section": {
         "template_file": "CAS220108_IFE.tex",
         "replacements": {
-            "C220108": 0,
+            "C220108": "0",
             "cvdDiamondAblatorCosts": "256.3 & 41323.2 & 27.4 & 74.4 & 5.7 & 34.5 & 6.4 & 0.1",
             "dtFillCosts": "58.4 & 1904.5 & 0.0 & 72.3 & 5.6 & 4.2 & 1.5 & 0.0",
             "hohlraumPressCosts": "4.1 & 697.0 & 0.0 & 3.9 & 0.3 & 0.8 & 0.1 & 0.0",

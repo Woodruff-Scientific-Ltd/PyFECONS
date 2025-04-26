@@ -255,16 +255,16 @@
         },
         "figures": []
     },
-    "CAS220108Divertor": {
+    "CAS220108Section": {
         "template_file": "CAS220108_MFE.tex",
         "replacements": {
             "C220108": 199,
-            "divertorMajRad": 4,
-            "divertorMinRad": 1,
-            "divertorThicknessZ": 0,
+            "divertorMajRad": "4",
+            "divertorMinRad": "1",
+            "divertorThicknessZ": "0",
             "divertorMaterial": "Tungsten",
-            "divertorVol": 11,
-            "divertorMass": 221188
+            "divertorVol": "11",
+            "divertorMass": "221188"
         },
         "figures": []
     },

@@ -426,25 +426,383 @@
         "C220107": 1349.0
     },
     "cas220108": {
-        "replacements": {
-            "C220108": 0,
-            "cvdDiamondAblatorCosts": "256.3 & 41323.2 & 27.4 & 74.4 & 5.7 & 34.5 & 6.4 & 0.1",
-            "dtFillCosts": "58.4 & 1904.5 & 0.0 & 72.3 & 5.6 & 4.2 & 1.5 & 0.0",
-            "hohlraumPressCosts": "4.1 & 697.0 & 0.0 & 3.9 & 0.3 & 0.8 & 0.1 & 0.0",
-            "tentAssyCosts": "15.4 & 582.2 & 0.0 & 1.7 & 0.1 & 0.6 & 0.4 & 0.0",
-            "hohlraumCapsuleAssy": "86.1 & 2066.4 & 0.0 & 2.2 & 0.2 & 2.6 & 2.2 & 0.0",
-            "lehWindowAttach": "93.3 & 2992.0 & 0.0 & 93.1 & 7.2 & 3.2 & 2.3 & 0.0",
-            "dtIceForm": "1.0 & 27.7 & 0.6 & 2.3 & 0.2 & 0.4 & 0.0 & 0.0",
-            "recoverAndRecycle": "None & None & None & None & None & None & None & 0.0",
-            "facilityManagementCosts": "None & 2050.0 & None & 0.5 & 0.0 & 0.1 & 6.4 & 0.0",
-            "totalProcess": "514.6 & 51643.0 & 28.0 & 250.5 & 19.2 & 46.3 & 19.3 & 0.2",
-            "addMaterial": "None & None & None & None & None & None & None & 0.0"
-        },
-        "template_file": "CAS220108_IFE.tex",
-        "figures": {
-            "Figures/targetPFR.pdf": ""
-        },
-        "C220108": 0.00025051872307089605
+        "C220108": 0.00025051872307089605,
+        "target_factory_costs": {
+            "CVD diamond ablator": {
+                "no_machines": {
+                    "cost": 250,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 40315,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 26769613,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 72627250,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 5586712,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 33617103,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 6250000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.096,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "DT Fill": {
+                "no_machines": {
+                    "cost": 57,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 1858,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 52,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 70553750,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 5427212,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 4120108,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 1425000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.023,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Hohlraum press": {
+                "no_machines": {
+                    "cost": 4,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 680,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 4,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 3759140,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 289165,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 758791,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 100000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.011,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Tent assy": {
+                "no_machines": {
+                    "cost": 15,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 568,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 6448,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 1694905,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 130377,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 548766,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 375000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.005,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Hohlraum-capsule assy": {
+                "no_machines": {
+                    "cost": 84,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2016,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 78,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 2185376,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 168106,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 2542416,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 2100000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.012,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "LEH window attach": {
+                "no_machines": {
+                    "cost": 91,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2919,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 91,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 90828500,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 6986808,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 3124288,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 2275000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.025,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "DT ice form": {
+                "no_machines": {
+                    "cost": 1,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 27,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 561600,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 2257455,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 173650,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 379143,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 25000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.001,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Recover and recycle": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Facility management costs": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2000,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 500000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 38462,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 70420,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 6250000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.016,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Add material": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.03213,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Total process": {
+                "no_machines": {
+                    "cost": 502,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 50383,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 27337886,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 244406376,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 18762029,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 45161035,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 18800000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.189,
+                    "scaling_factor": 0.820007160765384
+                }
+            }
+        }
     },
     "cas220109": {
         "replacements": {

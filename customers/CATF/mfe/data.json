@@ -772,17 +772,6 @@
         "C220107": 1003.0298192402563
     },
     "cas220108": {
-        "replacements": {
-            "C220108": 199,
-            "divertorMajRad": 4,
-            "divertorMinRad": 1,
-            "divertorThicknessZ": 0,
-            "divertorMaterial": "Tungsten",
-            "divertorVol": 11,
-            "divertorMass": 221188
-        },
-        "template_file": "CAS220108_MFE.tex",
-        "figures": {},
         "C220108": 199.06940610513388,
         "divertor_maj_rad": 3.8,
         "divertor_min_rad": 1.1999999999999993,
