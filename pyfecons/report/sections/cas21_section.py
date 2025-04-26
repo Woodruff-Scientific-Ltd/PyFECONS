@@ -7,8 +7,6 @@ from pyfecons.costing.categories.cas210000 import CAS21
 
 @dataclass
 class CAS21Section(ReportSection):
-    """Report section for CAS21 (Buildings) data."""
-
     def __init__(self, cas21: CAS21):
         super().__init__()
         self.template_file = "CAS210000.tex"

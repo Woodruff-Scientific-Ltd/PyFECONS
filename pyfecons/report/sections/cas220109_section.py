@@ -6,8 +6,6 @@ from pyfecons.report.section import ReportSection
 
 @dataclass
 class CAS220109Section(ReportSection):
-    """Report section for CAS220105 primary structure."""
-
     def __init__(self, cas220109: CAS220109):
         super().__init__()
         self.template_file = "CAS220109.tex"

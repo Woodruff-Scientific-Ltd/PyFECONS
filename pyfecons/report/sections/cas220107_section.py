@@ -10,8 +10,6 @@ from pyfecons.report.section import ReportSection
 
 @dataclass
 class CAS220107Section(ReportSection):
-    """Report section for CAS220105 primary structure."""
-
     def __init__(
         self,
         cas220107: CAS220107,

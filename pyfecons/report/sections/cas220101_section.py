@@ -108,8 +108,6 @@ def compute_220101_replacements(
 
 @dataclass
 class CAS220101Section(ReportSection):
-    """Report section for CAS220101 (First Wall and Blanket) data."""
-
     def __init__(
         self,
         cas220101: CAS220101,

@@ -8,8 +8,6 @@ from pyfecons.report.section import ReportSection
 
 @dataclass
 class CAS220105Section(ReportSection):
-    """Report section for CAS220105 primary structure."""
-
     def __init__(
         self, cas220105: CAS220105, basic: Basic, primary_structure: PrimaryStructure
     ):

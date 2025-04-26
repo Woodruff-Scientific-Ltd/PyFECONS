@@ -15,8 +15,6 @@ from pyfecons.report.sections.cas220104_section import get_nif_replacements
 
 @dataclass
 class CAS220103Section(ReportSection):
-    """Report section for CAS220103 (Coils or Lasers) data based on reactor type."""
-
     def __init__(
         self,
         cas220103: Union[CAS220103Coils, CAS220103Lasers],

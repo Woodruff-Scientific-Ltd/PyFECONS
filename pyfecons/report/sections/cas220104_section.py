@@ -18,8 +18,6 @@ from pyfecons.report.section import ReportSection
 
 @dataclass
 class CAS220104Section(ReportSection):
-    """Report section for CAS220104 (Coils or Lasers) data based on reactor type."""
-
     def __init__(
         self,
         cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers],

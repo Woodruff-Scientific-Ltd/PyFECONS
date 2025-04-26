@@ -4,8 +4,6 @@ from pyfecons.inputs.basic import Basic
 
 
 class CAS10Section(ReportSection):
-    """Report section for CAS10 pre-construction costs."""
-
     def __init__(self, cas10: CAS10, basic: Basic):
         super().__init__()
         self.template_file = "CAS100000.tex"

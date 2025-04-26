@@ -8,8 +8,6 @@ from pyfecons.enums import ReactorType
 
 @dataclass
 class CAS220102Section(ReportSection):
-    """Report section for CAS220102 (Shield) data."""
-
     def __init__(self, cas220102: CAS220102, reactor_type: ReactorType):
         super().__init__()
         self.template_file = "CAS220102.tex"
