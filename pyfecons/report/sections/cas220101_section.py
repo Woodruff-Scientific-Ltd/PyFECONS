@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Dict
 
 from pyfecons.report.section import ReportSection
 from pyfecons.costing.categories.cas220101 import CAS220101
