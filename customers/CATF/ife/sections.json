@@ -468,13 +468,13 @@
         },
         "figures": []
     },
-    "CAS2202": {
+    "CAS2202Section": {
         "template_file": "CAS220200_DT.tex",
         "replacements": {
-            "C220200": 204,
-            "C220201": 170,
-            "C220202": 34,
-            "C220203": 0,
+            "C220200": "204",
+            "C220201": "170",
+            "C220202": "34",
+            "C220203": "0",
             "primaryC": "Lithium (Li)",
             "secondaryC": "Water"
         },

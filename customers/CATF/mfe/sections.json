@@ -304,13 +304,13 @@
         },
         "figures": []
     },
-    "CAS2202": {
+    "CAS2202Section": {
         "template_file": "CAS220200_DT.tex",
         "replacements": {
-            "C220200": 252,
-            "C220201": 219,
-            "C220202": 33,
-            "C220203": 0,
+            "C220200": "252",
+            "C220201": "219",
+            "C220202": "33",
+            "C220203": "0",
             "primaryC": "Lithium (Li)",
             "secondaryC": "Lead Lithium (PbLi)"
         },

@@ -8,7 +8,7 @@ from pyfecons.units import Count, MW, M_USD
 
 
 def cas_2202_main_and_secondary_coolant_costs(
-    basic: Basic, blanket: Blanket, power_table: PowerTable
+    basic: Basic, power_table: PowerTable
 ) -> CAS2202:
     # MAIN AND SECONDARY COOLANT Cost Category 22.2
     cas2202 = CAS2202()
@@ -17,16 +17,6 @@ def cas_2202_main_and_secondary_coolant_costs(
     cas2202.C220203 = compute_secondary_coolant_costs()
     # Main heat-transfer system (NSSS)
     cas2202.C220200 = M_USD(cas2202.C220201 + cas2202.C220202 + cas2202.C220203)
-
-    cas2202.template_file = "CAS220200_DT.tex"
-    cas2202.replacements = {
-        "C220200": round(cas2202.C220200),
-        "C220201": round(cas2202.C220201),
-        "C220202": round(cas2202.C220202),
-        "C220203": round(cas2202.C220203),  # TODO not in template
-        "primaryC": blanket.primary_coolant.display_name,
-        "secondaryC": blanket.secondary_coolant.display_name,
-    }
     return cas2202
 
 
