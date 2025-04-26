@@ -323,7 +323,7 @@
         },
         "figures": []
     },
-    "CAS2204": {
+    "CAS2204Section": {
         "template_file": "CAS220400.tex",
         "replacements": {
             "C220400": 10.6
