@@ -7,7 +7,7 @@ from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.enums import ReactorType
-from pyfecons.figures import RadialBuildPlotter
+from pyfecons.figures import RadialBuildFigure
 
 
 def get_template_file(reactor_type: ReactorType):
@@ -119,7 +119,7 @@ class CAS220101Section(ReportSection):
     ):
         super().__init__()
         self.template_file = get_template_file(basic.reactor_type)
-        self.figures["Figures/radial_build.pdf"] = RadialBuildPlotter.plot(
+        self.figures["Figures/radial_build.pdf"] = RadialBuildFigure.create(
             basic.reactor_type, radial_build
         )
         self.replacements = compute_220101_replacements(

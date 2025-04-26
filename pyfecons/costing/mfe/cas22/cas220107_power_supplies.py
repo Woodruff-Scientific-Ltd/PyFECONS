@@ -23,12 +23,4 @@ def cas_220107_power_supply_costs(
         269.6 * basic.p_nrl / 500 * power_supplies.learning_credit * kIUA
     )
     cas220107.C220107 = M_USD(cas220107.C22010701 + cas220107.C22010702)
-
-    cas220107.template_file = "CAS220107_MFE.tex"
-    cas220107.replacements = {
-        "C22010700": round(cas220107.C220107),
-        "C22010701": round(cas220107.C22010701),
-        "C22010702": round(cas220107.C22010702),
-        "PNRL": round(basic.p_nrl),
-    }
     return cas220107

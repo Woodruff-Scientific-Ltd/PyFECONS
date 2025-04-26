@@ -1,20 +1,18 @@
-from io import BytesIO
-from typing import Dict
-
 import matplotlib
 import matplotlib.pyplot as plt
 
+from io import BytesIO
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.radial_build import RadialBuild
 
 matplotlib.use("Agg")
 
 
-class RadialBuildPlotter:
+class RadialBuildFigure:
     """Class for generating radial build plots."""
 
     @staticmethod
-    def plot(reactor_type: ReactorType, radial_build: RadialBuild) -> bytes:
+    def create(reactor_type: ReactorType, radial_build: RadialBuild) -> bytes:
         """
         Plot the radial build of the reactor.
 
