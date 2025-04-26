@@ -9,6 +9,4 @@ def cas_220119_scheduled_replacement_costs(
     #  Cost category 22.1.19 Scheduled Replacement Cost
     cas220119 = CAS220119()
     cas220119.C220119 = M_USD(cas2201_total_cost * primary_structure.replacement_factor)
-    cas220119.template_file = "CAS220119.tex"
-    cas220119.replacements = {"C220119": str(round(cas220119.C220119))}
     return cas220119
