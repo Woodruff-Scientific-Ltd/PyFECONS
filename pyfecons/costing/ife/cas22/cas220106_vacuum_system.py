@@ -5,11 +5,12 @@ from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.materials import Materials
-from pyfecons.units import Meters3, M_USD
+from pyfecons.units import Meters3, M_USD, Kilograms, USD
 
 materials = Materials()
 
 
+# IFE vacuum system calculations
 def cas_220106_vacuum_system_costs(
     vacuum_system: VacuumSystem, cas220101: CAS220101
 ) -> CAS220106:
@@ -19,14 +20,14 @@ def cas_220106_vacuum_system_costs(
     build = cas220101
 
     # Calculate mass and cost
-    material_volume = build.vessel_vol
-    mass_struct = material_volume * materials.SS316.rho
+    cas220106.material_volume = build.vessel_vol
+    cas220106.mass_struct = Kilograms(cas220106.material_volume * materials.SS316.rho)
     # vessel material cost
-    ves_mat_cost = materials.SS316.c_raw * mass_struct
+    cas220106.ves_mat_cost = USD(materials.SS316.c_raw * cas220106.mass_struct)
     # internal volume of the vacuum vessel
-    ves_vol = Meters3(4 / 3 * np.pi * build.vessel_ir**3)
+    cas220106.ves_vol = Meters3(4 / 3 * np.pi * build.vessel_ir**3)
 
-    cas220106.C22010601 = to_m_usd(ves_mat_cost * vacuum_system.ves_mfr)
+    cas220106.C22010601 = to_m_usd(cas220106.ves_mat_cost * vacuum_system.ves_mfr)
 
     # Permissible force through one beam. Assuming tensile strength of steel of 420 MPa.
     beam_force_I = (
@@ -34,7 +35,9 @@ def cas_220106_vacuum_system_costs(
     )
     # Total number of steel beams required to support vacuum vessel
     # TODO this is unused
-    no_beams = mass_struct * 9.81 * vacuum_system.geometry_factor / beam_force_I
+    no_beams = (
+        cas220106.mass_struct * 9.81 * vacuum_system.geometry_factor / beam_force_I
+    )
 
     # COOLING 22.1.6.2
     # TODO currently always zero
@@ -43,7 +46,7 @@ def cas_220106_vacuum_system_costs(
 
     # VACUUM PUMPING 22.1.6.3
     # Number of vacuum pumps required to pump the full vacuum in 1 second
-    no_vpumps = int(ves_vol / vacuum_system.vpump_cap)
+    no_vpumps = int(cas220106.ves_vol / vacuum_system.vpump_cap)
     cas220106.C22010603 = to_m_usd(no_vpumps * vacuum_system.cost_pump)
 
     # ROUGHING PUMP 22.1.6.4
@@ -56,17 +59,4 @@ def cas_220106_vacuum_system_costs(
         + cas220106.C22010603
         + cas220106.C22010604
     )
-    cas220106.template_file = "CAS220106_IFE.tex"
-    cas220106.replacements = {
-        "C22010601": round(cas220106.C22010601),
-        "C22010602": round(cas220106.C22010602),
-        "C22010603": round(cas220106.C22010603),
-        "C22010604": round(cas220106.C22010604, 2),
-        "C22010600": round(cas220106.C220106),
-        "vesvol": round(ves_vol),
-        "materialvolume": round(material_volume),
-        "massstruct": round(mass_struct / 1e3),
-        "vesmatcost": round(ves_mat_cost / 1e6, 1),
-        "vesmfr": round(vacuum_system.ves_mfr),
-    }
     return cas220106

@@ -698,26 +698,15 @@
         "C220105": 502.2072704996587
     },
     "cas220106": {
-        "replacements": {
-            "C22010601": 1,
-            "C22010602": 1,
-            "C22010603": 7,
-            "C22010604": 0,
-            "C22010600": 777,
-            "vesvol": 692,
-            "massstruct": 715585,
-            "vesmatcost": 1.7
-        },
-        "template_file": "CAS220106_MFE.tex",
-        "figures": {},
         "C22010601": 0.9445720106339277,
         "C22010602": 769.1970009824796,
         "C22010603": 6.6,
         "C22010604": 0.342,
         "C220106": 777.0835729931135,
-        "massstruct": 715584.8565408543,
-        "vesvol": 691.5410241295556,
-        "vesmatcost": null,
+        "mass_struct": 715584.8565408543,
+        "material_volume": null,
+        "ves_vol": 691.5410241295556,
+        "ves_mat_cost": null,
         "vessel_costs": {
             "spool_assembly": {
                 "name": "Spool assembly",

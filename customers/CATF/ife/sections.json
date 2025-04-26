@@ -384,7 +384,7 @@
         },
         "figures": []
     },
-    "CAS220106": {
+    "CAS220106Section": {
         "template_file": "CAS220106_IFE.tex",
         "replacements": {
             "C22010601": 36,

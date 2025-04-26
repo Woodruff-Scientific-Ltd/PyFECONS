@@ -29,7 +29,7 @@ from pyfecons.costing.ife.cas22.cas220104_ignition_lasers import (
 from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     cas_220105_primary_structure_costs,
 )
-from pyfecons.costing.ife.cas22.cas220106_vacuum_systems import (
+from pyfecons.costing.ife.cas22.cas220106_vacuum_system import (
     cas_220106_vacuum_system_costs,
 )
 from pyfecons.costing.ife.cas22.cas220107_power_supplies import (
