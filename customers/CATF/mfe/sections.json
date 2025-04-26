@@ -268,7 +268,7 @@
         },
         "figures": []
     },
-    "CAS220109": {
+    "CAS220109Section": {
         "template_file": "CAS220109.tex",
         "replacements": {
             "expandertank": "5.7",

@@ -805,24 +805,6 @@
         }
     },
     "cas220109": {
-        "replacements": {
-            "expandertank": "5.7",
-            "expandercoilandneutrontrapcoil": "11.7",
-            "convertoegatevalve": "0.0",
-            "neutrontrapshielding": "0.4",
-            "vacuumsystem": "5.7",
-            "gridsystem": "9.5",
-            "heatcollectionsystem": "2.1",
-            "electricaleqpmt": "4.6",
-            "costperunit": "39.6",
-            "totaldeunitcost": "158.0",
-            "engineering15percent": "23.7",
-            "contingency15percent": "0.0",
-            "totaldecost": "261.0",
-            "C220109": "0.00"
-        },
-        "template_file": "CAS220109.tex",
-        "figures": {},
         "C220109": 0.0,
         "costs": {
             "expandertank": 16.0,
