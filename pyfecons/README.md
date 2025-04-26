@@ -48,10 +48,10 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData
 Here initialization of `template_providers` runs each costing category in succession, updates the results data, and
 returns the "fulfilled" templates.
 
-`data.py` contains `TemplateProvider` class, which is the main data of a costing calculation.
+`costing_data.py` contains `ReportSection` class, which is the main data of a costing calculation.
 
 ```
-class TemplateProvider:
+class ReportSection:
     # template substitutions variable_name -> value
     replacements: dict[str, str] = field(default_factory=dict)
     # template file name in templates/ directory
@@ -62,20 +62,20 @@ class TemplateProvider:
     _tex_path: str = None
 ```
 
-Each costing category CASXX takes inputs and output data, then returns a subclass of `TemplateProvider` representing 
+Each costing category CASXX takes inputs and output data, then returns a subclass of `ReportSection` representing 
 the computed cost category. For example, for cost category CAS10:
 
 This is the example output class:
 ```
-class CAS10(TemplateProvider):
+class CAS10(ReportSection):
     C100000: M_USD = None
     ...
 ```
 
 And an outline of the costing calculation:
 ```
-def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider
-    OUT = data.cas10  # grabs the initialized TemplateProvide from data class
+def cas_10(inputs: AllInputs, data: Data) -> ReportSection
+    OUT = data.cas10  # grabs the initialized ReportSection from data class
     ... do calculations ...
     OUT.C100000 = M_USD(...)
     OUT.template_file = 'CAS100000.tex'
@@ -83,7 +83,7 @@ def cas_10(inputs: AllInputs, data: Data) -> TemplateProvider
         'C100000': round(OUT.C100000),
         ...
     }
-    OUT # returns processed TemplateProvide
+    OUT # returns processed ReportSection
 ```
 
 Every cost category will follow this pattern.

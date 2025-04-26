@@ -8,9 +8,6 @@ def cas_2205_fuel_handling_and_storage_costs(fuel_handling: FuelHandling) -> CAS
     # Cost Category 22.5 Fuel Handling and Storage
     cas2205 = CAS2205()
     cas2205 = compute_fuel_handling_and_storage_costs(fuel_handling, cas2205)
-
-    cas2205.template_file = "CAS220500_DT.tex"
-    cas2205.replacements = compute_replacements(fuel_handling, cas2205)
     return cas2205
 
 
@@ -49,24 +46,3 @@ def compute_fuel_handling_and_storage_costs(IN: FuelHandling, OUT: CAS2205) -> C
         + OUT.C220506
     )
     return OUT
-
-
-def compute_replacements(IN: FuelHandling, OUT: CAS2205) -> dict[str, str]:
-    return {
-        "lcredit": round(IN.learning_curve_credit, 1),
-        "ltoak": round(IN.learning_tenth_of_a_kind, 1),
-        "C2205010ITER": round(OUT.C2205010ITER, 1),
-        "C2205020ITER": round(OUT.C2205020ITER, 1),
-        "C2205030ITER": round(OUT.C2205030ITER, 1),
-        "C2205040ITER": round(OUT.C2205040ITER, 1),
-        "C2205050ITER": round(OUT.C2205050ITER, 1),
-        "C2205060ITER": round(OUT.C2205060ITER, 1),
-        "C22050ITER": round(OUT.C22050ITER, 1),
-        "C220501": round(OUT.C220501, 1),
-        "C220502": round(OUT.C220502, 1),
-        "C220503": round(OUT.C220503, 1),
-        "C220504": round(OUT.C220504, 1),
-        "C220505": round(OUT.C220505, 1),
-        "C220506": round(OUT.C220506, 1),
-        "C220500": round(OUT.C220500, 1),
-    }
