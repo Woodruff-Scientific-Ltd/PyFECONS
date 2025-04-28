@@ -13,7 +13,4 @@ def cas23_turbine_plant_equipment_costs(basic: Basic, power_table: PowerTable) -
     cas23.C230000 = M_USD(
         float(basic.n_mod) * power_table.p_et * 0.219 * inflation_factor_2019_2024
     )
-
-    cas23.template_file = "CAS230000.tex"
-    cas23.replacements = {"C230000": round(cas23.C230000, 1)}
     return cas23

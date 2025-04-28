@@ -585,10 +585,10 @@
         },
         "figures": []
     },
-    "CAS23": {
+    "CAS23Section": {
         "template_file": "CAS230000.tex",
         "replacements": {
-            "C230000": 310.6
+            "C230000": "310.6"
         },
         "figures": []
     },
