@@ -428,7 +428,7 @@
         },
         "figures": []
     },
-    "CAS24": {
+    "CAS24Section": {
         "template_file": "CAS240000.tex",
         "replacements": {
             "C240000": 101.9
