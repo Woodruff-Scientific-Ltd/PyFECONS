@@ -9,4 +9,4 @@ class CAS2204Section(ReportSection):
     def __init__(self, cas2204: CAS2204):
         super().__init__()
         self.template_file = "CAS220400.tex"
-        self.replacements = {"C220400": round(cas2204.C220400, 1)}
+        self.replacements = {"C220400": str(round(cas2204.C220400, 1))}

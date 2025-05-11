@@ -12,4 +12,4 @@ class CAS27Section(ReportSection):
     def __init__(self, cas27: CAS27):
         super().__init__()
         self.template_file = "CAS270000.tex"
-        self.replacements = {"C270000": round(cas27.C270000)}
+        self.replacements = {"C270000": str(round(cas27.C270000))}

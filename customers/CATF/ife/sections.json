@@ -456,8 +456,8 @@
         "template_file": "CAS220111.tex",
         "replacements": {
             "C220111": "57.60",
-            "constructionTime": 6,
-            "billingRate": 1600
+            "constructionTime": "6",
+            "billingRate": "1600"
         },
         "figures": []
     },
@@ -490,7 +490,7 @@
     "CAS2204Section": {
         "template_file": "CAS220400.tex",
         "replacements": {
-            "C220400": 11.2
+            "C220400": "11.2"
         },
         "figures": []
     },
@@ -595,28 +595,28 @@
     "CAS24Section": {
         "template_file": "CAS240000.tex",
         "replacements": {
-            "C240000": 76.6
+            "C240000": "76.6"
         },
         "figures": []
     },
     "CAS25Section": {
         "template_file": "CAS250000.tex",
         "replacements": {
-            "C250000": 53.9
+            "C250000": "53.9"
         },
         "figures": []
     },
     "CAS26Section": {
         "template_file": "CAS260000.tex",
         "replacements": {
-            "C260000": 151.8
+            "C260000": "151.8"
         },
         "figures": []
     },
     "CAS27Section": {
         "template_file": "CAS270000.tex",
         "replacements": {
-            "C270000": 108
+            "C270000": "108"
         },
         "figures": []
     },

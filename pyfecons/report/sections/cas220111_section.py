@@ -13,6 +13,6 @@ class CAS220111Section(ReportSection):
         self.template_file = "CAS220111.tex"
         self.replacements = {
             "C220111": str(cas220111.C220111),
-            "constructionTime": round(basic.construction_time),
-            "billingRate": round(installation.labor_rate),
+            "constructionTime": str(round(basic.construction_time)),
+            "billingRate": str(round(installation.labor_rate)),
         }
