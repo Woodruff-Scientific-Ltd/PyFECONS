@@ -435,7 +435,7 @@
         },
         "figures": []
     },
-    "CAS25": {
+    "CAS25Section": {
         "template_file": "CAS250000.tex",
         "replacements": {
             "C250000": 71.7
