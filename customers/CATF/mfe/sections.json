@@ -449,7 +449,7 @@
         },
         "figures": []
     },
-    "CAS27": {
+    "CAS27Section": {
         "template_file": "CAS270000.tex",
         "replacements": {
             "C270000": 108
