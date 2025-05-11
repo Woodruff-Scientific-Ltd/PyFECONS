@@ -606,7 +606,7 @@
         },
         "figures": []
     },
-    "CAS26": {
+    "CAS26Section": {
         "template_file": "CAS260000.tex",
         "replacements": {
             "C260000": 151.8

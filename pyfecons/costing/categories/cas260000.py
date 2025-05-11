@@ -1,9 +1,7 @@
 from dataclasses import dataclass
-
-from pyfecons.report import ReportSection
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS26(ReportSection):
+class CAS26:
     C260000: M_USD = None
