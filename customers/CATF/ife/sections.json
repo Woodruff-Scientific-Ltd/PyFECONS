@@ -620,7 +620,7 @@
         },
         "figures": []
     },
-    "CAS28": {
+    "CAS28Section": {
         "template_file": "CAS280000.tex",
         "replacements": {
             "C280000": "5.00"
