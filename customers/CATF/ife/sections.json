@@ -723,7 +723,7 @@
         },
         "figures": []
     },
-    "CostTable": {
+    "CostTableSection": {
         "template_file": "CASstructure.tex",
         "replacements": {
             "C100000": "242.4",

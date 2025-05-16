@@ -561,7 +561,7 @@
         },
         "figures": []
     },
-    "CostTable": {
+    "CostTableSection": {
         "template_file": "CASstructure.tex",
         "replacements": {
             "C100000": "250.62",

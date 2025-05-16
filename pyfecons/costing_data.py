@@ -45,7 +45,6 @@ from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.costing.categories.cas700000 import CAS70
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
-from pyfecons.costing.accounting.cost_table import CostTable
 from pyfecons.costing.categories.lcoe import LCOE
 from pyfecons.enums import ReactorType
 from pyfecons.serializable import SerializableToJSON
@@ -94,7 +93,6 @@ class CostingData(SerializableToJSON):
     cas80: CAS80 = field(default_factory=CAS80)
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
-    cost_table: CostTable = field(default_factory=CostTable)
     npv: NPV = field(default_factory=NPV)
 
     def __post_init__(self):
