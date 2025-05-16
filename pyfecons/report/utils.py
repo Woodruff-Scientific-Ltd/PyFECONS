@@ -4,6 +4,7 @@ from pyfecons.costing_data import CostingData
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas100000_section import CAS10Section
+from pyfecons.report.sections.cas200000_section import CAS20Section
 from pyfecons.report.sections.cas220000_section import CAS22Section
 from pyfecons.report.sections.cas220104_section import CAS220104Section
 from pyfecons.report.sections.cas220105_section import CAS220105Section
@@ -82,7 +83,7 @@ def get_report_sections(
         CAS27Section(costing_data.cas27),
         CAS28Section(costing_data.cas28),
         CAS29Section(costing_data.cas29),
-        costing_data.cas20,
+        CAS20Section(costing_data.cas20),
         costing_data.cas30,
         costing_data.cas40,
         costing_data.cas50,

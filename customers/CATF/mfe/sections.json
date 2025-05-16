@@ -470,10 +470,10 @@
         },
         "figures": []
     },
-    "CAS20": {
+    "CAS20Section": {
         "template_file": "CAS200000.tex",
         "replacements": {
-            "C200000": 24459
+            "C200000": "24459"
         },
         "figures": []
     },
