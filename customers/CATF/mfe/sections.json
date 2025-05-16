@@ -703,11 +703,11 @@
         },
         "figures": []
     },
-    "NPV": {
+    "NpvSection": {
         "template_file": "NPV.tex",
         "replacements": {
-            "NPVval": -29889597386.56,
-            "DiscountRate": 8.0
+            "NPVval": "-29889597386.56",
+            "DiscountRate": "8.0"
         },
         "figures": []
     }

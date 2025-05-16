@@ -29,12 +29,4 @@ def calculate_npv(basic: Basic, npv_input: NpvInput, costing_data: CostingData) 
         ) / (1 + npv_input.discount_rate) ** n
 
     npv.npv = npv_val
-    npv.template_file = "NPV.tex"
-    npv.replacements = {
-        "NPVval": round(npv.npv, 2),
-        "DiscountRate": round(
-            npv_input.discount_rate * 100, 2
-        ),  # Multiplied by 100 for percentage
-    }
-
     return npv

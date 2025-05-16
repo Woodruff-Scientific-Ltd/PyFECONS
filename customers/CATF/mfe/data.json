@@ -885,12 +885,6 @@
         "C2000000": 28.91087653063886
     },
     "npv": {
-        "replacements": {
-            "NPVval": -29889597386.56,
-            "DiscountRate": 8.0
-        },
-        "template_file": "NPV.tex",
-        "figures": {},
         "npv": -29889597386.561752
     }
 }
