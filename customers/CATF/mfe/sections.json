@@ -530,10 +530,10 @@
         },
         "figures": []
     },
-    "CAS80": {
+    "CAS80Section": {
         "template_file": "CAS800000_DT.tex",
         "replacements": {
-            "C800000": 0.18,
+            "C800000": "0.18",
             "primaryC": "Lithium (Li)",
             "secondaryC": "Lead Lithium (PbLi)"
         },

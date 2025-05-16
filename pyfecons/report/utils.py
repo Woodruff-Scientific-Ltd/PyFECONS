@@ -31,6 +31,7 @@ from pyfecons.report.sections.cas400000_section import CAS40Section
 from pyfecons.report.sections.cas500000_section import CAS50Section
 from pyfecons.report.sections.cas600000_section import CAS60Section
 from pyfecons.report.sections.cas700000_section import CAS70Section
+from pyfecons.report.sections.cas800000_section import CAS80Section
 from pyfecons.report.sections.power_table_section import PowerTableSection
 from pyfecons.report.sections.cas210000_section import CAS21Section
 from pyfecons.report.sections.cas220101_section import CAS220101Section
@@ -94,7 +95,7 @@ def get_report_sections(
         CAS50Section(costing_data.cas50),
         CAS60Section(costing_data.cas60),
         CAS70Section(costing_data.cas70),
-        costing_data.cas80,
+        CAS80Section(costing_data.cas80, reactor_type, inputs.blanket),
         costing_data.cas90,
         costing_data.lcoe,
         costing_data.cost_table,

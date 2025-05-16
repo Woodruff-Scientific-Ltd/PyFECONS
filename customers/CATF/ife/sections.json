@@ -694,10 +694,10 @@
         },
         "figures": []
     },
-    "CAS80": {
+    "CAS80Section": {
         "template_file": "CAS800000_DT.tex",
         "replacements": {
-            "C800000": 16
+            "C800000": "16"
         },
         "figures": []
     },
