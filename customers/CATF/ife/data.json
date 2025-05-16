@@ -844,11 +844,6 @@
         "C280000": 5.0
     },
     "cas29": {
-        "replacements": {
-            "C290000": 0
-        },
-        "template_file": "CAS290000.tex",
-        "figures": {},
         "C290000": 0.0
     },
     "cas20": {

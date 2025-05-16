@@ -627,10 +627,10 @@
         },
         "figures": []
     },
-    "CAS29": {
+    "CAS29Section": {
         "template_file": "CAS290000.tex",
         "replacements": {
-            "C290000": 0
+            "C290000": "0"
         },
         "figures": []
     },
