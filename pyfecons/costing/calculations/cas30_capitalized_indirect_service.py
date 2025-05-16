@@ -41,15 +41,4 @@ def cas30_capitalized_indirect_service_costs(
     cas30.C350000LSA = M_USD(lsa_levels.fac_92[lsa_levels.lsa - 1] * cas20.C200000)
 
     cas30.C300000 = M_USD(cas30.C310000 + cas30.C320000 + cas30.C350000)
-
-    cas30.template_file = "CAS300000.tex"
-    cas30.replacements = {
-        "constructionTime": round(basic.construction_time),
-        "C300000": round(cas30.C300000),  # TODO - not in template
-        "C310000LSA": round(cas30.C310000LSA),
-        "C310000XXX": round(cas30.C310000),
-        "C320000": round(cas30.C320000),
-        "C350000LSA": round(cas30.C350000LSA),
-        "C350000XXX": round(cas30.C350000),
-    }
     return cas30

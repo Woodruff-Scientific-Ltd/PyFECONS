@@ -26,6 +26,7 @@ from pyfecons.report.sections.cas260000_section import CAS26Section
 from pyfecons.report.sections.cas270000_section import CAS27Section
 from pyfecons.report.sections.cas280000_section import CAS28Section
 from pyfecons.report.sections.cas290000_section import CAS29Section
+from pyfecons.report.sections.cas300000_section import CAS30Section
 from pyfecons.report.sections.power_table_section import PowerTableSection
 from pyfecons.report.sections.cas210000_section import CAS21Section
 from pyfecons.report.sections.cas220101_section import CAS220101Section
@@ -84,7 +85,7 @@ def get_report_sections(
         CAS28Section(costing_data.cas28),
         CAS29Section(costing_data.cas29),
         CAS20Section(costing_data.cas20),
-        costing_data.cas30,
+        CAS30Section(costing_data.cas30, inputs.basic),
         costing_data.cas40,
         costing_data.cas50,
         costing_data.cas60,

@@ -641,16 +641,16 @@
         },
         "figures": []
     },
-    "CAS30": {
+    "CAS30Section": {
         "template_file": "CAS300000.tex",
         "replacements": {
-            "constructionTime": 6,
-            "C300000": 235,
-            "C310000LSA": 384,
-            "C310000XXX": 47,
-            "C320000": 118,
-            "C350000LSA": 333,
-            "C350000XXX": 71
+            "constructionTime": "6",
+            "C300000": "235",
+            "C310000LSA": "384",
+            "C310000XXX": "47",
+            "C320000": "118",
+            "C350000LSA": "333",
+            "C350000XXX": "71"
         },
         "figures": []
     },
