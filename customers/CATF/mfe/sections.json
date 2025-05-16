@@ -490,12 +490,12 @@
         },
         "figures": []
     },
-    "CAS40": {
+    "CAS40Section": {
         "template_file": "CAS400000.tex",
         "replacements": {
             "lsaLevel": 2,
-            "C400000LSA": 2935,
-            "C400000XXX": 2935
+            "C400000LSA": "2935",
+            "C400000XXX": "2935"
         },
         "figures": []
     },
