@@ -539,10 +539,10 @@
         },
         "figures": []
     },
-    "CAS90": {
+    "CAS90Section": {
         "template_file": "CAS900000.tex",
         "replacements": {
-            "C900000": 2672
+            "C900000": "2672"
         },
         "figures": []
     },
