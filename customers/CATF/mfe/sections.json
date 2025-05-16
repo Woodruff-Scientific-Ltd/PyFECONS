@@ -523,10 +523,10 @@
         },
         "figures": []
     },
-    "CAS70": {
+    "CAS70Section": {
         "template_file": "CAS700000.tex",
         "replacements": {
-            "C700000": 79
+            "C700000": "79"
         },
         "figures": []
     },
