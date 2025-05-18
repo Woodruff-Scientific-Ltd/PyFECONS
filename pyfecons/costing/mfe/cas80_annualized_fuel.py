@@ -1,11 +1,10 @@
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.inputs.basic import Basic
-from pyfecons.inputs.blanket import Blanket
 from pyfecons.units import Kilograms
 
 
-def cas80_annualized_fuel_costs(basic: Basic, blanket: Blanket) -> CAS80:
+def cas80_annualized_fuel_costs(basic: Basic) -> CAS80:
     # Cost Category 80: Annualized Fuel Cost (AFC)
     cas80 = CAS80()
 
@@ -31,11 +30,4 @@ def cas80_annualized_fuel_costs(basic: Basic, blanket: Blanket) -> CAS80:
     )
 
     cas80.C800000 = to_m_usd(c_f)
-
-    cas80.template_file = "CAS800000_DT.tex"
-    cas80.replacements = {
-        "C800000": round(cas80.C800000, 2),
-        "primaryC": blanket.primary_coolant.display_name,
-        "secondaryC": blanket.secondary_coolant.display_name,
-    }
     return cas80

@@ -24,17 +24,4 @@ def lcoe_costs(
         / (8760 * power_table.p_net * float(basic.n_mod) * basic.plant_availability)
     )
     lcoe.C2000000 = M_USD(lcoe.C1000000 / 10)
-
-    lcoe.template_file = "LCOE.tex"
-    lcoe.replacements = {
-        "C1000000": round(lcoe.C1000000, 1),
-        "C2000000": round(lcoe.C2000000, 1),
-        "C700000": round(cas70.C700000, 1),
-        "C800000": round(cas80.C800000, 1),
-        "C900000": round(cas90.C900000, 1),
-        "PNET": round(power_table.p_net, 3),
-        "lifeY": round(basic.plant_lifetime),
-        "yinflation": 100 * round(basic.yearly_inflation, 3),
-        "PAVAIL": round(basic.plant_availability, 2),
-    }
     return lcoe

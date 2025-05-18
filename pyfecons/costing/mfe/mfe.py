@@ -8,7 +8,7 @@ from pyfecons.templates import (
     load_document_template,
 )
 from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.data import Data
+from pyfecons.costing_data import CostingData
 from pyfecons.costing.mfe.PowerBalance import power_balance
 from pyfecons.costing.calculations.cas10_pre_construction import (
     cas_10_pre_construction_costs,
@@ -98,10 +98,8 @@ from pyfecons.costing.calculations.cas90_annualized_financial import (
     cas90_annualized_financial_costs,
 )
 from pyfecons.costing.calculations.lcoe import lcoe_costs
-from pyfecons.costing.mfe.cost_table import cost_table
 from pyfecons.costing.calculations.npv import calculate_npv
-from pyfecons.report import ReportContent, ReportOverrides
-from pyfecons.costing_data import CostingData
+from pyfecons.report import get_report_sections, ReportContent, ReportOverrides
 
 TEMPLATES_PATH = "pyfecons.costing.mfe.templates"
 INCLUDED_FILES_PATH = "pyfecons.costing.mfe.included_files"
@@ -131,7 +129,7 @@ LOCAL_INCLUDED_FILES = [
 
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
-    data = Data(reactor_type=ReactorType.MFE)
+    data = CostingData(reactor_type=ReactorType.MFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
@@ -148,7 +146,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.supplementary_heating
     )
     data.cas220105 = cas_220105_primary_structure_costs(
-        inputs.basic, inputs.primary_structure, data.power_table
+        inputs.primary_structure, data.power_table
     )
     data.cas220106 = cas_220106_vacuum_system_costs(
         inputs.vacuum_system,
@@ -171,7 +169,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.primary_structure, data.cas2201_total_cost()
     )
     data.cas2202 = cas_2202_main_and_secondary_coolant_costs(
-        inputs.basic, inputs.blanket, data.power_table
+        inputs.basic, data.power_table
     )
     data.cas2203 = cas_2203_auxilary_cooling_costs(inputs.basic, data.power_table)
     data.cas2204 = cas_2204_radwaste_costs(data.power_table)
@@ -200,29 +198,31 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
-    data.cas80 = cas80_annualized_fuel_costs(inputs.basic, inputs.blanket)
+    data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
     data.cas90 = cas90_annualized_financial_costs(
         inputs.financial, data.cas10_to_60_total_capital_cost()
     )
     data.lcoe = lcoe_costs(
         inputs.basic, data.power_table, data.cas70, data.cas80, data.cas90
     )
-    data.cost_table = cost_table(data)
     data.npv = calculate_npv(inputs.basic, inputs.npv_input, data)
-    return CostingData(data, data.template_providers())
+    return data
 
 
 def CreateReportContent(
-    costing_data: CostingData, overrides: Optional[ReportOverrides] = None
+    inputs: AllInputs,
+    costing_data: CostingData,
+    overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
     document_template = load_document_template(
         TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
     )
-    hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers, overrides
-    )
-    figures = combine_figures(costing_data.template_providers)
+    report_sections = get_report_sections(inputs, costing_data)
+    hydrated_templates = hydrate_templates(TEMPLATES_PATH, report_sections, overrides)
+    figures = combine_figures(report_sections)
     included_files = get_local_included_files_map(
         INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
     )
-    return ReportContent(document_template, hydrated_templates, included_files, figures)
+    return ReportContent(
+        document_template, hydrated_templates, report_sections, included_files, figures
+    )

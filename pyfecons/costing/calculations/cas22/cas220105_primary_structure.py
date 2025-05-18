@@ -1,12 +1,11 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas220105 import CAS220105
-from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.units import M_USD, MW, Ratio
 
 
 def cas_220105_primary_structure_costs(
-    basic: Basic, primary_structure: PrimaryStructure, power_table: PowerTable
+    primary_structure: PrimaryStructure, power_table: PowerTable
 ) -> CAS220105:
     # 22.1.5 primary structure
     cas220105 = CAS220105()
@@ -16,14 +15,6 @@ def cas_220105_primary_structure_costs(
 
     # total cost calculation
     cas220105.C220105 = M_USD(cas220105.C22010501 + cas220105.C22010502)
-    cas220105.template_file = "CAS220105.tex"
-    cas220105.replacements = {
-        "C22010501": str(round(cas220105.C22010501)),
-        "C22010502": str(round(cas220105.C22010502)),
-        "C22010500": str(round(cas220105.C220105)),
-        "systPGA": str(round(primary_structure.syst_pga.value, 1)),
-        "PNRL": str(round(basic.p_nrl)),
-    }
     return cas220105
 
 

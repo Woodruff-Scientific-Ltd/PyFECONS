@@ -1,39 +1,6 @@
 {
     "reactor_type": "IFE",
     "power_table": {
-        "replacements": {
-            "PNRL": 2500.0,
-            "PALPHA": 2500.0,
-            "PNEUTRON": 0.0,
-            "MN": 1.1,
-            "FPCPPF": 0.0,
-            "FSUB": 0.0,
-            "PTRIT": 6.3,
-            "PHOUSE": 2.1,
-            "PAUX": 8.4,
-            "PCRYO": 3.6,
-            "ETAPIN1": 0.1,
-            "ETAPIN2": 0.1,
-            "ETAP": 0.5,
-            "ETATH": 0.5,
-            "PIMPLOSION": 10.0,
-            "PIGNITION": 0.1,
-            "PTH": 2527.3,
-            "PET": 1162.6,
-            "PLOSS": 1364.8,
-            "GAINE": 115.1,
-            "PTARGET": 1.0,
-            "PMACHINERY": 1.0,
-            "PSUB": 11.6,
-            "QS": 247.5,
-            "QE": 8.5,
-            "EPSILON": 0.1,
-            "PNET": 1025.0,
-            "PP": 11.6,
-            "PIN": 10.1
-        },
-        "template_file": "powerTableIFEDT.tex",
-        "figures": {},
         "p_alpha": 2500.0,
         "p_neutron": 0.0,
         "p_cool": null,
@@ -53,20 +20,6 @@
         "gain_e": 115.1070297029703
     },
     "cas10": {
-        "replacements": {
-            "Nmod": "1",
-            "C100000": "242.41",
-            "C110000": "9.41",
-            "C120000": "10.00",
-            "C130000": "210.00",
-            "C140000": "5.00",
-            "C150000": "5.00",
-            "C160000": "2.00",
-            "C170000": "1.00",
-            "C190000": "0.00"
-        },
-        "template_file": "CAS100000.tex",
-        "figures": {},
         "C110000": 9.414225941422595,
         "C120000": 10.0,
         "C130000": 210.0,
@@ -78,29 +31,6 @@
         "C100000": 242.4142259414226
     },
     "cas21": {
-        "replacements": {
-            "C210000": "830.4",
-            "C210100": "311.6",
-            "C210200": "217.2",
-            "C210300": "62.8",
-            "C210400": "43.9",
-            "C210500": "12.6",
-            "C210600": "6.3",
-            "C210700": "108.6",
-            "C210800": "21.7",
-            "C210900": "0.3",
-            "C211000": "1.3",
-            "C211100": "1.0",
-            "C211200": "0.9",
-            "C211300": "5.1",
-            "C211400": "1.9",
-            "C211500": "2.8",
-            "C211600": "1.0",
-            "C211700": "31.4",
-            "C211900": "0.0"
-        },
-        "template_file": "CAS210000.tex",
-        "figures": {},
         "C210100": 311.571708,
         "C210200": 217.1701308,
         "C210300": 62.779374,
@@ -122,129 +52,10 @@
         "C210000": 830.4316082999998
     },
     "cas22": {
-        "replacements": {
-            "C220000": 4862.27,
-            "FSrho": 7470,
-            "FScraw": 10,
-            "FSm": 3,
-            "FSsigma": 450,
-            "Pbrho": 9400,
-            "Pbcraw": 2.4,
-            "Pbm": 1.5,
-            "Li4SiO4rho": 2390,
-            "Li4SiO4craw": 1,
-            "Li4SiO4m": 2,
-            "Fliberho": 1900,
-            "Flibec": 40,
-            "Wrho": 19300,
-            "Wcraw": 100,
-            "Wm": 3,
-            "Lirho": 534,
-            "Licraw": 70,
-            "Lim": 1.5,
-            "BFSrho": 7800,
-            "BFScraw": 30,
-            "BFSm": 2,
-            "PbLirho": 8594.0,
-            "PbLic": 12.82,
-            "SiCrho": 3200,
-            "SiCcraw": 14.49,
-            "SiCm": 3,
-            "Inconelrho": 8440,
-            "Inconelcraw": 46,
-            "Inconelm": 3,
-            "Curho": 7300,
-            "Cucraw": 10.2,
-            "Cum": 3,
-            "Polyimiderho": 1430,
-            "Polyimidecraw": 100,
-            "Polyimidem": 3,
-            "YBCOrho": 6200,
-            "YBCOc": 55,
-            "Concreterho": 2300,
-            "Concretecraw": 0.52,
-            "Concretem": 2,
-            "SS316rho": 7860,
-            "SS316craw": 2,
-            "SS316m": 2,
-            "SS316sigma": 900,
-            "Nb3Snc": 5,
-            "Incoloyrho": 8170,
-            "Incoloycraw": 4,
-            "Incoloym": 2
-        },
-        "template_file": "CAS220000.tex",
-        "figures": {},
         "C220100": 4455.3106848711695,
         "C220000": 4862.267217216061
     },
     "cas220101": {
-        "replacements": {
-            "C22010100": "0.25",
-            "C22010101": "0.25",
-            "C22010102": "0.00",
-            "primaryC": "Lithium (Li)",
-            "secondaryC": "Water",
-            "neutronM": "Pb as part of PbLi",
-            "structure1": "Ferritic Martensitic Steel (FMS)",
-            "firstW": "Liquid Lithium",
-            "TH01": 0.0,
-            "TH02": 8.48,
-            "TH03": 0.01,
-            "TH04": 0.0,
-            "TH05": 0.2,
-            "TH06": 0.1,
-            "TH07": 0.5,
-            "TH08": 0.2,
-            "TH09": 0.1,
-            "TH10": 0.3,
-            "TH12": 0.0,
-            "TH13": 0.5,
-            "TH14": 1.0,
-            "RAD1I": 0.0,
-            "RAD2I": 0.0,
-            "RAD3I": 8.48,
-            "RAD4I": 8.49,
-            "RAD5I": 8.69,
-            "RAD6I": 8.49,
-            "RAD7I": 8.89,
-            "RAD8I": 9.39,
-            "RAD9I": 8.59,
-            "RAD10I": 9.59,
-            "RAD12I": 0.0,
-            "RAD13I": 9.89,
-            "RAD14I": 10.39,
-            "RAD1O": 0.0,
-            "RAD2O": 8.48,
-            "RAD3O": 8.49,
-            "RAD4O": 8.49,
-            "RAD5O": 8.89,
-            "RAD6O": 8.59,
-            "RAD7O": 9.39,
-            "RAD8O": 9.59,
-            "RAD9O": 8.69,
-            "RAD10O": 9.89,
-            "RAD12O": 0.0,
-            "RAD13O": 10.39,
-            "RAD14O": 11.39,
-            "VOL01": 0.0,
-            "VOL02": 2554.42,
-            "VOL03": 4.52,
-            "VOL04": 0.0,
-            "VOL05": 193.98,
-            "VOL06": 91.54,
-            "VOL07": 524.46,
-            "VOL08": 226.12,
-            "VOL09": 93.7,
-            "VOL10": 357.31,
-            "VOL12": 0.0,
-            "VOL13": 645.54,
-            "VOL14": 1489.98
-        },
-        "template_file": "CAS220101_IFE_DT.tex",
-        "figures": {
-            "Figures/radial_build.pdf": ""
-        },
         "axis_ir": 0.0,
         "plasma_ir": 0.0,
         "vacuum_ir": 0.0001,
@@ -292,20 +103,6 @@
         "C220101": 0.25349442550690954
     },
     "cas220102": {
-        "replacements": {
-            "C22010201": 202,
-            "C22010202": 1,
-            "C22010203": 6,
-            "C22010204": 1,
-            "C220102XX": 210,
-            "V220102": 94,
-            "primaryC": "Lithium (Li)",
-            "VOL9": 94,
-            "VOL10": 357,
-            "VOL14": 1490
-        },
-        "template_file": "CAS220102.tex",
-        "figures": {},
         "C22010201": 202.5,
         "C22010202": 1.4292437822220803,
         "C22010203": 5.959914686400774,
@@ -314,259 +111,203 @@
         "V_HTS": 93.7
     },
     "cas220103": {
-        "replacements": {
-            "2213Procurement": "1523.8",
-            "2213Design": "105.1",
-            "2213Assembly": "285.8",
-            "2213Total": "1914.7",
-            "22131FrontEndProcurement": "128.8",
-            "22131FrontEndDesign": "15.6",
-            "22131FrontEndAssembly": "27.5",
-            "22131FrontEndTotal": "171.8",
-            "22132MainAmpSystemProcurement": "344.6",
-            "22132MainAmpSystemDesign": "19.1",
-            "22132MainAmpSystemAssembly": "57.0",
-            "22132MainAmpSystemTotal": "420.6",
-            "221321MainAmpProcurement": "146.4",
-            "221321MainAmpDesign": "8.6",
-            "221321MainAmpAssembly": "17.5",
-            "221321MainAmpTotal": "172.5",
-            "2213211FlashlampAssembliesProcurement": "36.9",
-            "2213211FlashlampAssembliesDesign": "0.0",
-            "2213211FlashlampAssembliesAssembly": "0.0",
-            "2213211FlashlampAssembliesTotal": "36.9",
-            "2213213AmpMechProcurement": "109.7",
-            "2213213AmpMechDesign": "8.6",
-            "2213213AmpMechAssembly": "17.5",
-            "2213213AmpMechTotal": "135.8",
-            "221322SpatialFiltersProcurement": "47.0",
-            "221322SpatialFiltersDesign": "1.0",
-            "221322SpatialFiltersAssembly": "10.3",
-            "221322SpatialFiltersTotal": "58.4",
-            "221323MirrorMountsProcurement": "17.2",
-            "221323MirrorMountsDesign": "0.2",
-            "221323MirrorMountsAssembly": "1.7",
-            "221323MirrorMountsTotal": "19.1",
-            "221324PolarizerAssemblyProcurement": "8.9",
-            "221324PolarizerAssemblyDesign": "1.2",
-            "221324PolarizerAssemblyAssembly": "4.6",
-            "221324PolarizerAssemblyTotal": "14.8",
-            "221325PockelsCellAssemblyProcurement": "90.3",
-            "221325PockelsCellAssemblyDesign": "8.1",
-            "221325PockelsCellAssemblyAssembly": "19.1",
-            "221325PockelsCellAssemblyTotal": "117.4",
-            "221326BoostAmpProcurement": "30.7",
-            "221326BoostAmpDesign": "0.0",
-            "221326BoostAmpAssembly": "3.8",
-            "221326BoostAmpTotal": "34.5",
-            "2213261FlashlampAssembliesProcurement": "7.9",
-            "2213261FlashlampAssembliesDesign": "0.0",
-            "2213261FlashlampAssembliesAssembly": "0.0",
-            "2213261FlashlampAssembliesTotal": "7.9",
-            "2213263AmpMechProcurement": "22.8",
-            "2213263AmpMechDesign": "0.0",
-            "2213263AmpMechAssembly": "3.8",
-            "2213263AmpMechTotal": "26.6",
-            "221327InterstageHdwProcurement": "4.1",
-            "221327InterstageHdwDesign": "0.0",
-            "221327InterstageHdwAssembly": "0.2",
-            "221327InterstageHdwTotal": "4.3",
-            "22133BeamXportSystemProcurement": "97.7",
-            "22133BeamXportSystemDesign": "4.8",
-            "22133BeamXportSystemAssembly": "16.3",
-            "22133BeamXportSystemTotal": "118.8",
-            "221331SpatialFiltersProcurement": "53.4",
-            "221331SpatialFiltersDesign": "3.9",
-            "221331SpatialFiltersAssembly": "0.0",
-            "221331SpatialFiltersTotal": "57.3",
-            "221332MirrorAssemblyProcurement": "14.4",
-            "221332MirrorAssemblyDesign": "0.2",
-            "221332MirrorAssemblyAssembly": "12.4",
-            "221332MirrorAssemblyTotal": "27.0",
-            "221333FinalOpticsSystemProcurement": "21.5",
-            "221333FinalOpticsSystemDesign": "0.5",
-            "221333FinalOpticsSystemAssembly": "1.5",
-            "221333FinalOpticsSystemTotal": "23.5",
-            "221334BeamTubeSystemProcurement": "8.4",
-            "221334BeamTubeSystemDesign": "0.2",
-            "221334BeamTubeSystemAssembly": "2.2",
-            "221334BeamTubeSystemTotal": "10.8",
-            "221335InterstageHdwProcurement": "0.0",
-            "221335InterstageHdwDesign": "0.0",
-            "221335InterstageHdwAssembly": "0.2",
-            "221335InterstageHdwTotal": "0.2",
-            "22134PowerCondSystemProcurement": "169.4",
-            "22134PowerCondSystemDesign": "0.0",
-            "22134PowerCondSystemAssembly": "0.0",
-            "22134PowerCondSystemTotal": "169.4",
-            "22135AlignAndLaserDiagProcurement": "122.6",
-            "22135AlignAndLaserDiagDesign": "27.1",
-            "22135AlignAndLaserDiagAssembly": "83.8",
-            "22135AlignAndLaserDiagTotal": "233.5",
-            "22136SpaceFrameProcurement": "38.6",
-            "22136SpaceFrameDesign": "6.2",
-            "22136SpaceFrameAssembly": "0.0",
-            "22136SpaceFrameTotal": "44.8",
-            "22137LaserAuxSystemsProcurement": "2.6",
-            "22137LaserAuxSystemsDesign": "0.0",
-            "22137LaserAuxSystemsAssembly": "6.9",
-            "22137LaserAuxSystemsTotal": "9.4",
-            "22138OpticsProcurement": "0.0",
-            "22138OpticsDesign": "0.0",
-            "22138OpticsAssembly": "0.0",
-            "22138OpticsTotal": "0.0",
-            "C220103": "1915"
-        },
-        "template_file": "CAS220103_IFE_DT.tex",
-        "figures": {},
         "C220103": 1914.7083635909473
     },
     "cas220104": {
-        "replacements": {
-            "2213Procurement": "56.4",
-            "2213Design": "3.9",
-            "2213Assembly": "10.6",
-            "2213Total": "70.9",
-            "22131FrontEndProcurement": "4.8",
-            "22131FrontEndDesign": "0.6",
-            "22131FrontEndAssembly": "1.0",
-            "22131FrontEndTotal": "6.4",
-            "22132MainAmpSystemProcurement": "12.8",
-            "22132MainAmpSystemDesign": "0.7",
-            "22132MainAmpSystemAssembly": "2.1",
-            "22132MainAmpSystemTotal": "15.6",
-            "221321MainAmpProcurement": "5.4",
-            "221321MainAmpDesign": "0.3",
-            "221321MainAmpAssembly": "0.6",
-            "221321MainAmpTotal": "6.4",
-            "2213211FlashlampAssembliesProcurement": "1.4",
-            "2213211FlashlampAssembliesDesign": "0.0",
-            "2213211FlashlampAssembliesAssembly": "0.0",
-            "2213211FlashlampAssembliesTotal": "1.4",
-            "2213213AmpMechProcurement": "4.1",
-            "2213213AmpMechDesign": "0.3",
-            "2213213AmpMechAssembly": "0.6",
-            "2213213AmpMechTotal": "5.0",
-            "221322SpatialFiltersProcurement": "1.7",
-            "221322SpatialFiltersDesign": "0.0",
-            "221322SpatialFiltersAssembly": "0.4",
-            "221322SpatialFiltersTotal": "2.2",
-            "221323MirrorMountsProcurement": "0.6",
-            "221323MirrorMountsDesign": "0.0",
-            "221323MirrorMountsAssembly": "0.1",
-            "221323MirrorMountsTotal": "0.7",
-            "221324PolarizerAssemblyProcurement": "0.3",
-            "221324PolarizerAssemblyDesign": "0.0",
-            "221324PolarizerAssemblyAssembly": "0.2",
-            "221324PolarizerAssemblyTotal": "0.5",
-            "221325PockelsCellAssemblyProcurement": "3.3",
-            "221325PockelsCellAssemblyDesign": "0.3",
-            "221325PockelsCellAssemblyAssembly": "0.7",
-            "221325PockelsCellAssemblyTotal": "4.3",
-            "221326BoostAmpProcurement": "1.1",
-            "221326BoostAmpDesign": "0.0",
-            "221326BoostAmpAssembly": "0.1",
-            "221326BoostAmpTotal": "1.3",
-            "2213261FlashlampAssembliesProcurement": "0.3",
-            "2213261FlashlampAssembliesDesign": "0.0",
-            "2213261FlashlampAssembliesAssembly": "0.0",
-            "2213261FlashlampAssembliesTotal": "0.3",
-            "2213263AmpMechProcurement": "0.8",
-            "2213263AmpMechDesign": "0.0",
-            "2213263AmpMechAssembly": "0.1",
-            "2213263AmpMechTotal": "1.0",
-            "221327InterstageHdwProcurement": "0.2",
-            "221327InterstageHdwDesign": "0.0",
-            "221327InterstageHdwAssembly": "0.0",
-            "221327InterstageHdwTotal": "0.2",
-            "22133BeamXportSystemProcurement": "3.6",
-            "22133BeamXportSystemDesign": "0.2",
-            "22133BeamXportSystemAssembly": "0.6",
-            "22133BeamXportSystemTotal": "4.4",
-            "221331SpatialFiltersProcurement": "2.0",
-            "221331SpatialFiltersDesign": "0.1",
-            "221331SpatialFiltersAssembly": "0.0",
-            "221331SpatialFiltersTotal": "2.1",
-            "221332MirrorAssemblyProcurement": "0.5",
-            "221332MirrorAssemblyDesign": "0.0",
-            "221332MirrorAssemblyAssembly": "0.5",
-            "221332MirrorAssemblyTotal": "1.0",
-            "221333FinalOpticsSystemProcurement": "0.8",
-            "221333FinalOpticsSystemDesign": "0.0",
-            "221333FinalOpticsSystemAssembly": "0.1",
-            "221333FinalOpticsSystemTotal": "0.9",
-            "221334BeamTubeSystemProcurement": "0.3",
-            "221334BeamTubeSystemDesign": "0.0",
-            "221334BeamTubeSystemAssembly": "0.1",
-            "221334BeamTubeSystemTotal": "0.4",
-            "221335InterstageHdwProcurement": "0.0",
-            "221335InterstageHdwDesign": "0.0",
-            "221335InterstageHdwAssembly": "0.0",
-            "221335InterstageHdwTotal": "0.0",
-            "22134PowerCondSystemProcurement": "6.3",
-            "22134PowerCondSystemDesign": "0.0",
-            "22134PowerCondSystemAssembly": "0.0",
-            "22134PowerCondSystemTotal": "6.3",
-            "22135AlignAndLaserDiagProcurement": "4.5",
-            "22135AlignAndLaserDiagDesign": "1.0",
-            "22135AlignAndLaserDiagAssembly": "3.1",
-            "22135AlignAndLaserDiagTotal": "8.6",
-            "22136SpaceFrameProcurement": "1.4",
-            "22136SpaceFrameDesign": "0.2",
-            "22136SpaceFrameAssembly": "0.0",
-            "22136SpaceFrameTotal": "1.7",
-            "22137LaserAuxSystemsProcurement": "0.1",
-            "22137LaserAuxSystemsDesign": "0.0",
-            "22137LaserAuxSystemsAssembly": "0.3",
-            "22137LaserAuxSystemsTotal": "0.3",
-            "22138OpticsProcurement": "0.0",
-            "22138OpticsDesign": "0.0",
-            "22138OpticsAssembly": "0.0",
-            "22138OpticsTotal": "0.0",
-            "C220103": "1915",
-            "C220104XX": "71"
-        },
-        "template_file": "CAS220104_IFE_DT.tex",
-        "figures": {},
-        "C220104": 70.87797522981333
+        "C220104": 70.87797522981333,
+        "scaled_costs": {
+            "22.1.3. Laser": {
+                "base_key": "2213",
+                "procurement": 56.407505437086265,
+                "design": 3.889296228875258,
+                "assembly": 10.581173563851806,
+                "total": 70.87797522981333
+            },
+            "22.1.3.1 Front End": {
+                "base_key": "22131FrontEnd",
+                "procurement": 4.766294398131444,
+                "design": 0.5783103869732819,
+                "assembly": 1.0168094716013747,
+                "total": 6.3614142567061
+            },
+            "22.1.3.2 Main Amp System": {
+                "base_key": "22132MainAmpSystem",
+                "procurement": 12.754603809399743,
+                "design": 0.7054115709234536,
+                "assembly": 2.1098796535728526,
+                "total": 15.56989503389605
+            },
+            "22.1.3.2.1 Main Amp": {
+                "base_key": "221321MainAmp",
+                "procurement": 5.420865495474828,
+                "design": 0.3177529598754296,
+                "assembly": 0.6482160381458764,
+                "total": 6.386834493496134
+            },
+            "22.1.3.2.1.1 Flashlamp Assemblies": {
+                "base_key": "2213211FlashlampAssemblies",
+                "procurement": 1.3663377274643473,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 1.3663377274643473
+            },
+            "22.1.3.2.1.3, 3.2.1.5-7 (amp mech)": {
+                "base_key": "2213213AmpMech",
+                "procurement": 4.06088282720799,
+                "design": 0.3177529598754296,
+                "assembly": 0.6482160381458764,
+                "total": 5.026851825229296
+            },
+            "22.1.3.2.2 Spatial filters": {
+                "base_key": "221322SpatialFilters",
+                "procurement": 1.741286220117354,
+                "design": 0.03813035518505155,
+                "assembly": 0.3813035518505155,
+                "total": 2.160720127152921
+            },
+            "22.1.3.2.3 Mirror Mounts": {
+                "base_key": "221323MirrorMounts",
+                "procurement": 0.6355059197508592,
+                "design": 0.0063550591975085925,
+                "assembly": 0.06355059197508592,
+                "total": 0.7054115709234537
+            },
+            "22.1.3.2.4 Polarizer assembly": {
+                "base_key": "221324PolarizerAssembly",
+                "procurement": 0.3304630782704468,
+                "design": 0.04448541438256014,
+                "assembly": 0.171586598332732,
+                "total": 0.5465350909857389
+            },
+            "22.1.3.2.5 Pockels' Cell Assembly": {
+                "base_key": "221325PockelsCellAssembly",
+                "procurement": 3.3427611378895192,
+                "design": 0.2986877822829038,
+                "assembly": 0.7054115709234536,
+                "total": 4.346860491095876
+            },
+            "22.1.3.2.6 Boost Amp": {
+                "base_key": "221326BoostAmp",
+                "procurement": 1.1375555963540378,
+                "design": 0.0,
+                "assembly": 0.13981130234518904,
+                "total": 1.2773668986992268
+            },
+            "22.1.3.2.6.1 Flashlamp Assemblies": {
+                "base_key": "2213261FlashlampAssemblies",
+                "procurement": 0.2923327230853952,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 0.2923327230853952
+            },
+            "22.1.3.2.6.3, 3.2.6.5-7 (amp mech)": {
+                "base_key": "2213263AmpMech",
+                "procurement": 0.8452228732686428,
+                "design": 0.0,
+                "assembly": 0.13981130234518904,
+                "total": 0.9850341756138318
+            },
+            "22.1.3.2.7 Interstage Hdw": {
+                "base_key": "221327InterstageHdw",
+                "procurement": 0.1525214207402062,
+                "design": 0.0,
+                "assembly": 0.0063550591975085925,
+                "total": 0.15887647993771478
+            },
+            "22.1.3.3 Beam Xport system": {
+                "base_key": "22133BeamXportSystem",
+                "procurement": 3.6160286833823885,
+                "design": 0.17794165753024055,
+                "assembly": 0.6037306237633162,
+                "total": 4.397700964675945
+            },
+            "22.1.3.3.1 Spatial filters": {
+                "base_key": "221331SpatialFilters",
+                "procurement": 1.9764234104251721,
+                "design": 0.1461663615426976,
+                "assembly": 0.0,
+                "total": 2.1225897719678697
+            },
+            "22.1.3.3.2 Mirror Assembly": {
+                "base_key": "221332MirrorAssembly",
+                "procurement": 0.5338249725907217,
+                "design": 0.0063550591975085925,
+                "assembly": 0.45756426222061863,
+                "total": 0.9977442940088489
+            },
+            "22.1.3.3.3 Final Optics system": {
+                "base_key": "221333FinalOpticsSystem",
+                "procurement": 0.7943823996885739,
+                "design": 0.019065177592525774,
+                "assembly": 0.05719553277757733,
+                "total": 0.8706431100586771
+            },
+            "22.1.3.3.4 Beam Tube system": {
+                "base_key": "221334BeamTubeSystem",
+                "procurement": 0.311397900677921,
+                "design": 0.0063550591975085925,
+                "assembly": 0.0826157695676117,
+                "total": 0.4003687294430413
+            },
+            "22.1.3.3.5 Interstage Hdw": {
+                "base_key": "221335InterstageHdw",
+                "procurement": 0.0,
+                "design": 0.0,
+                "assembly": 0.0063550591975085925,
+                "total": 0.0063550591975085925
+            },
+            "22.1.3.4 Power cond system": {
+                "base_key": "22134PowerCondSystem",
+                "procurement": 6.27244342794098,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 6.27244342794098
+            },
+            "22.1.3.5 Align and Laser diag": {
+                "base_key": "22135AlignAndLaserDiag",
+                "procurement": 4.5375122670211345,
+                "design": 1.0040993532063576,
+                "assembly": 3.1012688883841926,
+                "total": 8.642880508611684
+            },
+            "22.1.3.6 Space frame": {
+                "base_key": "22136SpaceFrame",
+                "procurement": 1.4298883194394332,
+                "design": 0.22878213111030932,
+                "assembly": 0.0,
+                "total": 1.6586704505497425
+            },
+            "22.1.3.7 Laser aux systems": {
+                "base_key": "22137LaserAuxSystems",
+                "procurement": 0.09532588796262888,
+                "design": 0.0,
+                "assembly": 0.2542023679003437,
+                "total": 0.34952825586297254
+            },
+            "22.1.3.8 Optics": {
+                "base_key": "22138Optics",
+                "procurement": 0.0,
+                "design": 0.0,
+                "assembly": 0.0,
+                "total": 0.0
+            }
+        }
     },
     "cas220105": {
-        "replacements": {
-            "C22010501": "164",
-            "C22010502": "214",
-            "C22010500": "378",
-            "systPGA": "0.1",
-            "PNRL": "2500"
-        },
-        "template_file": "CAS220105.tex",
-        "figures": {},
         "C22010501": 164.4096925,
         "C22010502": 213.81938499999998,
         "C220105": 378.2290775
     },
     "cas220106": {
-        "replacements": {
-            "C22010601": 36,
-            "C22010602": 0,
-            "C22010603": 33,
-            "C22010604": 0.34,
-            "C22010600": 69,
-            "vesvol": 3463,
-            "materialvolume": 226,
-            "massstruct": 1777,
-            "vesmatcost": 3.6,
-            "vesmfr": 10
-        },
-        "template_file": "CAS220106_IFE.tex",
-        "figures": {},
         "C22010601": 35.54612958971848,
         "C22010602": 0.0,
         "C22010603": 33.24,
         "C22010604": 0.342,
         "C220106": 69.12812958971848,
-        "massstruct": null,
-        "vesvol": null,
-        "vesmatcost": null,
+        "mass_struct": 1777306.4794859241,
+        "material_volume": 226.12041723739492,
+        "ves_vol": 3462.6239031179084,
+        "ves_mat_cost": 3554612.9589718482,
         "vessel_costs": {
             "spool_assembly": {
                 "name": null,
@@ -627,60 +368,390 @@
         }
     },
     "cas220107": {
-        "replacements": {
-            "C22010700": 1349,
-            "C22010701": 1,
-            "C22010702": 1348,
-            "PNRL": 2500
-        },
-        "template_file": "CAS220107_IFE.tex",
-        "figures": {
-            "Figures/cap_derate.pdf": ""
-        },
         "C22010701": 1.0,
         "C22010702": 1348.0,
         "C220107": 1349.0
     },
     "cas220108": {
-        "replacements": {
-            "C220108": 0,
-            "cvdDiamondAblatorCosts": "256.3 & 41323.2 & 27.4 & 74.4 & 5.7 & 34.5 & 6.4 & 0.1",
-            "dtFillCosts": "58.4 & 1904.5 & 0.0 & 72.3 & 5.6 & 4.2 & 1.5 & 0.0",
-            "hohlraumPressCosts": "4.1 & 697.0 & 0.0 & 3.9 & 0.3 & 0.8 & 0.1 & 0.0",
-            "tentAssyCosts": "15.4 & 582.2 & 0.0 & 1.7 & 0.1 & 0.6 & 0.4 & 0.0",
-            "hohlraumCapsuleAssy": "86.1 & 2066.4 & 0.0 & 2.2 & 0.2 & 2.6 & 2.2 & 0.0",
-            "lehWindowAttach": "93.3 & 2992.0 & 0.0 & 93.1 & 7.2 & 3.2 & 2.3 & 0.0",
-            "dtIceForm": "1.0 & 27.7 & 0.6 & 2.3 & 0.2 & 0.4 & 0.0 & 0.0",
-            "recoverAndRecycle": "None & None & None & None & None & None & None & 0.0",
-            "facilityManagementCosts": "None & 2050.0 & None & 0.5 & 0.0 & 0.1 & 6.4 & 0.0",
-            "totalProcess": "514.6 & 51643.0 & 28.0 & 250.5 & 19.2 & 46.3 & 19.3 & 0.2",
-            "addMaterial": "None & None & None & None & None & None & None & 0.0"
-        },
-        "template_file": "CAS220108_IFE.tex",
-        "figures": {
-            "Figures/targetPFR.pdf": ""
-        },
-        "C220108": 0.00025051872307089605
+        "C220108": 0.00025051872307089605,
+        "target_factory_costs": {
+            "CVD diamond ablator": {
+                "no_machines": {
+                    "cost": 250,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 40315,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 26769613,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 72627250,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 5586712,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 33617103,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 6250000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.096,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "DT Fill": {
+                "no_machines": {
+                    "cost": 57,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 1858,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 52,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 70553750,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 5427212,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 4120108,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 1425000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.023,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Hohlraum press": {
+                "no_machines": {
+                    "cost": 4,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 680,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 4,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 3759140,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 289165,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 758791,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 100000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.011,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Tent assy": {
+                "no_machines": {
+                    "cost": 15,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 568,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 6448,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 1694905,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 130377,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 548766,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 375000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.005,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Hohlraum-capsule assy": {
+                "no_machines": {
+                    "cost": 84,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2016,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 78,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 2185376,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 168106,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 2542416,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 2100000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.012,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "LEH window attach": {
+                "no_machines": {
+                    "cost": 91,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2919,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 91,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 90828500,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 6986808,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 3124288,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 2275000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.025,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "DT ice form": {
+                "no_machines": {
+                    "cost": 1,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 27,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 561600,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 2257455,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 173650,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 379143,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 25000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.001,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Recover and recycle": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Facility management costs": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 2000,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 500000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 38462,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 70420,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 6250000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.016,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Add material": {
+                "no_machines": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": null,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": null,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.03213,
+                    "scaling_factor": 0.820007160765384
+                }
+            },
+            "Total process": {
+                "no_machines": {
+                    "cost": 502,
+                    "scaling_factor": 1.02500895095673
+                },
+                "floorspace_sqrft": {
+                    "cost": 50383,
+                    "scaling_factor": 1.02500895095673
+                },
+                "wip_parts": {
+                    "cost": 27337886,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "tcc_dollars": {
+                    "cost": 244406376,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "annualized_cc_dollars_per_year": {
+                    "cost": 18762029,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "consumables_electricity_maint": {
+                    "cost": 45161035,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "personnel_costs_dollars_per_year": {
+                    "cost": 18800000,
+                    "scaling_factor": 1.0250089509567298e-06
+                },
+                "cost_per_target": {
+                    "cost": 0.189,
+                    "scaling_factor": 0.820007160765384
+                }
+            }
+        }
     },
     "cas220109": {
-        "replacements": {
-            "expandertank": "5.7",
-            "expandercoilandneutrontrapcoil": "11.7",
-            "convertoegatevalve": "0.0",
-            "neutrontrapshielding": "0.4",
-            "vacuumsystem": "5.7",
-            "gridsystem": "9.5",
-            "heatcollectionsystem": "2.1",
-            "electricaleqpmt": "4.6",
-            "costperunit": "39.6",
-            "totaldeunitcost": "158.0",
-            "engineering15percent": "23.7",
-            "contingency15percent": "0.0",
-            "totaldecost": "261.0",
-            "C220109": "0.00"
-        },
-        "template_file": "CAS220109.tex",
-        "figures": {},
         "C220109": 0.0,
         "costs": {
             "expandertank": 16.0,
@@ -712,76 +783,24 @@
         }
     },
     "cas220111": {
-        "replacements": {
-            "C220111": "57.60",
-            "constructionTime": 6,
-            "billingRate": 1600
-        },
-        "template_file": "CAS220111.tex",
-        "figures": {},
         "C220111": 57.599999999999994
     },
     "cas220119": {
-        "replacements": {
-            "C220119": "405"
-        },
-        "template_file": "CAS220119.tex",
-        "figures": {},
         "C220119": 405.02824407919724
     },
     "cas2202": {
-        "replacements": {
-            "C220200": 204,
-            "C220201": 170,
-            "C220202": 34,
-            "C220203": 0,
-            "primaryC": "Lithium (Li)",
-            "secondaryC": "Water"
-        },
-        "template_file": "CAS220200_DT.tex",
-        "figures": {},
         "C220201": 170.15148585881718,
         "C220202": 33.94333992015566,
         "C220203": 0.0,
         "C220200": 204.09482577897285
     },
     "cas2203": {
-        "replacements": {
-            "C220300": "6.3"
-        },
-        "template_file": "CAS220300.tex",
-        "figures": {},
         "C220300": 6.2829920999999995
     },
     "cas2204": {
-        "replacements": {
-            "C220400": 11.2
-        },
-        "template_file": "CAS220400.tex",
-        "figures": {},
         "C220400": 11.195149559999997
     },
     "cas2205": {
-        "replacements": {
-            "lcredit": 0.8,
-            "ltoak": 0.5,
-            "C2205010ITER": 29.3,
-            "C2205020ITER": 10.0,
-            "C2205030ITER": 32.2,
-            "C2205040ITER": 14.0,
-            "C2205050ITER": 32.6,
-            "C2205060ITER": 68.0,
-            "C22050ITER": 186.0,
-            "C220501": 13.9,
-            "C220502": 4.8,
-            "C220503": 15.3,
-            "C220504": 6.7,
-            "C220505": 15.6,
-            "C220506": 32.4,
-            "C220500": 88.7
-        },
-        "template_file": "CAS220500_DT.tex",
-        "figures": {},
         "C2205010ITER": 29.26495,
         "C2205020ITER": 10.01,
         "C2205030ITER": 32.190729999999995,
@@ -798,100 +817,39 @@
         "C220500": 88.65405229068641
     },
     "cas2206": {
-        "replacements": {
-            "C220600": 12
-        },
-        "template_file": "CAS220600.tex",
-        "figures": {},
         "C220600": 11.729512615232263
     },
     "cas2207": {
-        "replacements": {
-            "C220700": 85
-        },
-        "template_file": "CAS220700.tex",
-        "figures": {},
         "C220700": 85.0
     },
     "cas23": {
-        "replacements": {
-            "C230000": 310.6
-        },
-        "template_file": "CAS230000.tex",
-        "figures": {},
         "C230000": 310.61839158
     },
     "cas24": {
-        "replacements": {
-            "C240000": 76.6
-        },
-        "template_file": "CAS240000.tex",
-        "figures": {},
         "C240000": 76.59083627999999
     },
     "cas25": {
-        "replacements": {
-            "C250000": 53.9
-        },
-        "template_file": "CAS250000.tex",
-        "figures": {},
         "C250000": 53.897255159999986
     },
     "cas26": {
-        "replacements": {
-            "C260000": 151.8
-        },
-        "template_file": "CAS260000.tex",
-        "figures": {},
         "C260000": 151.76332373999998
     },
     "cas27": {
-        "replacements": {
-            "C270000": 108
-        },
-        "template_file": "CAS270000.tex",
-        "figures": {},
         "C271000": 106.5,
         "C274000": 0.7011,
         "C275000": 0.3591,
         "C270000": 107.5602
     },
     "cas28": {
-        "replacements": {
-            "C280000": "5.00"
-        },
-        "template_file": "CAS280000.tex",
-        "figures": {},
         "C280000": 5.0
     },
     "cas29": {
-        "replacements": {
-            "C290000": 0
-        },
-        "template_file": "CAS290000.tex",
-        "figures": {},
         "C290000": 0.0
     },
     "cas20": {
-        "replacements": {
-            "C200000": 6398
-        },
-        "template_file": "CAS200000.tex",
-        "figures": {},
         "C200000": 6398.12883227606
     },
     "cas30": {
-        "replacements": {
-            "constructionTime": 6,
-            "C300000": 235,
-            "C310000LSA": 384,
-            "C310000XXX": 47,
-            "C320000": 118,
-            "C350000LSA": 333,
-            "C350000XXX": 71
-        },
-        "template_file": "CAS300000.tex",
-        "figures": {},
         "C310000LSA": 383.8877299365636,
         "C310000": 47.053366872802386,
         "C320000LSA": 767.7754598731271,
@@ -901,13 +859,6 @@
         "C300000": 235.26683436401194
     },
     "cas40": {
-        "replacements": {
-            "lsaLevel": 2,
-            "C400000LSA": 768,
-            "C400000XXX": 768
-        },
-        "template_file": "CAS400000.tex",
-        "figures": {},
         "C400000LSA": 767.7754598731271,
         "C400000": 767.7754598731271,
         "C410000": 0.0,
@@ -916,18 +867,6 @@
         "C440000": 0.0
     },
     "cas50": {
-        "replacements": {
-            "C500000": 612,
-            "C510000": 8,
-            "C520000": 71,
-            "C530000": 100,
-            "C540000": 1,
-            "C550000": 232,
-            "C580000": 200,
-            "C590000": 0
-        },
-        "template_file": "CAS500000.tex",
-        "figures": {},
         "C510000": 8.0,
         "C520000": 70.54300067599999,
         "C530000": 100.0,
@@ -938,210 +877,26 @@
         "C500000": 611.8783628928588
     },
     "cas60": {
-        "replacements": {
-            "C600000": 896,
-            "C610000": 288,
-            "C630000LSA": 1751,
-            "C630000XXX": 609
-        },
-        "template_file": "CAS600000.tex",
-        "figures": {},
         "C610000": 287.5,
         "C630000LSA": 1750.52804851073,
         "C630000": 608.8553168682977,
         "C600000": 896.3553168682977
     },
     "cas70": {
-        "replacements": {
-            "C700000": 62
-        },
-        "template_file": "CAS700000.tex",
-        "figures": {},
         "C700000": 61.5005370574038
     },
     "cas80": {
-        "replacements": {
-            "C800000": 16
-        },
-        "template_file": "CAS800000_DT.tex",
-        "figures": {},
         "C800000": 16.435685526594586
     },
     "cas90": {
-        "replacements": {
-            "C900000": 824
-        },
-        "template_file": "CAS900000.tex",
-        "figures": {},
         "C990000": 9151.819032215779,
         "C900000": 823.66371289942
     },
     "lcoe": {
-        "replacements": {
-            "C1000000": 121.9,
-            "C2000000": 12.2,
-            "C700000": 61.5,
-            "C800000": 16.4,
-            "C900000": 823.7,
-            "PNET": 1025.009,
-            "lifeY": 30,
-            "yinflation": 2.5,
-            "PAVAIL": 0.9
-        },
-        "template_file": "LCOE.tex",
-        "figures": {},
         "C1000000": 121.85916679757867,
         "C2000000": 12.185916679757867
     },
-    "cost_table": {
-        "replacements": {
-            "C100000": "242.4",
-            "C200000": "6398.1",
-            "C210000": "830.4",
-            "C220000": "4862.3",
-            "C220100": "4455.3",
-            "C220101": "0.3",
-            "C220102": "210.5",
-            "C220103": "1914.7",
-            "C220104": "70.9",
-            "C220105": "378.2",
-            "C220106": "69.1",
-            "C220107": "1349.0",
-            "C220108": "0.0",
-            "C220109": "0.0",
-            "C220111": "57.6",
-            "C220119": "405.0",
-            "C220200": "204.1",
-            "C220300": "6.3",
-            "C220400": "11.2",
-            "C220500": "88.7",
-            "C220600": "11.7",
-            "C220700": "85.0",
-            "C230000": "310.6",
-            "C240000": "76.6",
-            "C250000": "53.9",
-            "C260000": "151.8",
-            "C270000": "107.6",
-            "C280000": "5.0",
-            "C290000": "0.0",
-            "C300000": "235.3",
-            "C400000": "767.8",
-            "C500000": "611.9",
-            "C600000": "896.4",
-            "C990000": "9151.8",
-            "C.100000pp": "3.0",
-            "C.200000pp": "70.0",
-            "C.210000pp": "9.0",
-            "C.220000pp": "53.0",
-            "C.220100pp": "49.0",
-            "C.220101pp": "0.0",
-            "C.220102pp": "2.0",
-            "C.220103pp": "21.0",
-            "C.220104pp": "1.0",
-            "C.220105pp": "4.0",
-            "C.220106pp": "1.0",
-            "C.220107pp": "15.0",
-            "C.220108pp": "0.0",
-            "C.220109pp": "0.0",
-            "C.220111pp": "1.0",
-            "C.220119pp": "4.0",
-            "C.220200pp": "2.0",
-            "C.220300pp": "0.0",
-            "C.220400pp": "0.0",
-            "C.220500pp": "1.0",
-            "C.220600pp": "0.0",
-            "C.220700pp": "1.0",
-            "C.230000pp": "3.0",
-            "C.240000pp": "1.0",
-            "C.250000pp": "1.0",
-            "C.260000pp": "2.0",
-            "C.270000pp": "1.0",
-            "C.280000pp": "0.0",
-            "C.290000pp": "0.0",
-            "C.300000pp": "3.0",
-            "C.400000pp": "8.0",
-            "C.500000pp": "7.0",
-            "C.600000pp": "10.0",
-            "C.990000pp": "100.0",
-            "M100000": "0.0",
-            "M200000": "7134.75",
-            "M210000": "1150.07",
-            "M220000": "2662.0",
-            "M220103": "2217.98",
-            "M2204": "139.65",
-            "M2205": "139.65",
-            "M2207": "164.3",
-            "M23": "788.62",
-            "M30": "183.41",
-            "M40": "598.56",
-            "M50": "477.02",
-            "M60": "698.8",
-            "M99": "9092.54",
-            "M.100000pp": "0.0",
-            "M.200000pp": "78.47",
-            "M.210000pp": "12.65",
-            "M.220000pp": "29.28",
-            "M.220103pp": "24.39",
-            "M.2204pp": "1.54",
-            "M.2205pp": "1.54",
-            "M.2207pp": "1.81",
-            "M.23pp": "8.67",
-            "M.30pp": "2.02",
-            "M.40pp": "6.58",
-            "M.50pp": "5.25",
-            "M.60pp": "7.69",
-            "M.99pp": "100.0",
-            "M220100": "-",
-            "M220101": "-",
-            "M220102": "-",
-            "M220104": "-",
-            "M220105": "-",
-            "M220106": "-",
-            "M220107": "-",
-            "M220108": "-",
-            "M220109": "-",
-            "M220111": "-",
-            "M220119": "-",
-            "M2202": "-",
-            "M2203": "-",
-            "M2206": "-",
-            "M24": "-",
-            "M25": "-",
-            "M26": "-",
-            "M27": "-",
-            "M28": "-",
-            "M29": "-",
-            "M.220100pp": "-",
-            "M.220101pp": "-",
-            "M.220102pp": "-",
-            "M.220104pp": "-",
-            "M.220105pp": "-",
-            "M.220106pp": "-",
-            "M.220107pp": "-",
-            "M.220108pp": "-",
-            "M.220109pp": "-",
-            "M.220111pp": "-",
-            "M.220119pp": "-",
-            "M.2202pp": "-",
-            "M.2203pp": "-",
-            "M.2206pp": "-",
-            "M.24pp": "-",
-            "M.25pp": "-",
-            "M.26pp": "-",
-            "M.27pp": "-",
-            "M.28pp": "-",
-            "M.29pp": "-"
-        },
-        "template_file": "CASstructure.tex",
-        "figures": {}
-    },
     "npv": {
-        "replacements": {
-            "NPVval": -23818188515.55,
-            "DiscountRate": 8.0
-        },
-        "template_file": "NPV.tex",
-        "figures": {},
         "npv": -23818188515.553787
     }
 }

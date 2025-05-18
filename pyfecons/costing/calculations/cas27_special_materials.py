@@ -53,7 +53,4 @@ def cas27_special_materials_costs(blanket: Blanket, cas220101: CAS220101) -> CAS
     cas27.C274000 = M_USD(0.41 * 1.71)  # Other
     cas27.C275000 = M_USD(0.21 * 1.71)  # Reactor-building cover gas
     cas27.C270000 = M_USD(cas27.C271000 + cas27.C274000 + cas27.C275000)
-
-    cas27.template_file = "CAS270000.tex"
-    cas27.replacements = {"C270000": round(cas27.C270000)}
     return cas27

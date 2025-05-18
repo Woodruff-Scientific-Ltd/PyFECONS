@@ -56,24 +56,4 @@ def cas_220102_shield_costs(
         + cas220102.C22010204
     )
 
-    cas220102.template_file = "CAS220102.tex"
-    cas220102.replacements = {
-        "C22010201": round(cas220102.C22010201),
-        "C22010202": round(cas220102.C22010202),
-        "C22010203": round(cas220102.C22010203),
-        "C22010204": round(cas220102.C22010204),
-        "C220102XX": round(cas220102.C220102),
-        "V220102": round(cas220102.V_HTS),  # TODO not in template
-        "primaryC": blanket.primary_coolant.display_name,
-        "VOL9": round(cas220101.ht_shield_vol),
-    }
-    if reactor_type == ReactorType.IFE:
-        cas220102.replacements["VOL10"] = round(cas220101.lt_shield_vol)
-        cas220102.replacements["VOL14"] = round(
-            cas220101.bioshield_vol
-        )  # TODO not in template
-    if reactor_type == ReactorType.MFE:
-        cas220102.replacements["VOL11"] = round(
-            cas220101.lt_shield_vol
-        )  # TODO not in template
     return cas220102
