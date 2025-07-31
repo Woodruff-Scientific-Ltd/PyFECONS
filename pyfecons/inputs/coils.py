@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from pyfecons.inputs.magnet import Magnet
-from pyfecons.units import Meters, AmperesMillimeters2, Meters2, Amperes, Count
+from pyfecons.units import Amperes, AmperesMillimeters2, Count, Meters, Meters2
 
 
 @dataclass

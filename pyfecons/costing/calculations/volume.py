@@ -1,5 +1,6 @@
 import numpy as np
-from pyfecons.units import Meters3, Meters
+
+from pyfecons.units import Meters, Meters3
 
 
 def calc_volume_sphere(inner: float, outer: float) -> float:

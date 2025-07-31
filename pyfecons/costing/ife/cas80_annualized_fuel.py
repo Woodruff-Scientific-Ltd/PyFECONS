@@ -1,9 +1,9 @@
 from pyfecons.costing.calculations.interpolation import (
-    interpolate_data,
     get_interpolated_value,
+    interpolate_data,
 )
-from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
 from pyfecons.costing.categories.cas800000 import CAS80
+from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 

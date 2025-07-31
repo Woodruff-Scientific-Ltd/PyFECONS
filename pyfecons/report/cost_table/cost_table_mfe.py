@@ -1,11 +1,11 @@
+from pyfecons.costing_data import CostingData
 from pyfecons.report.cost_table.cost_table_builder import (
     get_cost_values,
-    get_rounded,
-    get_percentage_cost_values,
     get_cost_values_inflation,
+    get_percentage_cost_values,
+    get_rounded,
     map_keys_to_percentage,
 )
-from pyfecons.costing_data import CostingData
 
 
 def get_replacements(costing_data: CostingData) -> dict[str, str]:

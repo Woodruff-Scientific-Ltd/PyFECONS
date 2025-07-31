@@ -1,7 +1,5 @@
-from pyfecons.costing.ife.cas22.nif_costs import (
-    get_nif_scaled_costs,
-)
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
+from pyfecons.costing.ife.cas22.nif_costs import get_nif_scaled_costs
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.power_input import PowerInput
 

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons.enums import MagnetType, MagnetMaterialType
+from pyfecons.enums import MagnetMaterialType, MagnetType
 from pyfecons.units import Meters, Ratio
 
 

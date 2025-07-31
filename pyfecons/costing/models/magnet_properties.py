@@ -2,16 +2,16 @@ from dataclasses import dataclass
 
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.units import (
-    Meters3,
-    Meters2,
-    Turns,
-    Amperes,
-    MA,
-    Kilometers,
-    AmperesMillimeters2,
-    Meters,
     M_USD,
+    MA,
+    Amperes,
+    AmperesMillimeters2,
     Kilograms,
+    Kilometers,
+    Meters,
+    Meters2,
+    Meters3,
+    Turns,
 )
 
 

@@ -1,9 +1,10 @@
-import matplotlib
-
 from io import BytesIO
+
+import matplotlib
 from matplotlib import pyplot as plt
+
 from pyfecons.costing.calculations.interpolation import interpolate_plot
-from pyfecons.costing.ife.pfr_costs import yearlytcost_pfr_coords, pertarget_pfr_coords
+from pyfecons.costing.ife.pfr_costs import pertarget_pfr_coords, yearlytcost_pfr_coords
 
 matplotlib.use("Agg")
 

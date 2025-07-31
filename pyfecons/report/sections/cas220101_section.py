@@ -1,13 +1,13 @@
 from dataclasses import dataclass
 from typing import Dict
 
-from pyfecons.report.section import ReportSection
 from pyfecons.costing.categories.cas220101 import CAS220101
+from pyfecons.enums import ReactorType
+from pyfecons.figures import RadialBuildFigure
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
-from pyfecons.enums import ReactorType
-from pyfecons.figures import RadialBuildFigure
+from pyfecons.report.section import ReportSection
 
 
 def get_template_file(reactor_type: ReactorType):

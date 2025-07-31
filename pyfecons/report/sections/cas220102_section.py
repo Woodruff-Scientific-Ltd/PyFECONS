@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Any, Dict
 
-from pyfecons.report.section import ReportSection
 from pyfecons.costing.categories.cas220102 import CAS220102
 from pyfecons.enums import ReactorType
+from pyfecons.report.section import ReportSection
 
 
 @dataclass

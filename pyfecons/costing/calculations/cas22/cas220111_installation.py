@@ -3,7 +3,7 @@ from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.installation import Installation
-from pyfecons.units import USD, Years, Count, Meters, M_USD
+from pyfecons.units import M_USD, USD, Count, Meters, Years
 
 
 def cas_220111_installation_costs(

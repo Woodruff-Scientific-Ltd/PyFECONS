@@ -3,17 +3,17 @@ import numpy as np
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_2005_2024, to_m_usd
 from pyfecons.costing.calculations.thermal import (
-    k_steel,
-    compute_q_in_struct,
     compute_iter_cost_per_MW,
     compute_q_in_n_per_coil,
+    compute_q_in_struct,
+    k_steel,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220106 import CAS220106, VesselCost, VesselCosts
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.vacuum_system import VacuumSystem
-from pyfecons.units import Kilograms, USD, M_USD, Meters3
+from pyfecons.units import M_USD, USD, Kilograms, Meters3
 
 
 # MFE vacuum system calculations

@@ -1,6 +1,6 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas220600 import CAS2206
-from pyfecons.units import MW, M_USD
+from pyfecons.units import M_USD, MW
 
 
 def cas_2206_other_reactor_plant_equipment_costs(power_table: PowerTable) -> CAS2206:

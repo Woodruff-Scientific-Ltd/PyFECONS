@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from pyfecons.units import Percent, MW, Ratio
+
+from pyfecons.units import MW, Percent, Ratio
 
 
 @dataclass

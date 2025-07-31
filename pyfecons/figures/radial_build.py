@@ -1,7 +1,8 @@
+from io import BytesIO
+
 import matplotlib
 import matplotlib.pyplot as plt
 
-from io import BytesIO
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.radial_build import RadialBuild
 

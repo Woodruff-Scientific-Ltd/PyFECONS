@@ -1,18 +1,15 @@
 from typing import Optional
 
+from pyfecons.costing_data import CostingData
 from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report import (
-    get_report_sections,
     ReportContent,
     ReportOverrides,
     combine_figures,
+    get_report_sections,
 )
-from pyfecons.templates import (
-    hydrate_templates,
-    load_document_template,
-)
-from pyfecons.costing_data import CostingData
+from pyfecons.templates import hydrate_templates, load_document_template
 
 TEMPLATES_PATH = "pyfecons.costing.mfe.templates"
 INCLUDED_FILES_PATH = "pyfecons.costing.mfe.included_files"
@@ -57,4 +54,4 @@ def CreateReportContent(
     )
     return ReportContent(
         document_template, hydrated_templates, report_sections, included_files, figures
-    ) 
+    )

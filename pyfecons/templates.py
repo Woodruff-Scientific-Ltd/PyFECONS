@@ -1,7 +1,7 @@
 from importlib import resources
 from typing import Optional
 
-from pyfecons.report import ReportSection, HydratedTemplate, ReportOverrides
+from pyfecons.report import HydratedTemplate, ReportOverrides, ReportSection
 
 
 def read_template(templates_path: str, template_file: str) -> str:

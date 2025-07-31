@@ -1,8 +1,8 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Any, Dict
 
-from pyfecons.report.section import ReportSection
 from pyfecons.costing.categories.cas210000 import CAS21
+from pyfecons.report.section import ReportSection
 
 
 @dataclass

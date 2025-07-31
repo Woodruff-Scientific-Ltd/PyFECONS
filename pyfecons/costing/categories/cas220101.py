@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons.units import Meters, Meters3, M_USD
+from pyfecons.units import M_USD, Meters, Meters3
 
 
 @dataclass

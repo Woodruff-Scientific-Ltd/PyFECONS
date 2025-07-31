@@ -5,7 +5,7 @@ from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220106 import CAS220106
 from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.materials import Materials
-from pyfecons.units import Meters3, M_USD, Kilograms, USD
+from pyfecons.units import M_USD, USD, Kilograms, Meters3
 
 materials = Materials()
 

@@ -1,29 +1,18 @@
-from pyfecons.enums import ReactorType
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.costing_data import CostingData
-from pyfecons.costing.mfe.PowerBalance import power_balance
 from pyfecons.costing.calculations.cas10_pre_construction import (
     cas_10_pre_construction_costs,
 )
+from pyfecons.costing.calculations.cas20_total_costs import cas20_total_costs
 from pyfecons.costing.calculations.cas21_buildings import cas_21_building_costs
+from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import (
+    cas22_reactor_plant_equipment_total_costs,
+)
 from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
     cas_220101_reactor_equipment_costs,
 )
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
-from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
-from pyfecons.costing.mfe.cas22.cas220104_supplementary_heating import (
-    cas_220104_supplementary_heating_costs,
-)
 from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     cas_220105_primary_structure_costs,
 )
-from pyfecons.costing.mfe.cas22.cas220106_vacuum_system import (
-    cas_220106_vacuum_system_costs,
-)
-from pyfecons.costing.mfe.cas22.cas220107_power_supplies import (
-    cas_220107_power_supply_costs,
-)
-from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_costs
 from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
     cas_220109_direct_energy_converter_costs,
 )
@@ -51,9 +40,6 @@ from pyfecons.costing.calculations.cas22.cas220600_other_plant_equipment import 
 from pyfecons.costing.calculations.cas22.cas220700_instrumentation_and_control import (
     cas_2207_instrumentation_and_control_costs,
 )
-from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import (
-    cas22_reactor_plant_equipment_total_costs,
-)
 from pyfecons.costing.calculations.cas23_turbine_plant_equipment import (
     cas23_turbine_plant_equipment_costs,
 )
@@ -71,7 +57,6 @@ from pyfecons.costing.calculations.cas27_special_materials import (
 )
 from pyfecons.costing.calculations.cas28_digital_twin import cas28_digital_twin_costs
 from pyfecons.costing.calculations.cas29_contingency import cas29_contingency_costs
-from pyfecons.costing.calculations.cas20_total_costs import cas20_total_costs
 from pyfecons.costing.calculations.cas30_capitalized_indirect_service import (
     cas30_capitalized_indirect_service_costs,
 )
@@ -85,12 +70,27 @@ from pyfecons.costing.calculations.cas60_capitalized_financial import (
     cas60_capitalized_financial_costs,
 )
 from pyfecons.costing.calculations.cas70_annualized_om import cas70_annualized_om_costs
-from pyfecons.costing.mfe.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.calculations.cas90_annualized_financial import (
     cas90_annualized_financial_costs,
 )
 from pyfecons.costing.calculations.lcoe import lcoe_costs
 from pyfecons.costing.calculations.npv import calculate_npv
+from pyfecons.costing.mfe.cas22.cas220103_coils import cas_220103_coils
+from pyfecons.costing.mfe.cas22.cas220104_supplementary_heating import (
+    cas_220104_supplementary_heating_costs,
+)
+from pyfecons.costing.mfe.cas22.cas220106_vacuum_system import (
+    cas_220106_vacuum_system_costs,
+)
+from pyfecons.costing.mfe.cas22.cas220107_power_supplies import (
+    cas_220107_power_supply_costs,
+)
+from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_costs
+from pyfecons.costing.mfe.cas80_annualized_fuel import cas80_annualized_fuel_costs
+from pyfecons.costing.mfe.PowerBalance import power_balance
+from pyfecons.costing_data import CostingData
+from pyfecons.enums import ReactorType
+from pyfecons.inputs.all_inputs import AllInputs
 
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:

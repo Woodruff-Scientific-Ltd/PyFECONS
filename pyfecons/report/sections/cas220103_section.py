@@ -3,9 +3,7 @@ from typing import Union
 
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
-from pyfecons.costing.ife.cas22.nif_costs import (
-    get_nif_scaled_costs,
-)
+from pyfecons.costing.ife.cas22.nif_costs import get_nif_scaled_costs
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.power_input import PowerInput

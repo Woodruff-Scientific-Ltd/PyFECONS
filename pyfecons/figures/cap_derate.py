@@ -1,8 +1,9 @@
-import numpy as np
-import matplotlib
-
 from io import BytesIO
+
+import matplotlib
+import numpy as np
 from matplotlib import pyplot as plt
+
 from pyfecons.inputs.power_supplies import PowerSupplies
 from pyfecons.units import HZ
 

@@ -1,7 +1,7 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_1992_2024, k_to_m_usd
 from pyfecons.costing.categories.cas220400 import CAS2204
-from pyfecons.units import MW, M_USD
+from pyfecons.units import M_USD, MW
 
 
 def cas_2204_radwaste_costs(power_table: PowerTable) -> CAS2204:

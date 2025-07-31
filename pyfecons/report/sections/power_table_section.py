@@ -1,11 +1,11 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Any, Dict
 
-from pyfecons.report.section import ReportSection
 from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.enums import ReactorType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.power_input import PowerInput
-from pyfecons.enums import ReactorType
+from pyfecons.report.section import ReportSection
 
 
 @dataclass

@@ -4,7 +4,7 @@ from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.materials import Materials
-from pyfecons.units import Meters, Meters3, Kilograms, M_USD, Ratio
+from pyfecons.units import M_USD, Kilograms, Meters, Meters3, Ratio
 
 materials = Materials()
 

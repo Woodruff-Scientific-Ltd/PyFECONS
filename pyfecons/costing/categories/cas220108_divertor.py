@@ -1,6 +1,7 @@
 from dataclasses import dataclass
+
 from pyfecons.materials import Material
-from pyfecons.units import M_USD, Meters, Ratio, Meters3, Kilograms
+from pyfecons.units import M_USD, Kilograms, Meters, Meters3, Ratio
 
 
 @dataclass

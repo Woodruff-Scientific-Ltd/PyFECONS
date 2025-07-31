@@ -1,11 +1,15 @@
-from typing import List, Dict
+from typing import Dict, List
 
 from pyfecons.costing_data import CostingData
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas100000_section import CAS10Section
 from pyfecons.report.sections.cas200000_section import CAS20Section
+from pyfecons.report.sections.cas210000_section import CAS21Section
 from pyfecons.report.sections.cas220000_section import CAS22Section
+from pyfecons.report.sections.cas220101_section import CAS220101Section
+from pyfecons.report.sections.cas220102_section import CAS220102Section
+from pyfecons.report.sections.cas220103_section import CAS220103Section
 from pyfecons.report.sections.cas220104_section import CAS220104Section
 from pyfecons.report.sections.cas220105_section import CAS220105Section
 from pyfecons.report.sections.cas220106_section import CAS220106Section
@@ -21,6 +25,7 @@ from pyfecons.report.sections.cas220500_section import CAS2205Section
 from pyfecons.report.sections.cas220600_section import CAS2206Section
 from pyfecons.report.sections.cas220700_section import CAS2207Section
 from pyfecons.report.sections.cas230000_section import CAS23Section
+from pyfecons.report.sections.cas240000_section import CAS24Section
 from pyfecons.report.sections.cas250000_section import CAS25Section
 from pyfecons.report.sections.cas260000_section import CAS26Section
 from pyfecons.report.sections.cas270000_section import CAS27Section
@@ -37,11 +42,6 @@ from pyfecons.report.sections.cost_table_section import CostTableSection
 from pyfecons.report.sections.lcoe_section import LcoeSection
 from pyfecons.report.sections.npv_section import NpvSection
 from pyfecons.report.sections.power_table_section import PowerTableSection
-from pyfecons.report.sections.cas210000_section import CAS21Section
-from pyfecons.report.sections.cas220101_section import CAS220101Section
-from pyfecons.report.sections.cas220102_section import CAS220102Section
-from pyfecons.report.sections.cas220103_section import CAS220103Section
-from pyfecons.report.sections.cas240000_section import CAS24Section
 
 
 def get_report_sections(

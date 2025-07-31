@@ -1,6 +1,6 @@
-from pyfecons.report import ReportSection
 from pyfecons.costing.categories.cas100000 import CAS10
 from pyfecons.inputs.basic import Basic
+from pyfecons.report import ReportSection
 
 
 class CAS10Section(ReportSection):

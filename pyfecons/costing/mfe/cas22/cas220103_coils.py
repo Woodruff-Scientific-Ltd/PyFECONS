@@ -1,35 +1,36 @@
 import math
+
 import numpy as np
 
+from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.calculations.conversions import to_m_usd, w_to_mw
+from pyfecons.costing.calculations.thermal import (
+    compute_iter_cost_per_MW,
+    compute_q_in_n,
+    compute_q_in_struct,
+    k_steel,
+)
 from pyfecons.costing.calculations.YuhuHtsCiccExtrapolation import (
     YuhuHtsCiccExtrapolation,
 )
-from pyfecons.costing.calculations.conversions import w_to_mw, to_m_usd
-from pyfecons.costing.calculations.thermal import (
-    k_steel,
-    compute_q_in_struct,
-    compute_q_in_n,
-    compute_iter_cost_per_MW,
-)
-from pyfecons.costing.models.magnet_properties import MagnetProperties
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
-from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.models.magnet_properties import MagnetProperties
 from pyfecons.enums import MagnetMaterialType, MagnetType
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.magnet import Magnet
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.units import (
     M_USD,
-    Count,
-    MW,
-    Turns,
-    Meters2,
     MA,
+    MW,
     Amperes,
-    Meters3,
-    Kilometers,
+    Count,
     Kilograms,
+    Kilometers,
     Meters,
+    Meters2,
+    Meters3,
+    Turns,
 )
 
 

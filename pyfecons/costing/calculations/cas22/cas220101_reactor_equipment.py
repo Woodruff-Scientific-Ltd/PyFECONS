@@ -1,19 +1,20 @@
-import matplotlib
-
 from io import BytesIO
 from typing import Dict
+
+import matplotlib
+
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.calculations.volume import (
-    calc_volume_ring,
     calc_volume_outer_hollow_torus,
+    calc_volume_ring,
     calc_volume_sphere,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.enums import ReactorType, BlanketFirstWall, BlanketType, ConfinementType
+from pyfecons.enums import BlanketFirstWall, BlanketType, ConfinementType, ReactorType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
-from pyfecons.materials import Materials, Material
+from pyfecons.materials import Material, Materials
 from pyfecons.units import M_USD, Meters3
 
 materials = Materials()

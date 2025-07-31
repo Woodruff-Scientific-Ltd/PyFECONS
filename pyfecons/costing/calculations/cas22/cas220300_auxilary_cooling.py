@@ -2,7 +2,7 @@ from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_1992_2024
 from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.inputs.basic import Basic
-from pyfecons.units import Count, MW, M_USD
+from pyfecons.units import M_USD, MW, Count
 
 
 def cas_2203_auxilary_cooling_costs(basic: Basic, power_table: PowerTable) -> CAS2203:

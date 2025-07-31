@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pyfecons.units import M_USD
 
 

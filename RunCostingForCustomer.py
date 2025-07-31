@@ -1,7 +1,7 @@
-import sys
-import os
 import json
+import os
 import shutil
+import sys
 
 from pyfecons.helpers import load_customer_overrides
 from pyfecons.serializable import PyfeconsEncoder
@@ -82,7 +82,7 @@ with open(f"{customer_folder}/inputs.json", "w", encoding="utf-8") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
 
 # Run the initial costing code
-from pyfecons.pyfecons import RunCosting, CreateReportContent, RenderFinalReport
+from pyfecons.pyfecons import CreateReportContent, RenderFinalReport, RunCosting
 
 costing_data = RunCosting(inputs)
 dataDict = costing_data.toDict()

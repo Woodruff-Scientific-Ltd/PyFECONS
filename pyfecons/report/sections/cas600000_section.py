@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.materials import Materials
 from pyfecons.report.section import ReportSection

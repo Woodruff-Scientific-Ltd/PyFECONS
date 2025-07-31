@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from pyfecons.units import MW, Unknown, Ratio
+
+from pyfecons.units import MW, Ratio, Unknown
 
 
 @dataclass

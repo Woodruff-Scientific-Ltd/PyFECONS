@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 from pyfecons.enums import (
     BlanketFirstWall,
-    BlanketType,
+    BlanketNeutronMultiplier,
     BlanketPrimaryCoolant,
     BlanketSecondaryCoolant,
-    BlanketNeutronMultiplier,
     BlanketStructure,
+    BlanketType,
 )
 
 

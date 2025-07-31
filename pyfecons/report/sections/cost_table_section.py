@@ -1,13 +1,14 @@
 from dataclasses import dataclass
+
 from pyfecons.costing_data import CostingData
 from pyfecons.enums import ReactorType
-from pyfecons.report.section import ReportSection
-from pyfecons.report.cost_table.cost_table_mfe import (
-    get_replacements as get_mfe_replacements,
-)
 from pyfecons.report.cost_table.cost_table_ife import (
     get_replacements as get_ife_replacements,
 )
+from pyfecons.report.cost_table.cost_table_mfe import (
+    get_replacements as get_mfe_replacements,
+)
+from pyfecons.report.section import ReportSection
 
 
 @dataclass

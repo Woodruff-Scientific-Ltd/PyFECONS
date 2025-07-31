@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+
 from pyfecons.report.hydrated_template import HydratedTemplate
 from pyfecons.report.section import ReportSection
 

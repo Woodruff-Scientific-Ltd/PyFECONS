@@ -1,8 +1,9 @@
 import os
-import requests
 from importlib import resources
-from urllib.parse import urljoin
 from typing import Dict, List, Optional, Union
+from urllib.parse import urljoin
+
+import requests
 
 from pyfecons.overrides import ReportOverrides
 

@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from pyfecons.costing.models.magnet_properties import MagnetProperties
 from pyfecons.enums import MagnetType
-from pyfecons.units import Count, M_USD
+from pyfecons.units import M_USD, Count
 
 
 @dataclass

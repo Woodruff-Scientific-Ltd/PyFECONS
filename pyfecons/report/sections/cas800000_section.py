@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.enums import ReactorType
 from pyfecons.inputs.blanket import Blanket

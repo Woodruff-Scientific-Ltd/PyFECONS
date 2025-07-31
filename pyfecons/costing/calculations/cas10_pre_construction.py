@@ -1,8 +1,9 @@
 import math
+
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas100000 import CAS10
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
-from pyfecons.costing.accounting.power_table import PowerTable
 
 
 def cas_10_pre_construction_costs(basic: Basic, power_table: PowerTable) -> CAS10:
