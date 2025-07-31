@@ -5,7 +5,6 @@ from urllib.parse import urljoin
 from typing import Dict, List, Optional, Union
 
 from pyfecons.overrides import ReportOverrides
-from pyfecons.templates import load_document_template
 
 
 def safe_round(value, digits):
