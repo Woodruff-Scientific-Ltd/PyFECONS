@@ -1,5 +1,5 @@
 # PyFECONs - Python Fusion ECONomicS
-PyFECONs is a general fusion costing analysis tool derived from 
+PyFECONs is a general fusion costing analysis tool derived from
 [ARPAE-PyFECONS](https://github.com/Woodruff-Scientific-Ltd/ARPAE-PyFECONS) scripts. The library has two purposes:
 
 (1) Perform costing calculations for MFE, IFE, and MIF reactor concepts
@@ -78,16 +78,40 @@ Please use [git branches](https://git-scm.com/book/en/v2/Git-Branching-Branches-
 
 ### Style and standards
 
-We use [Black](https://black.readthedocs.io/en/stable/) for Python formatting. To help your code adhere, you can: install the Black linter or formatter in your IDE of choice; [use](https://black.readthedocs.io/en/stable/integrations/source_version_control.html) local [pre-commit](https://pre-commit.com/) hooks; or rely on our Github actions workflow to give you hints.  
+We use comprehensive styling tools to maintain code quality:
+
+- **[Black](https://black.readthedocs.io/en/stable/)** - Code formatter
+- **[isort](https://pycqa.github.io/isort/)** - Import sorter
+- **[Flake8](https://flake8.pycqa.org/)** - Linter
+- **[Pre-commit hooks](https://pre-commit.com/)** - Automatic formatting on commits
+
+#### Quick Setup
+
+For new developers, run the setup script:
+```bash
+./setup-dev.sh
+```
+
+For existing developers:
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+#### Manual Formatting
 
 ```bash
-# run style check without fixing file
-black --check .
+# Format all files
+./format.sh
 
-# run style check and fix files
-black .
+# Or run pre-commit directly
+pre-commit run --all-files
 
+# Format specific files
+pre-commit run black --files pyfecons/main.py
 ```
+
+See [STYLING.md](STYLING.md) for complete documentation on the styling setup.
 
 ### Updating the library version
 
@@ -195,4 +219,4 @@ Testing is done with [pytest](https://docs.pytest.org/en/stable/). To run them, 
 
 ```
 pytest tests/
-``` 
+```
