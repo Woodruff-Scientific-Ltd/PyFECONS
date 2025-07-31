@@ -7,7 +7,7 @@ from pyfecons.file_utils import base_name_without_extension
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.enums import *
 from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingData
-from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
+from pyfecons.report.mfe_report import CreateReportContent as CreateMfeReport
 from pyfecons.costing.ife.ife import GenerateCostingData as GenerateIfeCostingData
 from pyfecons.costing.ife.ife import CreateReportContent as CreateIfeReport
 from pyfecons.report import ReportContent, FinalReport, ReportOverrides
