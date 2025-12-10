@@ -5,6 +5,7 @@ venv/
 *.egg-info/
 
 .idea/
+*.iml
 temp/
 
 # Ignore everything in Customers/

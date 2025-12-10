@@ -1,0 +1,19 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503, F403, F405, F401, F841, E501, E402, E262
+exclude =
+    pyfecons/costing/mfe/PyCosting_ARPA_E_MFE.ipynb,
+    pyfecons/costing/mfe/pycosting_arpa_e_mfe.py,
+    pyfecons/costing/ife/PyCosting_ARPA_E_IFE2.ipynb,
+    pyfecons/costing/ife/pycosting_arpa_e_ife2.py,
+    customers/*,
+    deployment/*,
+    .vscode/*,
+    .github/*,
+    venv/*,
+    temp/*,
+    .pytest_cache/*,
+    .idea/*,
+    *.ipynb,
+    *.tex,
+    *.bib

@@ -1,40 +1,17 @@
-from typing import Optional
-
-from pyfecons.data import Data
-from pyfecons.enums import ReactorType
-from pyfecons.helpers import get_local_included_files_map
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.report import ReportContent, ReportOverrides
-from pyfecons.costing_data import CostingData
-from pyfecons.templates import (
-    hydrate_templates,
-    combine_figures,
-    load_document_template,
-)
-from pyfecons.costing.ife.PowerBalance import power_balance
 from pyfecons.costing.calculations.cas10_pre_construction import (
     cas_10_pre_construction_costs,
 )
+from pyfecons.costing.calculations.cas20_total_costs import cas20_total_costs
 from pyfecons.costing.calculations.cas21_buildings import cas_21_building_costs
+from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import (
+    cas22_reactor_plant_equipment_total_costs,
+)
 from pyfecons.costing.calculations.cas22.cas220101_reactor_equipment import (
     cas_220101_reactor_equipment_costs,
 )
 from pyfecons.costing.calculations.cas22.cas220102_shield import cas_220102_shield_costs
-from pyfecons.costing.ife.cas22.cas220103_lasers import cas_220103_laser_costs
-from pyfecons.costing.ife.cas22.cas220104_ignition_lasers import (
-    cas_220104_ignition_laser_costs,
-)
 from pyfecons.costing.calculations.cas22.cas220105_primary_structure import (
     cas_220105_primary_structure_costs,
-)
-from pyfecons.costing.ife.cas22.cas220106_vacuum_systems import (
-    cas_220106_vacuum_system_costs,
-)
-from pyfecons.costing.ife.cas22.cas220107_power_supplies import (
-    cas_220107_power_supply_costs,
-)
-from pyfecons.costing.ife.cas22.cas220108_target_factory import (
-    cas_220108_target_factory_costs,
 )
 from pyfecons.costing.calculations.cas22.cas220109_direct_energy_converter import (
     cas_220109_direct_energy_converter_costs,
@@ -63,9 +40,6 @@ from pyfecons.costing.calculations.cas22.cas220600_other_plant_equipment import 
 from pyfecons.costing.calculations.cas22.cas220700_instrumentation_and_control import (
     cas_2207_instrumentation_and_control_costs,
 )
-from pyfecons.costing.calculations.cas22.cas22_reactor_plant_equipment_total import (
-    cas22_reactor_plant_equipment_total_costs,
-)
 from pyfecons.costing.calculations.cas23_turbine_plant_equipment import (
     cas23_turbine_plant_equipment_costs,
 )
@@ -83,7 +57,6 @@ from pyfecons.costing.calculations.cas27_special_materials import (
 )
 from pyfecons.costing.calculations.cas28_digital_twin import cas28_digital_twin_costs
 from pyfecons.costing.calculations.cas29_contingency import cas29_contingency_costs
-from pyfecons.costing.calculations.cas20_total_costs import cas20_total_costs
 from pyfecons.costing.calculations.cas30_capitalized_indirect_service import (
     cas30_capitalized_indirect_service_costs,
 )
@@ -97,42 +70,33 @@ from pyfecons.costing.calculations.cas60_capitalized_financial import (
     cas60_capitalized_financial_costs,
 )
 from pyfecons.costing.calculations.cas70_annualized_om import cas70_annualized_om_costs
-from pyfecons.costing.ife.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.calculations.cas90_annualized_financial import (
     cas90_annualized_financial_costs,
 )
-from pyfecons.costing.ife.cost_table import cost_table
 from pyfecons.costing.calculations.lcoe import lcoe_costs
 from pyfecons.costing.calculations.npv import calculate_npv
-
-TEMPLATES_PATH = "pyfecons.costing.ife.templates"
-INCLUDED_FILES_PATH = "pyfecons.costing.ife.included_files"
-DOCUMENT_TEMPLATE = "Costing_ARPA-E_IFE_Modified.tex"
-
-# list representing latex_path in included_files directory
-LOCAL_INCLUDED_FILES = [
-    "additions.bib",
-    "glossary.tex",
-    "IEEEtran.bst",
-    "ST-SC.bib",
-    "Figures/Bayrmanian2011.png",
-    "Figures/FastIgnition.png",
-    "Originals/CAS220100_IFE.tex",
-    "Originals/method.tex",
-    "Originals/powerBalanceIFEDT.tex",
-    "StandardFigures/costcategories.png",
-    "StandardFigures/power.eps",
-    "StandardFigures/signature.jpg",
-    "StandardFigures/siteplan2023.eps",
-    "StandardFigures/statista.png",
-    "StandardFigures/steamPbLi-eps-converted-to.pdf",
-    "StandardFigures/TIsketch.eps",
-    "StandardFigures/WSLTD_logo.png",
-]
+from pyfecons.costing.ife.cas22.cas220103_lasers import cas_220103_laser_costs
+from pyfecons.costing.ife.cas22.cas220104_ignition_lasers import (
+    cas_220104_ignition_laser_costs,
+)
+from pyfecons.costing.ife.cas22.cas220106_vacuum_system import (
+    cas_220106_vacuum_system_costs,
+)
+from pyfecons.costing.ife.cas22.cas220107_power_supplies import (
+    cas_220107_power_supply_costs,
+)
+from pyfecons.costing.ife.cas22.cas220108_target_factory import (
+    cas_220108_target_factory_costs,
+)
+from pyfecons.costing.ife.cas80_annualized_fuel import cas80_annualized_fuel_costs
+from pyfecons.costing.ife.PowerBalance import power_balance
+from pyfecons.costing_data import CostingData
+from pyfecons.enums import ReactorType
+from pyfecons.inputs.all_inputs import AllInputs
 
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
-    data = Data(reactor_type=ReactorType.IFE)
+    data = CostingData(reactor_type=ReactorType.IFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
@@ -143,11 +107,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.shield, inputs.blanket, data.cas220101
     )
     data.cas220103 = cas_220103_laser_costs(inputs.power_input, inputs.lasers)
-    data.cas220104 = cas_220104_ignition_laser_costs(
-        inputs.power_input, inputs.lasers, data.cas220103
-    )
+    data.cas220104 = cas_220104_ignition_laser_costs(inputs.power_input, inputs.lasers)
     data.cas220105 = cas_220105_primary_structure_costs(
-        inputs.basic, inputs.primary_structure, data.power_table
+        inputs.primary_structure, data.power_table
     )
     data.cas220106 = cas_220106_vacuum_system_costs(
         inputs.vacuum_system, data.cas220101
@@ -166,7 +128,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.primary_structure, data.cas2201_total_cost()
     )
     data.cas2202 = cas_2202_main_and_secondary_coolant_costs(
-        inputs.basic, inputs.blanket, data.power_table
+        inputs.basic, data.power_table
     )
     data.cas2203 = cas_2203_auxilary_cooling_costs(inputs.basic, data.power_table)
     data.cas2204 = cas_2204_radwaste_costs(data.power_table)
@@ -202,22 +164,5 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.lcoe = lcoe_costs(
         inputs.basic, data.power_table, data.cas70, data.cas80, data.cas90
     )
-    data.cost_table = cost_table(data)
     data.npv = calculate_npv(inputs.basic, inputs.npv_input, data)
-    return CostingData(data, data.template_providers())
-
-
-def CreateReportContent(
-    costing_data: CostingData, overrides: Optional[ReportOverrides] = None
-) -> ReportContent:
-    document_template = load_document_template(
-        TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
-    )
-    hydrated_templates = hydrate_templates(
-        TEMPLATES_PATH, costing_data.template_providers, overrides
-    )
-    figures = combine_figures(costing_data.template_providers)
-    included_files = get_local_included_files_map(
-        INCLUDED_FILES_PATH, LOCAL_INCLUDED_FILES, overrides
-    )
-    return ReportContent(document_template, hydrated_templates, included_files, figures)
+    return data

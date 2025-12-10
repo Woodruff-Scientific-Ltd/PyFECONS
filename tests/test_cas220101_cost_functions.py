@@ -4,18 +4,18 @@ import pytest
 
 from pyfecons import compute_cas22_reactor_equipment_total_cost
 from pyfecons.enums import (
-    ReactorType,
-    ConfinementType,
     BlanketFirstWall,
-    BlanketType,
+    BlanketNeutronMultiplier,
     BlanketPrimaryCoolant,
     BlanketSecondaryCoolant,
-    BlanketNeutronMultiplier,
     BlanketStructure,
+    BlanketType,
+    ConfinementType,
+    ReactorType,
 )
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
-from pyfecons.units import Ratio, Meters
+from pyfecons.units import Meters, Ratio
 
 
 def test_mfe_tokamak_cas220101_total_cost():

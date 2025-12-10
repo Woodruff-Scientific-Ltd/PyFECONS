@@ -13,7 +13,4 @@ def cas26_heat_rejection_costs(basic: Basic, power_table: PowerTable) -> CAS26:
     cas26.C260000 = M_USD(
         float(basic.n_mod) * power_table.p_et * 0.107 * inflation_factor_2019_2024
     )
-
-    cas26.template_file = "CAS260000.tex"
-    cas26.replacements = {"C260000": round(cas26.C260000, 1)}
     return cas26

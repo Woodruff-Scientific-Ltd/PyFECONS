@@ -1,7 +1,7 @@
-import sys
-import os
 import json
+import os
 import shutil
+import sys
 
 from pyfecons.helpers import load_customer_overrides
 from pyfecons.serializable import PyfeconsEncoder
@@ -82,10 +82,10 @@ with open(f"{customer_folder}/inputs.json", "w", encoding="utf-8") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
 
 # Run the initial costing code
-from pyfecons.pyfecons import RunCosting, CreateReportContent, RenderFinalReport
+from pyfecons.pyfecons import CreateReportContent, RenderFinalReport, RunCosting
 
 costing_data = RunCosting(inputs)
-dataDict = costing_data.data.toDict()
+dataDict = costing_data.toDict()
 
 # the dataDict is a dictionary carrying the calculated numbers (calculated using the inputs)
 # Write the data to a JSON file in the customer's folder
@@ -103,6 +103,18 @@ overrides = load_customer_overrides(customer_folder)
 # fill in the templates and copy them to the customer's folder
 report_content = CreateReportContent(inputs, costing_data, overrides)
 
+# Save report sections to JSON for tracking changes
+sections_dict = {
+    section.__class__.__name__: {
+        "template_file": section.template_file,
+        "replacements": section.replacements,
+        "figures": list(section.figures.keys()) if hasattr(section, "figures") else [],
+    }
+    for section in report_content.report_sections
+}
+with open(f"{customer_folder}/sections.json", "w", encoding="utf-8") as file:
+    sectionsJSONstring = json.dumps(sections_dict, indent=4, cls=PyfeconsEncoder)
+    file.write(sectionsJSONstring)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory

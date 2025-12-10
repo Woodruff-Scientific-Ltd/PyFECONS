@@ -27,11 +27,4 @@ def cas40_capitalized_owner_costs(lsa_levels: LsaLevels, cas20: CAS20) -> CAS40:
 
     # TODO why is this here?
     # cas40.C400000 = M_USD(cas40.C410000 + cas40.C420000 + cas40.C430000 + cas40.C440000)
-
-    cas40.template_file = "CAS400000.tex"
-    cas40.replacements = {
-        "lsaLevel": lsa_levels.lsa,  # TODO - not in template
-        "C400000LSA": round(cas40.C400000LSA),
-        "C400000XXX": round(cas40.C400000),  # TODO - not in template
-    }
     return cas40

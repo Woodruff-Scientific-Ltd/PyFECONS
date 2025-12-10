@@ -1,0 +1,714 @@
+{
+    "PowerTableSection": {
+        "template_file": "powerTableMFEDT.tex",
+        "replacements": {
+            "PNRL": 2600.0,
+            "PALPHA": 520.5915813424347,
+            "PNEUTRON": 2079.4084186575656,
+            "MN___": 1.1,
+            "ETAP__": 0.5,
+            "PTH___": 2400.480100113766,
+            "ETATH": 0.46,
+            "PET___": 1546.723690193402,
+            "PLOSS": 853.7564099203643,
+            "PCOILS": 2.0,
+            "PTF___": 1.0,
+            "PPF___": 1.0,
+            "FPCPPF": 0.06,
+            "PPUMP": 66.25325076313995,
+            "FSUB": 0.03,
+            "PSUB": 33.12662538156997,
+            "PAUX": 14.0,
+            "PTRIT": 10.0,
+            "PHOUSE": 4.0,
+            "PCOOL": 13.7,
+            "PTFCOOL": 12.7,
+            "PPFCOOL": 1.0,
+            "PCRYO": 0.5,
+            "ETAPIN": 0.5,
+            "PINPUT": 50.0,
+            "QSCI": 52.0,
+            "QENG": 6.743448186011732,
+            "RECFRAC": 0.148,
+            "PNET": 1317.3568073274748
+        },
+        "figures": []
+    },
+    "CAS10Section": {
+        "template_file": "CAS100000.tex",
+        "replacements": {
+            "Nmod": "1",
+            "C100000": "250.62",
+            "C110000": "17.62",
+            "C120000": "10.00",
+            "C130000": "210.00",
+            "C140000": "5.00",
+            "C150000": "5.00",
+            "C160000": "2.00",
+            "C170000": "1.00",
+            "C190000": "0.00"
+        },
+        "figures": []
+    },
+    "CAS21Section": {
+        "template_file": "CAS210000.tex",
+        "replacements": {
+            "C210000": "1104.8",
+            "C210100": "414.5",
+            "C210200": "288.9",
+            "C210300": "83.5",
+            "C210400": "58.5",
+            "C210500": "16.7",
+            "C210600": "8.4",
+            "C210700": "144.5",
+            "C210800": "28.9",
+            "C210900": "0.5",
+            "C211000": "1.7",
+            "C211100": "1.4",
+            "C211200": "1.2",
+            "C211300": "6.8",
+            "C211400": "2.5",
+            "C211500": "3.7",
+            "C211600": "1.4",
+            "C211700": "41.8",
+            "C211900": "0.0"
+        },
+        "figures": []
+    },
+    "CAS220101Section": {
+        "template_file": "CAS220101_MFE_DT.tex",
+        "replacements": {
+            "C22010100": "9776.74",
+            "C22010101": "2948.06",
+            "C22010102": "6828.68",
+            "primaryC": "Lithium (Li)",
+            "secondaryC": "Lead Lithium (PbLi)",
+            "neutronM": "Beryllium Titanium (Be12Ti)",
+            "structure1": "Ferritic Martensitic Steel (FMS)",
+            "firstW": "Beryllium",
+            "TH01": 1.1,
+            "TH02": 0.1,
+            "TH03": 0.2,
+            "TH04": 0.8,
+            "TH05": 0.2,
+            "TH06": 0.2,
+            "TH07": 0.5,
+            "TH08": 0.2,
+            "TH09": 0.2,
+            "TH10": 0.3,
+            "TH11": 0.25,
+            "TH12": 3.0,
+            "TH13": 0.5,
+            "TH14": 1.0,
+            "RAD1I": 3.0,
+            "RAD2I": 4.1,
+            "RAD3I": 4.2,
+            "RAD4I": 4.4,
+            "RAD5I": 5.6,
+            "RAD6I": 5.2,
+            "RAD7I": 5.8,
+            "RAD8I": 6.3,
+            "RAD9I": 5.4,
+            "RAD10I": 6.5,
+            "RAD11I": 6.8,
+            "RAD12I": 3.0,
+            "RAD13I": 7.05,
+            "RAD14I": 7.55,
+            "RAD1O": 4.1,
+            "RAD2O": 4.2,
+            "RAD3O": 4.4,
+            "RAD4O": 5.2,
+            "RAD5O": 5.8,
+            "RAD6O": 5.4,
+            "RAD7O": 6.3,
+            "RAD8O": 6.5,
+            "RAD9O": 5.6,
+            "RAD10O": 6.8,
+            "RAD11O": 7.05,
+            "RAD12O": 6.0,
+            "RAD13O": 7.55,
+            "RAD14O": 8.55,
+            "VOL01": 214.96,
+            "VOL02": 40.86,
+            "VOL03": 92.38,
+            "VOL04": 511.64,
+            "VOL05": 191.87,
+            "VOL06": 163.44,
+            "VOL07": 541.84,
+            "VOL08": 241.61,
+            "VOL09": 177.65,
+            "VOL10": 389.06,
+            "VOL11": 485.66,
+            "VOL12": 0.0,
+            "VOL13": 68.8,
+            "VOL14": 151.74
+        },
+        "figures": [
+            "Figures/radial_build.pdf"
+        ]
+    },
+    "CAS220102Section": {
+        "template_file": "CAS220102.tex",
+        "replacements": {
+            "C22010201": "76.8",
+            "C22010202": "1.6",
+            "C22010203": "0.6",
+            "C22010204": "0.1",
+            "C220102XX": "79.0",
+            "V220102": "177.7",
+            "VOL9": "177.7",
+            "VOL11": "177.7"
+        },
+        "figures": []
+    },
+    "CAS220103Section": {
+        "template_file": "CAS220103_MFE_DT_tokamak.tex",
+        "replacements": {
+            "C220103__": "7216.42",
+            "C22010301": "50.65",
+            "C22010302": "13.76",
+            "C22010303": "5654.06",
+            "C22010304": "285.92321510358363",
+            "C22010305": "1053.82",
+            "C22010306": "158.22",
+            "structFactor": "0.5",
+            "mcostI": "50",
+            "nopfcoils": "16",
+            "nopfpairs": "8",
+            "mCostYBCO": "50",
+            "tableStructure": "lcccccccccc",
+            "tableHeaderList": "\\textbf{TF} & \\textbf{CS} & \\textbf{PF1} & \\textbf{PF2} & \\textbf{PF3} & \\textbf{PF4} & \\textbf{PF5} & \\textbf{PF6} & \\textbf{PF7} & \\textbf{PF8}",
+            "magnetTypeList": "\\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{Copper} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS CICC} & \\textbf{HTS Pancake} & \\textbf{HTS CICC} & \\textbf{HTS CICC}",
+            "magnetRadiusList": "0.18 & 0.18 & 0.67 & 0.90 & 1.28 & 2.72 & 5.30 & 9.34 & 9.34 & 9.34",
+            "magnetDrList": "0.25 & 0.20 & 0.30 & 0.30 & 0.50 & 0.75 & 1.80 & 1.00 & 1.00 & 1.00",
+            "magnetDzList": "0.35 & 6.30 & 0.60 & 0.60 & 0.60 & 0.37 & 0.37 & 1.00 & 1.00 & 1.00",
+            "currentSupplyList": "3373125.00 & 48573000.00 & 1322314.05 & 6939000.00 & 11565000.00 & 10697625.00 & 25674300.00 & 150000000.00 & 40113010.74 & 40113010.74",
+            "conductorCurrentDensityList": "150 & 150 & 7.35 & 150 & 150 & 150 & 150 & 150 & 150 & 150",
+            "cableWidthList": "0.01 & 0.01 & 0.00 & 0.01 & 0.01 & 0.01 & 0.01 & 0.00 & 0.01 & 0.01",
+            "cableHeightList": "0.02 & 0.02 & 0.00 & 0.02 & 0.02 & 0.02 & 0.02 & 0.00 & 0.02 & 0.02",
+            "totalVolumeList": "0.30 & 1.43 & 0.76 & 1.02 & 2.41 & 4.74 & 22.18 & 58.68 & 80.09 & 80.09",
+            "crossSectionalAreaList": "0.09 & 1.26 & 0.18 & 0.18 & 0.30 & 0.28 & 0.67 & 1.00 & 1.36 & 1.36",
+            "turnInsulationFractionList": "0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000 & 0.000",
+            "cableTurnsList": "367.65 & 5294.12 & 0.00 & 756.30 & 1260.50 & 1165.97 & 2798.32 & 0.00 & 5734.01 & 5734.01",
+            "totalTurnsOfConductorList": "117.63 & 117.63 & 66115.70 & 117.63 & 117.63 & 117.63 & 117.63 & 1923076.92 & 0.98 & 0.98",
+            "lengthOfConductorList": "48.91 & 704.29 & 278.33 & 503.07 & 1192.45 & 2343.91 & 10961.24 & 112855.67 & 331.10 & 331.10",
+            "currentPerConductorList": "78.0 & 78.0 & 20.00 & 78.0 & 78.0 & 78.0 & 78.0 & 78.00 & 7109.80 & 7109.80",
+            "costOfRebcoTapeList": "50 & 50 & 50 & 50 & 50 & 50 & 50 & 50 & 50 & 50",
+            "costOfScList": "0.19 & 2.75 & 0.00 & 1.96 & 4.65 & 9.14 & 42.75 & 440.14 & 117.70 & 117.70",
+            "costOfCopperList": "0.01 & 0.04 & 0.06 & 0.03 & 0.06 & 0.12 & 0.55 & 0.00 & 2.00 & 2.00",
+            "costOfStainlessSteelList": "0.00 & 0.01 & 0.00 & 0.01 & 0.02 & 0.05 & 0.23 & 0.00 & 0.81 & 0.81",
+            "costOfTurnInsulationList": "0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00 & 0.00",
+            "totalMaterialCostList": "0.20 & 2.80 & 0.06 & 2.00 & 4.74 & 9.31 & 43.53 & 440.14 & 120.52 & 120.52",
+            "manufacturingFactorList": "3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3 & 3",
+            "structuralCostList": "3.62 & 5.37 & 4.97 & 7.21 & 11.94 & 19.45 & 73.36 & 482.21 & 222.84 & 222.84",
+            "numberCoilsList": "12 & 1 & 2 & 2 & 2 & 2 & 2 & 2 & 2 & 2",
+            "magnetCostList": "0.60 & 8.39 & 0.12 & 5.99 & 14.21 & 27.92 & 130.58 & 880.27 & 361.55 & 361.55",
+            "magnetTotalCostIndividualList": "4.22 & 13.76 & 5.09 & 13.20 & 26.15 & 47.37 & 203.95 & 1362.48 & 584.39 & 584.39",
+            "magnetTotalCostList": "50.65 & 13.76 & 10.19 & 26.41 & 52.30 & 94.74 & 407.90 & 2724.97 & 1168.78 & 1168.78"
+        },
+        "figures": []
+    },
+    "CAS220104Section": {
+        "template_file": "CAS220104_MFE_DT.tex",
+        "replacements": {
+            "C22010401": "353.21",
+            "C22010402": "0.0",
+            "C220104__": "353.21",
+            "NBIPOWER": "50.0",
+            "ICRFPOWER": "0.0",
+            "HEATING_TABLE_ROWS": "        ARIES-AT & ICRF/LH & 37.44 & 1.67 & 2.39 \\\\\n        ARIES-I & ICRF/LH & 96.71 & 1.87 & 2.67 \\\\\n        ARIES-I' & ICRF/LH & 202.5 & 1.96 & 2.8 \\\\\n        ARIES-RS & ICRF/LH/HFFW & 80.77 & 3.09 & 4.42 \\\\\n        ARIES-IV & ICRF/LH & 68.0 & 4.35 & 6.22 \\\\\n        ARIES-II & ICRF/LH & 66.1 & 4.47 & 6.39 \\\\\n        ARIES-III' & NBI & 163.2 & 4.93 & 7.05 \\\\\n        ARIES-III & NBI & 172.0 & 4.95 & 7.08 \\\\\n        ITER & ICRF & 5.5 & None & 7.87 \\\\\n        Average & None & 110.84 & 3.64 & 5.21 \\\\\n        Average (ICRF) & None & 91.92 & 2.9 & 4.15 \\\\\n        Average (NBI) & None & 167.6 & 4.94 & 7.06 \\\\"
+        },
+        "figures": []
+    },
+    "CAS220105Section": {
+        "template_file": "CAS220105.tex",
+        "replacements": {
+            "C22010501": "206",
+            "C22010502": "296",
+            "C22010500": "502",
+            "systPGA": "0.3",
+            "PNRL": "2600"
+        },
+        "figures": []
+    },
+    "CAS220106Section": {
+        "template_file": "CAS220106_MFE.tex",
+        "replacements": {
+            "C22010601": 1,
+            "C22010602": 1,
+            "C22010603": 7,
+            "C22010604": 0,
+            "C22010600": 777,
+            "vesvol": 692,
+            "massstruct": 715585,
+            "vesmatcost": 1.7
+        },
+        "figures": []
+    },
+    "CAS220107Section": {
+        "template_file": "CAS220107_MFE.tex",
+        "replacements": {
+            "C22010700": "1003",
+            "C22010701": "2",
+            "C22010702": "1001",
+            "PNRL": "2600"
+        },
+        "figures": []
+    },
+    "CAS220108Section": {
+        "template_file": "CAS220108_MFE.tex",
+        "replacements": {
+            "C220108": 199,
+            "divertorMajRad": "4",
+            "divertorMinRad": "1",
+            "divertorThicknessZ": "0",
+            "divertorMaterial": "Tungsten",
+            "divertorVol": "11",
+            "divertorMass": "221188"
+        },
+        "figures": []
+    },
+    "CAS220109Section": {
+        "template_file": "CAS220109.tex",
+        "replacements": {
+            "expandertank": "5.7",
+            "expandercoilandneutrontrapcoil": "11.7",
+            "convertoegatevalve": "0.0",
+            "neutrontrapshielding": "0.4",
+            "vacuumsystem": "5.7",
+            "gridsystem": "9.5",
+            "heatcollectionsystem": "2.1",
+            "electricaleqpmt": "4.6",
+            "costperunit": "39.6",
+            "totaldeunitcost": "158.0",
+            "engineering15percent": "23.7",
+            "contingency15percent": "0.0",
+            "totaldecost": "261.0",
+            "C220109": "0.00"
+        },
+        "figures": []
+    },
+    "CAS220111Section": {
+        "template_file": "CAS220111.tex",
+        "replacements": {
+            "C220111": "89.76",
+            "constructionTime": "6",
+            "billingRate": "1600"
+        },
+        "figures": []
+    },
+    "CAS220119Section": {
+        "template_file": "CAS220119.tex",
+        "replacements": {
+            "C220119": "2000"
+        },
+        "figures": []
+    },
+    "CAS2202Section": {
+        "template_file": "CAS220200_DT.tex",
+        "replacements": {
+            "C220200": "252",
+            "C220201": "219",
+            "C220202": "33",
+            "C220203": "0",
+            "primaryC": "Lithium (Li)",
+            "secondaryC": "Lead Lithium (PbLi)"
+        },
+        "figures": []
+    },
+    "CAS2203Section": {
+        "template_file": "CAS220300.tex",
+        "replacements": {
+            "C220300": "6.0"
+        },
+        "figures": []
+    },
+    "CAS2204Section": {
+        "template_file": "CAS220400.tex",
+        "replacements": {
+            "C220400": "10.6"
+        },
+        "figures": []
+    },
+    "CAS2205Section": {
+        "template_file": "CAS220500_DT.tex",
+        "replacements": {
+            "lcredit": "0.8",
+            "ltoak": "0.5",
+            "C2205010ITER": "29.3",
+            "C2205020ITER": "10.0",
+            "C2205030ITER": "32.2",
+            "C2205040ITER": "14.0",
+            "C2205050ITER": "32.6",
+            "C2205060ITER": "68.0",
+            "C22050ITER": "186.0",
+            "C220501": "13.9",
+            "C220502": "4.8",
+            "C220503": "15.3",
+            "C220504": "6.7",
+            "C220505": "15.6",
+            "C220506": "32.4",
+            "C220500": "88.7"
+        },
+        "figures": []
+    },
+    "CAS2206Section": {
+        "template_file": "CAS220600.tex",
+        "replacements": {
+            "C220600": "14"
+        },
+        "figures": []
+    },
+    "CAS2207Section": {
+        "template_file": "CAS220700.tex",
+        "replacements": {
+            "C220700": "85"
+        },
+        "figures": []
+    },
+    "CAS22Section": {
+        "template_file": "CAS220000.tex",
+        "replacements": {
+            "C220000": "22452.47",
+            "FSrho": "7470",
+            "FScraw": "10",
+            "FSm": "3",
+            "FSsigma": "450",
+            "Pbrho": "9400",
+            "Pbcraw": "2.4",
+            "Pbm": "1.5",
+            "Li4SiO4rho": "2390",
+            "Li4SiO4craw": "1",
+            "Li4SiO4m": "2",
+            "Fliberho": "1900",
+            "Flibec": "40",
+            "Wrho": "19300",
+            "Wcraw": "100",
+            "Wm": "3",
+            "Lirho": "534",
+            "Licraw": "70",
+            "Lim": "1.5",
+            "BFSrho": "7800",
+            "BFScraw": "30",
+            "BFSm": "2",
+            "PbLirho": "8594.0",
+            "PbLic": "12.82",
+            "SiCrho": "3200",
+            "SiCcraw": "14.49",
+            "SiCm": "3",
+            "Inconelrho": "8440",
+            "Inconelcraw": "46",
+            "Inconelm": "3",
+            "Curho": "7300",
+            "Cucraw": "10.2",
+            "Cum": "3",
+            "Polyimiderho": "1430",
+            "Polyimidecraw": "100",
+            "Polyimidem": "3",
+            "YBCOrho": "6200",
+            "YBCOc": "55",
+            "Concreterho": "2300",
+            "Concretecraw": "0.52",
+            "Concretem": "2",
+            "SS316rho": "7860",
+            "SS316craw": "2",
+            "SS316m": "2",
+            "SS316sigma": "900",
+            "Nb3Snc": "5",
+            "Incoloyrho": "8170",
+            "Incoloycraw": "4",
+            "Incoloym": "2"
+        },
+        "figures": []
+    },
+    "CAS23Section": {
+        "template_file": "CAS230000.tex",
+        "replacements": {
+            "C230000": "413.3"
+        },
+        "figures": []
+    },
+    "CAS24Section": {
+        "template_file": "CAS240000.tex",
+        "replacements": {
+            "C240000": "101.9"
+        },
+        "figures": []
+    },
+    "CAS25Section": {
+        "template_file": "CAS250000.tex",
+        "replacements": {
+            "C250000": "71.7"
+        },
+        "figures": []
+    },
+    "CAS26Section": {
+        "template_file": "CAS260000.tex",
+        "replacements": {
+            "C260000": "201.9"
+        },
+        "figures": []
+    },
+    "CAS27Section": {
+        "template_file": "CAS270000.tex",
+        "replacements": {
+            "C270000": "108"
+        },
+        "figures": []
+    },
+    "CAS28Section": {
+        "template_file": "CAS280000.tex",
+        "replacements": {
+            "C280000": "5.00"
+        },
+        "figures": []
+    },
+    "CAS29Section": {
+        "template_file": "CAS290000.tex",
+        "replacements": {
+            "C290000": "0"
+        },
+        "figures": []
+    },
+    "CAS20Section": {
+        "template_file": "CAS200000.tex",
+        "replacements": {
+            "C200000": "24459"
+        },
+        "figures": []
+    },
+    "CAS30Section": {
+        "template_file": "CAS300000.tex",
+        "replacements": {
+            "constructionTime": "6",
+            "C300000": "267",
+            "C310000LSA": "1468",
+            "C310000XXX": "53",
+            "C320000": "133",
+            "C350000LSA": "1272",
+            "C350000XXX": "80"
+        },
+        "figures": []
+    },
+    "CAS40Section": {
+        "template_file": "CAS400000.tex",
+        "replacements": {
+            "lsaLevel": 2,
+            "C400000LSA": "2935",
+            "C400000XXX": "2935"
+        },
+        "figures": []
+    },
+    "CAS50Section": {
+        "template_file": "CAS500000.tex",
+        "replacements": {
+            "C500000": "698",
+            "C510000": "8",
+            "C520000": "90",
+            "C530000": "100",
+            "C540000": "1",
+            "C550000": "299",
+            "C580000": "200",
+            "C590000": "0"
+        },
+        "figures": []
+    },
+    "CAS60Section": {
+        "template_file": "CAS600000.tex",
+        "replacements": {
+            "C600000": "1082",
+            "C610000": "299",
+            "C630000LSA": "6692",
+            "C630000XXX": "783"
+        },
+        "figures": []
+    },
+    "CAS70Section": {
+        "template_file": "CAS700000.tex",
+        "replacements": {
+            "C700000": "79"
+        },
+        "figures": []
+    },
+    "CAS80Section": {
+        "template_file": "CAS800000_DT.tex",
+        "replacements": {
+            "C800000": "0.18",
+            "primaryC": "Lithium (Li)",
+            "secondaryC": "Lead Lithium (PbLi)"
+        },
+        "figures": []
+    },
+    "CAS90Section": {
+        "template_file": "CAS900000.tex",
+        "replacements": {
+            "C900000": "2672"
+        },
+        "figures": []
+    },
+    "LcoeSection": {
+        "template_file": "LCOE.tex",
+        "replacements": {
+            "C1000000": "289.1",
+            "C2000000": "28.9",
+            "C700000": "79.0",
+            "C800000": "0.2",
+            "C900000": "2672.1",
+            "PNET": "1317.357",
+            "lifeY": "30",
+            "yinflation": "2.5",
+            "PAVAIL": "0.85"
+        },
+        "figures": []
+    },
+    "CostTableSection": {
+        "template_file": "CASstructure.tex",
+        "replacements": {
+            "C100000": "250.62",
+            "C200000": "24458.63",
+            "C210000": "1104.82",
+            "C220000": "22452.47",
+            "C220100": "21996.21",
+            "C220101": "9776.74",
+            "C220102": "79.02",
+            "C220103": "7216.42",
+            "C220104": "353.21",
+            "C220105": "502.21",
+            "C220106": "777.08",
+            "C220107": "1003.03",
+            "C220108": "199.07",
+            "C220109": "0.0",
+            "C220111": "89.76",
+            "C220119": "1999.66",
+            "C220200": "251.68",
+            "C220300": "5.97",
+            "C220400": "10.63",
+            "C220500": "88.65",
+            "C220600": "14.34",
+            "C220700": "85.0",
+            "C230000": "413.25",
+            "C240000": "101.9",
+            "C250000": "71.71",
+            "C260000": "201.91",
+            "C270000": "107.56",
+            "C280000": "5.0",
+            "C290000": "0.0",
+            "C300000": "266.72",
+            "C400000": "2935.04",
+            "C500000": "697.73",
+            "C600000": "1081.51",
+            "C990000": "29690.24",
+            "C.100000pp": "0.84",
+            "C.200000pp": "82.38",
+            "C.210000pp": "3.72",
+            "C.220000pp": "75.62",
+            "C.220100pp": "74.09",
+            "C.220101pp": "32.93",
+            "C.220102pp": "0.27",
+            "C.220103pp": "24.31",
+            "C.220104pp": "1.19",
+            "C.220105pp": "1.69",
+            "C.220106pp": "2.62",
+            "C.220107pp": "3.38",
+            "C.220108pp": "0.67",
+            "C.220109pp": "0.0",
+            "C.220111pp": "0.3",
+            "C.220119pp": "6.74",
+            "C.220200pp": "0.85",
+            "C.220300pp": "0.02",
+            "C.220400pp": "0.04",
+            "C.220500pp": "0.3",
+            "C.220600pp": "0.05",
+            "C.220700pp": "0.29",
+            "C.230000pp": "1.39",
+            "C.240000pp": "0.34",
+            "C.250000pp": "0.24",
+            "C.260000pp": "0.68",
+            "C.270000pp": "0.36",
+            "C.280000pp": "0.02",
+            "C.290000pp": "0.0",
+            "C.300000pp": "0.9",
+            "C.400000pp": "9.89",
+            "C.500000pp": "2.35",
+            "C.600000pp": "3.64",
+            "C.990000pp": "100.0",
+            "M100000": "14.31",
+            "M200000": "6047.6",
+            "M210000": "500.58",
+            "M220000": "1679.54",
+            "M220100": "875.75",
+            "M220101": "67.77",
+            "M220102": "152.69",
+            "M220103": "138.51",
+            "M220104": "286.88",
+            "M220105": "50.49",
+            "M220106": "64.94",
+            "M220107": "96.66",
+            "M220108": "11.88",
+            "M220119": "483.3",
+            "M2207": "4.71",
+            "M23": "457.65",
+            "M24": "169.29",
+            "M25": "105.17",
+            "M26": "86.81",
+            "M27": "147.02",
+            "M29": "749.39",
+            "M30": "54.33",
+            "M40": "579.15",
+            "M50": "142.12",
+            "M60": "220.29",
+            "M99": "7062.17",
+            "M.100000pp": "0.2",
+            "M.200000pp": "85.63",
+            "M.210000pp": "7.09",
+            "M.220000pp": "23.78",
+            "M.220100pp": "12.4",
+            "M.220101pp": "0.96",
+            "M.220102pp": "2.16",
+            "M.220103pp": "1.96",
+            "M.220104pp": "4.06",
+            "M.220105pp": "0.71",
+            "M.220106pp": "0.92",
+            "M.220107pp": "1.37",
+            "M.220108pp": "0.17",
+            "M.220119pp": "6.84",
+            "M.2207pp": "0.07",
+            "M.23pp": "6.48",
+            "M.24pp": "2.4",
+            "M.25pp": "1.49",
+            "M.26pp": "1.23",
+            "M.27pp": "2.08",
+            "M.29pp": "10.61",
+            "M.30pp": "0.77",
+            "M.40pp": "8.2",
+            "M.50pp": "2.01",
+            "M.60pp": "3.12",
+            "M.99pp": "100.0",
+            "M220109": "-",
+            "M220111": "-",
+            "M2202": "-",
+            "M2203": "-",
+            "M2204": "-",
+            "M2205": "-",
+            "M2206": "-",
+            "M28": "-",
+            "M.220109pp": "-",
+            "M.220111pp": "-",
+            "M.2202pp": "-",
+            "M.2203pp": "-",
+            "M.2204pp": "-",
+            "M.2205pp": "-",
+            "M.2206pp": "-",
+            "M.28pp": "-"
+        },
+        "figures": []
+    },
+    "NpvSection": {
+        "template_file": "NPV.tex",
+        "replacements": {
+            "NPVval": "-29889597386.56",
+            "DiscountRate": "8.0"
+        },
+        "figures": []
+    }
+}

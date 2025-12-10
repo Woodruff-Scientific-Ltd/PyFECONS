@@ -1,21 +1,19 @@
-from pyfecons.costing.calculations.cost_table_builder import (
+from pyfecons.costing_data import CostingData
+from pyfecons.report.cost_table.cost_table_builder import (
     get_cost_values,
-    get_rounded,
-    get_percentage_cost_values,
     get_cost_values_inflation,
+    get_percentage_cost_values,
+    get_rounded,
     map_keys_to_percentage,
 )
-from pyfecons.data import Data
-from pyfecons.costing.accounting.cost_table import CostTable
 
 
-def cost_table(data: Data) -> CostTable:
+def get_replacements(costing_data: CostingData) -> dict[str, str]:
     # Cost Table
-    cost_table = CostTable()
-    cost_values = get_cost_values(data)
+    cost_values = get_cost_values(costing_data)
     rounded_cost_values = get_rounded(cost_values, 1)
     percentage_cost_values = get_percentage_cost_values(
-        cost_values, data.cas90.C990000, 0
+        cost_values, costing_data.cas90.C990000, 0
     )
 
     # ARIES ST
@@ -25,10 +23,10 @@ def cost_table(data: Data) -> CostTable:
     inflation_factor = 1.35
     # TODO - what should we name this constant and where does it come from?
     m_factor = 5285
-    m30 = data.cas30.C300000 / data.cas90.C990000 * m_factor
-    m40 = data.cas40.C400000 / data.cas90.C990000 * m_factor
-    m50 = data.cas50.C500000 / data.cas90.C990000 * m_factor
-    m60 = data.cas60.C600000 / data.cas90.C990000 * m_factor
+    m30 = costing_data.cas30.C300000 / costing_data.cas90.C990000 * m_factor
+    m40 = costing_data.cas40.C400000 / costing_data.cas90.C990000 * m_factor
+    m50 = costing_data.cas50.C500000 / costing_data.cas90.C990000 * m_factor
+    m60 = costing_data.cas60.C600000 / costing_data.cas90.C990000 * m_factor
     m99 = m_factor + m30 + m40 + m50 + m60
 
     # LIFE Values Anklam 2011
@@ -78,8 +76,7 @@ def cost_table(data: Data) -> CostTable:
     }
     life_values_empty_percentages = map_keys_to_percentage(life_values_empty)
 
-    cost_table.template_file = "CASstructure.tex"
-    cost_table.replacements = (
+    return (
         rounded_cost_values
         | percentage_cost_values
         | life_values_inflation
@@ -87,4 +84,3 @@ def cost_table(data: Data) -> CostTable:
         | life_values_empty
         | life_values_empty_percentages
     )
-    return cost_table

@@ -13,7 +13,4 @@ def cas70_annualized_om_costs(power_table: PowerTable) -> CAS70:
     # C750000 = 0.1 * (C220000) scheduled replacement costs
 
     cas70.C700000 = to_m_usd(c_om)  # + C750000
-
-    cas70.template_file = "CAS700000.tex"
-    cas70.replacements = {"C700000": round(cas70.C700000)}
     return cas70

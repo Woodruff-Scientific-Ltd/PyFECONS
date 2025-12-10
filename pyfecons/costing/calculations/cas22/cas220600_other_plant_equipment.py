@@ -1,14 +1,12 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas220600 import CAS2206
-from pyfecons.units import MW, M_USD
+from pyfecons.units import M_USD, MW
 
 
 def cas_2206_other_reactor_plant_equipment_costs(power_table: PowerTable) -> CAS2206:
     # Cost Category 22.6 Other Reactor Plant Equipment
     cas2206 = CAS2206()
     cas2206.C220600 = compute_other_plant_equipment_costs(power_table.p_net)
-    cas2206.template_file = "CAS220600.tex"
-    cas2206.replacements = {"C220600": round(cas2206.C220600)}
     return cas2206
 
 

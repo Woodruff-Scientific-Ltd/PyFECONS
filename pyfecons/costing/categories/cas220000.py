@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 
-from pyfecons.report import TemplateProvider
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS22(TemplateProvider):
+class CAS22:
     # Cost category 22.1 total
     C220100: M_USD = None
 

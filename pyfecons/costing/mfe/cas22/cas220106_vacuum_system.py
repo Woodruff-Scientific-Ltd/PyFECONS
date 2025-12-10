@@ -3,19 +3,20 @@ import numpy as np
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_2005_2024, to_m_usd
 from pyfecons.costing.calculations.thermal import (
-    k_steel,
-    compute_q_in_struct,
     compute_iter_cost_per_MW,
     compute_q_in_n_per_coil,
+    compute_q_in_struct,
+    k_steel,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220106 import CAS220106, VesselCost, VesselCosts
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.vacuum_system import VacuumSystem
-from pyfecons.units import Kilograms, USD, M_USD
+from pyfecons.units import M_USD, USD, Kilograms, Meters3
 
 
+# MFE vacuum system calculations
 def cas_220106_vacuum_system_costs(
     vacuum_system: VacuumSystem,
     radial_build: RadialBuild,
@@ -128,8 +129,10 @@ def cas_220106_vacuum_system_costs(
     )
 
     # Calculate mass and cost
-    cas220106.massstruct = cas220106.vessel_costs.total.total_mass
-    cas220106.vesvol = np.pi * (syst_doors_ir**2 - syst_spool_ir**2) * syst_height
+    cas220106.mass_struct = cas220106.vessel_costs.total.total_mass
+    cas220106.ves_vol = Meters3(
+        np.pi * (syst_doors_ir**2 - syst_spool_ir**2) * syst_height
+    )
     cas220106.C22010601 = to_m_usd(
         cas220106.vessel_costs.total_subsystem_cost.total_cost
     )
@@ -163,7 +166,7 @@ def cas_220106_vacuum_system_costs(
 
     # VACUUM PUMPING 22.1.6.3
     # Number of vacuum pumps required to pump the full vacuum in 1 second
-    no_vpumps = int(cas220106.vesvol / vacuum_system.vpump_cap)
+    no_vpumps = int(cas220106.ves_vol / vacuum_system.vpump_cap)
     cas220106.C22010603 = to_m_usd(no_vpumps * vacuum_system.cost_pump)
 
     # ROUGHING PUMP 22.1.6.4
@@ -177,15 +180,4 @@ def cas_220106_vacuum_system_costs(
         + cas220106.C22010603
         + cas220106.C22010604
     )
-    cas220106.template_file = "CAS220106_MFE.tex"
-    cas220106.replacements = {
-        "C22010601": round(cas220106.C22010601),
-        "C22010602": round(cas220106.C22010601),
-        "C22010603": round(cas220106.C22010603),
-        "C22010604": round(cas220106.C22010604),
-        "C22010600": round(cas220106.C220106),
-        "vesvol": round(cas220106.vesvol),
-        "massstruct": round(cas220106.massstruct),
-        "vesmatcost": round(to_m_usd(cas220106.vessel_costs.total.material_cost), 1),
-    }
     return cas220106

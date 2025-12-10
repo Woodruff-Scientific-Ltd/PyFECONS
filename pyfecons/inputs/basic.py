@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
-from pyfecons.enums import ReactorType, ConfinementType, EnergyConversion, FuelType
-from pyfecons.units import MW, Count, Percent, Years, HZ
+from pyfecons.enums import ConfinementType, EnergyConversion, FuelType, ReactorType
+from pyfecons.units import HZ, MW, Count, Percent, Years
 
 
 @dataclass

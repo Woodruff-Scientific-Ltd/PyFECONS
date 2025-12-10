@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from pyfecons.units import Ratio, Meters, USD, Meters3, K, Meters2
+
+from pyfecons.units import USD, K, Meters, Meters2, Meters3, Ratio
 
 
 # 22.1.6 Vacuum system

@@ -1,7 +1,6 @@
 from typing import Union
 
-from pyfecons.units import USD, M_USD, MW, W
-
+from pyfecons.units import M_USD, MW, USD, W
 
 # Unit conversions
 

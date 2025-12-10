@@ -19,9 +19,6 @@ def cas_220109_direct_energy_converter_costs(
     # cas220109.C220109 = M_USD(sum(cas220109.scaled_costs.values()))
     # TODO why is this zero?
     cas220109.C220109 = M_USD(0)
-
-    cas220109.template_file = "CAS220109.tex"
-    cas220109.replacements = get_replacements(cas220109)
     return cas220109
 
 
@@ -56,12 +53,3 @@ def get_scaled_costs(
         return M_USD(cost * IN.system_power * (1 / math.sqrt(IN.flux_limit)) ** 3)
 
     return {key: scaled_cost(value) for key, value in costs.items()}
-
-
-def get_replacements(OUT: CAS220109) -> dict[str, str]:
-    replacements = {
-        key: str(round(value, 1)) for key, value in OUT.scaled_costs.items()
-    }
-    replacements["totaldecost"] = str(round(sum(OUT.scaled_costs.values()), 1))
-    replacements["C220109"] = str(OUT.C220109)
-    return replacements

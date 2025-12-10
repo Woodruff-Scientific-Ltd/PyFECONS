@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons.units import KG_M3, USD_M3, USD_KG, Megapascal
+from pyfecons.units import KG_M3, USD_KG, USD_M3, Megapascal
 
 
 @dataclass

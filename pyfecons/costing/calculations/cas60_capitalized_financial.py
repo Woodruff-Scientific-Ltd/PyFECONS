@@ -43,12 +43,4 @@ def cas60_capitalized_financial_costs(
     cas60.C630000 = M_USD(power_table.p_net * 0.099 * basic.construction_time)
 
     cas60.C600000 = M_USD(cas60.C630000 + cas60.C610000)
-
-    cas60.template_file = "CAS600000.tex"
-    cas60.replacements = {
-        "C600000": round(cas60.C600000),  # TODO - not in template
-        "C610000": round(cas60.C610000),
-        "C630000LSA": round(cas60.C630000LSA),
-        "C630000XXX": round(cas60.C630000),
-    }
     return cas60

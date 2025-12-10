@@ -1,15 +1,13 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import inflation_1992_2024, k_to_m_usd
 from pyfecons.costing.categories.cas220400 import CAS2204
-from pyfecons.units import MW, M_USD
+from pyfecons.units import M_USD, MW
 
 
 def cas_2204_radwaste_costs(power_table: PowerTable) -> CAS2204:
     # Cost Category 22.4 Radwaste
     cas2204 = CAS2204()
     cas2204.C220400 = compute_radioactive_waste_cost(power_table.p_th)
-    cas2204.template_file = "CAS220400.tex"
-    cas2204.replacements = {"C220400": round(cas2204.C220400, 1)}
     return cas2204
 
 

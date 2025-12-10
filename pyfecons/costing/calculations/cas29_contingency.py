@@ -11,7 +11,4 @@ def cas29_contingency_costs(basic: Basic, cas2x_total_cost: M_USD) -> CAS29:
     else:
         # TODO what is the 0.1? Should it be an input?
         cas29.C290000 = M_USD(0.1 * cas2x_total_cost)
-
-    cas29.template_file = "CAS290000.tex"
-    cas29.replacements = {"C290000": round(cas29.C290000)}
     return cas29

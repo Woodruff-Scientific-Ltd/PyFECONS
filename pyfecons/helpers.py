@@ -1,9 +1,11 @@
 import os
-import requests
 from importlib import resources
+from typing import Dict, List, Optional, Union
 from urllib.parse import urljoin
-from typing import Optional
-from pyfecons.report import ReportOverrides
+
+import requests
+
+from pyfecons.overrides import ReportOverrides
 
 
 def safe_round(value, digits):
@@ -88,7 +90,8 @@ def base_name(file_path: str) -> str:
 
 
 def base_name_without_extension(file_path: str) -> str:
-    return os.path.splitext(base_name(file_path))[0]
+    """Get the base name of a file without its extension."""
+    return os.path.splitext(os.path.basename(file_path))[0]
 
 
 def get_local_included_files_map(

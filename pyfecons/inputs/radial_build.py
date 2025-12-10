@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons.units import Ratio, Meters
+from pyfecons.units import Meters, Ratio
 
 
 @dataclass

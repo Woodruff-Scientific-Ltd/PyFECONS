@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from pyfecons.enums import StructurePga
 from pyfecons.inputs.pga_costs import PgaCosts
-from pyfecons.units import Ratio, M_USD
+from pyfecons.units import M_USD, Ratio
 
 
 @dataclass

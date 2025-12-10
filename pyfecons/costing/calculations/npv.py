@@ -1,18 +1,18 @@
-from pyfecons.data import Data
 from pyfecons.costing.accounting.npv import NPV
+from pyfecons.costing_data import CostingData
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.npv_Input import NpvInput
 
 
-def calculate_npv(basic: Basic, npv_input: NpvInput, data: Data) -> NPV:
+def calculate_npv(basic: Basic, npv_input: NpvInput, costing_data: CostingData) -> NPV:
     npv = NPV()
 
-    power_table = data.power_table
-    cas10 = data.cas10
-    cas220119 = data.cas220119
-    cas70 = data.cas70
-    cas80 = data.cas80
-    cas90 = data.cas90
+    power_table = costing_data.power_table
+    cas10 = costing_data.cas10
+    cas220119 = costing_data.cas220119
+    cas70 = costing_data.cas70
+    cas80 = costing_data.cas80
+    cas90 = costing_data.cas90
 
     npv_val = 0
     CDD = 0  # TODO: figure out what CDD is
@@ -29,12 +29,4 @@ def calculate_npv(basic: Basic, npv_input: NpvInput, data: Data) -> NPV:
         ) / (1 + npv_input.discount_rate) ** n
 
     npv.npv = npv_val
-    npv.template_file = "NPV.tex"
-    npv.replacements = {
-        "NPVval": round(npv.npv, 2),
-        "DiscountRate": round(
-            npv_input.discount_rate * 100, 2
-        ),  # Multiplied by 100 for percentage
-    }
-
     return npv

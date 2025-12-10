@@ -11,8 +11,8 @@ from pyfecons.inputs.installation import Installation
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.lsa_levels import LsaLevels
 from pyfecons.inputs.npv_Input import NpvInput
-from pyfecons.inputs.power_supplies import PowerSupplies
 from pyfecons.inputs.power_input import PowerInput
+from pyfecons.inputs.power_supplies import PowerSupplies
 from pyfecons.inputs.primary_structure import PrimaryStructure
 from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.shield import Shield

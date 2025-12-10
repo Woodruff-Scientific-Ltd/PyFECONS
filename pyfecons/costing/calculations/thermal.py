@@ -1,6 +1,7 @@
 import numpy as np
-from pyfecons.costing.calculations.conversions import w_to_mw
+
 from pyfecons.costing.accounting.power_table import PowerTable
+from pyfecons.costing.calculations.conversions import w_to_mw
 from pyfecons.enums import MagnetType
 from pyfecons.inputs.coils import Coils
 from pyfecons.inputs.magnet import Magnet

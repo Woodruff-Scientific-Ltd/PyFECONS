@@ -1,10 +1,12 @@
 from dataclasses import dataclass
-from pyfecons.report import TemplateProvider
+
 from pyfecons.units import M_USD
 
 
 @dataclass
-class CAS10(TemplateProvider):
+class CAS10:
+    """Cost Category 10: Pre-construction Costs"""
+
     C110000: M_USD = None
     C120000: M_USD = None
     C130000: M_USD = None

@@ -1,7 +1,7 @@
 from importlib import resources
 from typing import Optional
 
-from pyfecons.report import TemplateProvider, HydratedTemplate, ReportOverrides
+from pyfecons.report import HydratedTemplate, ReportOverrides, ReportSection
 
 
 def read_template(templates_path: str, template_file: str) -> str:
@@ -18,7 +18,7 @@ def replace_values(template_content: str, replacements: dict[str, str]) -> str:
 
 def hydrate_templates(
     templates_path: str,
-    template_providers: list[TemplateProvider],
+    template_providers: list[ReportSection],
     overrides: Optional[ReportOverrides] = None,
 ) -> list[HydratedTemplate]:
     hydrated_templates = []
@@ -31,7 +31,7 @@ def hydrate_templates(
     return hydrated_templates
 
 
-def combine_figures(template_providers: list[TemplateProvider]) -> dict[str, bytes]:
+def combine_figures(template_providers: list[ReportSection]) -> dict[str, bytes]:
     all_figures = {}
     for provider in template_providers:
         all_figures.update(provider.figures)
@@ -44,7 +44,7 @@ def load_document_template(
     overrides: Optional[ReportOverrides] = None,
 ) -> HydratedTemplate:
     return HydratedTemplate(
-        TemplateProvider(template_file=document_template),
+        ReportSection(template_file=document_template),
         get_template_contents(templates_path, document_template, overrides),
     )
 

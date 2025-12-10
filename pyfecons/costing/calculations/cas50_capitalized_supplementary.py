@@ -57,16 +57,4 @@ def cas50_capitalized_supplementary_costs(
         + cas50.C580000
         + cas50.C590000
     )
-
-    cas50.template_file = "CAS500000.tex"
-    cas50.replacements = {
-        "C500000": round(cas50.C500000),  # TODO - not in template
-        "C510000": round(cas50.C510000),
-        "C520000": round(cas50.C520000),
-        "C530000": round(cas50.C530000),
-        "C540000": round(cas50.C540000),
-        "C550000": round(cas50.C550000),
-        "C580000": round(cas50.C580000),
-        "C590000": round(cas50.C590000),
-    }
     return cas50

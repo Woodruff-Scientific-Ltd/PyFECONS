@@ -1,11 +1,11 @@
 from dataclasses import dataclass
+
 from pyfecons.materials import Material
-from pyfecons.report import TemplateProvider
-from pyfecons.units import M_USD, Meters, Ratio, Meters3, Kilograms
+from pyfecons.units import M_USD, Kilograms, Meters, Meters3, Ratio
 
 
 @dataclass
-class CAS220108Divertor(TemplateProvider):
+class CAS220108Divertor:
     # 22.1.8 Divertor
     C220108: M_USD = None
     divertor_maj_rad: Meters = None

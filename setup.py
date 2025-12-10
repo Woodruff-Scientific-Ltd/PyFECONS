@@ -1,11 +1,11 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("requirements.txt", encoding="utf-8") as f:
     required = f.read().splitlines()
 
 setup(
     name="pyfecons",
-    version="0.0.40",
+    version="0.1.0",
     author="Woodruff Scientific LTD",
     author_email="info@woodruffscientific.com",
     description="Library for PyFECONS costing calculations.",

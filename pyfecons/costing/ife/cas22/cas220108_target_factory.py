@@ -1,51 +1,8 @@
-from dataclasses import dataclass
-from typing import Optional
 from pyfecons.costing.accounting.power_table import PowerTable
-from pyfecons.costing.ife.pfr_costs import plot_target_pfr
 from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
-from pyfecons.helpers import safe_round
+from pyfecons.costing.models.target_factory_cost import CostField, TargetFactoryCost
 from pyfecons.inputs.target_factory import TargetFactory
-from pyfecons.units import Ratio, M_USD
-
-
-@dataclass
-class CostField:
-    cost: Optional[float]
-    scaling_factor: Optional[Ratio] = None
-
-    @property
-    def scaled_cost(self) -> Optional[float]:
-        if self.cost is None or self.scaling_factor is None:
-            return self.cost
-        else:
-            return self.cost * self.scaling_factor
-
-
-@dataclass
-class TargetFactoryCost:
-    no_machines: CostField
-    floorspace_sqrft: CostField
-    wip_parts: CostField
-    tcc_dollars: CostField
-    annualized_cc_dollars_per_year: CostField
-    consumables_electricity_maint: CostField
-    personnel_costs_dollars_per_year: CostField
-    cost_per_target: CostField
-
-    @property
-    def cost_row(self) -> str:
-        return " & ".join(
-            [
-                f"{safe_round(self.no_machines.scaled_cost, 1)}",
-                f"{safe_round(self.floorspace_sqrft.scaled_cost, 1)}",
-                f"{safe_round(self.wip_parts.scaled_cost, 1)}",
-                f"{safe_round(self.tcc_dollars.scaled_cost, 1)}",
-                f"{safe_round(self.annualized_cc_dollars_per_year.scaled_cost, 1)}",
-                f"{safe_round(self.consumables_electricity_maint.scaled_cost, 1)}",
-                f"{safe_round(self.personnel_costs_dollars_per_year.scaled_cost, 1)}",
-                f"{safe_round(self.cost_per_target.scaled_cost, 1)}",
-            ]
-        )
+from pyfecons.units import M_USD
 
 
 def cas_220108_target_factory_costs(
@@ -61,7 +18,7 @@ def cas_220108_target_factory_costs(
     # required PRF to acheive target PNRL (assuming exact target design as specified)
     # syst_prf = inputs.basic.p_nrl / life_target_yield
 
-    target_factory_costs = {
+    cas220108.target_factory_costs = {
         "CVD diamond ablator": TargetFactoryCost(
             no_machines=CostField(250),
             floorspace_sqrft=CostField(40315),
@@ -174,7 +131,7 @@ def cas_220108_target_factory_costs(
         ),
     }
 
-    for cost in target_factory_costs.values():
+    for cost in cas220108.target_factory_costs.values():
         cost.no_machines.scaling_factor = p_net / 1000
         cost.floorspace_sqrft.scaling_factor = p_net / 1000
         cost.wip_parts.scaling_factor = p_net / 1000 * 1e-6
@@ -194,27 +151,9 @@ def cas_220108_target_factory_costs(
 
     # TODO this is not used
     # tot_targets = inputs.basic.implosion_frequency * 3.154e7
+
     # TODO this is a very very small number, is the scaling correct?
     cas220108.C220108 = M_USD(
-        target_factory_costs["Total process"].tcc_dollars.scaled_cost / 1e6
+        cas220108.target_factory_costs["Total process"].tcc_dollars.scaled_cost / 1e6
     )
-
-    cas220108.figures["Figures/targetPFR.pdf"] = plot_target_pfr()
-    cas220108.template_file = "CAS220108_IFE.tex"
-    cas220108.replacements = {
-        "C220108": round(cas220108.C220108),
-        "cvdDiamondAblatorCosts": target_factory_costs["CVD diamond ablator"].cost_row,
-        "dtFillCosts": target_factory_costs["DT Fill"].cost_row,
-        "hohlraumPressCosts": target_factory_costs["Hohlraum press"].cost_row,
-        "tentAssyCosts": target_factory_costs["Tent assy"].cost_row,
-        "hohlraumCapsuleAssy": target_factory_costs["Hohlraum-capsule assy"].cost_row,
-        "lehWindowAttach": target_factory_costs["LEH window attach"].cost_row,
-        "dtIceForm": target_factory_costs["DT ice form"].cost_row,
-        "recoverAndRecycle": target_factory_costs["Recover and recycle"].cost_row,
-        "facilityManagementCosts": target_factory_costs[
-            "Facility management costs"
-        ].cost_row,
-        "totalProcess": target_factory_costs["Total process"].cost_row,
-        "addMaterial": target_factory_costs["Add material"].cost_row,
-    }
     return cas220108

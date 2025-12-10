@@ -1,5 +1,6 @@
+from typing import Callable, List, Tuple
+
 import numpy as np
-from typing import List, Tuple, Callable
 from scipy.interpolate import interp1d
 
 

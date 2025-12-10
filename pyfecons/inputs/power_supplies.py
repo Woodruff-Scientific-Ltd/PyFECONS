@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from pyfecons.units import Ratio, USD_W, Unknown, K, V
+from pyfecons.units import USD_W, K, Ratio, Unknown, V
 
 
 @dataclass

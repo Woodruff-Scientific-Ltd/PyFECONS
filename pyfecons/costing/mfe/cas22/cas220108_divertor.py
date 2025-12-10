@@ -4,7 +4,7 @@ from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.materials import Materials
-from pyfecons.units import Meters, Meters3, Kilograms, M_USD, Ratio
+from pyfecons.units import M_USD, Kilograms, Meters, Meters3, Ratio
 
 materials = Materials()
 
@@ -46,16 +46,4 @@ def cas_220108_divertor_costs(cas220101: CAS220101) -> CAS220108Divertor:
         * cas220108.divertor_complexity_factor
     )
     cas220108.C220108 = to_m_usd(cas220108.divertor_cost)
-
-    cas220108.template_file = "CAS220108_MFE.tex"
-    cas220108.replacements = {
-        "C220108": round(cas220108.C220108),
-        # All of these are not in the templateo
-        "divertorMajRad": round(cas220108.divertor_maj_rad),
-        "divertorMinRad": round(cas220108.divertor_min_rad),
-        "divertorThicknessZ": round(cas220108.divertor_thickness_z),
-        "divertorMaterial": cas220108.divertor_material.name,
-        "divertorVol": round(cas220108.divertor_vol),
-        "divertorMass": round(cas220108.divertor_mass),
-    }
     return cas220108

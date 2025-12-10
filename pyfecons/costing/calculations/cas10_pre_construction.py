@@ -1,8 +1,9 @@
 import math
+
+from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas100000 import CAS10
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
-from pyfecons.costing.accounting.power_table import PowerTable
 
 
 def cas_10_pre_construction_costs(basic: Basic, power_table: PowerTable) -> CAS10:
@@ -65,17 +66,4 @@ def cas_10_pre_construction_costs(basic: Basic, power_table: PowerTable) -> CAS1
         + cas10.C190000
     )
 
-    cas10.template_file = "CAS100000.tex"
-    cas10.replacements = {
-        "Nmod": str(basic.n_mod),
-        "C100000": str(cas10.C100000),
-        "C110000": str(cas10.C110000),
-        "C120000": str(cas10.C120000),
-        "C130000": str(cas10.C130000),
-        "C140000": str(cas10.C140000),
-        "C150000": str(cas10.C150000),
-        "C160000": str(cas10.C160000),
-        "C170000": str(cas10.C170000),
-        "C190000": str(cas10.C190000),
-    }
     return cas10

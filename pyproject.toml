@@ -5,5 +5,18 @@ extend-exclude = '''
     | pyfecons/costing/mfe/pycosting_arpa_e_mfe.py
     | pyfecons/costing/ife/PyCosting_ARPA_E_IFE2.ipynb
     | pyfecons/costing/ife/pycosting_arpa_e_ife2.py
+    | customers/.*
+    | deployment/.*
+    | \.vscode/.*
+    | \.github/.*
+    | venv/.*
+    | temp/.*
+    | \.pytest_cache/.*
+    | \.idea/.*
+    | \.ipynb$
+    | \.tex$
+    | \.bib$
 )
 '''
+
+

@@ -3,15 +3,16 @@ import shutil
 import subprocess
 import tempfile
 from typing import Optional
-from pyfecons.helpers import base_name_without_extension
-from pyfecons.inputs.all_inputs import AllInputs
-from pyfecons.enums import *
-from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingData
-from pyfecons.costing.mfe.mfe import CreateReportContent as CreateMfeReport
+
 from pyfecons.costing.ife.ife import GenerateCostingData as GenerateIfeCostingData
-from pyfecons.costing.ife.ife import CreateReportContent as CreateIfeReport
-from pyfecons.report import ReportContent, FinalReport, ReportOverrides
+from pyfecons.costing.mfe.mfe import GenerateCostingData as GenerateMfeCostingData
 from pyfecons.costing_data import CostingData
+from pyfecons.enums import *
+from pyfecons.file_utils import base_name_without_extension
+from pyfecons.inputs.all_inputs import AllInputs
+from pyfecons.report import FinalReport, ReportContent, ReportOverrides
+from pyfecons.report.ife_report import CreateReportContent as CreateIfeReport
+from pyfecons.report.mfe_report import CreateReportContent as CreateMfeReport
 
 
 def RunCosting(inputs: AllInputs) -> CostingData:
@@ -30,19 +31,19 @@ def CreateReportContent(
     overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
     """
-    Create report content with given cost calculation inputs and output data.
-    :param inputs: The inputs used for cost calculations.
+    Create report content with given cost calculation output data.
+    :param inputs: The input parameters used for cost calculations.
     :param costing_data: The output data and templates providers for cost calculations.
     :param overrides: Overriding substitutions for latex template hydration.
     :return: Report contents including files, hydrated templates, and latex packages.
     """
-    if inputs.basic.reactor_type == ReactorType.MFE:
-        return CreateMfeReport(costing_data, overrides)
-    elif inputs.basic.reactor_type == ReactorType.IFE:
-        return CreateIfeReport(costing_data, overrides)
-    elif inputs.basic.reactor_type == ReactorType.MIF:
+    if costing_data.reactor_type == ReactorType.MFE:
+        return CreateMfeReport(inputs, costing_data, overrides)
+    elif costing_data.reactor_type == ReactorType.IFE:
+        return CreateIfeReport(inputs, costing_data, overrides)
+    elif costing_data.reactor_type == ReactorType.MIF:
         raise NotImplementedError()
-    raise ValueError("Invalid basic reactor type")
+    raise ValueError("Invalid reactor type")
 
 
 def RenderFinalReport(

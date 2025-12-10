@@ -1,10 +1,12 @@
 from dataclasses import dataclass
-from pyfecons.report import TemplateProvider
-from pyfecons.units import MW, Unknown, Ratio
+
+from pyfecons.units import MW, Ratio, Unknown
 
 
 @dataclass
-class PowerTable(TemplateProvider):
+class PowerTable:
+    """Power table data."""
+
     p_alpha: MW = None  # Charged particle power
     p_neutron: MW = None  # Neutron power
     p_cool: MW = None
