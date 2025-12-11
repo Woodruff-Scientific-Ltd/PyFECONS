@@ -121,21 +121,36 @@ def compute_hts_cicc_auto_magnet_properties(
 
     yuhu = YuhuHtsCiccExtrapolation(magnet, True)
 
-    props.turns_sc_tot = Turns(yuhu.r_turns * yuhu.z_turns)
+    # Extract scalar values from NumPy arrays to avoid deprecation warnings
+    r_turns_scalar = (
+        yuhu.r_turns.item() if hasattr(yuhu.r_turns, "item") else yuhu.r_turns
+    )
+    z_turns_scalar = (
+        yuhu.z_turns.item() if hasattr(yuhu.z_turns, "item") else yuhu.z_turns
+    )
+    dr_scalar = yuhu.dr.item() if hasattr(yuhu.dr, "item") else yuhu.dr
+    dz_scalar = yuhu.dz.item() if hasattr(yuhu.dz, "item") else yuhu.dz
+    cable_current_scalar = (
+        yuhu.cable_current.item()
+        if hasattr(yuhu.cable_current, "item")
+        else yuhu.cable_current
+    )
+
+    props.turns_sc_tot = Turns(r_turns_scalar * z_turns_scalar)
     props.cable_w = coils.cable_w
     props.cable_h = coils.cable_h
 
-    props.cs_area = Meters2(yuhu.dr * yuhu.dz)
+    props.cs_area = Meters2(dr_scalar * dz_scalar)
     props.turns_c = Turns(props.cs_area / (coils.cable_w * coils.cable_h))
     props.turns_scs = Turns(props.turns_sc_tot / props.turns_c)
-    props.current_supply = MA(props.turns_c * yuhu.cable_current)
-    props.cable_current = Amperes(yuhu.cable_current)
+    props.current_supply = MA(props.turns_c * cable_current_scalar)
+    props.cable_current = Amperes(cable_current_scalar)
 
     props.vol_coil = compute_magnet_volume(props, magnet, radial_build)
     props.tape_length = Kilometers(
         props.turns_sc_tot * magnet.r_centre * 2 * math.pi / 1e3
     )
-    props.max_tape_current = Amperes(yuhu.cable_current / props.turns_scs)
+    props.max_tape_current = Amperes(cable_current_scalar / props.turns_scs)
     props.j_tape = coils.j_tape_ybco
 
     props.cost_sc = M_USD(
