@@ -22,12 +22,14 @@ def cas27_special_materials_costs(blanket: Blanket, cas220101: CAS220101) -> CAS
         FPCPPFb = 0.9
         cas27.C271000 = M_USD(
             (
-                materials.Pb.c
+                materials.Pb.c_raw
+                * materials.Pb.m
                 * FPCPPFb
                 * cas220101.firstwall_vol
                 * materials.FliBe.rho
                 * 1000
-                + materials.Li.c
+                + materials.Li.c_raw
+                * materials.Li.m
                 * f_6Li
                 * cas220101.firstwall_vol
                 * materials.FliBe.rho
