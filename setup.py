@@ -5,7 +5,7 @@ with open("requirements.txt", encoding="utf-8") as f:
 
 setup(
     name="pyfecons",
-    version="0.1.0",
+    version="0.1.1",
     author="Woodruff Scientific LTD",
     author_email="info@woodruffscientific.com",
     description="Library for PyFECONS costing calculations.",
