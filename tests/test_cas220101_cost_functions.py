@@ -11,7 +11,7 @@ from pyfecons.enums import (
     BlanketStructure,
     BlanketType,
     ConfinementType,
-    ReactorType,
+    FusionMachineType,
 )
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
@@ -45,7 +45,7 @@ def test_mfe_tokamak_cas220101_total_cost():
         bioshield_t=Meters(1),
     )
     result_cost = compute_cas22_reactor_equipment_total_cost(
-        reactor_type=ReactorType.MFE,
+        fusion_machine_type=FusionMachineType.MFE,
         confinement_type=ConfinementType.SPHERICAL_TOKAMAK,
         radial_build=radial_build,
         blanket=blanket,
@@ -83,7 +83,7 @@ def test_mfe_mirror_cas220101_total_cost():
         bioshield_t=Meters(1),
     )
     result_cost = compute_cas22_reactor_equipment_total_cost(
-        ReactorType.MFE, ConfinementType.MAGNETIC_MIRROR, blanket, radial_build
+        FusionMachineType.MFE, ConfinementType.MAGNETIC_MIRROR, blanket, radial_build
     )
     expected_result_cost = (
         1217.12  #! this could become deprecated if cost calculation changes
@@ -118,7 +118,7 @@ def test_mfe_mirror_minimal_cas220101_total_cost():
         bioshield_t=Meters(0),
     )
     result_cost = compute_cas22_reactor_equipment_total_cost(
-        ReactorType.MFE, ConfinementType.MAGNETIC_MIRROR, blanket, radial_build
+        FusionMachineType.MFE, ConfinementType.MAGNETIC_MIRROR, blanket, radial_build
     )
     expected_result_cost = (
         84.315  #! this could become deprecated if cost calculation changes

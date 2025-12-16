@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Dict
 
 from pyfecons.costing.accounting.power_table import PowerTable
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.power_input import PowerInput
 from pyfecons.report.section import ReportSection
@@ -15,7 +15,7 @@ class PowerTableSection(ReportSection):
     def __init__(self, power_table: PowerTable, basic: Basic, power_input: PowerInput):
         super().__init__()
 
-        if basic.reactor_type == ReactorType.MFE:  # MFE
+        if basic.fusion_machine_type == FusionMachineType.MFE:  # MFE
             self.template_file = "powerTableMFEDT.tex"
             self.replacements = {
                 # Ordered by occurrence in template
@@ -54,7 +54,7 @@ class PowerTableSection(ReportSection):
                 ),  # Recirculating power fraction
                 "PNET": power_table.p_net,  # Output Power (Net Electric Power)
             }
-        elif basic.reactor_type == ReactorType.IFE:
+        elif basic.fusion_machine_type == FusionMachineType.IFE:
             self.template_file = "powerTableIFEDT.tex"
             self.replacements = {
                 "PNRL": round(basic.p_nrl, 1),
@@ -88,4 +88,4 @@ class PowerTableSection(ReportSection):
                 "PIN": round(power_input.p_input, 1),
             }
         else:
-            raise ValueError(f"Unknown reactor type: {basic.reactor_type}")
+            raise ValueError(f"Unknown reactor type: {basic.fusion_machine_type}")

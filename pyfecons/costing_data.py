@@ -46,14 +46,14 @@ from pyfecons.costing.categories.cas700000 import CAS70
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
 from pyfecons.costing.categories.lcoe import LCOE
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.serializable import SerializableToJSON
 from pyfecons.units import M_USD
 
 
 @dataclass
 class CostingData(SerializableToJSON):
-    reactor_type: ReactorType
+    fusion_machine_type: FusionMachineType
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
@@ -104,9 +104,9 @@ class CostingData(SerializableToJSON):
             self.cas220108 = self._initialize_cas220108()
 
     def _initialize_cas220103(self) -> Union[CAS220103Coils, CAS220103Lasers]:
-        if self.reactor_type == ReactorType.MFE:
+        if self.fusion_machine_type == FusionMachineType.MFE:
             return CAS220103Coils()
-        elif self.reactor_type == ReactorType.IFE:
+        elif self.fusion_machine_type == FusionMachineType.IFE:
             return CAS220103Lasers()
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
@@ -114,17 +114,17 @@ class CostingData(SerializableToJSON):
     def _initialize_cas220104(
         self,
     ) -> Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers]:
-        if self.reactor_type == ReactorType.MFE:
+        if self.fusion_machine_type == FusionMachineType.MFE:
             return CAS220104SupplementaryHeating()
-        elif self.reactor_type == ReactorType.IFE:
+        elif self.fusion_machine_type == FusionMachineType.IFE:
             return CAS220104IgnitionLasers()
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")
 
     def _initialize_cas220108(self) -> Union[CAS220108Divertor, CAS220108TargetFactory]:
-        if self.reactor_type == ReactorType.MFE:
+        if self.fusion_machine_type == FusionMachineType.MFE:
             return CAS220108Divertor()
-        elif self.reactor_type == ReactorType.IFE:
+        elif self.fusion_machine_type == FusionMachineType.IFE:
             return CAS220108TargetFactory()
         else:  # mif
             raise ValueError("Invalid reactor type. 'mif' is not yet supported.")

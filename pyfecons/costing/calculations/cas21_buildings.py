@@ -1,7 +1,7 @@
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.costing.categories.cas210000 import CAS21
-from pyfecons.enums import FuelType, ReactorType
+from pyfecons.enums import FuelType, FusionMachineType
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
@@ -17,7 +17,9 @@ def cas_21_building_costs(basic: Basic, power_table: PowerTable) -> CAS21:
     # [2] Waganer, L.M., 2013. ARIES cost account documentation. San Diego: University of California.
 
     # 0.5 from lack of Tritium - we don't need so much structure in the containment building.
-    fuel_scaling_factor = get_fuel_scaling_factor(basic.reactor_type, basic.fuel_type)
+    fuel_scaling_factor = get_fuel_scaling_factor(
+        basic.fusion_machine_type, basic.fuel_type
+    )
 
     # 21.01.00,,Site improvements and facs. Source: [1] cost account 13, page 134
     cas21.C210100 = M_USD(k_to_m_usd(268) * p_et * fuel_scaling_factor)
@@ -101,8 +103,10 @@ def cas_21_building_costs(basic: Basic, power_table: PowerTable) -> CAS21:
     return cas21
 
 
-def get_fuel_scaling_factor(reactor_type: ReactorType, fuel_type: FuelType):
-    if reactor_type != ReactorType.MFE:
+def get_fuel_scaling_factor(
+    fusion_machine_type: FusionMachineType, fuel_type: FuelType
+):
+    if fusion_machine_type != FusionMachineType.MFE:
         return 1.0
     if fuel_type == FuelType.DT:
         return 1.0

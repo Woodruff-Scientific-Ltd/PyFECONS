@@ -13,7 +13,7 @@ import sys
 import pytest
 
 from pyfecons import RunCosting
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.units import M_USD
 
 sys.path.append(os.path.dirname(__file__))
@@ -31,7 +31,7 @@ def test_mfe_tokamak_integration():
 
     # Basic validation
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.MFE
+    assert costing_data.fusion_machine_type == FusionMachineType.MFE
 
     # Check that all major cost categories exist and are positive
     assert hasattr(costing_data, "cas10") and costing_data.cas10.C100000 > 0
@@ -58,7 +58,7 @@ def test_mfe_mirror_integration():
 
     # Basic validation
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.MFE
+    assert costing_data.fusion_machine_type == FusionMachineType.MFE
 
     # Check that all major cost categories exist and are positive
     assert hasattr(costing_data, "cas10") and costing_data.cas10.C100000 > 0
@@ -82,7 +82,7 @@ def test_ife_integration():
 
     # Basic validation
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.IFE
+    assert costing_data.fusion_machine_type == FusionMachineType.IFE
 
     # Check that all major cost categories exist and are positive
     assert hasattr(costing_data, "cas10") and costing_data.cas10.C100000 > 0
@@ -111,7 +111,7 @@ def test_costing_data_structure():
 
     # Test that both have the same major structure
     expected_attributes = [
-        "reactor_type",
+        "fusion_machine_type",
         "power_table",
         "cas10",
         "cas21",
@@ -140,8 +140,8 @@ def test_costing_data_structure():
         assert hasattr(ife_data, attr), f"IFE missing {attr}"
 
     # Test that reactor types are correct
-    assert mfe_data.reactor_type == ReactorType.MFE
-    assert ife_data.reactor_type == ReactorType.IFE
+    assert mfe_data.fusion_machine_type == FusionMachineType.MFE
+    assert ife_data.fusion_machine_type == FusionMachineType.IFE
 
     print("✓ Both MFE and IFE have consistent costing data structure")
 

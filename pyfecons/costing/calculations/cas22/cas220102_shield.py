@@ -1,7 +1,7 @@
 from pyfecons.costing.calculations.conversions import k_to_m_usd
 from pyfecons.costing.categories.cas220101 import CAS220101
 from pyfecons.costing.categories.cas220102 import CAS220102
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.shield import Shield
@@ -15,7 +15,7 @@ def cas_220102_shield_costs(
     basic: Basic, shield: Shield, blanket: Blanket, cas220101: CAS220101
 ) -> CAS220102:
     # Cost Category 22.1.2: Shield
-    reactor_type = basic.reactor_type
+    fusion_machine_type = basic.fusion_machine_type
     cas220102 = CAS220102()
 
     # Retrieve the volume of HTS from the reactor_volumes dictionary
@@ -40,7 +40,7 @@ def cas_220102_shield_costs(
 
     # The cost C_22_1_2 is the same as C_HTS
     # TODO what's the *5 for?
-    c_hts_scaling = 5.0 if reactor_type == ReactorType.IFE else 1.0
+    c_hts_scaling = 5.0 if fusion_machine_type == FusionMachineType.IFE else 1.0
     cas220102.C22010201 = M_USD(round(C_HTS * c_hts_scaling, 1))
     cas220102.C22010202 = k_to_m_usd(
         cas220101.lt_shield_vol * materials.SS316.c_raw * materials.SS316.m

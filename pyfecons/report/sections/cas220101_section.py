@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Dict
 
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.figures import RadialBuildFigure
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
@@ -10,16 +10,19 @@ from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.report.section import ReportSection
 
 
-def get_template_file(reactor_type: ReactorType):
-    if reactor_type == ReactorType.MFE:
+def get_template_file(fusion_machine_type: FusionMachineType):
+    if fusion_machine_type == FusionMachineType.MFE:
         return "CAS220101_MFE_DT.tex"
-    if reactor_type == ReactorType.IFE:
+    if fusion_machine_type == FusionMachineType.IFE:
         return "CAS220101_IFE_DT.tex"
-    raise ValueError(f"Unsupported reactor type {reactor_type}")
+    raise ValueError(f"Unsupported reactor type {fusion_machine_type}")
 
 
 def compute_220101_replacements(
-    reactor_type: ReactorType, blanket: Blanket, IN: RadialBuild, OUT: CAS220101
+    fusion_machine_type: FusionMachineType,
+    blanket: Blanket,
+    IN: RadialBuild,
+    OUT: CAS220101,
 ) -> Dict[str, str]:
     rounding = 2
     return {
@@ -43,7 +46,7 @@ def compute_220101_replacements(
         "TH10": round(IN.lt_shield_t, rounding),
         **(
             {"TH11": round(IN.coil_t, rounding)}
-            if reactor_type == ReactorType.MFE
+            if fusion_machine_type == FusionMachineType.MFE
             else {}
         ),
         "TH12": round(IN.axis_t, rounding),
@@ -61,7 +64,7 @@ def compute_220101_replacements(
         "RAD10I": round(OUT.lt_shield_ir, rounding),
         **(
             {"RAD11I": round(OUT.coil_ir, rounding)}
-            if reactor_type == ReactorType.MFE
+            if fusion_machine_type == FusionMachineType.MFE
             else {}
         ),
         "RAD12I": round(OUT.axis_ir, rounding),
@@ -79,7 +82,7 @@ def compute_220101_replacements(
         "RAD10O": round(OUT.lt_shield_or, rounding),
         **(
             {"RAD11O": round(OUT.coil_or, rounding)}
-            if reactor_type == ReactorType.MFE
+            if fusion_machine_type == FusionMachineType.MFE
             else {}
         ),
         "RAD12O": round(OUT.axis_or, rounding),
@@ -97,7 +100,7 @@ def compute_220101_replacements(
         "VOL10": round(OUT.lt_shield_vol, rounding),
         **(
             {"VOL11": round(OUT.coil_vol, rounding)}
-            if reactor_type == ReactorType.MFE
+            if fusion_machine_type == FusionMachineType.MFE
             else {}
         ),
         "VOL12": round(OUT.axis_vol, rounding),
@@ -116,10 +119,10 @@ class CAS220101Section(ReportSection):
         blanket: Blanket,
     ):
         super().__init__()
-        self.template_file = get_template_file(basic.reactor_type)
+        self.template_file = get_template_file(basic.fusion_machine_type)
         self.figures["Figures/radial_build.pdf"] = RadialBuildFigure.create(
-            basic.reactor_type, radial_build
+            basic.fusion_machine_type, radial_build
         )
         self.replacements = compute_220101_replacements(
-            basic.reactor_type, blanket, radial_build, cas220101
+            basic.fusion_machine_type, blanket, radial_build, cas220101
         )

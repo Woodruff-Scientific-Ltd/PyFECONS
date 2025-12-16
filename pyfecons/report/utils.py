@@ -48,7 +48,7 @@ def get_report_sections(
     inputs: AllInputs, costing_data: CostingData
 ) -> List[ReportSection]:
     """Get all report sections with their templates and replacements."""
-    reactor_type = inputs.basic.reactor_type
+    fusion_machine_type = inputs.basic.fusion_machine_type
     return [
         PowerTableSection(costing_data.power_table, inputs.basic, inputs.power_input),
         CAS10Section(costing_data.cas10, inputs.basic),
@@ -56,26 +56,28 @@ def get_report_sections(
         CAS220101Section(
             costing_data.cas220101, inputs.basic, inputs.radial_build, inputs.blanket
         ),
-        CAS220102Section(costing_data.cas220102, reactor_type),
+        CAS220102Section(costing_data.cas220102, fusion_machine_type),
         CAS220103Section(
             costing_data.cas220103,
-            reactor_type,
+            fusion_machine_type,
             inputs.power_input,
             inputs.lasers,
             inputs.coils,
         ),
         CAS220104Section(
             costing_data.cas220104,
-            reactor_type,
+            fusion_machine_type,
             inputs.supplementary_heating,
             costing_data.cas220103,
         ),
         CAS220105Section(
             costing_data.cas220105, inputs.basic, inputs.primary_structure
         ),
-        CAS220106Section(costing_data.cas220106, reactor_type, inputs.vacuum_system),
+        CAS220106Section(
+            costing_data.cas220106, fusion_machine_type, inputs.vacuum_system
+        ),
         CAS220107Section(costing_data.cas220107, inputs.basic, inputs.power_supplies),
-        CAS220108Section(costing_data.cas220108, reactor_type),
+        CAS220108Section(costing_data.cas220108, fusion_machine_type),
         CAS220109Section(costing_data.cas220109),
         CAS220111Section(costing_data.cas220111, inputs.basic, inputs.installation),
         CAS220119Section(costing_data.cas220119),
@@ -99,7 +101,7 @@ def get_report_sections(
         CAS50Section(costing_data.cas50),
         CAS60Section(costing_data.cas60),
         CAS70Section(costing_data.cas70),
-        CAS80Section(costing_data.cas80, reactor_type, inputs.blanket),
+        CAS80Section(costing_data.cas80, fusion_machine_type, inputs.blanket),
         CAS90Section(costing_data.cas90),
         LcoeSection(
             costing_data.lcoe,
@@ -109,7 +111,7 @@ def get_report_sections(
             costing_data.cas80,
             costing_data.cas90,
         ),
-        CostTableSection(costing_data, reactor_type),
+        CostTableSection(costing_data, fusion_machine_type),
         NpvSection(costing_data.npv, inputs.npv_input),
     ]
 

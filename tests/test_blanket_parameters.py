@@ -21,7 +21,7 @@ from pyfecons.enums import (
     BlanketSecondaryCoolant,
     BlanketStructure,
     BlanketType,
-    ReactorType,
+    FusionMachineType,
 )
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.inputs.blanket import Blanket
@@ -38,19 +38,19 @@ def load_mfe_inputs() -> AllInputs:
     return _load_inputs_from_customer_dir("mfe")
 
 
-def _load_inputs_from_customer_dir(reactor_type: str) -> AllInputs:
+def _load_inputs_from_customer_dir(fusion_machine_type: str) -> AllInputs:
     """
     Load inputs from a customer DefineInputs.py file.
 
     Args:
-        reactor_type: Either "ife" or "mfe"
+        fusion_machine_type: Either "ife" or "mfe"
 
     Returns:
         AllInputs object from the DefineInputs.Generate() function
     """
     # Add the customer directory to the path
     customer_dir = os.path.join(
-        os.path.dirname(__file__), "..", "customers", "CATF", reactor_type
+        os.path.dirname(__file__), "..", "customers", "CATF", fusion_machine_type
     )
     customer_dir = os.path.abspath(customer_dir)
     sys.path.insert(0, customer_dir)
@@ -146,7 +146,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -173,7 +173,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -200,7 +200,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -227,7 +227,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -254,7 +254,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -281,7 +281,7 @@ class TestIFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.IFE
+        assert costing_data.fusion_machine_type == FusionMachineType.IFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -324,7 +324,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -351,7 +351,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -378,7 +378,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -405,7 +405,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -432,7 +432,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 
@@ -459,7 +459,7 @@ class TestMFEBlanketParameters:
         costing_data = RunCosting(test_inputs)
 
         assert costing_data is not None
-        assert costing_data.reactor_type == ReactorType.MFE
+        assert costing_data.fusion_machine_type == FusionMachineType.MFE
         assert isinstance(costing_data.cas22.C220100, M_USD)
         assert costing_data.cas22.C220100 > M_USD(0)
 

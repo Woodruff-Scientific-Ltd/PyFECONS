@@ -11,7 +11,7 @@ import sys
 import pytest
 
 from pyfecons import RunCosting
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.units import M_USD
 
 
@@ -50,7 +50,7 @@ def test_mfe_tokamak_full_costing():
 
     # Validate that costing_data was created successfully
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.MFE
+    assert costing_data.fusion_machine_type == FusionMachineType.MFE
 
     # Check that major cost categories were calculated
     assert hasattr(costing_data, "cas10")  # Pre-construction costs
@@ -83,7 +83,7 @@ def test_mfe_mirror_full_costing():
 
     # Validate that costing_data was created successfully
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.MFE
+    assert costing_data.fusion_machine_type == FusionMachineType.MFE
 
     # Check that major cost categories were calculated
     assert hasattr(costing_data, "cas10")

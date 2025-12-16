@@ -4,7 +4,7 @@ from typing import Union
 from pyfecons.costing.categories.cas220103_coils import CAS220103Coils
 from pyfecons.costing.categories.cas220103_lasers import CAS220103Lasers
 from pyfecons.costing.ife.cas22.nif_costs import get_nif_scaled_costs
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.lasers import Lasers
 from pyfecons.inputs.power_input import PowerInput
 from pyfecons.report.section import ReportSection
@@ -16,23 +16,23 @@ class CAS220103Section(ReportSection):
     def __init__(
         self,
         cas220103: Union[CAS220103Coils, CAS220103Lasers],
-        reactor_type: ReactorType,
+        fusion_machine_type: FusionMachineType,
         power_input: PowerInput = None,
         lasers: Lasers = None,
         coils=None,
     ):
         super().__init__()
 
-        if reactor_type == ReactorType.MFE:
+        if fusion_machine_type == FusionMachineType.MFE:
             if coils is None:
                 raise ValueError(
                     "coils parameter must be provided for MFE reactor type"
                 )
             self._init_mfe_coils(cas220103, coils)
-        elif reactor_type == ReactorType.IFE:
+        elif fusion_machine_type == FusionMachineType.IFE:
             self._init_ife_lasers(cas220103, power_input, lasers)
         else:
-            raise ValueError(f"Unsupported reactor type: {reactor_type}")
+            raise ValueError(f"Unsupported reactor type: {fusion_machine_type}")
 
     def _init_mfe_coils(self, cas220103: CAS220103Coils, coils):
         """Initialize for MFE coils case."""
