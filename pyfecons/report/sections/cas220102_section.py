@@ -2,13 +2,13 @@ from dataclasses import dataclass
 from typing import Any, Dict
 
 from pyfecons.costing.categories.cas220102 import CAS220102
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.report.section import ReportSection
 
 
 @dataclass
 class CAS220102Section(ReportSection):
-    def __init__(self, cas220102: CAS220102, reactor_type: ReactorType):
+    def __init__(self, cas220102: CAS220102, fusion_machine_type: FusionMachineType):
         super().__init__()
         self.template_file = "CAS220102.tex"
 
@@ -24,7 +24,7 @@ class CAS220102Section(ReportSection):
         }
 
         # Add reactor-specific volume replacements
-        if reactor_type == ReactorType.IFE:
+        if fusion_machine_type == FusionMachineType.IFE:
             self.replacements.update(
                 {
                     "VOL10": str(
@@ -35,7 +35,7 @@ class CAS220102Section(ReportSection):
                     ),  # For IFE, use V_HTS for VOL14
                 }
             )
-        elif reactor_type == ReactorType.MFE:
+        elif fusion_machine_type == FusionMachineType.MFE:
             self.replacements.update(
                 {
                     "VOL11": str(

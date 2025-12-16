@@ -28,7 +28,7 @@ def Generate() -> AllInputs:
     return AllInputs(
         customer_info=CustomerInfo(name="Clean Air Task Force"),
         basic=Basic(
-            reactor_type=ReactorType.IFE,
+            fusion_machine_type=FusionMachineType.IFE,
             confinement_type=ConfinementType.LASER_DRIVEN_DIRECT_DRIVE,
             energy_conversion=EnergyConversion.DIRECT,
             fuel_type=FuelType.PB11,

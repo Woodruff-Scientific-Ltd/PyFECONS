@@ -1,35 +1,35 @@
 from enum import Enum
 
 
-class ReactorType(Enum):
+class FusionMachineType(Enum):
     IFE = "IFE"
     MFE = "MFE"
     MIF = "MIF"
 
 
 class ConfinementType(Enum):
-    # STELLARATOR = (ReactorType.MFE, 'STELLARATOR')
-    SPHERICAL_TOKAMAK = (ReactorType.MFE, "SPHERICAL_TOKAMAK")
-    # CONVENTIONAL_TOKAMAK = (ReactorType.MFE, 'CONVENTIONAL_TOKAMAK')
-    # COMPACT_TOKAMAK = (ReactorType.MFE, 'COMPACT_TOKAMAK')
-    MAGNETIC_MIRROR = (ReactorType.MFE, "MAGNETIC_MIRROR")
-    # SPHEROMAK = (ReactorType.MFE, 'SPHEROMAK')
-    # RFP = (ReactorType.MFE, 'RFP')
-    # FRC = (ReactorType.MFE, 'FRC')
-    # MAG_LIF = (ReactorType.MIF, 'MAG_LIF')
-    # Z_PINCH = (ReactorType.MIF, 'Z_PINCH')
-    # PLASMA_JET = (ReactorType.MIF, 'PLASMA_JET')
-    # MIRROR_MIF = (ReactorType.MIF, 'MIRROR_MIF')
-    # THETA_PINCH = (ReactorType.MIF, 'THETA_PINCH')
-    LASER_DRIVEN_DIRECT_DRIVE = (ReactorType.IFE, "LASER_DRIVEN_DIRECT_DRIVE")
-    # LASER_DRIVEN_INDIRECT_DRIVE = (ReactorType.IFE, 'LASER_DRIVEN_INDIRECT_DRIVE')
-    # FAST_IGNITION = (ReactorType.IFE, 'FAST_IGNITION')
-    # IEC = (ReactorType.IFE, 'IEC')
-    # PROJECTILE = (ReactorType.IFE, 'PROJECTILE')
+    # STELLARATOR = (FusionMachineType.MFE, 'STELLARATOR')
+    SPHERICAL_TOKAMAK = (FusionMachineType.MFE, "SPHERICAL_TOKAMAK")
+    # CONVENTIONAL_TOKAMAK = (FusionMachineType.MFE, 'CONVENTIONAL_TOKAMAK')
+    # COMPACT_TOKAMAK = (FusionMachineType.MFE, 'COMPACT_TOKAMAK')
+    MAGNETIC_MIRROR = (FusionMachineType.MFE, "MAGNETIC_MIRROR")
+    # SPHEROMAK = (FusionMachineType.MFE, 'SPHEROMAK')
+    # RFP = (FusionMachineType.MFE, 'RFP')
+    # FRC = (FusionMachineType.MFE, 'FRC')
+    # MAG_LIF = (FusionMachineType.MIF, 'MAG_LIF')
+    # Z_PINCH = (FusionMachineType.MIF, 'Z_PINCH')
+    # PLASMA_JET = (FusionMachineType.MIF, 'PLASMA_JET')
+    # MIRROR_MIF = (FusionMachineType.MIF, 'MIRROR_MIF')
+    # THETA_PINCH = (FusionMachineType.MIF, 'THETA_PINCH')
+    LASER_DRIVEN_DIRECT_DRIVE = (FusionMachineType.IFE, "LASER_DRIVEN_DIRECT_DRIVE")
+    # LASER_DRIVEN_INDIRECT_DRIVE = (FusionMachineType.IFE, 'LASER_DRIVEN_INDIRECT_DRIVE')
+    # FAST_IGNITION = (FusionMachineType.IFE, 'FAST_IGNITION')
+    # IEC = (FusionMachineType.IFE, 'IEC')
+    # PROJECTILE = (FusionMachineType.IFE, 'PROJECTILE')
 
-    def __new__(cls, reactor_type: ReactorType, value):
+    def __new__(cls, fusion_machine_type: FusionMachineType, value):
         obj = object.__new__(cls)
-        obj.reactor_type = reactor_type
+        obj.fusion_machine_type = fusion_machine_type
         obj._value_ = value
         return obj
 

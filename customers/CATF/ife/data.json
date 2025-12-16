@@ -1,5 +1,5 @@
 {
-    "reactor_type": "IFE",
+    "fusion_machine_type": "IFE",
     "power_table": {
         "p_alpha": 2500.0,
         "p_neutron": 0.0,

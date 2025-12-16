@@ -1,12 +1,17 @@
 from dataclasses import dataclass
 
-from pyfecons.enums import ConfinementType, EnergyConversion, FuelType, ReactorType
+from pyfecons.enums import (
+    ConfinementType,
+    EnergyConversion,
+    FuelType,
+    FusionMachineType,
+)
 from pyfecons.units import HZ, MW, Count, Percent, Years
 
 
 @dataclass
 class Basic:
-    reactor_type: ReactorType = None
+    fusion_machine_type: FusionMachineType = None
     confinement_type: ConfinementType = None
     energy_conversion: EnergyConversion = None
     fuel_type: FuelType = FuelType.DT

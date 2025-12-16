@@ -1,5 +1,5 @@
 {
-    "reactor_type": "MFE",
+    "fusion_machine_type": "MFE",
     "power_table": {
         "p_alpha": 520.5915813424347,
         "p_neutron": 2079.4084186575656,

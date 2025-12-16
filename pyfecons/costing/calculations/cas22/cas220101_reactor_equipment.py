@@ -10,7 +10,12 @@ from pyfecons.costing.calculations.volume import (
     calc_volume_sphere,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
-from pyfecons.enums import BlanketFirstWall, BlanketType, ConfinementType, ReactorType
+from pyfecons.enums import (
+    BlanketFirstWall,
+    BlanketType,
+    ConfinementType,
+    FusionMachineType,
+)
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.blanket import Blanket
 from pyfecons.inputs.radial_build import RadialBuild
@@ -24,27 +29,27 @@ def cas_220101_reactor_equipment_costs(
     basic: Basic, radial_build: RadialBuild, blanket: Blanket
 ) -> CAS220101:
     # Cost Category 22.1.1: Reactor Equipment
-    reactor_type = basic.reactor_type
+    fusion_machine_type = basic.fusion_machine_type
     confinement_type = basic.confinement_type
 
     cas220101 = compute_reactor_equipment_costs(
-        reactor_type, confinement_type, blanket, radial_build
+        fusion_machine_type, confinement_type, blanket, radial_build
     )
     return cas220101
 
 
 def compute_reactor_equipment_costs(
-    reactor_type: ReactorType,
+    fusion_machine_type: FusionMachineType,
     confinement_type: ConfinementType,
     blanket: Blanket,
     radial_build: RadialBuild,
 ) -> CAS220101:
     cas220101 = CAS220101()
-    cas220101 = compute_inner_radii(reactor_type, radial_build, cas220101)
-    cas220101 = compute_outer_radii(reactor_type, radial_build, cas220101)
+    cas220101 = compute_inner_radii(fusion_machine_type, radial_build, cas220101)
+    cas220101 = compute_outer_radii(fusion_machine_type, radial_build, cas220101)
 
     if (
-        reactor_type == ReactorType.MFE
+        fusion_machine_type == FusionMachineType.MFE
         and confinement_type == ConfinementType.SPHERICAL_TOKAMAK
     ):
         cas220101 = compute_volume_mfe_tokamak(radial_build, cas220101)
@@ -61,14 +66,14 @@ def compute_reactor_equipment_costs(
             radial_build.bioshield_t + cas220101.bioshield_ir,
         )
     elif (
-        reactor_type == ReactorType.MFE
+        fusion_machine_type == FusionMachineType.MFE
         and confinement_type == ConfinementType.MAGNETIC_MIRROR
     ):
         cas220101 = compute_volume_mfe_mirror(radial_build, cas220101)
-    elif reactor_type == ReactorType.IFE:
+    elif fusion_machine_type == FusionMachineType.IFE:
         cas220101 = compute_volume_ife(cas220101)
     else:
-        raise ValueError(f"Unsupported reactor type {reactor_type}")
+        raise ValueError(f"Unsupported reactor type {fusion_machine_type}")
 
     cas220101.C22010101 = compute_first_wall_costs(blanket, cas220101)
     cas220101.C22010102 = compute_blanket_costs(blanket, cas220101)
@@ -251,7 +256,7 @@ def compute_volume_ife(OUT: CAS220101) -> CAS220101:
 
 
 def compute_inner_radii(
-    reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101
+    fusion_machine_type: FusionMachineType, IN: RadialBuild, OUT: CAS220101
 ) -> CAS220101:
     # Inner radii
     OUT.axis_ir = IN.axis_t
@@ -266,7 +271,7 @@ def compute_inner_radii(
     OUT.vessel_ir = OUT.gap1_ir + IN.gap1_t
     OUT.lt_shield_ir = OUT.vessel_ir + IN.vessel_t  # Adjusted lt_shield inner radius
 
-    if reactor_type == ReactorType.MFE:
+    if fusion_machine_type == FusionMachineType.MFE:
         OUT.coil_ir = OUT.lt_shield_ir + IN.lt_shield_t  # Updated coil_ir calculation
         OUT.gap2_ir = OUT.coil_ir + IN.coil_t
     else:
@@ -279,7 +284,7 @@ def compute_inner_radii(
 
 
 def compute_outer_radii(
-    reactor_type: ReactorType, IN: RadialBuild, OUT: CAS220101
+    fusion_machine_type: FusionMachineType, IN: RadialBuild, OUT: CAS220101
 ) -> CAS220101:
     # Outer radii
     OUT.axis_or = OUT.axis_ir + IN.axis_t
@@ -296,7 +301,7 @@ def compute_outer_radii(
         OUT.lt_shield_ir + IN.lt_shield_t
     )  # Adjusted lt_shield outer radius
 
-    if reactor_type == ReactorType.MFE:
+    if fusion_machine_type == FusionMachineType.MFE:
         OUT.coil_or = OUT.coil_ir + IN.coil_t  # Updated coil_or calculation
 
     OUT.gap2_or = (

@@ -10,7 +10,7 @@ from pyfecons.costing.categories.cas220104_supplementary_heating import (
     CAS220104SupplementaryHeating,
 )
 from pyfecons.costing.ife.cas22.nif_costs import NifCost
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.helpers import safe_round
 from pyfecons.inputs.supplementary_heating import SupplementaryHeating
 from pyfecons.report.section import ReportSection
@@ -21,19 +21,19 @@ class CAS220104Section(ReportSection):
     def __init__(
         self,
         cas220104: Union[CAS220104SupplementaryHeating, CAS220104IgnitionLasers],
-        reactor_type: ReactorType,
+        fusion_machine_type: FusionMachineType,
         heating: SupplementaryHeating = None,
         cas220103: Union[CAS220103Coils, CAS220103Lasers] = None,
     ):
         super().__init__()
 
         self.cas220104 = cas220104
-        if reactor_type == ReactorType.MFE:
+        if fusion_machine_type == FusionMachineType.MFE:
             self._init_mfe_supplementary_heating(cas220104, heating)
-        elif reactor_type == ReactorType.IFE:
+        elif fusion_machine_type == FusionMachineType.IFE:
             self._init_ife_ignition_lasers(cas220104, cas220103)
         else:
-            raise ValueError(f"Unsupported reactor type: {reactor_type}")
+            raise ValueError(f"Unsupported reactor type: {fusion_machine_type}")
 
     def _init_mfe_supplementary_heating(
         self, cas220104: CAS220104SupplementaryHeating, heating: SupplementaryHeating

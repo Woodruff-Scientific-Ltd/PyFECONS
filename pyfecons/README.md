@@ -36,7 +36,7 @@ The main machinery here is as follows:
 
 ```
 def GenerateCostingData(inputs: AllInputs) -> CostingData
-    data = Data(reactor_type=ReactorType.IFE)
+    data = Data(fusion_machine_type=FusionMachineType.IFE)
     template_providers = [
         power_balance(inputs, data),
         cas_10(inputs, data),

@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from pyfecons.costing.categories.cas220107 import CAS220107
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.figures.cap_derate import CapDerateFigure
 from pyfecons.inputs.basic import Basic
 from pyfecons.inputs.power_supplies import PowerSupplies
@@ -17,12 +17,12 @@ class CAS220107Section(ReportSection):
         power_supplies: PowerSupplies,
     ):
         super().__init__()
-        if basic.reactor_type == ReactorType.MFE:
+        if basic.fusion_machine_type == FusionMachineType.MFE:
             self._init_mfe(cas220107, basic)
-        elif basic.reactor_type == ReactorType.IFE:
+        elif basic.fusion_machine_type == FusionMachineType.IFE:
             self._init_ife(cas220107, basic, power_supplies)
         else:
-            raise ValueError(f"Unsupported reactor type: {basic.reactor_type}")
+            raise ValueError(f"Unsupported reactor type: {basic.fusion_machine_type}")
 
     def _init_mfe(self, cas220107: CAS220107, basic: Basic):
         self.template_file = "CAS220107_MFE.tex"

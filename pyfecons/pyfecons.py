@@ -16,11 +16,11 @@ from pyfecons.report.mfe_report import CreateReportContent as CreateMfeReport
 
 
 def RunCosting(inputs: AllInputs) -> CostingData:
-    if inputs.basic.reactor_type == ReactorType.MFE:
+    if inputs.basic.fusion_machine_type == FusionMachineType.MFE:
         return GenerateMfeCostingData(inputs)
-    elif inputs.basic.reactor_type == ReactorType.IFE:
+    elif inputs.basic.fusion_machine_type == FusionMachineType.IFE:
         return GenerateIfeCostingData(inputs)
-    elif inputs.basic.reactor_type == ReactorType.MIF:
+    elif inputs.basic.fusion_machine_type == FusionMachineType.MIF:
         raise NotImplementedError()
     raise ValueError("Invalid basic reactor type")
 
@@ -37,11 +37,11 @@ def CreateReportContent(
     :param overrides: Overriding substitutions for latex template hydration.
     :return: Report contents including files, hydrated templates, and latex packages.
     """
-    if costing_data.reactor_type == ReactorType.MFE:
+    if costing_data.fusion_machine_type == FusionMachineType.MFE:
         return CreateMfeReport(inputs, costing_data, overrides)
-    elif costing_data.reactor_type == ReactorType.IFE:
+    elif costing_data.fusion_machine_type == FusionMachineType.IFE:
         return CreateIfeReport(inputs, costing_data, overrides)
-    elif costing_data.reactor_type == ReactorType.MIF:
+    elif costing_data.fusion_machine_type == FusionMachineType.MIF:
         raise NotImplementedError()
     raise ValueError("Invalid reactor type")
 

@@ -3,7 +3,7 @@
         "name": "Clean Air Task Force"
     },
     "basic": {
-        "reactor_type": "IFE",
+        "fusion_machine_type": "IFE",
         "confinement_type": "LASER_DRIVEN_DIRECT_DRIVE",
         "energy_conversion": "DIRECT",
         "fuel_type": "PB11",

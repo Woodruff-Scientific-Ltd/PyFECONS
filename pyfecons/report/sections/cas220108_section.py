@@ -3,7 +3,7 @@ from typing import Union
 
 from pyfecons.costing.categories.cas220108_divertor import CAS220108Divertor
 from pyfecons.costing.categories.cas220108_target_factory import CAS220108TargetFactory
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.figures import TargetPfrFigure
 from pyfecons.report.section import ReportSection
 
@@ -13,15 +13,15 @@ class CAS220108Section(ReportSection):
     def __init__(
         self,
         cas220108: Union[CAS220108Divertor, CAS220108TargetFactory],
-        reactor_type: ReactorType,
+        fusion_machine_type: FusionMachineType,
     ):
         super().__init__()
-        if reactor_type == ReactorType.MFE:
+        if fusion_machine_type == FusionMachineType.MFE:
             self._init_mfe(cas220108)
-        elif reactor_type == ReactorType.IFE:
+        elif fusion_machine_type == FusionMachineType.IFE:
             self._init_ife(cas220108)
         else:
-            raise ValueError(f"Unsupported reactor type: {reactor_type}")
+            raise ValueError(f"Unsupported reactor type: {fusion_machine_type}")
 
     def _init_mfe(self, cas220108: CAS220108Divertor):
         self.template_file = "CAS220108_MFE.tex"

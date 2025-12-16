@@ -3,7 +3,7 @@ from io import BytesIO
 import matplotlib
 import matplotlib.pyplot as plt
 
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.radial_build import RadialBuild
 
 matplotlib.use("Agg")
@@ -13,12 +13,14 @@ class RadialBuildFigure:
     """Class for generating radial build plots."""
 
     @staticmethod
-    def create(reactor_type: ReactorType, radial_build: RadialBuild) -> bytes:
+    def create(
+        fusion_machine_type: FusionMachineType, radial_build: RadialBuild
+    ) -> bytes:
         """
         Plot the radial build of the reactor.
 
         Args:
-            reactor_type: The type of reactor (MFE or IFE)
+            fusion_machine_type: The type of reactor (MFE or IFE)
             radial_build: The radial build data
 
         Returns:
@@ -39,7 +41,7 @@ class RadialBuildFigure:
             "Vessel",
             "LT Shield",
             *(
-                ["Coil"] if reactor_type == ReactorType.MFE else []
+                ["Coil"] if fusion_machine_type == FusionMachineType.MFE else []
             ),  # include only for MFE
             "Gap",
             "Bioshield",
@@ -58,7 +60,7 @@ class RadialBuildFigure:
             IN.vessel_t,
             IN.lt_shield_t,
             *(
-                [IN.coil_t] if reactor_type == ReactorType.MFE else []
+                [IN.coil_t] if fusion_machine_type == FusionMachineType.MFE else []
             ),  # include only for MFE
             IN.gap2_t,
             IN.bioshield_t,
@@ -77,7 +79,7 @@ class RadialBuildFigure:
             "orange",
             "slateblue",
             *(
-                ["green"] if reactor_type == ReactorType.MFE else []
+                ["green"] if fusion_machine_type == FusionMachineType.MFE else []
             ),  # include only for MFE
             "lightgray",
             "darkorange",

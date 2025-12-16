@@ -3,7 +3,7 @@
         "name": "Clean Air Task Force"
     },
     "basic": {
-        "reactor_type": "MFE",
+        "fusion_machine_type": "MFE",
         "confinement_type": "SPHERICAL_TOKAMAK",
         "energy_conversion": "DIRECT",
         "fuel_type": "DT",

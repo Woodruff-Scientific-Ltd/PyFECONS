@@ -11,7 +11,7 @@ import sys
 import pytest
 
 from pyfecons import RunCosting
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.units import M_USD
 
 
@@ -50,7 +50,7 @@ def test_ife_direct_drive_full_costing():
 
     # Validate that costing_data was created successfully
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.IFE
+    assert costing_data.fusion_machine_type == FusionMachineType.IFE
 
     # Check that major cost categories were calculated
     assert hasattr(costing_data, "cas10")  # Pre-construction costs
@@ -89,7 +89,7 @@ def test_ife_indirect_drive_full_costing():
 
     # Validate that costing_data was created successfully
     assert costing_data is not None
-    assert costing_data.reactor_type == ReactorType.IFE
+    assert costing_data.fusion_machine_type == FusionMachineType.IFE
 
     # Check that major cost categories were calculated
     assert hasattr(costing_data, "cas10")
@@ -212,7 +212,7 @@ def test_ife_vs_mfe_differences():
     assert ife_data.cas22.C220000 > M_USD(0)
 
     # IFE reactor type should be correct
-    assert ife_data.reactor_type == ReactorType.IFE
+    assert ife_data.fusion_machine_type == FusionMachineType.IFE
 
     print("IFE vs MFE cost structure differences validated")
 

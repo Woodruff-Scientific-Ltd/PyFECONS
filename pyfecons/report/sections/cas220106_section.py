@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from pyfecons.costing.calculations.conversions import to_m_usd
 from pyfecons.costing.categories.cas220106 import CAS220106
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.report.section import ReportSection
 
@@ -12,18 +12,18 @@ class CAS220106Section(ReportSection):
     def __init__(
         self,
         cas220106: CAS220106,
-        reactor_type: ReactorType,
+        fusion_machine_type: FusionMachineType,
         vacuum_system: VacuumSystem,
     ):
         super().__init__()
 
         self.cas220106 = cas220106
-        if reactor_type == ReactorType.MFE:
+        if fusion_machine_type == FusionMachineType.MFE:
             self._init_mfe(cas220106)
-        elif reactor_type == ReactorType.IFE:
+        elif fusion_machine_type == FusionMachineType.IFE:
             self._init_ife(cas220106, vacuum_system)
         else:
-            raise ValueError(f"Unsupported reactor type: {reactor_type}")
+            raise ValueError(f"Unsupported reactor type: {fusion_machine_type}")
 
     def _init_mfe(self, cas220106: CAS220106):
         self.template_file = "CAS220106_MFE.tex"

@@ -89,12 +89,12 @@ from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_co
 from pyfecons.costing.mfe.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.mfe.PowerBalance import power_balance
 from pyfecons.costing_data import CostingData
-from pyfecons.enums import ReactorType
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.all_inputs import AllInputs
 
 
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
-    data = CostingData(reactor_type=ReactorType.MFE)
+    data = CostingData(fusion_machine_type=FusionMachineType.MFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
     data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
