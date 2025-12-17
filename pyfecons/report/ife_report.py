@@ -1,7 +1,7 @@
 from typing import Optional
 
 from pyfecons.costing_data import CostingData
-from pyfecons.file_utils import get_local_included_files_map
+from pyfecons.helpers import get_local_included_files_map
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report import (
     ReportContent,
@@ -18,6 +18,8 @@ DOCUMENT_TEMPLATE = "Costing_ARPA-E_IFE_Modified.tex"
 # list representing latex_path in included_files directory
 LOCAL_INCLUDED_FILES = [
     "additions.bib",
+    "cover_page.tex",
+    "foreword.tex",
     "glossary.tex",
     "IEEEtran.bst",
     "ST-SC.bib",
@@ -26,14 +28,13 @@ LOCAL_INCLUDED_FILES = [
     "Originals/CAS220100_IFE.tex",
     "Originals/method.tex",
     "Originals/powerBalanceIFEDT.tex",
+    "StandardFigures/catf-logo.png",
     "StandardFigures/costcategories.png",
     "StandardFigures/power.eps",
-    "StandardFigures/signature.jpg",
     "StandardFigures/siteplan2023.eps",
     "StandardFigures/statista.png",
     "StandardFigures/steamPbLi-eps-converted-to.pdf",
     "StandardFigures/TIsketch.eps",
-    "StandardFigures/WSLTD_logo.png",
 ]
 
 
