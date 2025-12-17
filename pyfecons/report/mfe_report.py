@@ -28,14 +28,13 @@ LOCAL_INCLUDED_FILES = [
     "Originals/CAS220100_MFE.tex",
     "Originals/method.tex",
     "Originals/powerBalanceMFEDT.tex",
-    "StandardFigures/TIsketch.eps",
-    "StandardFigures/WSLTD_logo.png",
+    "StandardFigures/catf-logo.png",
     "StandardFigures/costcategories.png",
     "StandardFigures/power.eps",
-    "StandardFigures/signature.jpg",
     "StandardFigures/siteplan2023.eps",
     "StandardFigures/statista.png",
     "StandardFigures/steamPbLi-eps-converted-to.pdf",
+    "StandardFigures/TIsketch.eps",
     "StandardFigures/yuhu_cs.pdf",
 ]
 

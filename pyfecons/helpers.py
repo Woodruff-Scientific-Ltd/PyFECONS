@@ -105,6 +105,13 @@ def get_local_included_files_map(
             included_files_path, tex_path, overrides
         )
         file_map[tex_path] = included_file_path
+
+    # Add any customer-only files that aren't in the library's LOCAL_INCLUDED_FILES
+    if overrides is not None:
+        for tex_path, customer_file_path in overrides.included_files.items():
+            if tex_path not in file_map:  # Only add if not already processed
+                file_map[tex_path] = customer_file_path
+
     return file_map
 
 
