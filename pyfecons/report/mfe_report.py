@@ -18,6 +18,8 @@ DOCUMENT_TEMPLATE = "Costing_ARPA-E_MFE_Modified.tex"
 # list representing latex_path in included_files directory
 LOCAL_INCLUDED_FILES = [
     "additions.bib",
+    "cover_page.tex",
+    "foreword.tex",
     "glossary.tex",
     "IEEEtran.bst",
     "ST-SC.bib",
