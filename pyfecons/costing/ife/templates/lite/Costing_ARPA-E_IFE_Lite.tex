@@ -1,0 +1,32 @@
+% Copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/0dec63ab1cce3f9eed46157bcef382d2013ee7f4/IFE/Costing_ARPA-E_IFE_Modified.tex
+
+\documentclass[english,aps]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{alltt}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{hyperref}
+\hypersetup{%
+  colorlinks = true,
+  linkcolor  = black
+}
+\makeatletter
+\usepackage{babel}
+\makeatother
+%\pagestyle{fancy}
+\input{cover_page.tex}
+\input{methodology_summary.tex}
+\input{Modified/powerTableIFEDT.tex}
+\input{Modified/CASstructure.tex}
+\input{Modified/LCOE.tex}
+
+\newpage 
+\section{Bibliography} 
+\bibliographystyle{IEEEtran}
+\bibliography{ST-SC.bib,additions.bib}
+\end{document}

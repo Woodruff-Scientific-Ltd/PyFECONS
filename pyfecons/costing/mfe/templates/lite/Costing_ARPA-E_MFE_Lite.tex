@@ -1,0 +1,34 @@
+\documentclass[english,aps]{article}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{alltt}
+\usepackage[margin=1in]{geometry}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage{comment}
+
+\hypersetup{%
+    colorlinks = true,
+    linkcolor  = black
+}
+\makeatletter
+\usepackage{babel}
+\makeatother
+%\pagestyle{fancy}
+    \input{cover_page.tex}
+    \input{methodology_summary.tex}
+    \input{Modified/powerTableMFEDT.tex}
+    \input{Modified/CASstructure.tex}
+    \input{Modified/LCOE.tex}
+
+    \newpage
+    \section{Bibliography}
+    \bibliographystyle{IEEEtran}
+    \bibliography{ST-SC.bib,additions.bib}
+\end{document}

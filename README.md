@@ -30,8 +30,29 @@ An example run for CATF mfe:
 python3 RunCostingForCustomer.py mfe CATF
 ```
 
-This will use inputs from `customers/CATF/mfe/DefineInputs.py` file, output assets to `customers/CATF/mfe/outputs/`,
-and create a copy of the inputs `input.json` and outputs `data.json`.
+This will use inputs from `customers/CATF/mfe/DefineInputs.py` file, output assets to `customers/CATF/mfe/output/`,
+and create a copy of the inputs `inputs.json`, outputs `data.json`, and report sections `sections.json`.
+
+### Generating Lite Reports
+
+You can generate a simplified "lite" report by adding the `--lite` flag. The lite report includes:
+- Cover page
+- Summary of methodology of fusion costing framework
+- Power Accounting Table (with description)
+- Cost Accounting Structure Table (with description)
+- Levelized Cost of Electricity Table (with description)
+
+To generate a lite report:
+```bash
+python3 RunCostingForCustomer.py REACTOR_TYPE CUSTOMER_FOLDER --lite
+```
+
+Example for CATF mfe lite report:
+```bash
+python3 RunCostingForCustomer.py mfe CATF --lite
+```
+
+Lite reports are saved to `customers/CATF/mfe/output_lite/` (separate from the full report output directory) and generate `report-lite.pdf` and `sections_lite.json`.
 
 ### Customer Custom Templates
 
