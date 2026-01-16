@@ -1,0 +1,34 @@
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/LCOE.tex#L1
+
+\newpage
+
+\section{Levelized Cost of Electricity}
+
+\textbf{Description:} The Levelized Cost of Electricity (LCOE) table presents the key economic metric for evaluating the cost competitiveness of the fusion power plant. LCOE represents the average cost per unit of electricity generated over the plant's lifetime, accounting for all capital, operational, maintenance, and fuel costs. The calculation incorporates annual capital cost charges (based on Total Capital Cost and Fixed Charge Rate), annual operations and maintenance costs, annual fuel costs, and accounts for inflation over the plant lifetime. The LCOE is normalized by the net electric power output, plant availability factor, and annual operating hours (8760 hours/year). This metric enables direct comparison with other electricity generation technologies and is essential for economic viability assessment. The table also shows the individual cost components (capital, O\&M, and fuel) that contribute to the total LCOE.
+
+\subsection{Levelized Cost of Electricity}
+
+ Contributors to LCOE projections are given by: 
+ \begin{equation} 
+ LCOE [\$ MWh] = \frac{(C_{AC} + (C_{OM} + C_{F})(1+y)^Y)}{(8760.P_E.p_a)} 
+ \label{eq:coe}
+\end{equation} 
+where C$_{AC}$ [USD/year] is the annual capital cost charge (entailing the total capital cost of the plant (TCC (USD) multiplied by the Fixed Charge Rate (FCR (/year)), C$_{OM}$ [USD/year] is the annual operations and maintenance cost, C$_{SCR}$ [USD/year] is the annual scheduled component replacement costs, C$_{F}$ [USD/year] is the annual fuel costs, $y$ is the annual fractional increase in fuel costs over the expected lifetime of the plant $Y$ [years], P$_{E}$ [MWe] is the net electric power of the plant, p$_{a}$ is the plant availability (typically 0.6-0.9).  A small charge used to be imposed to build up a fund to cover end-of-life Decontamination and Decommissioning ($DD$), f$_{DD}$ (USD/kWh), but the DD costs are now included in the direct capitalized costs (Cost Category 58), so are omitted here.
+
+\subsection{Levelized Cost of Electricity Table}
+
+\begin{table}[h!] 
+\begin{tabular}{l c c } 
+Net electric power & MW & PNET \\
+Plant availability & \% & PAVAIL \\
+Inflation & \% & yinflation \\
+Lifetime of plant & Years & lifeY \\
+Capital cost, $C_{AC}$ &     M\$/annum    &    C900000      \\ 
+Operations and Maintenance Costs, $C_{OM}$ & M\$/annum  &      C700000 \\ 
+Fuel Costs, $C_{F}$ & M\$/annum  &       C800000 \\ 
+    \end{tabular} 
+    \caption{Variables in the LCOE calculation.}
+    \label{tab:lcoe} 
+\end{table} 
+
+Following equation \ref{eq:coe}, the LCOE is C1000000 \$/MWh or C2000000 c/kWh.

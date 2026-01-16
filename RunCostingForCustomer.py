@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import shutil
@@ -10,13 +11,27 @@ from pyfecons.serializable import PyfeconsEncoder
 # GATHER INPUTS #
 #################
 
-# Check if the correct number of arguments is passed
-if len(sys.argv) != 3:
-    print("Invalid arguments.")
-    print("Usage: python3 RunCosting.py REACTOR_TYPE CUSTOMER_NAME")
-    sys.exit(1)
-reactor_type = sys.argv[1]
-customer_name = sys.argv[2]
+# Parse command line arguments
+parser = argparse.ArgumentParser(
+    description="Run costing calculations and generate report for a customer"
+)
+parser.add_argument(
+    "reactor_type",
+    type=str,
+    choices=["mfe", "ife", "mif"],
+    help="Reactor type: mfe, ife, or mif",
+)
+parser.add_argument("customer_name", type=str, help="Customer name")
+parser.add_argument(
+    "--lite",
+    action="store_true",
+    help="Generate lite report instead of full report",
+)
+
+args = parser.parse_args()
+reactor_type = args.reactor_type
+customer_name = args.customer_name
+generate_lite = args.lite
 
 if reactor_type not in ["mfe", "ife", "mif"]:
     print("Invalid REACTOR_TYPE: should be mfe, ife, or mif")
@@ -82,7 +97,12 @@ with open(f"{customer_folder}/inputs.json", "w", encoding="utf-8") as file:
 # this is also where the frontend would come in with an inputDict and run the main costing code
 
 # Run the initial costing code
-from pyfecons.pyfecons import CreateReportContent, RenderFinalReport, RunCosting
+from pyfecons.pyfecons import (
+    CreateReportContent,
+    CreateReportContentLite,
+    RenderFinalReport,
+    RunCosting,
+)
 
 costing_data = RunCosting(inputs)
 dataDict = costing_data.toDict()
@@ -101,7 +121,12 @@ with open(f"{customer_folder}/data.json", "w", encoding="utf-8") as file:
 overrides = load_customer_overrides(customer_folder)
 
 # fill in the templates and copy them to the customer's folder
-report_content = CreateReportContent(inputs, costing_data, overrides)
+if generate_lite:
+    report_content = CreateReportContentLite(inputs, costing_data, overrides)
+    report_filename = "report-lite"
+else:
+    report_content = CreateReportContent(inputs, costing_data, overrides)
+    report_filename = "report"
 
 # Save report sections to JSON for tracking changes
 sections_dict = {
@@ -112,44 +137,49 @@ sections_dict = {
     }
     for section in report_content.report_sections
 }
-with open(f"{customer_folder}/sections.json", "w", encoding="utf-8") as file:
+sections_filename = "sections_lite.json" if generate_lite else "sections.json"
+with open(f"{customer_folder}/{sections_filename}", "w", encoding="utf-8") as file:
     sectionsJSONstring = json.dumps(sections_dict, indent=4, cls=PyfeconsEncoder)
     file.write(sectionsJSONstring)
 
 # delete the existing contents of the output folder
 # Loop through all the items in the directory
-output_dir = f"{customer_folder}/output"
+output_dir = (
+    f"{customer_folder}/output_lite" if generate_lite else f"{customer_folder}/output"
+)
 os.makedirs(output_dir, exist_ok=True)
-for item_name in os.listdir(output_dir):
-    # Create the full path to the item
-    item_path = os.path.join(output_dir, item_name)
+items = os.listdir(output_dir)
+if items:
+    for item_name in items:
+        # Create the full path to the item
+        item_path = os.path.join(output_dir, item_name)
 
-    # Check if this is a file or directory
-    if os.path.isfile(item_path):
-        # If it's a file, delete it
-        os.remove(item_path)
-    elif os.path.isdir(item_path):
-        # If it's a directory, delete it and all its contents
-        shutil.rmtree(item_path)
-print(f"Existing contents of {output_dir} have been deleted.")
+        # Check if this is a file or directory
+        if os.path.isfile(item_path):
+            # If it's a file, delete it
+            os.remove(item_path)
+        elif os.path.isdir(item_path):
+            # If it's a directory, delete it and all its contents
+            shutil.rmtree(item_path)
+    print(f"Existing contents of {output_dir} have been deleted.")
 
 # a dictionary with keys = name of file, value = contents
 # Write the data to files in the customer's folder
 with open(
-    f"{customer_folder}/output/{report_content.document_template.template_provider.template_file}",
+    f"{output_dir}/{report_content.document_template.template_provider.template_file}",
     "w",
     encoding="utf-8",
 ) as file:
     file.write(report_content.document_template.contents)
 for hydrated_template in report_content.hydrated_templates:
     with open(
-        f"{customer_folder}/output/{hydrated_template.template_provider.template_file}",
+        f"{output_dir}/{hydrated_template.template_provider.template_file}",
         "w",
         encoding="utf-8",
     ) as file:
         file.write(hydrated_template.contents)
 for tex_path, figure_bytes in report_content.figures.items():
-    output_file = f"{customer_folder}/output/{tex_path}"
+    output_file = f"{output_dir}/{tex_path}"
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, "wb") as file:
         file.write(figure_bytes)
@@ -159,7 +189,7 @@ print(f"Costing run completed for {customer_name}. Data saved to {customer_folde
 
 # create final pdf output
 final_report = RenderFinalReport(report_content)
-with open(f"{customer_folder}/output/report.tex", "w", encoding="utf-8") as file:
+with open(f"{output_dir}/{report_filename}.tex", "w", encoding="utf-8") as file:
     file.write(final_report.report_tex)
-with open(f"{customer_folder}/output/report.pdf", "wb") as file:
+with open(f"{output_dir}/{report_filename}.pdf", "wb") as file:
     file.write(final_report.report_pdf)

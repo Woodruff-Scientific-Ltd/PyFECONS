@@ -1,0 +1,57 @@
+% copied from https://github.com/Woodruff-Scientific-Ltd/PyFECONS/blob/884a3f842f0e5027e0c8e20591624d6251cc399f/MFE/Originals/powerTableMFEDT.tex#L1
+%needs packages \usepackage{graphicx}   \usepackage{float}
+\newpage
+\section{Power Accounting Table}
+
+\textbf{Description:} The Power Accounting Table provides a comprehensive breakdown of power flows within the fusion energy system. It tracks power from the fusion reaction through various conversion and recirculation processes to the final net electric power output. The table is organized into three main categories: (1) Output power from the fusion reaction, including fusion power, alpha power, neutron power, and their conversion to thermal and electric power; (2) Recirculating power required to operate the plant systems, including power for magnets, cooling systems, auxiliary systems, and other plant operations; and (3) Final output metrics including scientific Q (fusion power to input power ratio), engineering Q, recirculating power fraction, and net electric power available for the grid. This table is essential for understanding the energy balance and efficiency of the fusion power plant design.
+
+\subsection{Power Accounting Table}
+
+\begin{table}[ht!]								
+\centering								
+\begin{tabular}{|c|p{5cm}|c|c|c|}								
+\hline								
+\textbf{Account}	&	\textbf{Power Account Description}	&	\textbf{Parameter }	&	\textbf{Power}	&	\textbf{Units} \\
+\hline								
+1	&	Output power	&		&		&	\\
+\hline
+1.1	&	Fusion Power	&	$P_{{fusion}}$	&	PNRL	&	MW \\
+1.2	&	Alpha Power	&	$P_{{\alpha}}$	&	PALPHA	&	MW \\
+1.3	&	Neutron Power	&	$P_{{neutrons}}$	&	PNEUTRON	&	MW \\
+1.4	&	Neutron Energy Multiplier	&	$M_N = P_{{TH}}/P_{{fusion}}$	&	MN___	&	\\
+1.5	&	$P_{pump}$ capture efficiency	&	$\eta_{{pump}}$	&	ETAP__	&	\\
+1.6	&	Thermal Power	&	$P_{{TH}}$	&	PTH___	&	MW \\
+1.7	&	Thermal conversion efficiency	&	$\eta_{{TH}}$	&	ETATH	&	\\
+1.8	&	Total (Gross) Electric Power	&	$P_{{ET}}$	&	PET___	&	MW \\
+1.9	&	Lost Power	&	$P_{{Lost}}$	&	PLOSS	&	MW \\
+\hline								
+2	&	Recirculating power	&		&		&	\\
+\hline
+2.1	&	Power into coils 	&	$P_{coils}$ &	PCOILS	&	MW \\
+2.1.1	&	Power into TF coils	&	$P_{tf}$	&	PTF___	&	MW \\
+2.1.2	&	Power into PF coils	&	$P_{pf}$	&	PPF___		&	MW \\
+2.2	&	Coolant Pumping Power Fraction	&	$f_{{pump}}$	&	FPCPPF &	\\
+2.2.1	&	Coolant Pumping Power	&	$P_{{pump}} = f_{{pump}} \cdot P_{{ET}}$	&	PPUMP	&	MW \\
+2.3	&	Subsystem and Control Fraction	&	$f_{{sub}}$	&	FSUB	&	\\
+2.3.1	&	Subsystem and Control Power	&	$P_{{sub}} + P_{{control}} = f_{{sub}} \cdot P_{{ET}}$	&	PSUB	&	MW \\
+2.4	&	Auxiliary systems	&	$P_{{aux}} = P_{{t}} + P_{{h}}$	&	PAUX	&	MW \\
+2.4.1	&	Tritium Systems	&	$P_{{t}}$	&	PTRIT	&	MW \\
+2.4.2	&	Housekeeping power	&	$P_{{h}}$	&	PHOUSE	&	MW \\
+2.5	&	Cryogenic systems	&	$P_{{cool}} = P_{{TF}_c} + P_{{PF}_c}$	&	PCOOL	&	MW \\
+2.5.1	&	TF coils cooling	&	$P_{{TF}_c}$	&	PTFCOOL	&	MW \\
+2.5.2	&	PF coils cooling	&	$P_{{PF}_c}$	&	PPFCOOL	&	MW \\
+2.5.3	&	Cryo vacuum pumping	&	$P_{{p}_c}$	&	PCRYO	&	MW \\
+2.6.	& Input power 	& $P_{IN}$	&	PINPUT	&	MW \\
+2.6.1	& Input power wall plug efficiency  &	$\eta_{IN}$ & ETAPIN	&	MW \\
+\hline								
+3	&	Output power	&		&		&	\\
+\hline
+3.1	&	Scientific Q	&	$Q = P_{{fusion}}/P_{{IN}}$	&	QSCI	&	\\
+3.2	&	Engineering Q	&	$Q_{{E}}$	&	QENG	&	\\
+3.3	&	Recirculating power fraction	&	$\epsilon = 1/Q_{{E}}$	&	RECFRAC	&	\\
+3.4	&	Net Electric Power	&	$P_{{E}} = (1 - \epsilon) \cdot P_{{ET}}$	&	PNET	&	MW \\
+\hline								
+\end{tabular}	
+\caption{Power balance for a steady-state magnetic fusion energy system.}
+\label{tab:powerbalance}
+\end{table}

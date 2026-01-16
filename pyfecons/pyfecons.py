@@ -12,6 +12,7 @@ from pyfecons.file_utils import base_name_without_extension
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report import FinalReport, ReportContent, ReportOverrides
 from pyfecons.report.ife_report import CreateReportContent as CreateIfeReport
+from pyfecons.report.lite import CreateIfeReportLite, CreateMfeReportLite
 from pyfecons.report.mfe_report import CreateReportContent as CreateMfeReport
 
 
@@ -41,6 +42,29 @@ def CreateReportContent(
         return CreateMfeReport(inputs, costing_data, overrides)
     elif costing_data.fusion_machine_type == FusionMachineType.IFE:
         return CreateIfeReport(inputs, costing_data, overrides)
+    elif costing_data.fusion_machine_type == FusionMachineType.MIF:
+        raise NotImplementedError()
+    raise ValueError("Invalid reactor type")
+
+
+def CreateReportContentLite(
+    inputs: AllInputs,
+    costing_data: CostingData,
+    overrides: Optional[ReportOverrides] = None,
+) -> ReportContent:
+    """
+    Create lite report content with given cost calculation output data.
+    Includes only: Cover page, Methodology summary, Power Accounting Table,
+    Cost Accounting Structure, and Levelized Cost of Electricity.
+    :param inputs: The input parameters used for cost calculations.
+    :param costing_data: The output data and templates providers for cost calculations.
+    :param overrides: Overriding substitutions for latex template hydration.
+    :return: Report contents including files, hydrated templates, and latex packages.
+    """
+    if costing_data.fusion_machine_type == FusionMachineType.MFE:
+        return CreateMfeReportLite(inputs, costing_data, overrides)
+    elif costing_data.fusion_machine_type == FusionMachineType.IFE:
+        return CreateIfeReportLite(inputs, costing_data, overrides)
     elif costing_data.fusion_machine_type == FusionMachineType.MIF:
         raise NotImplementedError()
     raise ValueError("Invalid reactor type")
@@ -97,7 +121,8 @@ def RenderFinalReport(
         subprocess.run(
             ["pdflatex", "-interaction=nonstopmode", document_tex], check=True, **args
         )
-        subprocess.run(["bibtex", document_base_name], check=True, **args)
+        # Run bibtex but don't fail if it errors (e.g., no citations or missing .bib files)
+        subprocess.run(["bibtex", document_base_name], check=False, **args)
         subprocess.run(
             ["pdflatex", "-interaction=nonstopmode", document_tex], check=True, **args
         )
