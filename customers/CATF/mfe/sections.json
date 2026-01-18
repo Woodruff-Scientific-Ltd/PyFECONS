@@ -701,7 +701,11 @@
             "M.2206pp": "-",
             "M.28pp": "-"
         },
-        "figures": []
+        "figures": [
+            "Figures/tcc_pie_chart.png",
+            "Figures/direct_costs_pie_chart.png",
+            "Figures/reactor_equip_pie_chart.png"
+        ]
     },
     "NpvSection": {
         "template_file": "NPV.tex",
