@@ -4,6 +4,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from pyfecons.costing_data import CostingData
+from pyfecons.enums import FusionMachineType
 
 matplotlib.use("Agg")
 
@@ -43,7 +44,7 @@ class CostAccountingPieCharts:
         # Chart 3: % of Reactor Plant Equipment
         figures["reactor_equip_pie_chart"] = (
             CostAccountingPieCharts._create_reactor_equip_chart(
-                costing_data, reactor_equip
+                costing_data, reactor_equip, costing_data.fusion_machine_type
             )
         )
 
@@ -126,21 +127,38 @@ class CostAccountingPieCharts:
 
     @staticmethod
     def _create_reactor_equip_chart(
-        costing_data: CostingData, reactor_equip: float
+        costing_data: CostingData,
+        reactor_equip: float,
+        fusion_machine_type: FusionMachineType,
     ) -> bytes:
         """Create pie chart for % of Reactor Plant Equipment breakdown."""
-        labels = [
-            "First Wall & Blanket",
-            "High Temp. Shield",
-            "Magnets",
-            "Supplemental Heating",
-            "Primary Structure",
-            "Vacuum System",
-            "Power Supplies",
-            "Divertor",
-            "Direct Energy Conversion",
-            "Assembly and Installation",
-        ]
+        # Set labels based on fusion machine type
+        if fusion_machine_type == FusionMachineType.IFE:
+            labels = [
+                "First Wall & Blanket",
+                "High Temp. Shield",
+                "Implosion Laser",
+                "Ignition Laser",
+                "Primary Structure",
+                "Vacuum System",
+                "Power Supplies",
+                "Target Factory",
+                "Direct Energy Conversion",
+                "Assembly and Installation",
+            ]
+        else:  # MFE
+            labels = [
+                "First Wall & Blanket",
+                "High Temp. Shield",
+                "Magnets",
+                "Supplemental Heating",
+                "Primary Structure",
+                "Vacuum System",
+                "Power Supplies",
+                "Divertor",
+                "Direct Energy Conversion",
+                "Assembly and Installation",
+            ]
         values = [
             costing_data.cas220101.C220101,
             costing_data.cas220102.C220102,
