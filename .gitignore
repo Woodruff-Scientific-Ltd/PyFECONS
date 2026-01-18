@@ -16,3 +16,5 @@ customers/**
 # Do not ignore CATF/
 !customers/CATF/
 .Rproj.user
+
+temp/
