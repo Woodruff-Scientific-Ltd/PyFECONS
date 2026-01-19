@@ -16,10 +16,10 @@ parser = argparse.ArgumentParser(
     description="Run costing calculations and generate report for a customer"
 )
 parser.add_argument(
-    "reactor_type",
+    "fusion_machine_type",
     type=str,
     choices=["mfe", "ife", "mif"],
-    help="Reactor type: mfe, ife, or mif",
+    help="Fusion machine type: mfe, ife, or mif",
 )
 parser.add_argument("customer_name", type=str, help="Customer name")
 parser.add_argument(
@@ -34,22 +34,22 @@ parser.add_argument(
 )
 
 args = parser.parse_args()
-reactor_type = args.reactor_type
+fusion_machine_type = args.fusion_machine_type
 customer_name = args.customer_name
 generate_lite = args.lite
 enable_safety = args.safety
 
-if reactor_type not in ["mfe", "ife", "mif"]:
-    print("Invalid REACTOR_TYPE: should be mfe, ife, or mif")
+if fusion_machine_type not in ["mfe", "ife", "mif"]:
+    print("Invalid FUSION_MACHINE_TYPE: should be mfe, ife, or mif")
     sys.exit(1)
 
-if reactor_type == "mif":
-    print("REACTOR_TYPE mif not yet implemented...")
+if fusion_machine_type == "mif":
+    print("FUSION_MACHINE_TYPE mif not yet implemented...")
     sys.exit(1)
 
 
 # Check if the customer folder exists
-customer_folder = f"customers/{customer_name}/{reactor_type}"
+customer_folder = f"customers/{customer_name}/{fusion_machine_type}"
 os.makedirs(customer_folder, exist_ok=True)
 
 # Check if DefineInputs.py exists within the customer folder
@@ -134,10 +134,10 @@ overrides = load_customer_overrides(customer_folder)
 
 
 def get_report_filename(
-    reactor_type: str, generate_lite: bool, enable_safety: bool
+    fusion_machine_type: str, generate_lite: bool, enable_safety: bool
 ) -> str:
-    """Get the report filename based on reactor type, lite and safety flags."""
-    prefix = f"{reactor_type}-"
+    """Get the report filename based on fusion machine type, lite and safety flags."""
+    prefix = f"{fusion_machine_type}-"
     if generate_lite:
         return (
             f"{prefix}report-safety-lite" if enable_safety else f"{prefix}report-lite"
@@ -151,7 +151,7 @@ if generate_lite:
     report_content = CreateReportContentLite(inputs, costing_data, overrides)
 else:
     report_content = CreateReportContent(inputs, costing_data, overrides)
-report_filename = get_report_filename(reactor_type, generate_lite, enable_safety)
+report_filename = get_report_filename(fusion_machine_type, generate_lite, enable_safety)
 
 # Save report sections to JSON for tracking changes
 sections_dict = {
