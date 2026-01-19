@@ -133,12 +133,17 @@ with open(f"{customer_folder}/{data_filename}", "w", encoding="utf-8") as file:
 overrides = load_customer_overrides(customer_folder)
 
 
-def get_report_filename(generate_lite: bool, enable_safety: bool) -> str:
-    """Get the report filename based on lite and safety flags."""
+def get_report_filename(
+    reactor_type: str, generate_lite: bool, enable_safety: bool
+) -> str:
+    """Get the report filename based on reactor type, lite and safety flags."""
+    prefix = f"{reactor_type}-"
     if generate_lite:
-        return "report-safety-lite" if enable_safety else "report-lite"
+        return (
+            f"{prefix}report-safety-lite" if enable_safety else f"{prefix}report-lite"
+        )
     else:
-        return "report-safety" if enable_safety else "report"
+        return f"{prefix}report-safety" if enable_safety else f"{prefix}report"
 
 
 # fill in the templates and copy them to the customer's folder
@@ -146,7 +151,7 @@ if generate_lite:
     report_content = CreateReportContentLite(inputs, costing_data, overrides)
 else:
     report_content = CreateReportContent(inputs, costing_data, overrides)
-report_filename = get_report_filename(generate_lite, enable_safety)
+report_filename = get_report_filename(reactor_type, generate_lite, enable_safety)
 
 # Save report sections to JSON for tracking changes
 sections_dict = {
