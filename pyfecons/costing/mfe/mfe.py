@@ -88,6 +88,9 @@ from pyfecons.costing.mfe.cas22.cas220107_power_supplies import (
 from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_costs
 from pyfecons.costing.mfe.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.mfe.PowerBalance import power_balance
+from pyfecons.costing.safety.disruption_mitigation import (
+    cas_220120_disruption_mitigation_costs,
+)
 from pyfecons.costing_data import CostingData
 from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.all_inputs import AllInputs
@@ -133,6 +136,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220119 = cas_220119_scheduled_replacement_costs(
         inputs.primary_structure, data.cas2201_total_cost()
     )
+    data.cas220120 = cas_220120_disruption_mitigation_costs(inputs.basic)
     data.cas2202 = cas_2202_main_and_secondary_coolant_costs(
         inputs.basic, data.power_table
     )

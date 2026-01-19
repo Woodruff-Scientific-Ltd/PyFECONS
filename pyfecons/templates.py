@@ -42,10 +42,16 @@ def load_document_template(
     templates_path: str,
     document_template: str,
     overrides: Optional[ReportOverrides] = None,
+    replacements: Optional[dict[str, str]] = None,
 ) -> HydratedTemplate:
+    template_content = get_template_contents(
+        templates_path, document_template, overrides
+    )
+    if replacements:
+        template_content = replace_values(template_content, replacements)
     return HydratedTemplate(
         ReportSection(template_file=document_template),
-        get_template_contents(templates_path, document_template, overrides),
+        template_content,
     )
 
 

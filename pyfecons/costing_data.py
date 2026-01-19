@@ -25,6 +25,7 @@ from pyfecons.costing.categories.cas220108_target_factory import CAS220108Target
 from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.costing.categories.cas220119 import CAS220119
+from pyfecons.costing.categories.cas220120 import CAS220120
 from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.costing.categories.cas220400 import CAS2204
@@ -71,6 +72,7 @@ class CostingData(SerializableToJSON):
     cas220109: CAS220109 = field(default_factory=CAS220109)
     cas220111: CAS220111 = field(default_factory=CAS220111)
     cas220119: CAS220119 = field(default_factory=CAS220119)
+    cas220120: CAS220120 = field(default_factory=CAS220120)
     cas2202: CAS2202 = field(default_factory=CAS2202)
     cas2203: CAS2203 = field(default_factory=CAS2203)
     cas2204: CAS2204 = field(default_factory=CAS2204)
@@ -143,6 +145,8 @@ class CostingData(SerializableToJSON):
             + self.cas220111.C220111
             # This needs to be zero for CAS220119 calculation to run correctly
             + (0 if self.cas220119.C220119 is None else self.cas220119.C220119)
+            # Safety and hazard mitigation costs (only if enabled)
+            + (0 if self.cas220120.C220120 is None else self.cas220120.C220120)
         )
 
     def cas2200_total_cost(self) -> M_USD:
@@ -189,3 +193,25 @@ class CostingData(SerializableToJSON):
             + self.cas50.C500000
             + self.cas60.C600000
         )
+
+    def toDict(self):
+        """Override toDict to exclude cas220120 when safety costs are disabled."""
+        from pyfecons.serializable import SerializableToJSON
+
+        inputsDict = {}
+        for attr_name, attr_value in self.__dict__.items():
+            if not attr_name.startswith("_"):
+                # Exclude cas220120 if safety costs are disabled (cost is 0 or None)
+                if attr_name == "cas220120":
+                    if (
+                        self.cas220120.C220120 is not None
+                        and self.cas220120.C220120 != 0
+                    ):
+                        inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                            attr_value
+                        )
+                else:
+                    inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                        attr_value
+                    )
+        return inputsDict

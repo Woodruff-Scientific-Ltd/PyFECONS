@@ -1,0 +1,893 @@
+{
+    "fusion_machine_type": "MFE",
+    "power_table": {
+        "p_alpha": 520.5915813424347,
+        "p_neutron": 2079.4084186575656,
+        "p_cool": 13.7,
+        "p_aux": 14.0,
+        "p_coils": 2.0,
+        "p_th": 2400.480100113766,
+        "p_the": 1104.2208460523325,
+        "p_dee": 442.50284414106943,
+        "p_et": 1546.723690193402,
+        "p_loss": 853.7564099203643,
+        "p_pump": 66.25325076313995,
+        "p_sub": 33.12662538156997,
+        "q_sci": 52.0,
+        "q_eng": 6.743448186011732,
+        "rec_frac": 0.14829208624666967,
+        "p_net": 1317.3568073274748,
+        "gain_e": null
+    },
+    "cas10": {
+        "C110000": 17.621203250174933,
+        "C120000": 10.0,
+        "C130000": 210.0,
+        "C140000": 5.0,
+        "C150000": 5.0,
+        "C160000": 2.0,
+        "C170000": 1.0,
+        "C190000": 0.0,
+        "C100000": 250.62120325017494
+    },
+    "cas21": {
+        "C210100": 414.52194897183176,
+        "C210200": 288.92798532812753,
+        "C210300": 83.5230792704437,
+        "C210400": 58.466155489310594,
+        "C210500": 16.704615854088743,
+        "C210600": 8.352307927044372,
+        "C210700": 144.46399266406377,
+        "C210800": 28.923733006616615,
+        "C210900": 0.4640171070580206,
+        "C211000": 1.7013960592127424,
+        "C211100": 1.3920513211740617,
+        "C211200": 1.2373789521547216,
+        "C211300": 6.80558423685097,
+        "C211400": 2.474757904309443,
+        "C211500": 3.7121368564641646,
+        "C211600": 1.3920513211740617,
+        "C211700": 41.76153963522185,
+        "C211900": 0.0,
+        "C210000": 1104.8247319051472
+    },
+    "cas22": {
+        "C220100": 22009.420693373122,
+        "C220000": 22465.689148592242
+    },
+    "cas220101": {
+        "axis_ir": 3.0,
+        "plasma_ir": 3.0,
+        "vacuum_ir": 4.1,
+        "firstwall_ir": 4.199999999999999,
+        "blanket1_ir": 4.3999999999999995,
+        "reflector_ir": 5.199999999999999,
+        "ht_shield_ir": 5.3999999999999995,
+        "structure_ir": 5.6,
+        "gap1_ir": 5.8,
+        "vessel_ir": 6.3,
+        "lt_shield_ir": 6.5,
+        "coil_ir": 6.8,
+        "gap2_ir": 7.05,
+        "bioshield_ir": 7.55,
+        "axis_or": 6.0,
+        "plasma_or": 4.1,
+        "vacuum_or": 4.199999999999999,
+        "firstwall_or": 4.3999999999999995,
+        "blanket1_or": 5.199999999999999,
+        "reflector_or": 5.3999999999999995,
+        "ht_shield_or": 5.6,
+        "structure_or": 5.8,
+        "gap1_or": 6.3,
+        "vessel_or": 6.5,
+        "lt_shield_or": 6.8,
+        "coil_or": 7.05,
+        "gap2_or": 7.55,
+        "bioshield_or": 8.55,
+        "axis_vol": 0.0,
+        "plasma_vol": 214.95998385572625,
+        "vacuum_vol": 40.86016222050978,
+        "firstwall_vol": 92.37949719419618,
+        "blanket1_vol": 511.6402921524721,
+        "reflector_vol": 163.4406488820398,
+        "ht_shield_vol": 177.65287921960874,
+        "structure_vol": 191.86510955717722,
+        "gap1_vol": 541.8412816198054,
+        "vessel_vol": 241.60791573866823,
+        "lt_shield_vol": 389.0598054909424,
+        "coil_vol": 485.6585585666046,
+        "gap2_vol": 68.80087911361645,
+        "bioshield_vol": 151.73892516838708,
+        "C22010101": 2948.0607042097854,
+        "C22010102": 6828.681091235186,
+        "C220101": 9776.74179544497
+    },
+    "cas220102": {
+        "C22010201": 76.8,
+        "C22010202": 1.5562392219637695,
+        "C22010203": 0.6069557006735483,
+        "C22010204": 0.060695570067354834,
+        "C220102": 79.02389049270467,
+        "V_HTS": 177.7
+    },
+    "cas220103": {
+        "magnet_properties": [
+            {
+                "magnet": {
+                    "name": "TF",
+                    "type": {
+                        "value": "TF",
+                        "display_name": "Toroidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 12,
+                    "r_centre": 0.18,
+                    "z_centre": 0.0,
+                    "dr": 0.25,
+                    "dz": 0.35,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 5,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 0.2968805057642354,
+                "cs_area": 0.0875,
+                "turns_c": 367.6470588235294,
+                "cable_current": 9174.9,
+                "current_supply": 3373124.9999999995,
+                "turns_sc_tot": 43245.192307692305,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 48.909160244492625,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 0.19074572495352124,
+                "cost_cu": 0.007416250193489003,
+                "cost_ss": 0.003013782454265636,
+                "cost_i": 0.0,
+                "coil_mass": 1322.9422795302546,
+                "cooling_cost": 3.3156786902360635,
+                "tot_mat_cost": 0.2011757576012759,
+                "magnet_cost": 0.6035272728038277,
+                "magnet_struct_cost": 3.6174423266379776,
+                "magnet_total_cost_individual": 4.220969599441805,
+                "magnet_total_cost": 50.65163519330166,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "CS",
+                    "type": {
+                        "value": "CS",
+                        "display_name": "Central Solonoid"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 1,
+                    "r_centre": 0.18,
+                    "z_centre": 0.0,
+                    "dr": 0.2,
+                    "dz": 6.3,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 10,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 1.42502642766833,
+                "cs_area": 1.26,
+                "turns_c": 5294.117647058823,
+                "cable_current": 9174.9,
+                "current_supply": 48573000.0,
+                "turns_sc_tot": 622730.7692307692,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 704.2919075206938,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 2.7467384393307057,
+                "cost_cu": 0.03559800092874721,
+                "cost_ss": 0.014466155780475054,
+                "cost_i": 0.0,
+                "coil_mass": 6351.673322997644,
+                "cooling_cost": 1.1698644973823837,
+                "tot_mat_cost": 2.796802596039928,
+                "magnet_cost": 8.390407788119784,
+                "magnet_struct_cost": 5.365068391442276,
+                "magnet_total_cost_individual": 13.75547617956206,
+                "magnet_total_cost": 13.75547617956206,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF1",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "COPPER",
+                        "display_name": "Copper"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 0.67,
+                    "z_centre": 3.73,
+                    "dr": 0.3,
+                    "dz": 0.6,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 0.7577521480458582,
+                "cs_area": 0.18,
+                "turns_c": 0.0,
+                "cable_current": 0.0,
+                "current_supply": 1322314.0495867769,
+                "turns_sc_tot": 66115.70247933884,
+                "turns_scs": 66115.70247933884,
+                "tape_length": 278.32953096266596,
+                "turns_i": 0.0,
+                "j_tape": 7.346189164370983,
+                "cable_w": 0.0,
+                "cable_h": 0.0,
+                "no_p": null,
+                "vol_i": 0.0,
+                "max_tape_current": 20.0,
+                "cost_sc": 0.0,
+                "cost_cu": 0.06165829228649149,
+                "cost_ss": 0.0,
+                "cost_i": 0.0,
+                "coil_mass": 5986.24196956228,
+                "cooling_cost": 4.908785774184292,
+                "tot_mat_cost": 0.06165829228649149,
+                "magnet_cost": 0.12331658457298297,
+                "magnet_struct_cost": 4.970444066470783,
+                "magnet_total_cost_individual": 5.093760651043766,
+                "magnet_total_cost": 10.187521302087532,
+                "cu_wire_current": 20.0
+            },
+            {
+                "magnet": {
+                    "name": "PF2",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 0.9,
+                    "z_centre": 4.64,
+                    "dr": 0.3,
+                    "dz": 0.6,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 1.017876019763093,
+                "cs_area": 0.18,
+                "turns_c": 756.3025210084033,
+                "cable_current": 9174.9,
+                "current_supply": 6939000.0,
+                "turns_sc_tot": 88961.53846153845,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 503.06564822906705,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 1.9619560280933614,
+                "cost_cu": 0.025427143520533723,
+                "cost_ss": 0.01033296841462504,
+                "cost_i": 0.0,
+                "coil_mass": 4536.909516426889,
+                "cooling_cost": 4.213104949892104,
+                "tot_mat_cost": 1.9977161400285202,
+                "magnet_cost": 5.993148420085561,
+                "magnet_struct_cost": 7.209679159934884,
+                "magnet_total_cost_individual": 13.202827580020445,
+                "magnet_total_cost": 26.40565516004089,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF3",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 1.28,
+                    "z_centre": 5.55,
+                    "dr": 0.5,
+                    "dz": 0.6,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 2.412743157956961,
+                "cs_area": 0.3,
+                "turns_c": 1260.5042016806722,
+                "cable_current": 9174.9,
+                "current_supply": 11564999.999999998,
+                "turns_sc_tot": 148269.23076923075,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 1192.4519069133444,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 4.650562436962043,
+                "cost_cu": 0.060271747604228085,
+                "cost_ss": 0.024492962168000097,
+                "cost_i": 0.0,
+                "coil_mass": 10754.155890789665,
+                "cooling_cost": 4.839235918077137,
+                "tot_mat_cost": 4.735327146734272,
+                "magnet_cost": 14.205981440202816,
+                "magnet_struct_cost": 11.942226638178546,
+                "magnet_total_cost_individual": 26.148208078381362,
+                "magnet_total_cost": 52.296416156762724,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF4",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 2.72,
+                    "z_centre": 7.24,
+                    "dr": 0.75,
+                    "dz": 0.37,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 4.742548269859152,
+                "cs_area": 0.27749999999999997,
+                "turns_c": 1165.9663865546217,
+                "cable_current": 9174.9,
+                "current_supply": 10697624.999999998,
+                "turns_sc_tot": 137149.03846153844,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 2343.913279526542,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 9.141261790153512,
+                "cost_cu": 0.11847165388456085,
+                "cost_ss": 0.04814397876147519,
+                "cost_i": 0.0,
+                "coil_mass": 21138.637672833436,
+                "cooling_cost": 5.486878447227788,
+                "tot_mat_cost": 9.307877422799548,
+                "magnet_cost": 27.92363226839864,
+                "magnet_struct_cost": 19.44869458142711,
+                "magnet_total_cost_individual": 47.372326849825754,
+                "magnet_total_cost": 94.74465369965151,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF5",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 5.3,
+                    "z_centre": 7.24,
+                    "dr": 1.8,
+                    "dz": 0.37,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 22.178387497282504,
+                "cs_area": 0.666,
+                "turns_c": 2798.3193277310925,
+                "cable_current": 9174.9,
+                "current_supply": 25674300.0,
+                "turns_sc_tot": 329157.6923076923,
+                "turns_scs": 117.62692307692308,
+                "tape_length": 10961.241513080007,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 78.0,
+                "cost_sc": 42.748841901012035,
+                "cost_cu": 0.5540292049307404,
+                "cost_ss": 0.22514390067866336,
+                "cost_i": 0.0,
+                "coil_mass": 98854.21735236811,
+                "cooling_cost": 8.072857163466189,
+                "tot_mat_cost": 43.528015006621445,
+                "magnet_cost": 130.58404501986433,
+                "magnet_struct_cost": 73.36487967339835,
+                "magnet_total_cost_individual": 203.94892469326268,
+                "magnet_total_cost": 407.89784938652537,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF6",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_PANCAKE",
+                        "display_name": "HTS Pancake"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 9.34,
+                    "z_centre": 5.0,
+                    "dr": 1.0,
+                    "dz": 1.0,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": false,
+                    "auto_cicc_b": null,
+                    "auto_cicc_r": null
+                },
+                "vol_coil": 58.68495076905734,
+                "cs_area": 1.0,
+                "turns_c": 0.0,
+                "cable_current": 150000000.0,
+                "current_supply": 150000000.0,
+                "turns_sc_tot": 1923076.923076923,
+                "turns_scs": 1923076.923076923,
+                "tape_length": 112855.6745558795,
+                "turns_i": 0.0,
+                "j_tape": 150,
+                "cable_w": 0.0,
+                "cable_h": 0.0,
+                "no_p": 106837.60683760683,
+                "vol_i": 0.0,
+                "max_tape_current": 78.0,
+                "cost_sc": 440.13713076793005,
+                "cost_cu": 0.0,
+                "cost_ss": 0.0,
+                "cost_i": 0.0,
+                "coil_mass": 372.6494373835141,
+                "cooling_cost": 42.07166670479426,
+                "tot_mat_cost": 440.13713076793005,
+                "magnet_cost": 880.2742615358601,
+                "magnet_struct_cost": 482.2087974727243,
+                "magnet_total_cost_individual": 1362.4830590085844,
+                "magnet_total_cost": 2724.966118017169,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF7",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 9.34,
+                    "z_centre": 3.6,
+                    "dr": 1.0,
+                    "dz": 1.0,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": true,
+                    "auto_cicc_b": 5.0,
+                    "auto_cicc_r": 5.0
+                },
+                "vol_coil": 80.08704639092629,
+                "cs_area": 1.3646947870177575,
+                "turns_c": 5734.011710158645,
+                "cable_current": 6995.627628,
+                "current_supply": 40113010.738861345,
+                "turns_sc_tot": 5641.936311609388,
+                "turns_scs": 0.9839422374415225,
+                "tape_length": 331.09675468895387,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 7109.7950284055805,
+                "cost_sc": 117.7015030204373,
+                "cost_cu": 2.0006216702027095,
+                "cost_ss": 0.8130036514374883,
+                "cost_i": 0.0,
+                "coil_mass": 356836.9371808952,
+                "cooling_cost": 42.07166670479426,
+                "tot_mat_cost": 120.51512834207749,
+                "magnet_cost": 361.54538502623245,
+                "magnet_struct_cost": 222.8443592179105,
+                "magnet_total_cost_individual": 584.389744244143,
+                "magnet_total_cost": 1168.779488488286,
+                "cu_wire_current": null
+            },
+            {
+                "magnet": {
+                    "name": "PF8",
+                    "type": {
+                        "value": "PF",
+                        "display_name": "Poloidal Field"
+                    },
+                    "material_type": {
+                        "value": "HTS_CICC",
+                        "display_name": "HTS CICC"
+                    },
+                    "coil_count": 2,
+                    "r_centre": 9.34,
+                    "z_centre": 2.2,
+                    "dr": 1.0,
+                    "dz": 1.0,
+                    "frac_in": 0.0,
+                    "coil_temp": 20,
+                    "mfr_factor": 2,
+                    "auto_cicc": true,
+                    "auto_cicc_b": 5.0,
+                    "auto_cicc_r": 5.0
+                },
+                "vol_coil": 80.08704639092629,
+                "cs_area": 1.3646947870177575,
+                "turns_c": 5734.011710158645,
+                "cable_current": 6995.627628,
+                "current_supply": 40113010.738861345,
+                "turns_sc_tot": 5641.936311609388,
+                "turns_scs": 0.9839422374415225,
+                "tape_length": 331.09675468895387,
+                "turns_i": null,
+                "j_tape": 150,
+                "cable_w": 0.014,
+                "cable_h": 0.017,
+                "no_p": null,
+                "vol_i": null,
+                "max_tape_current": 7109.7950284055805,
+                "cost_sc": 117.7015030204373,
+                "cost_cu": 2.0006216702027095,
+                "cost_ss": 0.8130036514374883,
+                "cost_i": 0.0,
+                "coil_mass": 356836.9371808952,
+                "cooling_cost": 42.07166670479426,
+                "tot_mat_cost": 120.51512834207749,
+                "magnet_cost": 361.54538502623245,
+                "magnet_struct_cost": 222.8443592179105,
+                "magnet_total_cost_individual": 584.389744244143,
+                "magnet_total_cost": 1168.779488488286,
+                "cu_wire_current": null
+            }
+        ],
+        "no_pf_coils": 16,
+        "no_pf_pairs": 8,
+        "total_struct_cost": null,
+        "C22010301": 50.65163519330166,
+        "C22010302": 13.75547617956206,
+        "C22010303": 5654.057190698809,
+        "C22010304": 285.92321510358363,
+        "C22010305": 1053.8159507460352,
+        "C22010306": 158.22140555484876,
+        "C220103": 7216.4248734761395
+    },
+    "cas220104": {
+        "C22010401": 353.21,
+        "C22010402": 0.0,
+        "C220104": 353.21
+    },
+    "cas220105": {
+        "C22010501": 205.73575683321957,
+        "C22010502": 296.47151366643914,
+        "C220105": 502.2072704996587
+    },
+    "cas220106": {
+        "C22010601": 0.9445720106339277,
+        "C22010602": 769.1970009824796,
+        "C22010603": 6.6,
+        "C22010604": 0.342,
+        "C220106": 777.0835729931135,
+        "mass_struct": 715584.8565408543,
+        "material_volume": null,
+        "ves_vol": 691.5410241295556,
+        "ves_mat_cost": null,
+        "vessel_costs": {
+            "spool_assembly": {
+                "name": "Spool assembly",
+                "total_mass": 52721.33311078022,
+                "material_cost": 15133.099399278424,
+                "fabrication_cost": 800556.2658279375,
+                "total_cost": 815689.3652272159
+            },
+            "removable_doors": {
+                "name": "Removable doors",
+                "total_mass": 143319.49675000686,
+                "material_cost": 460685.5439072031,
+                "fabrication_cost": 3344188.41467012,
+                "total_cost": 3804873.9585773232
+            },
+            "door_frames": {
+                "name": "Doorframes",
+                "total_mass": 36372.42225212167,
+                "material_cost": 191030.12236581036,
+                "fabrication_cost": 1466027.80617861,
+                "total_cost": 1657057.9285444205
+            },
+            "port_enclosures": {
+                "name": "Port enclosures",
+                "total_mass": 483171.6044279456,
+                "material_cost": 1082621.716717893,
+                "fabrication_cost": 7666330.186995352,
+                "total_cost": 8748951.903713245
+            },
+            "total": {
+                "name": "Total",
+                "total_mass": 715584.8565408543,
+                "material_cost": 1749470.482390185,
+                "fabrication_cost": 13277102.67367202,
+                "total_cost": 715584.8565408543
+            },
+            "contingency": {
+                "name": "Contingency (20%)",
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 143116.97130817088
+            },
+            "prime_contractor_fee": {
+                "name": "Prime contractor fee (12%)",
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 85870.18278490251
+            },
+            "total_subsystem_cost": {
+                "name": "Total subsystem cost",
+                "total_mass": 0,
+                "material_cost": 0,
+                "fabrication_cost": 0,
+                "total_cost": 944572.0106339277
+            }
+        }
+    },
+    "cas220107": {
+        "C22010701": 2.0,
+        "C22010702": 1001.0298192402563,
+        "C220107": 1003.0298192402563
+    },
+    "cas220108": {
+        "C220108": 199.06940610513388,
+        "divertor_maj_rad": 3.8,
+        "divertor_min_rad": 1.1999999999999993,
+        "divertor_thickness_z": 0.5,
+        "divertor_complexity_factor": 3.0,
+        "divertor_vol_frac": 0.2,
+        "divertor_thickness_r": 2.3999999999999986,
+        "divertor_material": {
+            "name": "Tungsten",
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "divertor_vol": 11.460530000295561,
+        "divertor_mass": 221188.22900570434,
+        "divertor_mat_cost": 22118822.900570434,
+        "divertor_cost": 199069406.1051339
+    },
+    "cas220109": {
+        "C220109": 0.0,
+        "costs": {
+            "expandertank": 16.0,
+            "expandercoilandneutrontrapcoil": 33.0,
+            "convertoegatevalve": 0.1,
+            "neutrontrapshielding": 1.0,
+            "vacuumsystem": 16.0,
+            "gridsystem": 27.0,
+            "heatcollectionsystem": 6.0,
+            "electricaleqpmt": 13.0,
+            "costperunit": 112.0,
+            "totaldeunitcost": 447.0,
+            "engineering15percent": 67.0,
+            "contingency15percent": 0.0
+        },
+        "scaled_costs": {
+            "expandertank": 5.656854249492379,
+            "expandercoilandneutrontrapcoil": 11.66726188957803,
+            "convertoegatevalve": 0.03535533905932737,
+            "neutrontrapshielding": 0.3535533905932737,
+            "vacuumsystem": 5.656854249492379,
+            "gridsystem": 9.545941546018389,
+            "heatcollectionsystem": 2.121320343559642,
+            "electricaleqpmt": 4.596194077712558,
+            "costperunit": 39.597979746446654,
+            "totaldeunitcost": 158.03836559519334,
+            "engineering15percent": 23.688077169749338,
+            "contingency15percent": 0.0
+        }
+    },
+    "cas220111": {
+        "C220111": 89.75999999999998
+    },
+    "cas220119": {
+        "C220119": 1999.655062825197
+    },
+    "cas220120": {
+        "C220120": 13.215002295953582
+    },
+    "cas2202": {
+        "C220201": 218.68123001636081,
+        "C220202": 32.995337097914735,
+        "C220203": 0.0,
+        "C220200": 251.67656711427554
+    },
+    "cas2203": {
+        "C220300": 5.967593528882823
+    },
+    "cas2204": {
+        "C220400": 10.633166651463938
+    },
+    "cas2205": {
+        "C2205010ITER": 29.26495,
+        "C2205020ITER": 10.01,
+        "C2205030ITER": 32.190729999999995,
+        "C2205040ITER": 13.9568,
+        "C2205050ITER": 32.64118,
+        "C2205060ITER": 67.98506,
+        "C22050ITER": 186.04872,
+        "C220501": 13.945037663168675,
+        "C220502": 4.7698638476511475,
+        "C220503": 15.339200724924995,
+        "C220504": 6.650553021867885,
+        "C220505": 15.553844598069297,
+        "C220506": 32.39555243500441,
+        "C220500": 88.65405229068641
+    },
+    "cas2206": {
+        "C220600": 14.337075633811484
+    },
+    "cas2207": {
+        "C220700": 85.0
+    },
+    "cas23": {
+        "C230000": 413.2536355458732
+    },
+    "cas24": {
+        "C240000": 101.89815670994132
+    },
+    "cas25": {
+        "C250000": 71.70611027736612
+    },
+    "cas26": {
+        "C260000": 201.90931051784668
+    },
+    "cas27": {
+        "C271000": 106.5,
+        "C274000": 0.7011,
+        "C275000": 0.3591,
+        "C270000": 107.5602
+    },
+    "cas28": {
+        "C280000": 5.0
+    },
+    "cas29": {
+        "C290000": 0.0
+    },
+    "cas20": {
+        "C200000": 24471.841293548416
+    },
+    "cas30": {
+        "C310000LSA": 1468.3104776129048,
+        "C310000": 53.34314111324291,
+        "C320000LSA": 2936.6209552258097,
+        "C320000": 133.35785278310726,
+        "C350000LSA": 1272.5357472645176,
+        "C350000": 80.01471166986435,
+        "C300000": 266.7157055662145
+    },
+    "cas40": {
+        "C400000LSA": 2936.6209552258097,
+        "C400000": 2936.6209552258097,
+        "C410000": 0.0,
+        "C420000": 0.0,
+        "C430000": 0.0,
+        "C440000": 0.0
+    },
+    "cas50": {
+        "C510000": 8.0,
+        "C520000": 90.13274130510274,
+        "C530000": 100.0,
+        "C540000": 1.0,
+        "C550000": 298.60087632756097,
+        "C580000": 200.0,
+        "C590000": 0.0,
+        "C500000": 697.7336176326637
+    },
+    "cas60": {
+        "C610000": 299.0,
+        "C630000LSA": 6695.495777914847,
+        "C630000": 782.5099435525201,
+        "C600000": 1081.50994355252
+    },
+    "cas70": {
+        "C700000": 79.04140843964848
+    },
+    "cas80": {
+        "C800000": 0.1798689072895579
+    },
+    "cas90": {
+        "C990000": 29705.042718775796,
+        "C900000": 2673.4538446898214
+    },
+    "lcoe": {
+        "C1000000": 289.2445657920741,
+        "C2000000": 28.924456579207412
+    },
+    "npv": {
+        "npv": -29889597370.365887
+    }
+}

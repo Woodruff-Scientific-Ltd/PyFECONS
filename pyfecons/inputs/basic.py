@@ -26,3 +26,6 @@ class Basic:
     yearly_inflation: Percent = None
     time_to_replace: Years = None
     implosion_frequency: HZ = None  # Implosion laser driving frequency
+    include_safety_hazards_costs: bool = (
+        False  # Include safety and hazard mitigation costs
+    )

@@ -13,6 +13,10 @@
 \usepackage{etoolbox}
 \usepackage{comment} % TODO - add to templates repo
 
+% Safety costs flag - will be replaced by Python based on include_safety_hazards_costs
+\newif\ifsafetycosts
+%safety_costs_flag%
+
 \hypersetup{%
     colorlinks = true,
     linkcolor  = black
@@ -44,6 +48,9 @@
     \input{Modified/CAS220109.tex}
     \input{Modified/CAS220111.tex}
     \input{Modified/CAS220119.tex}
+\ifsafetycosts
+    \input{Modified/CAS220120.tex}
+\fi
     \input{Modified/CAS220200_DT.tex}
     \input{Modified/CAS220300.tex}
     \input{Modified/CAS220400.tex}
