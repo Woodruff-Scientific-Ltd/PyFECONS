@@ -18,7 +18,8 @@
         "yearly_inflation": 0.0245,
         "time_to_replace": 10.0,
         "implosion_frequency": null,
-        "include_safety_hazards_costs": false
+        "include_safety_hazards_costs": false,
+        "region": "US"
     },
     "power_input": {
         "f_sub": 0.03,

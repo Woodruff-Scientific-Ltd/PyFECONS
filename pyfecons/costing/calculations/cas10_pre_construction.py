@@ -2,6 +2,7 @@ import math
 
 from pyfecons.costing.accounting.power_table import PowerTable
 from pyfecons.costing.categories.cas100000 import CAS10
+from pyfecons.costing.safety.licensing import licensing_safety_addon
 from pyfecons.inputs.basic import Basic
 from pyfecons.units import M_USD
 
@@ -21,9 +22,11 @@ def cas_10_pre_construction_costs(basic: Basic, power_table: PowerTable) -> CAS1
     cas10.C120000 = M_USD(10)
 
     # Cost Category 13 – Plant Licensing
-    # Source: Midpoint of estimation from 'Capital Costs' section of
+    # Base cost from 'Capital Costs' section of
     # https://world-nuclear.org/information-library/economic-aspects/economics-of-nuclear-power.aspx
-    cas10.C130000 = M_USD(210)
+    base_licensing_cost = M_USD(210)
+    # Safety and hazard mitigation addon (region-dependent, applied when enabled)
+    cas10.C130000 = base_licensing_cost + licensing_safety_addon(basic)
 
     # Cost Category 14 – Plant Permits
     cas10.C140000 = M_USD(5)

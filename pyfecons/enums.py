@@ -191,3 +191,15 @@ class MagnetMaterialType(Enum):
         obj._value_ = value
         obj.display_name = display_name
         return obj
+
+
+class Region(Enum):
+    US = ("US", "United States")
+    UK = ("UK", "United Kingdom")
+    UNSPECIFIED = ("UNSPECIFIED", "Unspecified")
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj

@@ -40,6 +40,7 @@ def Generate() -> AllInputs:
             noak=True,
             yearly_inflation=Percent(0.0245),
             time_to_replace=Years(10),
+            region=Region.US,
         ),
         blanket=Blanket(
             first_wall=BlanketFirstWall.BERYLLIUM,

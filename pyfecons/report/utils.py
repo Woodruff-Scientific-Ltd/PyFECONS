@@ -118,19 +118,19 @@ def get_report_sections(
         NpvSection(costing_data.npv, inputs.npv_input),
     ]
 
-    # Safety and hazard mitigation sections (conditional)
-    if inputs.basic.include_safety_hazards_costs:
+    # Safety and hazard mitigation sections (conditional, MFE only for now)
+    if (
+        inputs.basic.include_safety_hazards_costs
+        and fusion_machine_type == FusionMachineType.MFE
+    ):
         ordered_sections: List[ReportSection] = []
         for section in sections:
             ordered_sections.append(section)
             # Insert CAS220120 section immediately after CAS220119 in the report
             if isinstance(section, CAS220119Section):
                 ordered_sections.append(CAS220120Section(costing_data.cas220120))
-            # Insert CAS220606 section immediately after CAS2206 for MFE
-            if (
-                isinstance(section, CAS2206Section)
-                and fusion_machine_type == FusionMachineType.MFE
-            ):
+            # Insert CAS220606 section immediately after CAS2206
+            if isinstance(section, CAS2206Section):
                 ordered_sections.append(CAS220606Section(costing_data.cas220606))
         sections = ordered_sections
 

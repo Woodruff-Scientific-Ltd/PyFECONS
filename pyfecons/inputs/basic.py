@@ -5,6 +5,7 @@ from pyfecons.enums import (
     EnergyConversion,
     FuelType,
     FusionMachineType,
+    Region,
 )
 from pyfecons.units import HZ, MW, Count, Percent, Years
 
@@ -29,3 +30,4 @@ class Basic:
     include_safety_hazards_costs: bool = (
         False  # Include safety and hazard mitigation costs
     )
+    region: Region = Region.UNSPECIFIED
