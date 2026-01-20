@@ -1,0 +1,65 @@
+\ifsafetycosts
+\section{Safety and hazard cost basis}
+
+This appendix summarises the main safety and hazard considerations that
+are explicitly translated into cost categories in this report, based on
+the underlying safety analysis and literature (for example the fusion
+safety assessments of Piet et al.\ (1982)\cite{Piet1982Potential} and
+the ITER engineering design and safety reports\cite{iter2001final,
+baylor2019shattered}).
+
+\subsection{Radioactive release of tritium from storage (CAS 11)}
+
+For inertial fusion concepts with significant tritium throughput and
+dust inventories, land and land-rights costs can be influenced by
+potential radioactive releases from storage and processing systems. As
+in the MFE case, the land and land-rights cost \(C110000\) is
+decomposed into:
+\begin{itemize}
+  \item \(C110100\): baseline land cost as a function of power, and
+  \item \(C110200\): additional land and mitigation cost associated with
+        tritium and dust release.
+\end{itemize}
+
+The safety-driven term \(C110200\) is evaluated using a polynomial fit
+to site-boundary calculations for tritium and dust releases as a
+function of stack height and mobilisable inventory, following
+Lukacs \& Williams (2020). The required site radius for meeting
+emergency reference levels is converted to a land area and cost using
+representative US farm real-estate values\cite{USDA2022LandValues}.
+
+\subsection{Plant licensing (CAS 13)}
+
+As for MFE, plant licensing costs for IFE concepts are captured in Cost
+Category 13 – Plant Licensing (\(C130000\)) and depend on the selected
+region. The same literature base is used (US NRC options for fusion
+licensing, UK REPPIR 2019, and related policy work\cite{White2021Regulation,
+NRCFusion2023,UKREPPIR2019,UKFusion2022}), but the numerical values can
+be adjusted independently for IFE-specific deployments.
+
+\subsection{Third-party liability insurance (CAS 78)}
+
+The same LSA-based approach is used to estimate third-party liability
+insurance for IFE as for MFE\cite{Holdren1991Safety,Miller2003ARIESST,
+NRCInsurance2024}. Fusion reactors with LSA values of 2--3 are assumed
+to have substantially lower risk than conventional fission plants, and
+the annual premium is scaled accordingly from Price-Anderson fission
+benchmarks. The resulting premium appears as \(C780000\) in Cost
+Category 78 – Taxes and Insurance and is also included in the annualised
+O\&M totals.
+
+\subsection{Scope and limitations}
+
+The safety-related cost components described above provide a
+first-order, literature-based costing of key safety-driven systems and
+land-use requirements for IFE. They are intended to:
+\begin{itemize}
+  \item make explicit where and how safety and hazard mitigation
+        considerations affect the CAS structure for IFE,
+  \item allow simple sensitivity studies on tritium inventory, region,
+        and LSA level, and
+  \item complement, rather than replace, a full, site-specific safety
+        case and detailed engineering design.
+\end{itemize}
+\fi
+

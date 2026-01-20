@@ -1,0 +1,133 @@
+\ifsafetycosts
+\section{Safety and hazard cost basis}
+
+This appendix summarises the main safety and hazard considerations that are
+explicitly translated into cost categories in this report, based on the
+underlying safety analysis and literature (for example the fusion safety
+assessments of Piet et al.\ (1982)\cite{Piet1982Potential} and the ITER
+engineering design and safety reports\cite{iter2001final,baylor2019shattered}).
+
+\subsection{Radioactive release of tritium from storage (CAS 11)}
+
+The land and land-rights cost \(C110000\) is decomposed into a baseline
+site land component \(C110100\) and a safety-driven component
+\(C110200\) linked to potential radioactive release of tritium from
+storage and dust inventories. The safety component is evaluated using a
+polynomial fit to site-boundary calculations for tritium and dust
+releases as a function of stack height and mobilisable inventory, based
+on the work of Lukacs \& Williams (2020) and related dispersion
+studies. The required site radius for meeting emergency reference levels
+for sheltering/evacuation is converted to a land area and cost using
+representative US farm real-estate values\cite{USDA2022LandValues}.
+
+In the CAS structure this appears as:
+\begin{itemize}
+  \item \(C110100\): baseline land cost as a function of neutron and
+        fusion power (as in the original 2022 update), and
+  \item \(C110200\): additional land and mitigation cost associated
+        with tritium and dust release from storage and processing
+        systems.
+\end{itemize}
+The total land and land rights cost is \(C110000 = C110100 + C110200\)
+when safety and hazard mitigation costs are included.
+
+\subsection{Plasma disruption effects and disruption mitigation (CAS 22.01.20)}
+
+For the tokamak configuration considered here, plasma disruptions can
+impose severe thermal and electromagnetic loads on the first wall and
+surrounding components\cite{Piet1982Potential}. Modern designs therefore
+include a dedicated disruption mitigation system (DMS) based on
+shattered pellet injection, as developed for ITER and demonstrated on
+devices such as DIII-D\cite{baylor2019shattered,iter2001final}.
+
+In this costing model the capital cost of a full disruption mitigation
+system is captured as a dedicated Heat Island Component:
+\begin{itemize}
+  \item Cost Category 22.01.20: Disruption mitigation system
+        (\(C220120\)).
+\end{itemize}
+The magnitude of \(C220120\) is based on ITER DMS cost estimates,
+adjusted for units and inflation, and is only applied for magnetic
+fusion energy (MFE) machines.
+
+\subsection{Hot-cell radioactivity and remote handling (CAS 22.06.06)}
+
+Activated in-vessel components (blankets, divertor, first wall, etc.)
+must be handled and maintained using remote systems in a hot-cell
+environment. Experience from JET and ITER shows that such systems
+require substantial specialised equipment and tooling, including
+multi-degree-of-freedom manipulators and dedicated movers and casks
+\cite{hamilton2001development,contractforiter}.
+
+The cost of this capability is represented as:
+\begin{itemize}
+  \item Cost Category 22.06.06: Remote handling equipment
+        (\(C220606\)),
+\end{itemize}
+which is then rolled up into the broader Other Plant Equipment
+subtotals. This term is included for MFE concepts where in-vessel
+remote handling is required.
+
+\subsection{Plant licensing (CAS 13)}
+
+Plant licensing costs depend on the regulatory framework and region. For
+fusion, recent work by regulators and policy bodies (e.g.\ the US NRC
+options for licensing fusion energy systems and the UK REPPIR 2019
+framework) indicates that fusion facilities will be treated differently
+from traditional fission plants, but will still incur non-negligible
+licensing and regulatory costs\cite{White2021Regulation,NRCFusion2023,
+UKREPPIR2019,UKFusion2022}.
+
+These costs are captured in:
+\begin{itemize}
+  \item Cost Category 13: Plant Licensing (\(C130000\)),
+\end{itemize}
+with a base cost derived from fission capital cost studies
+\cite{WorldNuclearEconomics} and a safety-driven regional add-on that
+depends on the selected region (US, UK, or unspecified). The add-on
+aggregates representative fees for licensing, radiological emergency
+preparedness, and environmental permitting in each jurisdiction.
+
+\subsection{Third-party liability insurance (CAS 78)}
+
+Third-party liability insurance for fusion plants is expected to be
+significantly lower than for fission reactors, reflecting the reduced
+inventory of long-lived radionuclides and the different accident
+phenomenology\cite{Holdren1991Safety,UKFusion2022}. To obtain a
+transparent and scalable estimate, the model starts from US nuclear
+liability insurance premiums under the Price-Anderson framework (as
+reported by the American Nuclear Insurers and the NRC
+\cite{NRCInsurance2024}) and scales them using the Level of Safety
+Assurance (LSA) concept from the ARIES studies\cite{Miller2003ARIESST}.
+
+For the MFE and IFE cases considered here, LSA values of 2--3 are
+assumed, corresponding to a risk fraction of roughly 19--23\% of a
+conventional fission plant. The annual premium is then:
+\[
+  \text{Premium}_\text{fusion} \approx f_\text{LSA} \times
+  \text{Premium}_\text{fission},
+\]
+where \(f_\text{LSA}\) is the LSA-based risk factor. The resulting
+annual premium appears in:
+\begin{itemize}
+  \item Cost Category 78: Taxes and Insurance (\(C780000\)),
+\end{itemize}
+and is also included in the annualised O\&M totals.
+
+\subsection{Scope and limitations}
+
+The safety-related cost components described above are deliberately
+simple and transparent. They are intended to:
+\begin{itemize}
+  \item make explicit where and how safety and hazard mitigation
+        considerations affect the CAS structure,
+  \item allow rapid sensitivity studies (e.g.\ varying tritium
+        inventory, LSA level, or region), and
+  \item provide a clear bridge between detailed safety analyses and the
+        high-level cost accounting in this report.
+\end{itemize}
+They do \emph{not} replace a full safety case or detailed site-specific
+engineering design; rather, they provide a first-order, literature-based
+costing of key safety-driven systems and land-use requirements.
+\fi
+

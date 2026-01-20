@@ -68,8 +68,12 @@
 
 
 
-\newpage 
+ \newpage 
   \appendix
+\ifsafetycosts
+  \newpage
+  \input{safety_appendix.tex}
+\fi
   \newpage 
 \input{glossary.tex}
   \newpage 

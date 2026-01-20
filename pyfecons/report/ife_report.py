@@ -21,6 +21,7 @@ LOCAL_INCLUDED_FILES = [
     "cover_page.tex",
     "foreword.tex",
     "glossary.tex",
+    "safety_appendix.tex",
     "IEEEtran.bst",
     "ST-SC.bib",
     "Figures/Bayrmanian2011.png",
