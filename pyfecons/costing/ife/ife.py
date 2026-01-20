@@ -90,6 +90,7 @@ from pyfecons.costing.ife.cas22.cas220108_target_factory import (
 )
 from pyfecons.costing.ife.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.ife.PowerBalance import power_balance
+from pyfecons.costing.safety.insurance import cas_780000_insurance_costs
 from pyfecons.costing_data import CostingData
 from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.all_inputs import AllInputs
@@ -98,7 +99,9 @@ from pyfecons.inputs.all_inputs import AllInputs
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = CostingData(fusion_machine_type=FusionMachineType.IFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
-    data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
+    data.cas10 = cas_10_pre_construction_costs(
+        inputs.basic, data.power_table, inputs.tritium_release
+    )
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
     data.cas220101 = cas_220101_reactor_equipment_costs(
         inputs.basic, inputs.radial_build, inputs.blanket
@@ -157,6 +160,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
+    data.cas780000 = cas_780000_insurance_costs(inputs.basic, inputs.lsa_levels)
+    if data.cas780000.C780000 not in (None, 0):
+        data.cas70.C700000 = data.cas70.C700000 + data.cas780000.C780000
     data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
     data.cas90 = cas90_annualized_financial_costs(
         inputs.financial, data.cas10_to_60_total_capital_cost()

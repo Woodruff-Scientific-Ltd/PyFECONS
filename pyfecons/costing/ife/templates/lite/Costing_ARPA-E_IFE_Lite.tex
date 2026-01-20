@@ -11,6 +11,10 @@
 \usepackage{longtable}
 \usepackage{multirow}
 \usepackage{hyperref}
+\usepackage{etoolbox}
+\usepackage{comment}
+\newif\ifsafetycosts
+%safety_costs_flag%
 \hypersetup{%
   colorlinks = true,
   linkcolor  = black
@@ -21,6 +25,7 @@
 %\pagestyle{fancy}
 \input{cover_page.tex}
 \input{methodology_summary.tex}
+\input{safety_summary.tex}
 \input{Modified/powerTableIFEDT.tex}
 \input{Modified/CASstructure.tex}
 \input{Modified/LCOE.tex}

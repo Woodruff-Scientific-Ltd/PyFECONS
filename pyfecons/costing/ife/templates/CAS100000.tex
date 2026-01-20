@@ -20,12 +20,25 @@ A fusion power core will have a footprint as discussed in Cost Category 21, cons
 \begin{verbatim} 
 C_20 = sqrt(N_mod) * (P_NEUTRON /239 * 0.9 + P_FUSION/239*0.9)\end{verbatim} 
 
+\ifsafetycosts
+Accounting for tritium release from storage, the total land and land rights cost C110000 is conceptually split into:
+\begin{itemize}
+  \item C110100: baseline site land cost based on neutron and fusion power (as above), and
+  \item C110200: additional safety-driven land and mitigation cost associated with tritium release from storage.
+\end{itemize}
+In this case C110000 = C110100 + C110200.
+\fi
+
 
 \subsection*{Cost Category 12 – Site Permits} 
 This Cost Category includes costs associated with obtaining all site related permits for subsequent construction of the permanent plant.  The total for this element is \$ C120000 M.
 
 \subsection*{Cost Category 13 – Plant Licensing} 
 This Cost Category includes costs associated with obtaining plant licenses for construction and operation of the plant, typically \$1 M to \$10 M. This range accounts for the technical and engineering studies, safety analyses, and environmental impact assessments required.  The total for this element is \$ C130000 M.
+
+\ifsafetycosts
+Accounting for region-specific licensing requirements, an additional region-dependent licensing cost is included in the total above. This addon accounts for regulatory fees and licensing requirements specific to the selected region (United States or United Kingdom). For the United States, this includes NRC licensing fees for byproduct materials facilities. For the United Kingdom, this includes fees under REPPIR 2019 and Environment Agency charges. The total cost shown above (\$ C130000 M) already incorporates this region-specific licensing addon.
+\fi
 
 \subsection*{Cost Category 14 – Plant Permits} 
 This Cost Category includes costs associated with obtaining all permits for construction and operation of the plant, typically \$ 500,000 to \$ 5M. This cost can escalate if the licensing process is prolonged or if there are unique legal challenges.  The total for this element is \$ C140000 M.

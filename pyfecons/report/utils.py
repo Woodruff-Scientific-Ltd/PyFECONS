@@ -1,6 +1,7 @@
 from typing import Dict, List
 
 from pyfecons.costing_data import CostingData
+from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.all_inputs import AllInputs
 from pyfecons.report.section import ReportSection
 from pyfecons.report.sections.cas100000_section import CAS10Section
@@ -18,11 +19,13 @@ from pyfecons.report.sections.cas220108_section import CAS220108Section
 from pyfecons.report.sections.cas220109_section import CAS220109Section
 from pyfecons.report.sections.cas220111_section import CAS220111Section
 from pyfecons.report.sections.cas220119_section import CAS220119Section
+from pyfecons.report.sections.cas220120_section import CAS220120Section
 from pyfecons.report.sections.cas220200_section import CAS2202Section
 from pyfecons.report.sections.cas220300_section import CAS2203Section
 from pyfecons.report.sections.cas220400_section import CAS2204Section
 from pyfecons.report.sections.cas220500_section import CAS2205Section
 from pyfecons.report.sections.cas220600_section import CAS2206Section
+from pyfecons.report.sections.cas220606_section import CAS220606Section
 from pyfecons.report.sections.cas220700_section import CAS2207Section
 from pyfecons.report.sections.cas230000_section import CAS23Section
 from pyfecons.report.sections.cas240000_section import CAS24Section
@@ -49,7 +52,7 @@ def get_report_sections(
 ) -> List[ReportSection]:
     """Get all report sections with their templates and replacements."""
     fusion_machine_type = inputs.basic.fusion_machine_type
-    return [
+    sections: List[ReportSection] = [
         PowerTableSection(costing_data.power_table, inputs.basic, inputs.power_input),
         CAS10Section(costing_data.cas10, inputs.basic),
         CAS21Section(costing_data.cas21),
@@ -100,7 +103,7 @@ def get_report_sections(
         CAS40Section(costing_data.cas40, inputs.lsa_levels),
         CAS50Section(costing_data.cas50),
         CAS60Section(costing_data.cas60),
-        CAS70Section(costing_data.cas70),
+        CAS70Section(costing_data.cas70, costing_data.cas780000),
         CAS80Section(costing_data.cas80, fusion_machine_type, inputs.blanket),
         CAS90Section(costing_data.cas90),
         LcoeSection(
@@ -114,6 +117,24 @@ def get_report_sections(
         CostTableSection(costing_data, fusion_machine_type),
         NpvSection(costing_data.npv, inputs.npv_input),
     ]
+
+    # Safety and hazard mitigation sections (conditional, MFE only for now)
+    if (
+        inputs.basic.include_safety_hazards_costs
+        and fusion_machine_type == FusionMachineType.MFE
+    ):
+        ordered_sections: List[ReportSection] = []
+        for section in sections:
+            ordered_sections.append(section)
+            # Insert CAS220120 section immediately after CAS220119 in the report
+            if isinstance(section, CAS220119Section):
+                ordered_sections.append(CAS220120Section(costing_data.cas220120))
+            # Insert CAS220606 section immediately after CAS2206
+            if isinstance(section, CAS2206Section):
+                ordered_sections.append(CAS220606Section(costing_data.cas220606))
+        sections = ordered_sections
+
+    return sections
 
 
 def combine_figures(report_sections: List[ReportSection]) -> Dict[str, bytes]:

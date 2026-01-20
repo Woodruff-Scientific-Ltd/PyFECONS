@@ -88,6 +88,11 @@ from pyfecons.costing.mfe.cas22.cas220107_power_supplies import (
 from pyfecons.costing.mfe.cas22.cas220108_divertor import cas_220108_divertor_costs
 from pyfecons.costing.mfe.cas80_annualized_fuel import cas80_annualized_fuel_costs
 from pyfecons.costing.mfe.PowerBalance import power_balance
+from pyfecons.costing.safety.disruption_mitigation import (
+    cas_220120_disruption_mitigation_costs,
+)
+from pyfecons.costing.safety.insurance import cas_780000_insurance_costs
+from pyfecons.costing.safety.remote_handling import cas_220606_remote_handling_costs
 from pyfecons.costing_data import CostingData
 from pyfecons.enums import FusionMachineType
 from pyfecons.inputs.all_inputs import AllInputs
@@ -96,7 +101,9 @@ from pyfecons.inputs.all_inputs import AllInputs
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = CostingData(fusion_machine_type=FusionMachineType.MFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
-    data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
+    data.cas10 = cas_10_pre_construction_costs(
+        inputs.basic, data.power_table, inputs.tritium_release
+    )
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
     data.cas220101 = cas_220101_reactor_equipment_costs(
         inputs.basic, inputs.radial_build, inputs.blanket
@@ -133,6 +140,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas220119 = cas_220119_scheduled_replacement_costs(
         inputs.primary_structure, data.cas2201_total_cost()
     )
+    data.cas220120 = cas_220120_disruption_mitigation_costs(inputs.basic)
     data.cas2202 = cas_2202_main_and_secondary_coolant_costs(
         inputs.basic, data.power_table
     )
@@ -140,6 +148,10 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data.cas2204 = cas_2204_radwaste_costs(data.power_table)
     data.cas2205 = cas_2205_fuel_handling_and_storage_costs(inputs.fuel_handling)
     data.cas2206 = cas_2206_other_reactor_plant_equipment_costs(data.power_table)
+    data.cas220606 = cas_220606_remote_handling_costs(inputs.basic)
+    # Add remote handling system cost into the overall 22.06 Other plant equipment total
+    if data.cas220606.C220606 not in (None, 0):
+        data.cas2206.C220600 = data.cas2206.C220600 + data.cas220606.C220606
     data.cas2207 = cas_2207_instrumentation_and_control_costs()
     data.cas22 = cas22_reactor_plant_equipment_total_costs(
         data.cas2201_total_cost(), data.cas2200_total_cost()
@@ -163,6 +175,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
+    data.cas780000 = cas_780000_insurance_costs(inputs.basic, inputs.lsa_levels)
+    if data.cas780000.C780000 not in (None, 0):
+        data.cas70.C700000 = data.cas70.C700000 + data.cas780000.C780000
     data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
     data.cas90 = cas90_annualized_financial_costs(
         inputs.financial, data.cas10_to_60_total_capital_cost()

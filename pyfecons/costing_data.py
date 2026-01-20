@@ -25,11 +25,13 @@ from pyfecons.costing.categories.cas220108_target_factory import CAS220108Target
 from pyfecons.costing.categories.cas220109 import CAS220109
 from pyfecons.costing.categories.cas220111 import CAS220111
 from pyfecons.costing.categories.cas220119 import CAS220119
+from pyfecons.costing.categories.cas220120 import CAS220120
 from pyfecons.costing.categories.cas220200 import CAS2202
 from pyfecons.costing.categories.cas220300 import CAS2203
 from pyfecons.costing.categories.cas220400 import CAS2204
 from pyfecons.costing.categories.cas220500 import CAS2205
 from pyfecons.costing.categories.cas220600 import CAS2206
+from pyfecons.costing.categories.cas220606 import CAS220606
 from pyfecons.costing.categories.cas220700 import CAS2207
 from pyfecons.costing.categories.cas230000 import CAS23
 from pyfecons.costing.categories.cas240000 import CAS24
@@ -43,6 +45,7 @@ from pyfecons.costing.categories.cas400000 import CAS40
 from pyfecons.costing.categories.cas500000 import CAS50
 from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.costing.categories.cas700000 import CAS70
+from pyfecons.costing.categories.cas780000 import CAS780000
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
 from pyfecons.costing.categories.lcoe import LCOE
@@ -54,6 +57,9 @@ from pyfecons.units import M_USD
 @dataclass
 class CostingData(SerializableToJSON):
     fusion_machine_type: FusionMachineType
+    # Internal flag propagated from inputs.basic.include_safety_hazards_costs
+    # Used to control which fields appear in JSON output. Not serialized.
+    _include_safety_hazards_costs: bool = False
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
@@ -71,11 +77,13 @@ class CostingData(SerializableToJSON):
     cas220109: CAS220109 = field(default_factory=CAS220109)
     cas220111: CAS220111 = field(default_factory=CAS220111)
     cas220119: CAS220119 = field(default_factory=CAS220119)
+    cas220120: CAS220120 = field(default_factory=CAS220120)
     cas2202: CAS2202 = field(default_factory=CAS2202)
     cas2203: CAS2203 = field(default_factory=CAS2203)
     cas2204: CAS2204 = field(default_factory=CAS2204)
     cas2205: CAS2205 = field(default_factory=CAS2205)
     cas2206: CAS2206 = field(default_factory=CAS2206)
+    cas220606: CAS220606 = field(default_factory=CAS220606)
     cas2207: CAS2207 = field(default_factory=CAS2207)
     cas23: CAS23 = field(default_factory=CAS23)
     cas24: CAS24 = field(default_factory=CAS24)
@@ -90,6 +98,7 @@ class CostingData(SerializableToJSON):
     cas50: CAS50 = field(default_factory=CAS50)
     cas60: CAS60 = field(default_factory=CAS60)
     cas70: CAS70 = field(default_factory=CAS70)
+    cas780000: CAS780000 = field(default_factory=CAS780000)
     cas80: CAS80 = field(default_factory=CAS80)
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
@@ -143,6 +152,8 @@ class CostingData(SerializableToJSON):
             + self.cas220111.C220111
             # This needs to be zero for CAS220119 calculation to run correctly
             + (0 if self.cas220119.C220119 is None else self.cas220119.C220119)
+            # Safety and hazard mitigation costs (only if enabled)
+            + (0 if self.cas220120.C220120 is None else self.cas220120.C220120)
         )
 
     def cas2200_total_cost(self) -> M_USD:
@@ -189,3 +200,61 @@ class CostingData(SerializableToJSON):
             + self.cas50.C500000
             + self.cas60.C600000
         )
+
+    def toDict(self):
+        """Override toDict to exclude safety-only categories when safety costs are disabled."""
+        from pyfecons.serializable import SerializableToJSON
+
+        inputsDict = {}
+        for attr_name, attr_value in self.__dict__.items():
+            if not attr_name.startswith("_"):
+                # Special handling for CAS10 to optionally include split land costs
+                if attr_name == "cas10":
+                    # Always include CAS10, but only include C110100/C110200 when safety is enabled
+                    cas10 = self.cas10
+                    cas10_dict = {}
+                    # baseline land (only when safety enabled)
+                    if self._include_safety_hazards_costs:
+                        cas10_dict["C110100"] = SerializableToJSON._attributesToDict(
+                            cas10.C110100
+                        )
+                        cas10_dict["C110200"] = SerializableToJSON._attributesToDict(
+                            cas10.C110200
+                        )
+                    # always include original aggregated fields
+                    for field_name in [
+                        "C110000",
+                        "C120000",
+                        "C130000",
+                        "C140000",
+                        "C150000",
+                        "C160000",
+                        "C170000",
+                        "C190000",
+                        "C100000",
+                    ]:
+                        cas10_dict[field_name] = SerializableToJSON._attributesToDict(
+                            getattr(cas10, field_name)
+                        )
+                    inputsDict[attr_name] = cas10_dict
+                # Exclude safety-only categories if their costs are 0 or None
+                elif attr_name == "cas220120":
+                    if self.cas220120.C220120 not in (None, 0):
+                        inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                            attr_value
+                        )
+                elif attr_name == "cas220606":
+                    if self.cas220606.C220606 not in (None, 0):
+                        inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                            attr_value
+                        )
+                elif attr_name == "cas780000":
+                    if self.cas780000.C780000 not in (None, 0):
+                        inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                            attr_value
+                        )
+                else:
+                    inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                        attr_value
+                    )
+        return inputsDict

@@ -13,6 +13,10 @@
 \usepackage{etoolbox}
 \usepackage{comment}
 
+% Safety costs flag - will be replaced by Python based on include_safety_hazards_costs
+\newif\ifsafetycosts
+%safety_costs_flag%
+
 \hypersetup{%
     colorlinks = true,
     linkcolor  = black
@@ -23,6 +27,7 @@
 %\pagestyle{fancy}
     \input{cover_page.tex}
     \input{methodology_summary.tex}
+    \input{safety_summary.tex}
     \input{Modified/powerTableMFEDT.tex}
     \input{Modified/CASstructure.tex}
     \input{Modified/LCOE.tex}

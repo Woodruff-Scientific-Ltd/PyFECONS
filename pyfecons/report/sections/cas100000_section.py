@@ -10,6 +10,8 @@ class CAS10Section(ReportSection):
         self.replacements = {
             "Nmod": str(basic.n_mod),
             "C100000": str(cas10.C100000),
+            "C110100": str(cas10.C110100),
+            "C110200": str(cas10.C110200),
             "C110000": str(cas10.C110000),
             "C120000": str(cas10.C120000),
             "C130000": str(cas10.C130000),

@@ -1,0 +1,487 @@
+{
+    "customer_info": {
+        "name": "Clean Air Task Force"
+    },
+    "basic": {
+        "fusion_machine_type": "IFE",
+        "confinement_type": "LASER_DRIVEN_DIRECT_DRIVE",
+        "energy_conversion": "DIRECT",
+        "fuel_type": "PB11",
+        "p_nrl": 2500.0,
+        "n_mod": 1,
+        "am": 1.0,
+        "downtime": 1.0,
+        "construction_time": 6.0,
+        "plant_lifetime": 30.0,
+        "plant_availability": 0.9,
+        "noak": true,
+        "yearly_inflation": 0.0245,
+        "time_to_replace": 10.0,
+        "implosion_frequency": 1.0,
+        "include_safety_hazards_costs": true,
+        "region": "US"
+    },
+    "power_input": {
+        "f_sub": 0.01,
+        "p_cryo": 3.5714285714285716,
+        "mn": 1.09,
+        "eta_p": 0.5,
+        "eta_th": 0.46,
+        "fpcppf": 0.01,
+        "p_trit": 6.3,
+        "p_house": 2.142857142857143,
+        "p_tfcool": null,
+        "p_pfcool": null,
+        "p_tf": null,
+        "p_pf": null,
+        "eta_pin": null,
+        "eta_pin1": 0.1,
+        "eta_pin2": 0.1,
+        "eta_de": null,
+        "p_input": 10.1,
+        "p_implosion": 10.0,
+        "p_ignition": 0.1,
+        "p_target": 1.0,
+        "p_machinery": 1.0
+    },
+    "radial_build": {
+        "elon": null,
+        "chamber_length": null,
+        "axis_t": 0.0,
+        "plasma_t": 0.0001,
+        "vacuum_t": 8.48,
+        "firstwall_t": 0.005,
+        "blanket1_t": 0.0,
+        "reflector_t": 0.1,
+        "ht_shield_t": 0.1,
+        "structure_t": 0.2,
+        "gap1_t": 0.5,
+        "vessel_t": 0.2,
+        "coil_t": null,
+        "gap2_t": 0.5,
+        "lt_shield_t": 0.3,
+        "bioshield_t": 1.0
+    },
+    "shield": {
+        "f_SiC": 0.0,
+        "FPCPPFbLi": 0.1,
+        "f_W": 0.0,
+        "f_BFS": 0.9
+    },
+    "blanket": {
+        "first_wall": "LIQUID_LITHIUM",
+        "blanket_type": "FLOWING_LIQUID_FIRST_WALL",
+        "primary_coolant": "LITHIUM_LI",
+        "secondary_coolant": "WATER",
+        "neutron_multiplier": "PB_AS_PART_OF_PBLI",
+        "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
+    },
+    "lasers": {
+        "beamlet_learning_curve": 5.0,
+        "beamlet_learning_curve_coefficient_b": -0.2842043341251542,
+        "nif_laser_energy": 4.7
+    },
+    "coils": null,
+    "supplementary_heating": {
+        "nbi_power": 50.0,
+        "icrf_power": 0.0,
+        "aries_at": {
+            "name": "ARIES-AT",
+            "type": "ICRF/LH",
+            "power": 37.441,
+            "cost_2009": 1.67,
+            "cost_2023": 2.3881
+        },
+        "aries_i_a": {
+            "name": "ARIES-I",
+            "type": "ICRF/LH",
+            "power": 96.707,
+            "cost_2009": 1.87,
+            "cost_2023": 2.6741
+        },
+        "aries_i_b": {
+            "name": "ARIES-I'",
+            "type": "ICRF/LH",
+            "power": 202.5,
+            "cost_2009": 1.96,
+            "cost_2023": 2.8028
+        },
+        "aries_rs": {
+            "name": "ARIES-RS",
+            "type": "ICRF/LH/HFFW",
+            "power": 80.773,
+            "cost_2009": 3.09,
+            "cost_2023": 4.4187
+        },
+        "aries_iv": {
+            "name": "ARIES-IV",
+            "type": "ICRF/LH",
+            "power": 68.0,
+            "cost_2009": 4.35,
+            "cost_2023": 6.2205
+        },
+        "aries_ii": {
+            "name": "ARIES-II",
+            "type": "ICRF/LH",
+            "power": 66.1,
+            "cost_2009": 4.47,
+            "cost_2023": 6.3921
+        },
+        "aries_iii_a": {
+            "name": "ARIES-III'",
+            "type": "NBI",
+            "power": 163.2,
+            "cost_2009": 4.93,
+            "cost_2023": 7.0499
+        },
+        "aries_iii_b": {
+            "name": "ARIES-III",
+            "type": "NBI",
+            "power": 172.0,
+            "cost_2009": 4.95,
+            "cost_2023": 7.0785
+        },
+        "iter": {
+            "name": "ITER",
+            "type": "ICRF",
+            "power": 5.5,
+            "cost_2009": null,
+            "cost_2023": 7.865
+        },
+        "average": {
+            "name": "Average",
+            "type": null,
+            "power": 110.840125,
+            "cost_2009": 3.643333333,
+            "cost_2023": 5.209966667
+        },
+        "average_icrf": {
+            "name": "Average (ICRF)",
+            "type": null,
+            "power": 91.92016667,
+            "cost_2009": 2.901666667,
+            "cost_2023": 4.149383333
+        },
+        "average_nbi": {
+            "name": "Average (NBI)",
+            "type": null,
+            "power": 167.6,
+            "cost_2009": 4.94,
+            "cost_2023": 7.0642
+        }
+    },
+    "primary_structure": {
+        "syst_pga": 0.1,
+        "learning_credit": 0.5,
+        "replacement_factor": 0.1,
+        "analyze_costs": 30,
+        "unit1_seismic_costs": 25,
+        "reg_rev_costs": 30,
+        "unit1_fab_costs": 100,
+        "unit10_fabcosts": 70,
+        "pga_costs_mapping": {
+            "PGA_01": {
+                "eng_costs": 115.0,
+                "fab_costs": 115.0
+            },
+            "PGA_02": {
+                "eng_costs": 125.0,
+                "fab_costs": 130.0
+            },
+            "PGA_03": {
+                "eng_costs": 140.0,
+                "fab_costs": 165.0
+            },
+            "PGA_05": {
+                "eng_costs": 160.0,
+                "fab_costs": 235.0
+            }
+        }
+    },
+    "vacuum_system": {
+        "learning_credit": null,
+        "spool_ir": null,
+        "spool_or": null,
+        "door_irb": null,
+        "door_orb": null,
+        "door_irc": null,
+        "door_orc": null,
+        "spool_height": null,
+        "cost_pump": 40000.0,
+        "vpump_cap": 4.166666666666667,
+        "t_cool": 20.0,
+        "t_env": 300.0,
+        "ves_mfr": 10.0,
+        "beam_cs_area": 0.03,
+        "factor_of_safety": 3.0,
+        "geometry_factor": 10.0,
+        "beam_length": 5.0
+    },
+    "power_supplies": {
+        "learning_credit": 0.5,
+        "cost_per_watt": 1.0,
+        "p_compress": 1.0,
+        "cap_temp": 60.0,
+        "cap_temp_ambient": 20.0,
+        "cap_temp_delta": 30.0,
+        "cap_voltage": 20000.0,
+        "cap_l1": 50000.0
+    },
+    "direct_energy_converter": {
+        "system_power": 1.0,
+        "flux_limit": 2.0
+    },
+    "installation": {
+        "labor_rate": 1600.0
+    },
+    "fuel_handling": {
+        "learning_curve_credit": 0.8,
+        "learning_tenth_of_a_kind": 0.4765098748902245
+    },
+    "lsa_levels": {
+        "lsa": 2,
+        "initialized": true,
+        "fac_91": [
+            0.113,
+            0.12,
+            0.128,
+            0.151
+        ],
+        "fac_92": [
+            0.052,
+            0.052,
+            0.052,
+            0.052
+        ],
+        "fac_93": [
+            0.052,
+            0.06,
+            0.064,
+            0.087
+        ],
+        "fac_94": [
+            0.1826,
+            0.1848,
+            0.1866,
+            0.1935
+        ],
+        "fac_95": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ],
+        "fac_96": [
+            0.205,
+            0.2391,
+            0.2565,
+            0.2808
+        ],
+        "fac_97": [
+            0.2651,
+            0.2736,
+            0.2787,
+            0.2915
+        ],
+        "fac_98": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+        ]
+    },
+    "tritium_release": {
+        "hto_inventory_g": 4700.0,
+        "dust_tritium_inventory_g_per_month": 57416.666666666664,
+        "stack_height_m": 20.0
+    },
+    "financial": {
+        "a_c_98": 115.0,
+        "a_power": 1000.0,
+        "capital_recovery_factor": 0.09
+    },
+    "target_factory": {
+        "learning_credit": 0.8
+    },
+    "npv_input": {
+        "discount_rate": 0.08
+    },
+    "materials": {
+        "FS": {
+            "name": "Ferritic Steel",
+            "rho": 7470,
+            "c": null,
+            "c_raw": 10,
+            "m": 3,
+            "sigma": 450
+        },
+        "Pb": {
+            "name": "Lead",
+            "rho": 9400,
+            "c": null,
+            "c_raw": 2.4,
+            "m": 1.5,
+            "sigma": null
+        },
+        "Li4SiO4": {
+            "name": "Lithium Silicate",
+            "rho": 2390,
+            "c": null,
+            "c_raw": 1,
+            "m": 2,
+            "sigma": null
+        },
+        "FliBe": {
+            "name": "Lithium Fluoride (LiF) and Beryllium Fluoride (BeF2) Mixture",
+            "rho": 1900,
+            "c": 40,
+            "c_raw": 1000,
+            "m": 1,
+            "sigma": null
+        },
+        "W": {
+            "name": "Tungsten",
+            "rho": 19300,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "Li": {
+            "name": "Lithium",
+            "rho": 534,
+            "c": null,
+            "c_raw": 70,
+            "m": 1.5,
+            "sigma": null
+        },
+        "BFS": {
+            "name": "BFS",
+            "rho": 7800,
+            "c": null,
+            "c_raw": 30,
+            "m": 2,
+            "sigma": null
+        },
+        "SiC": {
+            "name": "Silicon Carbide",
+            "rho": 3200,
+            "c": null,
+            "c_raw": 14.49,
+            "m": 3,
+            "sigma": null
+        },
+        "Inconel": {
+            "name": "Inconel",
+            "rho": 8440,
+            "c": null,
+            "c_raw": 46,
+            "m": 3,
+            "sigma": null
+        },
+        "Cu": {
+            "name": "Copper",
+            "rho": 7300,
+            "c": null,
+            "c_raw": 10.2,
+            "m": 3,
+            "sigma": null
+        },
+        "Polyimide": {
+            "name": "Polyimide",
+            "rho": 1430,
+            "c": null,
+            "c_raw": 100,
+            "m": 3,
+            "sigma": null
+        },
+        "YBCO": {
+            "name": "Yttrium Barium Copper Oxide (YBa2Cu3O7)",
+            "rho": 6200,
+            "c": 55,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Concrete": {
+            "name": "Concrete",
+            "rho": 2300,
+            "c": null,
+            "c_raw": 0.52,
+            "m": 2,
+            "sigma": null
+        },
+        "SS316": {
+            "name": "Stainless Steel 316",
+            "rho": 7860,
+            "c": null,
+            "c_raw": 2,
+            "m": 2,
+            "sigma": 900
+        },
+        "Nb3Sn": {
+            "name": "Niobium-Tin (Nb3Sn)",
+            "rho": null,
+            "c": 5,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Incoloy": {
+            "name": "Incoloy",
+            "rho": 8170,
+            "c": null,
+            "c_raw": 4,
+            "m": 2,
+            "sigma": null
+        },
+        "GdBCO": {
+            "name": "Gadolinium Barium Copper Oxide",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "He": {
+            "name": "Helium",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "NbTi": {
+            "name": "Niobium-Titanium",
+            "rho": null,
+            "c": null,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        },
+        "Be": {
+            "name": "Beryllium",
+            "rho": 1850,
+            "c": null,
+            "c_raw": 5750,
+            "m": 3,
+            "sigma": null
+        },
+        "Li2TiO3": {
+            "name": "Lithium Titanate",
+            "rho": 3430,
+            "c": null,
+            "c_raw": 1297.05,
+            "m": 3,
+            "sigma": null
+        },
+        "PbLi": {
+            "name": "Lead (Pb) and Lithium (Li) Eutectic Alloy",
+            "rho": 8594.0,
+            "c": 12.818181818181818,
+            "c_raw": null,
+            "m": null,
+            "sigma": null
+        }
+    }
+}

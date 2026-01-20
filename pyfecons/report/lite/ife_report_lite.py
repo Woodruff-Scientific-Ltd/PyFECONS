@@ -16,6 +16,7 @@ DOCUMENT_TEMPLATE = "Costing_ARPA-E_IFE_Lite.tex"
 LOCAL_INCLUDED_FILES = [
     "cover_page.tex",
     "methodology_summary.tex",
+    "safety_summary.tex",
 ]
 
 
@@ -24,8 +25,15 @@ def CreateReportContentLite(
     costing_data: CostingData,
     overrides: Optional[ReportOverrides] = None,
 ) -> ReportContent:
+    # Set safety costs flag for LaTeX conditional
+    safety_flag = (
+        "\\safetycoststrue"
+        if inputs.basic.include_safety_hazards_costs
+        else "\\safetycostsfalse"
+    )
+    document_replacements = {"%safety_costs_flag%": safety_flag}
     document_template = load_document_template(
-        TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides
+        TEMPLATES_PATH, DOCUMENT_TEMPLATE, overrides, document_replacements
     )
     report_sections = get_report_sections_lite(inputs, costing_data)
 

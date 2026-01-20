@@ -43,6 +43,7 @@ def Generate() -> AllInputs:
             noak=True,
             implosion_frequency=HZ(1),
             p_nrl=p_nrl,
+            region=Region.UNSPECIFIED,
         ),
         blanket=Blanket(
             first_wall=BlanketFirstWall.LIQUID_LITHIUM,

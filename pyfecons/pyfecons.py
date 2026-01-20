@@ -18,12 +18,19 @@ from pyfecons.report.mfe_report import CreateReportContent as CreateMfeReport
 
 def RunCosting(inputs: AllInputs) -> CostingData:
     if inputs.basic.fusion_machine_type == FusionMachineType.MFE:
-        return GenerateMfeCostingData(inputs)
+        data = GenerateMfeCostingData(inputs)
     elif inputs.basic.fusion_machine_type == FusionMachineType.IFE:
-        return GenerateIfeCostingData(inputs)
+        data = GenerateIfeCostingData(inputs)
     elif inputs.basic.fusion_machine_type == FusionMachineType.MIF:
         raise NotImplementedError()
-    raise ValueError("Invalid basic reactor type")
+    else:
+        raise ValueError("Invalid reactor type")
+
+    # propagate safety flag into costing data for serialization decisions
+    data._include_safety_hazards_costs = bool(
+        getattr(inputs.basic, "include_safety_hazards_costs", False)
+    )
+    return data
 
 
 def CreateReportContent(

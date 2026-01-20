@@ -45,7 +45,9 @@ jobs:
       run: |
         source venv/bin/activate
         python RunCostingForCustomer.py mfe CATF
+        python RunCostingForCustomer.py ife CATF
 
     - name: Check if report created
       run: |
-        if [ -f "customers/CATF/mfe/output/report.pdf" ]; then echo "Report created"; else echo "Report not created"; exit 1; fi
+        if [ -f "customers/CATF/mfe/output/mfe-report.pdf" ]; then echo "Report created"; else echo "Report not created"; exit 1; fi
+        if [ -f "customers/CATF/ife/output/ife-report.pdf" ]; then echo "IFE report created"; else echo "IFE report not created"; exit 1; fi
