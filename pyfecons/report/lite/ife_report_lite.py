@@ -16,6 +16,7 @@ DOCUMENT_TEMPLATE = "Costing_ARPA-E_IFE_Lite.tex"
 LOCAL_INCLUDED_FILES = [
     "cover_page.tex",
     "methodology_summary.tex",
+    "safety_summary.tex",
 ]
 
 
