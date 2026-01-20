@@ -18,6 +18,7 @@ from pyfecons.inputs.radial_build import RadialBuild
 from pyfecons.inputs.shield import Shield
 from pyfecons.inputs.supplementary_heating import SupplementaryHeating
 from pyfecons.inputs.target_factory import TargetFactory
+from pyfecons.inputs.tritium_release import TritiumRelease
 from pyfecons.inputs.vacuum_system import VacuumSystem
 from pyfecons.materials import Materials
 from pyfecons.serializable import SerializableToJSON
@@ -48,6 +49,8 @@ class AllInputs(SerializableToJSON):
     installation: Installation = field(default=None)
     fuel_handling: FuelHandling = field(default=None)
     lsa_levels: LsaLevels = field(default=None)
+    # Tritium release / insurance & land-use safety analysis inputs
+    tritium_release: TritiumRelease | None = field(default=None)
     # TODO is this really an input? if not move to calculation class
     financial: Financial = field(default_factory=Financial)
     target_factory: TargetFactory = field(default=None)

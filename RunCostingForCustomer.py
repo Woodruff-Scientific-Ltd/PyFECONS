@@ -52,27 +52,33 @@ if fusion_machine_type == "mif":
 customer_folder = f"customers/{customer_name}/{fusion_machine_type}"
 os.makedirs(customer_folder, exist_ok=True)
 
-# Check if DefineInputs.py exists within the customer folder
-define_inputs_path = os.path.join(customer_folder, "DefineInputs.py")
-if not os.path.isfile(define_inputs_path):
-    print(f"ERROR: DefineInputs.py is missing in the {customer_folder}.")
-    print("ERROR: Please ensure DefineInputs.py is present in the customer's folder.")
-    sys.exit(1)
+sys.path.append(customer_folder)
 
-# Attempt to import DefineInputs and its Generate function
+# Determine which DefineInputs module to use (baseline vs. safety-specific)
+define_inputs_module_name = "DefineInputs"
+if enable_safety:
+    # Prefer a customer/machine-specific DefineInputsSafety.py if present
+    safety_path = os.path.join(customer_folder, "DefineInputsSafety.py")
+    if os.path.isfile(safety_path):
+        define_inputs_module_name = "DefineInputsSafety"
+
 try:
-    sys.path.append(customer_folder)
-    import DefineInputs as CustomerInputs
-
+    CustomerInputs = __import__(define_inputs_module_name)
     if "Generate" not in dir(CustomerInputs):
-        raise AttributeError("ERROR: Generate function is missing in DefineInputs.py.")
+        raise AttributeError(
+            f"ERROR: Generate function is missing in {define_inputs_module_name}.py."
+        )
 except ImportError as e:
     print(e)
-    print(f"ERROR: Could not import DefineInputs from {customer_folder}.")
+    print(
+        f"ERROR: Could not import {define_inputs_module_name} from {customer_folder}."
+    )
     sys.exit(1)
 except AttributeError as e:
     print(e)
-    print("ERROR: Ensure DefineInputs.py contains a 'Generate' function.")
+    print(
+        f"ERROR: Ensure {define_inputs_module_name}.py contains a 'Generate' function."
+    )
     sys.exit(1)
 
 # Ensure Generate returns an instance of Input class
@@ -89,10 +95,6 @@ except TypeError as e:
         f"ERROR: Ensure the Generate function in {customer_folder}/DefineInputs.py returns an object of type AllInputs."
     )
     sys.exit(1)
-
-# Set safety flag if --safety option is enabled
-if enable_safety:
-    inputs.basic.include_safety_hazards_costs = True
 
 inputDict = inputs.toDict()
 # Write the inputs to a json file in the customer's folder

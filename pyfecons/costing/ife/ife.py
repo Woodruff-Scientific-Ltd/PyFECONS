@@ -99,7 +99,9 @@ from pyfecons.inputs.all_inputs import AllInputs
 def GenerateCostingData(inputs: AllInputs) -> CostingData:
     data = CostingData(fusion_machine_type=FusionMachineType.IFE)
     data.power_table = power_balance(inputs.basic, inputs.power_input)
-    data.cas10 = cas_10_pre_construction_costs(inputs.basic, data.power_table)
+    data.cas10 = cas_10_pre_construction_costs(
+        inputs.basic, data.power_table, inputs.tritium_release
+    )
     data.cas21 = cas_21_building_costs(inputs.basic, data.power_table)
     data.cas220101 = cas_220101_reactor_equipment_costs(
         inputs.basic, inputs.radial_build, inputs.blanket

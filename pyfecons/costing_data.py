@@ -57,6 +57,9 @@ from pyfecons.units import M_USD
 @dataclass
 class CostingData(SerializableToJSON):
     fusion_machine_type: FusionMachineType
+    # Internal flag propagated from inputs.basic.include_safety_hazards_costs
+    # Used to control which fields appear in JSON output. Not serialized.
+    _include_safety_hazards_costs: bool = False
     power_table: PowerTable = field(default_factory=PowerTable)
     cas10: CAS10 = field(default_factory=CAS10)
     cas21: CAS21 = field(default_factory=CAS21)
@@ -205,8 +208,37 @@ class CostingData(SerializableToJSON):
         inputsDict = {}
         for attr_name, attr_value in self.__dict__.items():
             if not attr_name.startswith("_"):
+                # Special handling for CAS10 to optionally include split land costs
+                if attr_name == "cas10":
+                    # Always include CAS10, but only include C110100/C110200 when safety is enabled
+                    cas10 = self.cas10
+                    cas10_dict = {}
+                    # baseline land (only when safety enabled)
+                    if self._include_safety_hazards_costs:
+                        cas10_dict["C110100"] = SerializableToJSON._attributesToDict(
+                            cas10.C110100
+                        )
+                        cas10_dict["C110200"] = SerializableToJSON._attributesToDict(
+                            cas10.C110200
+                        )
+                    # always include original aggregated fields
+                    for field_name in [
+                        "C110000",
+                        "C120000",
+                        "C130000",
+                        "C140000",
+                        "C150000",
+                        "C160000",
+                        "C170000",
+                        "C190000",
+                        "C100000",
+                    ]:
+                        cas10_dict[field_name] = SerializableToJSON._attributesToDict(
+                            getattr(cas10, field_name)
+                        )
+                    inputsDict[attr_name] = cas10_dict
                 # Exclude safety-only categories if their costs are 0 or None
-                if attr_name == "cas220120":
+                elif attr_name == "cas220120":
                     if self.cas220120.C220120 not in (None, 0):
                         inputsDict[attr_name] = SerializableToJSON._attributesToDict(
                             attr_value

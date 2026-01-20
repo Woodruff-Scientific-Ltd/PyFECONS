@@ -290,6 +290,11 @@
             0.0
         ]
     },
+    "tritium_release": {
+        "hto_inventory_g": 4700.0,
+        "dust_tritium_inventory_g_per_month": 57416.666666666664,
+        "stack_height_m": 20.0
+    },
     "financial": {
         "a_c_98": 115.0,
         "a_power": 1000.0,
