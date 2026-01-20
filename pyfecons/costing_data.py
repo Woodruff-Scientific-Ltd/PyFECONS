@@ -45,6 +45,7 @@ from pyfecons.costing.categories.cas400000 import CAS40
 from pyfecons.costing.categories.cas500000 import CAS50
 from pyfecons.costing.categories.cas600000 import CAS60
 from pyfecons.costing.categories.cas700000 import CAS70
+from pyfecons.costing.categories.cas780000 import CAS780000
 from pyfecons.costing.categories.cas800000 import CAS80
 from pyfecons.costing.categories.cas900000 import CAS90
 from pyfecons.costing.categories.lcoe import LCOE
@@ -94,6 +95,7 @@ class CostingData(SerializableToJSON):
     cas50: CAS50 = field(default_factory=CAS50)
     cas60: CAS60 = field(default_factory=CAS60)
     cas70: CAS70 = field(default_factory=CAS70)
+    cas780000: CAS780000 = field(default_factory=CAS780000)
     cas80: CAS80 = field(default_factory=CAS80)
     cas90: CAS90 = field(default_factory=CAS90)
     lcoe: LCOE = field(default_factory=LCOE)
@@ -211,6 +213,11 @@ class CostingData(SerializableToJSON):
                         )
                 elif attr_name == "cas220606":
                     if self.cas220606.C220606 not in (None, 0):
+                        inputsDict[attr_name] = SerializableToJSON._attributesToDict(
+                            attr_value
+                        )
+                elif attr_name == "cas780000":
+                    if self.cas780000.C780000 not in (None, 0):
                         inputsDict[attr_name] = SerializableToJSON._attributesToDict(
                             attr_value
                         )

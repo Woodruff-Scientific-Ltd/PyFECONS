@@ -91,6 +91,7 @@ from pyfecons.costing.mfe.PowerBalance import power_balance
 from pyfecons.costing.safety.disruption_mitigation import (
     cas_220120_disruption_mitigation_costs,
 )
+from pyfecons.costing.safety.insurance import cas_780000_insurance_costs
 from pyfecons.costing.safety.remote_handling import cas_220606_remote_handling_costs
 from pyfecons.costing_data import CostingData
 from pyfecons.enums import FusionMachineType
@@ -172,6 +173,9 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.financial, inputs.lsa_levels, data.power_table, data.cas20
     )
     data.cas70 = cas70_annualized_om_costs(data.power_table)
+    data.cas780000 = cas_780000_insurance_costs(inputs.basic, inputs.lsa_levels)
+    if data.cas780000.C780000 not in (None, 0):
+        data.cas70.C700000 = data.cas70.C700000 + data.cas780000.C780000
     data.cas80 = cas80_annualized_fuel_costs(inputs.basic)
     data.cas90 = cas90_annualized_financial_costs(
         inputs.financial, data.cas10_to_60_total_capital_cost()

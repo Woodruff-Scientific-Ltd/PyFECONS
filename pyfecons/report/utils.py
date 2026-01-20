@@ -103,7 +103,7 @@ def get_report_sections(
         CAS40Section(costing_data.cas40, inputs.lsa_levels),
         CAS50Section(costing_data.cas50),
         CAS60Section(costing_data.cas60),
-        CAS70Section(costing_data.cas70),
+        CAS70Section(costing_data.cas70, costing_data.cas780000),
         CAS80Section(costing_data.cas80, fusion_machine_type, inputs.blanket),
         CAS90Section(costing_data.cas90),
         LcoeSection(
