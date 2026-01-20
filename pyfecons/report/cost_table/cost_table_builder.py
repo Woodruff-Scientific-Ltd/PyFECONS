@@ -19,11 +19,21 @@ def get_cost_values(costing_data: CostingData) -> dict[str, float]:
         "C220109": costing_data.cas220109.C220109,
         "C220111": costing_data.cas220111.C220111,
         "C220119": costing_data.cas220119.C220119,
+        "C220120": (
+            costing_data.cas220120.C220120
+            if costing_data.cas220120.C220120 is not None
+            else 0.0
+        ),
         "C220200": costing_data.cas2202.C220200,
         "C220300": costing_data.cas2203.C220300,
         "C220400": costing_data.cas2204.C220400,
         "C220500": costing_data.cas2205.C220500,
         "C220600": costing_data.cas2206.C220600,
+        "C220606": (
+            costing_data.cas220606.C220606
+            if costing_data.cas220606.C220606 is not None
+            else 0.0
+        ),
         "C220700": costing_data.cas2207.C220700,
         "C230000": costing_data.cas23.C230000,
         "C240000": costing_data.cas24.C240000,
