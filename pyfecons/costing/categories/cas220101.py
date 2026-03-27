@@ -58,3 +58,8 @@ class CAS220101:
     C22010101: M_USD = None
     C22010102: M_USD = None
     C220101: M_USD = None
+
+    # Oxidation safety outputs (populated when safety enabled)
+    oxidation_rci: float = None
+    oxidation_coating_cost: M_USD = None
+    oxidation_fw_surface_area: float = None  # m²

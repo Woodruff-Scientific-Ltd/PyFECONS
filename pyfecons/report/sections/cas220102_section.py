@@ -23,6 +23,19 @@ class CAS220102Section(ReportSection):
             "VOL9": str(round(cas220102.V_HTS, 1)),
         }
 
+        # Dose-based bioshield outputs (when safety enabled)
+        if cas220102.bioshield_required_thickness is not None:
+            self.replacements.update(
+                {
+                    "BioshieldMaterial": cas220102.bioshield_material_name,
+                    "BioshieldDtf": str(round(cas220102.bioshield_dose_dtf, 4)),
+                    "BioshieldReqThicknessM": str(
+                        round(cas220102.bioshield_required_thickness, 3)
+                    ),
+                    "BioshieldVolSafety": str(round(cas220102.bioshield_vol_safety, 1)),
+                }
+            )
+
         # Add reactor-specific volume replacements
         if fusion_machine_type == FusionMachineType.IFE:
             self.replacements.update(

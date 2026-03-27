@@ -18,3 +18,7 @@ class Blanket:
     secondary_coolant: BlanketSecondaryCoolant = None
     neutron_multiplier: BlanketNeutronMultiplier = None
     structure: BlanketStructure = None
+
+    # Oxidation safety inputs (used when safety costs enabled)
+    fw_coating_thickness: float = None  # Tungsten coating thickness (m)
+    fw_application_cost_factor: float = None  # Application cost as fraction of material

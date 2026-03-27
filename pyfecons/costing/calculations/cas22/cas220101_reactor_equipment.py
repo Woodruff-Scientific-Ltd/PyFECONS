@@ -10,6 +10,12 @@ from pyfecons.costing.calculations.volume import (
     calc_volume_sphere,
 )
 from pyfecons.costing.categories.cas220101 import CAS220101
+from pyfecons.costing.safety.oxidation import (
+    coating_required,
+    compute_coating_cost_usd,
+    compute_fw_surface_area,
+    compute_rci,
+)
 from pyfecons.enums import (
     BlanketFirstWall,
     BlanketType,
@@ -35,6 +41,13 @@ def cas_220101_reactor_equipment_costs(
     cas220101 = compute_reactor_equipment_costs(
         fusion_machine_type, confinement_type, blanket, radial_build
     )
+
+    # Oxidation safety: add tungsten coating cost if RCI triggers
+    if basic.include_safety_hazards_costs:
+        _apply_oxidation_coating(
+            cas220101, fusion_machine_type, confinement_type, blanket, radial_build
+        )
+
     return cas220101
 
 
@@ -351,3 +364,54 @@ def compute_blanket_costs(blanket: Blanket, OUT: CAS220101) -> M_USD:
 
 def compute_material_cost(volume: Meters3, material: Material) -> M_USD:
     return to_m_usd(volume * material.rho * material.c_raw * material.m)
+
+
+def _apply_oxidation_coating(
+    cas220101: CAS220101,
+    fusion_machine_type: FusionMachineType,
+    confinement_type: ConfinementType,
+    blanket: Blanket,
+    radial_build,
+) -> None:
+    """Add tungsten first wall coating cost if oxidation RCI triggers.
+
+    Only active when blanket has oxidation safety inputs set.
+    Modifies cas220101.C22010101 in place.
+    """
+    if blanket.structure is None:
+        return
+    if (
+        blanket.fw_coating_thickness is None
+        and blanket.fw_application_cost_factor is None
+    ):
+        return
+
+    rci = compute_rci(blanket.structure)
+    cas220101.oxidation_rci = rci
+
+    if not coating_required(rci):
+        return
+
+    # Compute first wall surface area from geometry
+    fw_surface = compute_fw_surface_area(
+        fusion_machine_type,
+        confinement_type,
+        cas220101.firstwall_ir,
+        axis_t=getattr(radial_build, "axis_t", None),
+        elon=getattr(radial_build, "elon", None),
+        chamber_length=getattr(radial_build, "chamber_length", None),
+    )
+    cas220101.oxidation_fw_surface_area = fw_surface
+
+    coating_thickness = blanket.fw_coating_thickness or 0.002
+    application_factor = blanket.fw_application_cost_factor or 1.0
+
+    coating_cost_usd = compute_coating_cost_usd(
+        fw_surface, coating_thickness, application_factor
+    )
+    coating_cost_m_usd = M_USD(coating_cost_usd / 1e6)
+    cas220101.oxidation_coating_cost = coating_cost_m_usd
+
+    # Add coating cost to first wall and recompute total
+    cas220101.C22010101 = M_USD(cas220101.C22010101 + coating_cost_m_usd)
+    cas220101.C220101 = M_USD(cas220101.C22010101 + cas220101.C22010102)

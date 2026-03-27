@@ -193,6 +193,19 @@ class MagnetMaterialType(Enum):
         return obj
 
 
+class BioshieldMaterial(Enum):
+    CONCRETE = ("CONCRETE", "Concrete")
+    BORATED_POLYETHYLENE = ("BORATED_POLYETHYLENE", "Borated Polyethylene")
+    IRON = ("IRON", "Iron")
+    WATER = ("WATER", "Water")
+
+    def __new__(cls, value, display_name):
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj.display_name = display_name
+        return obj
+
+
 class Region(Enum):
     US = ("US", "United States")
     UK = ("UK", "United Kingdom")
