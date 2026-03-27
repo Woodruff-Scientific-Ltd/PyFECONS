@@ -58,3 +58,16 @@ class AllInputs(SerializableToJSON):
 
     # created here for reference in inputs.json
     materials: Materials = field(default_factory=Materials)
+
+    def toDict(self):
+        result = super().toDict()
+        # Strip bioshield safety fields from shield when not populated
+        if "shield" in result and isinstance(result["shield"], dict):
+            for bioshield_field in [
+                "bioshield_material",
+                "initial_dose_without_bioshield",
+                "regulatory_dose_limit",
+            ]:
+                if result["shield"].get(bioshield_field) is None:
+                    result["shield"].pop(bioshield_field, None)
+        return result

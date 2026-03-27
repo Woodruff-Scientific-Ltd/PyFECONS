@@ -109,7 +109,7 @@ def GenerateCostingData(inputs: AllInputs) -> CostingData:
         inputs.basic, inputs.radial_build, inputs.blanket
     )
     data.cas220102 = cas_220102_shield_costs(
-        inputs.basic, inputs.shield, inputs.blanket, data.cas220101
+        inputs.basic, inputs.shield, inputs.blanket, data.cas220101, inputs.radial_build
     )
     data.cas220103 = cas_220103_coils(
         inputs.coils, inputs.radial_build, data.power_table

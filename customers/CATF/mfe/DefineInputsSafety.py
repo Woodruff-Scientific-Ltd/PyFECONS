@@ -6,7 +6,7 @@ applies safety-related tweaks (flags + extra inputs) to avoid duplicating
 the core configuration.
 """
 
-from pyfecons.enums import Region
+from pyfecons.enums import BioshieldMaterial, Region
 from pyfecons.inputs.tritium_release import TritiumRelease
 from customers.CATF.mfe.DefineInputs import Generate as _GenerateBase
 
@@ -38,6 +38,13 @@ def Generate():
         # in the same study (20 m release case).
         stack_height_m=20.0,
     )
+
+    # Bioshield dose-based safety inputs.
+    # See ai/context/2026-03-25-bioshield-safety-implementation.md for
+    # assumptions and open questions on these values.
+    inputs.shield.bioshield_material = BioshieldMaterial.CONCRETE
+    inputs.shield.initial_dose_without_bioshield = 0.5  # Sv/yr, placeholder
+    inputs.shield.regulatory_dose_limit = 0.05  # Sv/yr, US NRC occupational
 
     return inputs
 

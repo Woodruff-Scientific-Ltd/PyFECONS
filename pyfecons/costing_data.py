@@ -238,6 +238,18 @@ class CostingData(SerializableToJSON):
                         )
                     inputsDict[attr_name] = cas10_dict
                 # Exclude safety-only categories if their costs are 0 or None
+                elif attr_name == "cas220102":
+                    # Strip dose-based bioshield fields when not populated
+                    cas220102_dict = SerializableToJSON._attributesToDict(attr_value)
+                    for bioshield_field in [
+                        "bioshield_required_thickness",
+                        "bioshield_dose_dtf",
+                        "bioshield_material_name",
+                        "bioshield_vol_safety",
+                    ]:
+                        if cas220102_dict.get(bioshield_field) is None:
+                            cas220102_dict.pop(bioshield_field, None)
+                    inputsDict[attr_name] = cas220102_dict
                 elif attr_name == "cas220120":
                     if self.cas220120.C220120 not in (None, 0):
                         inputsDict[attr_name] = SerializableToJSON._attributesToDict(

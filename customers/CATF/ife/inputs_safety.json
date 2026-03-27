@@ -66,7 +66,10 @@
         "f_SiC": 0.0,
         "FPCPPFbLi": 0.1,
         "f_W": 0.0,
-        "f_BFS": 0.9
+        "f_BFS": 0.9,
+        "bioshield_material": "CONCRETE",
+        "initial_dose_without_bioshield": 0.5,
+        "regulatory_dose_limit": 0.05
     },
     "blanket": {
         "first_wall": "LIQUID_LITHIUM",
