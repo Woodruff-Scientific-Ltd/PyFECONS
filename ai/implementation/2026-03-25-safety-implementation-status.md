@@ -16,14 +16,14 @@ Cross-reference of the Safety Implementation document (`ai/docs/safety/2025-03-2
 | # | Hazard | Cost Category | Fusion Type | Plan Status | Code Status | Notes |
 |---|--------|---------------|-------------|-------------|-------------|-------|
 | 1 | Plasma Disruption Effects | CAS 22.01.20 (new) | MFE only | EASY | **DONE** | Fixed cost with inflation from ITER basis |
-| 2 | Rapid Structural Oxidation | CAS 22.01.01 First Wall | MFE only | MEDIUM | **NOT IMPLEMENTED** | Notebook has full calculation; not in library |
-| 3 | Bioshield | CAS 22.01.02.03 | MFE and IFE | MEDIUM | **PARTIALLY DONE** | Material cost exists; safety-specific dose-based sizing not implemented |
+| 2 | Rapid Structural Oxidation | CAS 22.01.01 First Wall | MFE and IFE | MEDIUM | **DONE** | RCI-driven tungsten coating cost; see 2026-03-26-rapid-structural-oxidation.md |
+| 3 | Bioshield | CAS 22.01.02.03 | MFE and IFE | MEDIUM | **DONE** | Dose-based sizing with material selection; see 2026-03-25-bioshield-safety-implementation.md |
 | 4 | Radioactive Release of Tritium | CAS 11 Land & Land Rights | MFE and IFE | Required before webinar | **DONE** | Polynomial fit from Lukacs & Williams (2020) |
 | 5 | Hot Cell Radioactivity | CAS 22.06.06 (new) | MFE only | EASY | **DONE** | Fixed $55M from ITER contract |
 | 6 | Licensing | CAS 13 Plant Licensing | MFE and IFE | EASY | **DONE** | Region-based (US/UK) fixed add-ons |
 | 7 | Insurance | New Category (CAS 78) | MFE and IFE | EASY | **DONE** | LSA-scaled from fission baseline |
 
-**5 of 7 hazards fully implemented. 1 not implemented. 1 partially done.**
+**7 of 7 hazards fully implemented.**
 
 ---
 

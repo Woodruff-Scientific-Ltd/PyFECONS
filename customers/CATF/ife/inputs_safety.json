@@ -77,7 +77,9 @@
         "primary_coolant": "LITHIUM_LI",
         "secondary_coolant": "WATER",
         "neutron_multiplier": "PB_AS_PART_OF_PBLI",
-        "structure": "FERRITIC_MARTENSITIC_STEEL_FMS"
+        "structure": "STAINLESS_STEEL_SS",
+        "fw_coating_thickness": 0.002,
+        "fw_application_cost_factor": 1.0
     },
     "lasers": {
         "beamlet_learning_curve": 5.0,

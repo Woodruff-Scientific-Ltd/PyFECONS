@@ -70,4 +70,12 @@ class AllInputs(SerializableToJSON):
             ]:
                 if result["shield"].get(bioshield_field) is None:
                     result["shield"].pop(bioshield_field, None)
+        # Strip oxidation safety fields from blanket when not populated
+        if "blanket" in result and isinstance(result["blanket"], dict):
+            for ox_field in [
+                "fw_coating_thickness",
+                "fw_application_cost_factor",
+            ]:
+                if result["blanket"].get(ox_field) is None:
+                    result["blanket"].pop(ox_field, None)
         return result

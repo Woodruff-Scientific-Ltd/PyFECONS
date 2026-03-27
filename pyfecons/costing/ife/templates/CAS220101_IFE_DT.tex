@@ -49,3 +49,7 @@ The blanket under consideration is based off design considerations discussed for
 
 The costs of the first wall and blanket are determined by the volume of the material and multiplied by a manufacturing factor per Table \ref{tab:materials}.   Cost of the first wall is \$ C22010101 M.  Cost of the blanket is \$ C22010102 M. The total cost is therefore \$ C22010100 M.
 
+\ifsafetycosts
+If the structural material's oxidation margin is worse than the reference case (HT-9, 950$^{\circ}$C margin), a protective tungsten first wall coating is required to mitigate rapid structural oxidation in the event of a vacuum boundary breach. The Relative Consequence Index (RCI) is OxidationRci. The first wall surface area is OxidationFwSurfaceArea~m$^{2}$, and the tungsten coating cost is \$ OxidationCoatingCost~M (included in C22010101 above). Coating cost model: material + application (plasma spray) + R\&D/QC per Piet, Kazimi \& Lidsky (1982) and Cui et al.\ (2021).
+\fi
+

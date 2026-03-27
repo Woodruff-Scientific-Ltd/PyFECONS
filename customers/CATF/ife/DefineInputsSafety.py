@@ -6,7 +6,7 @@ applies safety-related tweaks (flags + extra inputs) to avoid duplicating
 the core configuration.
 """
 
-from pyfecons.enums import BioshieldMaterial, Region
+from pyfecons.enums import BioshieldMaterial, BlanketStructure, Region
 from pyfecons.inputs.tritium_release import TritiumRelease
 from customers.CATF.ife.DefineInputs import Generate as _GenerateBase
 
@@ -38,6 +38,17 @@ def Generate():
         # in the same study (20 m release case).
         stack_height_m=20.0,
     )
+
+    # Override structure to stainless steel for safety runs to demonstrate
+    # oxidation coating cost. SS has a smaller oxidation margin than FMS (HT-9),
+    # giving RCI = 1.70 and triggering a tungsten first wall coating.
+    inputs.blanket.structure = BlanketStructure.STAINLESS_STEEL_SS
+
+    # Oxidation safety inputs.
+    # See ai/implementation/2026-03-26-rapid-structural-oxidation.md for
+    # assumptions and open questions on these values.
+    inputs.blanket.fw_coating_thickness = 0.002  # m (2 mm), per Cui et al. (2021)
+    inputs.blanket.fw_application_cost_factor = 1.0  # 100% of material cost
 
     # Bioshield dose-based safety inputs.
     # See ai/context/2026-03-25-bioshield-safety-implementation.md for

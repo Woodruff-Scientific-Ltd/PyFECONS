@@ -25,7 +25,7 @@ def compute_220101_replacements(
     OUT: CAS220101,
 ) -> Dict[str, str]:
     rounding = 2
-    return {
+    replacements = {
         "C22010100": str(OUT.C220101),
         "C22010101": str(OUT.C22010101),
         "C22010102": str(OUT.C22010102),
@@ -107,6 +107,18 @@ def compute_220101_replacements(
         "VOL13": round(OUT.gap2_vol, rounding),
         "VOL14": round(OUT.bioshield_vol, rounding),
     }
+
+    # Oxidation safety outputs (when safety enabled and coating triggered)
+    if OUT.oxidation_rci is not None:
+        replacements["OxidationRci"] = str(round(OUT.oxidation_rci, 2))
+    if OUT.oxidation_coating_cost is not None:
+        replacements["OxidationCoatingCost"] = str(round(OUT.oxidation_coating_cost, 2))
+    if OUT.oxidation_fw_surface_area is not None:
+        replacements["OxidationFwSurfaceArea"] = str(
+            round(OUT.oxidation_fw_surface_area, 1)
+        )
+
+    return replacements
 
 
 @dataclass

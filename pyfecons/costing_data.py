@@ -237,6 +237,17 @@ class CostingData(SerializableToJSON):
                             getattr(cas10, field_name)
                         )
                     inputsDict[attr_name] = cas10_dict
+                elif attr_name == "cas220101":
+                    # Strip oxidation safety fields when not populated
+                    cas220101_dict = SerializableToJSON._attributesToDict(attr_value)
+                    for ox_field in [
+                        "oxidation_rci",
+                        "oxidation_coating_cost",
+                        "oxidation_fw_surface_area",
+                    ]:
+                        if cas220101_dict.get(ox_field) is None:
+                            cas220101_dict.pop(ox_field, None)
+                    inputsDict[attr_name] = cas220101_dict
                 # Exclude safety-only categories if their costs are 0 or None
                 elif attr_name == "cas220102":
                     # Strip dose-based bioshield fields when not populated

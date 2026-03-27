@@ -4,6 +4,10 @@
 
 All files in `ai/context/` must be prefixed with `YYYY-MM-DD-` (e.g. `2026-03-26-architecture.md`).
 
+## Commit messages
+
+One sentence summary, then a bullet point list of changes. Be concise.
+
 ## Testing
 
 After significant changes, run all 8 report combinations (MFE/IFE x lite/full x safety/no-safety) to verify nothing is broken:
@@ -55,4 +59,5 @@ Safety-only fields must not appear as nulls in non-safety JSON output. Strip the
 - New template substitution variables use PascalCase (e.g. `BioshieldMaterial`, `BioshieldDtf`). Legacy variables (e.g. `C22010203`, `VOL9`) keep their existing names.
 - Each template substitution variable must be unique within the template file. For numeric cost codes, use the full zero-padded account number (e.g. `C22010203` not `C203`).
 - Add paper references whenever possible to `.tex` templates to support traceability of assumptions and data sources.
+- Avoid implicit branching logic (e.g. checking if an optional input is populated to decide whether to run). Use existing flags like `basic.include_safety_hazards_costs` or create explicit flag variables.
 - See `STYLING.md` for Python formatting rules (Black, isort, flake8, pre-commit hooks).
