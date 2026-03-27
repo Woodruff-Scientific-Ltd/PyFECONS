@@ -1,5 +1,9 @@
 # PyFECONS Development
 
+## Conventions
+
+All files in `ai/context/` must be prefixed with `YYYY-MM-DD-` (e.g. `2026-03-26-architecture.md`).
+
 ## Testing
 
 After significant changes, run all 8 report combinations (MFE/IFE x lite/full x safety/no-safety) to verify nothing is broken:
